@@ -1,8 +1,8 @@
 # 出版计划
 
-## v0.1 私有发行
+## v0.1 公开发行
 
-首次接触 AFE 的读者可以从首页了解三个科学目标层级，选择一项科研活动进入真实题目。首页下方并列展示四种任务。来供题的研究者可从顶栏进入同一份英文共建说明。[当前发行](https://github.com/PrismaX-Team/AgentFrontierExam-Home/releases/tag/v0.1.0)
+首次接触 AFE 的读者可以从首页了解三个科学目标层级，选择一项科研活动进入真实题目。首页下方并列展示四种任务。来供题的研究者可从顶栏进入同一份英文共建说明。[新版官网](https://prismax-team.github.io/AgentFrontierExam-Home/)
 
 | 阅读路径 | 本版实现 |
 | --- | --- |
@@ -13,10 +13,11 @@
 
 底层七块和中层四块是这一版的几何布局。目录的科研活动来自题库，可以比首页列举的类型更丰富。正式等级对应任务目标和验收证据。待确认等级的题在目录中按活动与领域浏览。[科学层级与积木交互](home-and-pyramid.md) · [本版选题依据](task-selection.md)
 
-## 私有交付与对外开放
+## 网站发布与后续更新
 
-- 团队可以下载单文件 HTML 在浏览器中使用整个网站。静态 ZIP 可部署在域名根路径或子目录。源码、出版文档和历史设计评审稿保存在新站私有仓库。
-- 准备公开时，由相应领域 AC 和供题者核对目标、验收、版本、署名与素材授权，网站编辑按逐题来源更新记录。新旧官网各自发行，正式访问地址由项目负责人确定。
+- 新版通过 GitHub Pages 公开访问，与旧官网各自发行。网站源码、出版文档和历史设计评审稿存放在独立的公开仓库。推送到 `main` 会触发 GitHub Actions，检查通过后自动发布静态站点。[新版官网](https://prismax-team.github.io/AgentFrontierExam-Home/) · [源码仓库](https://github.com/PrismaX-Team/AgentFrontierExam-Home)
+- 单文件 HTML 与静态 ZIP 保留为本版的离线发行包。[下载 v0.1](https://github.com/PrismaX-Team/AgentFrontierExam-Home/releases/tag/v0.1.0)
+- 后续更新由相应领域 AC 和供题者核对目标、验收、版本、署名与素材授权，网站编辑按逐题来源更新记录。
 - Results 进入导航前，需要可复核的实验、任务版本、运行配置、样本范围、指标方向及分母。已确认的单项结果可以先随任务发布。
 
 ## 内容的维护位置

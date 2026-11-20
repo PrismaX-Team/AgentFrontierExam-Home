@@ -37,4 +37,4 @@ The guide illustrates L1 with faint-star recovery. The matching task brief in `A
 
 ## Package metadata
 
-Eight cards carry an exact `packageVersion` from the `version` field under `[task]` in the corresponding `task.toml`. The top-level Harbor schema version describes the specification and is omitted from the cards. Source packages, grading code, research data, personal details and review records stay outside the website. The table provides the private cross-reference for future updates.
+Eight cards carry an exact `packageVersion` from the `version` field under `[task]` in the corresponding `task.toml`. The top-level Harbor schema version describes the specification and is omitted from the cards. Source packages, grading code, research data, personal details and review records stay outside the website. The table records the source paths that editors can use to trace these public task summaries. The original archive and the AFE Control Board are internal resources.
