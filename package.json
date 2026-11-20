@@ -1,0 +1,13 @@
+{
+  "name": "agent-frontier-exam-home",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/serve.mjs",
+    "check": "node scripts/check.mjs",
+    "package:offline": "node scripts/portable.mjs"
+  }
+}

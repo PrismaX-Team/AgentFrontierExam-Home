@@ -1,26 +1,25 @@
 # 栏目与编辑说明
 
-## 从每个页面能做什么
+## v0.1 页面
 
-| 页面与拟用路径 | 读者的问题 | 首版内容与下一步动作 |
-| --- | --- | --- |
-| Home · `/` | AFE 衡量哪一类科研能力？ | 首屏完整名称、短引言、可选的 Taskonomy 金字塔。下方一题解释怎样验收，并给出 Tasks 和 Contribute。页末以旧站科学委员会的公开名单署名。 |
-| Tasks · `/tasks/` | 有没有我熟悉的科学领域或科研活动？ | 一份可分享的目录，支持按层级、活动、领域浏览。题名开头写动词，配一句目标。来自首页的类别保留在筛选中，可清除以回到全目录。活动和学科可同时出现。 |
-| Task · `/tasks/<id>/` | 给智能体什么，它交什么，凭什么算成功？ | 先问题与交付物，再给输入与资源、成功条件、版本、作者和来源。突破题加研究缺口与预期影响。开放的数据或包可直接访问，有实际运行再展示结果。来自多个分类的同一题共享一个地址。 |
-| Contribute · `/contribute/` | 我的科研工作适合出成题吗，怎样参与？ | 首发同时征流程题和突破题。用一对例子解释，接英文打包说明，再经一个 **Submit a task via Duanyan ReX** 链接提交。支持对照中文按钮与关键字段。 |
-| Task package guide · `/contribute/task-package/` | 怎样把这一题写到别人能评？ | 沿用旧站“题面与逐段旁注”的阅读形式。举一个流程题讲共通材料，在相关位置补充突破题的研究缺口与验证要求。用现行指南和模板校订英文。 |
-| Authorship · `/authorship/` | 个人出题、组织同行、参与评审各怎么获得署名？ | 独立可转发，列 Participants 与 Area Chairs 的贡献和联系入口，保留常见问题。Contribute 和页脚均可进入。 |
-| Results · `/results/` | 同一组任务、同一版本上的结果能怎样比较？ | 结果就绪后上线。每组写明版本、样本范围、运行配置、指标方向与成功率分母，可从单题返回。首发若只有一个可解释的实例，先在相应任务页展示。 |
+| 页面 | 读者可以做什么 |
+| --- | --- |
+| Home · `/` | 用可选的金字塔探索科学目标与科研活动，或浏览四张不同学科与不同交付物的精选题卡。页末有共建入口与科学委员会。 |
+| Tasks · `/tasks/` | 在一个目录中搜索和组合筛选学科与科研活动。来自金字塔的入口保留所选活动。筛选条件写入地址，清除后返回全目录。 |
+| Task · `/tasks/<id>/` | 阅读起始材料、交付物与验收证据。确有来源时列出题包版本和出处。学科与活动链接都可继续查找相关题。 |
+| Contribute · `/contribute/` | 了解科学流程题与突破题，准备一个 ZIP，进入唯一的端砚 ReX 提交入口。关键中文表单字段附有英文说明。 |
+| Task package guide · `/contribute/task-package/` | 按五种题包组成阅读 Harbor 示例。示例与十三处旁注并排，手机顺序排布。页面内可直达每个文件、归档布局和交付要求。 |
+| Authorship · `/authorship/` | 阅读参与者署名、Area Chair 招募、入库计数、论文与 FAQ。Contribute 和页脚均可进入，招募章节可直接分享。 |
 
-第一版的阅读层次比功能数量更重要。读者可从首页直接看题，也可直接通过 Contribute 进入征集。评审目录、账户和发布管理沿用团队现有工作方式。
+Results 的编辑标准是可比较的实验、任务版本、分母与运行条件，可参阅[出版计划](publication-plan.md)。四张精选题和目录均从同一份数据生成。逐题的归档位置、领域标签和科学层级依据记录在[题卡溯源](task-selection.md)。
 
-## 英文征题页的主线
+## 共建与署名依据
 
-拟用标题为 **Contribute a scientific task**。共通问题是 “What should the agent produce, and what evidence would count as success?” 科学流程题举观测数据处理为例，说明判断难点、允许的工具、交付物及验收方法。科学突破题举一个有待验证的假设为例，多解释现有方法尚未做到什么、怎样独立验证、该结果对领域意味着什么。L3 进一步解释重大意义。
+2026-11-20 核读的飞书指南为修订 1098。征题同时覆盖有挑战的科学流程和突破类科研问题。流程按 L1 申报，突破按目标选择 L2 或 L3，也可以选择暂不确定。端砚表单的合作来源选学术合作。英文页将这些选项与科学目标放在一起讲清楚。[AFE 共建指南](https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f) · [端砚 ReX](https://discovery-home.intern-ai.org.cn/home/event/rex/index.html)
 
-现行飞书指南已覆盖这两类题。2026-11-20 核读的修订 1096 要求有挑战的科学流程填 L1，突破按目标填 L2 或 L3，也允许暂不确定。“合作来源”选“学术合作”。端砚官网仍用“成果再发现／求解与创新／原创突破”说明通用档位。英文站在唯一提交链接前提供简短字段对照，供题人能在同一份任务包里明确写出 AFE 目标与验收条件。下一轮用一份 L1 和一份突破题编辑稿走读表单，用到特定字段时核对其真实英文或中文标签。[AFE 共建指南](https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f) · [端砚 ReX](https://discovery-home.intern-ai.org.cn/home/event/rex/index.html)
+任务包说明按当前指南的 Harbor 0.25.0 和模板 1.0.1 整理。用一个海岸预报教学例串联五组文件，把对应注解贴在题面片段旁。网站只将提交引向端砚，端砚接收每题一个含 `task_package/` 的 ZIP。
 
-同一版指南给出参与者三题成功入库获得共同作者资格。AC 职责包括招募至少五位参与者、参与科学领域和流程的分类、参与阶段评审。署名页据此解释贡献与计数，AC 的个人署名细节由团队确认。出口指向项目组认可的联系渠道。[署名依据](https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f)
+同一指南规定成功入库三道题可获得论文共同作者资格。AC 招募至少五位参与者，同时参与科学领域和流程分类及阶段评审。参与者与 AC 各自的贡献、共同供题与计数问题在独立署名页说明。[署名依据](https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f)
 
 ## 旧站可复用的材料
 
@@ -50,4 +49,4 @@
 | `docs/03_questions_and_decisions.md` 的 D44 | 2026-11-19 确认的层级与类别 |
 | `docs/38_afe_v1_scope_and_taskonomy.md` | 当前定位、科学流程示例与逐题归类原则 |
 | `docs/39_unified_format_exploration.md` | 统一题目身份与评分口径的讨论背景，早期等级设想按原日期解读 |
-| `cli_harbor_v0_2/tasks/sextractor-recovery/instruction.md` | 私有评审稿里的暗星与双星案例原题 |
+| `cli_harbor_v0_2/tasks/sextractor-recovery/instruction.md` | 历史首页评审稿与征题说明中的暗星案例原题 |

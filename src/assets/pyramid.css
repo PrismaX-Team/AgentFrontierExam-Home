@@ -1,0 +1,187 @@
+@font-face {
+  font-family: AFEInstrument;
+  src: url('./instrument-serif-regular.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: AFEInstrument;
+  src: url('./instrument-serif-italic.woff') format('woff');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --paper: #f6f4ed;
+  --paper-grain: url('./paper-grain.png');
+}
+#taskonomy {
+  --ink: #202724;
+  --muted: #45514b;
+  --line: #c8cbc1;
+  container: afe / inline-size;
+  position: relative;
+  isolation: isolate;
+  max-width: 1500px;
+  margin-inline: auto;
+  background-color: var(--paper);
+  background-image: var(--paper-grain, none);
+  background-size: 256px 256px;
+  color: var(--ink);
+  color-scheme: light;
+  font: 16px/1.5 "Helvetica Neue", Arial, sans-serif;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+}
+#taskonomy *, #taskonomy { box-sizing: border-box; }
+#taskonomy [hidden] { display: none !important; }
+#taskonomy :is(h1,h2,h3,p,figure) { margin: 0; }
+#taskonomy button {
+  appearance: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+#taskonomy :is(button,a):focus-visible { outline: 2px solid #316561; outline-offset: 4px; border-radius: 2px; }
+#taskonomy .spread {
+  display: grid;
+  grid-template-columns: minmax(0,.76fr) minmax(0,1.24fr);
+  align-items: center;
+  gap: 2.1%;
+  min-height: clamp(435px, 47.5cqi, 680px);
+  padding: 8px 2.4% clamp(24px, 3.6cqi, 52px) 6.2%;
+}
+#taskonomy .copy { position: relative; z-index: 1; min-width: 0; }
+#taskonomy :is(h1,h2,h3) {
+  font: 400 1em/1 AFEInstrument, Baskerville, Georgia, serif;
+  font-kerning: normal;
+}
+#taskonomy h1 {
+  font-size: clamp(48px,7.1cqi,106px);
+  letter-spacing: -.032em;
+  line-height: .96;
+}
+#taskonomy h1 span { white-space: nowrap; }
+#taskonomy h1 em { font-family: inherit; font-weight: 400; font-style: italic; font-size: .985em; letter-spacing: -.03em; margin-right: .024em; }
+#taskonomy .intro > p {
+  max-width: 34ch;
+  margin-top: clamp(18px,1.9cqi,28px);
+  color: var(--muted);
+  font-size: clamp(16px,1.58cqi,23px);
+  line-height: 1.46;
+}
+#taskonomy .intro > p span { display: inline-block; max-width: 100%; }
+@container afe (min-width:661px) and (max-width:940px) {
+  #taskonomy .intro > p span { display: inline; }
+}
+#taskonomy .detail { max-width: 44ch; padding-block: 9px; }
+#taskonomy .back, #taskonomy .whole {
+  padding: 5px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+#taskonomy .back { margin-bottom: clamp(10px,1.5cqi,19px); scroll-margin-block-start: 5rem; }
+#taskonomy :is(.back,.whole):hover { text-decoration: underline; text-underline-offset: 4px; }
+#taskonomy .level-name, #taskonomy .task small {
+  display: block;
+  font: 500 12px/1.4 ui-monospace, "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .095em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#taskonomy h2 {
+  margin-block: 7px 12px;
+  font-size: clamp(37px,4.8cqi,70px);
+  line-height: .99;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+#taskonomy .definition { max-width: 35ch; font-size: clamp(16px,1.35cqi,18px); line-height: 1.48; color: var(--muted); }
+#taskonomy .task { margin-top: clamp(16px,2.1cqi,28px); padding-top: 16px; border-top: 1px solid var(--line); }
+#taskonomy h3 { margin-block: 8px; font-size: clamp(25px,2.55cqi,38px); letter-spacing: -.012em; line-height: 1.08; }
+#taskonomy .task p, #taskonomy .evidence { max-width: 46ch; font-size: 16px; line-height: 1.48; color: var(--muted); }
+#taskonomy .evidence { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+#taskonomy :is(.task,.detail-links,.pyramid-alternative) a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: #8a9a90;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .19em;
+}
+#taskonomy :is(.task,.detail-links,.pyramid-alternative) a:hover { text-decoration-color: currentColor; }
+#taskonomy .detail-links { display: flex; flex-wrap: wrap; gap: .55rem 1.3rem; margin-top: 1.2rem; font-size: 14px; }
+#taskonomy .pyramid-alternative { max-width: 44ch; padding: 1rem 5%; font-size: 16px; }
+#taskonomy .pyramid-alternative dt { margin-top: 1rem; font-weight: 600; }
+#taskonomy .pyramid-alternative dd { margin-inline: 0; color: var(--muted); }
+#taskonomy .plate { position: relative; min-width: 0; width: 100%; overflow: clip; overflow-clip-margin: 2px; }
+#taskonomy canvas { display: block; width: 100%; aspect-ratio: 1.20; touch-action: pan-y; }
+#taskonomy .layer-labels button, #taskonomy .facet-keys button {
+  position: absolute;
+  min-width: 39px;
+  height: 38px;
+  padding: 0 3px;
+  transform: translate(-50%,-50%);
+}
+#taskonomy .layer-labels button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: 12px/1 ui-monospace, "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .015em;
+  color: #4b5753;
+}
+#taskonomy .layer-labels button::before { content: ""; width: 13px; border-top: 1px solid #a5ada7; }
+#taskonomy .layer-labels button:is(:hover,:focus-visible) { color: #173f3e; }
+#taskonomy .layer-labels button:is(:hover,:focus-visible)::before { border-color: currentColor; }
+#taskonomy .facet-keys button { width: 42px; height: 42px; padding: 0; border-radius: 50%; }
+#taskonomy .facet-keys button:focus-visible { outline: 2px solid #164e50; outline-offset: -1px; border-radius: 50%; }
+#taskonomy .whole { position: absolute; left: 6%; top: 4%; }
+#taskonomy .motion {
+  position: absolute;
+  right: 1%;
+  top: 3%;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: #5d6560;
+}
+#taskonomy .motion span { width: 7px; height: 10px; border-inline: 2px solid currentColor; }
+#taskonomy .motion[aria-pressed=true] span { width: 0; height: 0; border: 5px solid transparent; border-right: 0; border-left: 8px solid currentColor; }
+#taskonomy .motion:is(:hover,:focus-visible) { color: #1f3b37; }
+#taskonomy .object-note {
+  position: absolute;
+  z-index: 2;
+  max-width: min(238px,76%);
+  padding: 10px 13px 11px;
+  border-left: 1px solid #84938d;
+  background: var(--paper);
+  pointer-events: none;
+  font-size: 12px;
+  line-height: 1.38;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+#taskonomy .object-note strong { display: block; margin-bottom: 3px; font-size: 13px; font-weight: 600; color: var(--ink); }
+#taskonomy .live { position: absolute; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
+@container afe (max-width:660px) {
+  #taskonomy .spread { display: flex; flex-direction: column; align-items: stretch; min-height: 0; padding: 28px 2% 14px; gap: 12px; }
+  #taskonomy .copy { margin-inline: 5.15%; }
+  #taskonomy h1 { font-size: clamp(48px,12.3cqi,72px); }
+  #taskonomy .intro > p { margin-top: 15px; max-width: 35ch; font-size: clamp(16px,3.6cqi,18px); }
+  #taskonomy canvas { aspect-ratio: 1.22; max-height: 410px; }
+  #taskonomy .detail { padding-block: 0; }
+  #taskonomy .back { margin-bottom: 5px; }
+  #taskonomy h2 { font-size: 41px; }
+  #taskonomy .task { padding-top: 12px; }
+}
+@media(pointer:coarse) {
+  #taskonomy button { min-width: 44px; min-height: 44px; }
+  #taskonomy .facet-keys button, #taskonomy .layer-labels button { width: 44px; height: 44px; }
+}

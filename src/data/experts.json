@@ -1,0 +1,62 @@
+[
+  {
+    "field": "Scientific agents",
+    "members": [
+      {
+        "name": "Bo Zhang",
+        "affiliation": "Shanghai Artificial Intelligence Laboratory",
+        "profile": "https://scholar.google.com/citations?user=UoAEwT0AAAAJ&hl=zh-CN"
+      },
+      {
+        "name": "Wenlong Zhang",
+        "affiliation": "Shanghai Artificial Intelligence Laboratory",
+        "profile": "https://wenlongzhang0517.github.io/"
+      },
+      {
+        "name": "Zhen Zhao",
+        "affiliation": "Shanghai Artificial Intelligence Laboratory",
+        "profile": "https://scholar.google.com/citations?user=7mpuhO8AAAAJ&hl=en"
+      }
+    ]
+  },
+  {
+    "field": "Physics",
+    "members": [
+      {
+        "name": "Shufei Zhang",
+        "affiliation": "Shanghai Artificial Intelligence Laboratory",
+        "profile": "https://openreview.net/profile?id=~Shufei_Zhang1"
+      }
+    ]
+  },
+  {
+    "field": "Earth science",
+    "members": [
+      {
+        "name": "Fenghua Ling",
+        "affiliation": "Shanghai Artificial Intelligence Laboratory",
+        "profile": "https://scholar.google.com/citations?user=uRQFvZYAAAAJ&hl=zh-CN"
+      }
+    ]
+  },
+  {
+    "field": "Medicine",
+    "members": [
+      {
+        "name": "Ming Hu",
+        "affiliation": "Shanghai Artificial Intelligence Laboratory · Monash University",
+        "profile": "https://uni-medical.github.io/gmai-web/zh/team/ming-hu/"
+      }
+    ]
+  },
+  {
+    "field": "Chemistry and materials",
+    "members": [
+      {
+        "name": "Tianfan Fu",
+        "affiliation": "Nanjing University",
+        "profile": "https://scholar.google.com.hk/citations?user=KPQ49w4AAAAJ&hl=zh-CN&oi=ao"
+      }
+    ]
+  }
+]
