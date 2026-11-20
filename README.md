@@ -4,7 +4,9 @@
 
 ## 看首屏
 
-下面的动图展示旋转、上层轻抬、底层剖面和原位换卡。从 GitHub 打开[金字塔交互稿](review/pyramid-study.html)，用 **Download raw file** 下载后即可在浏览器离线操作。页面上的 **L1 section** 直达内圆三块，键盘可用 **Choose a block** 选择全部十二块。
+高清录像里可以看到光线怎样在切边上移动，以及从旋转、悬停到原位换卡的完整动作。点模型旁的 **L1** 进入底层切面，可以直接选内圆的三块。键盘用 Tab 选层，Enter 打开切面，再用 Tab 和 Enter 选块，Escape 返回。L2 的四块暂时共用科学突破这一名称。[观看高清录像（MP4，约 9 秒）](review/pyramid-motion.mp4)
+
+从 GitHub 打开[金字塔交互稿](review/pyramid-study.html)，用 **Download raw file** 下载后即可在浏览器离线操作。
 
 ![Agent Frontier Exam 首屏从旋转、悬停到选择天文题卡的演示](review/pyramid-motion.gif)
 
