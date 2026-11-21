@@ -4,12 +4,12 @@
 
 | 页面 | 读者可以做什么 |
 | --- | --- |
-| Home · `/` | 用可选的金字塔探索科学目标与科研活动，或浏览四张不同学科与不同交付物的精选题卡。页末有共建入口与科学委员会。 |
+| Home · `/` | 用可选的金字塔探索科学目标与科研活动，或浏览四张不同学科与不同交付物的精选题卡。页末有共建入口与按领域编排的顾问委员会名录。 |
 | Tasks · `/tasks/` | 在一个目录中搜索和组合筛选学科与科研活动。来自金字塔的入口保留所选活动。筛选条件写入地址，清除后返回全目录。 |
 | Task · `/tasks/<id>/` | 阅读起始材料、交付物与验收证据。确有来源时列出题包版本和出处。学科与活动链接都可继续查找相关题。 |
 | Contribute · `/contribute/` | 了解科学流程题与突破题，准备一个 ZIP，进入唯一的端砚 ReX 提交入口。关键中文表单字段附有英文说明。 |
 | Task package guide · `/contribute/task-package/` | 按五种题包组成阅读 Harbor 示例。示例与十三处旁注并排，手机顺序排布。页面内可直达每个文件、归档布局和交付要求。 |
-| Authorship · `/authorship/` | 阅读参与者署名、Area Chair 招募、入库计数、论文与 FAQ。Contribute 和页脚均可进入，招募章节可直接分享。 |
+| Authorship · `/authorship/` | 阅读参与者署名、Area Chair 招募、入库计数、论文与 FAQ，或从页内导航查看顾问委员会。 |
 
 Results 的编辑标准是可比较的实验、任务版本、分母与运行条件，可参阅[出版计划](publication-plan.md)。四张精选题和目录均从同一份数据生成。逐题的归档位置、领域标签和科学层级依据记录在[题卡溯源](task-selection.md)。
 
@@ -26,6 +26,19 @@ M13 采用已署名的哈勃照片，脑连接、量子实验与晶体沿用精�
 任务包说明按当前指南的 Harbor 0.25.0 和模板 1.0.1 整理。用一个海岸预报教学例串联五组文件，把对应注解贴在题面片段旁。网站只将提交引向端砚，端砚接收每题一个含 `task_package/` 的 ZIP。
 
 同一指南规定成功入库三道题可获得论文共同作者资格。AC 招募至少五位参与者，同时参与科学领域和流程分类及阶段评审。参与者与 AC 各自的贡献、共同供题与计数问题在独立署名页说明。[署名依据](https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f)
+
+## 顾问委员会肖像
+
+首页和署名页共用 [专家名录](../src/data/experts.json)。七位顾问依五个领域编排，英文姓名、机构与研究者主页沿用旧站公示信息。六张照片裁为 4∶5，在页面上降低饱和度，随站点和离线版一同提供。物理组 Shufei Zhang 的原名册照片栏为空，该条目保留姓名、机构及 OpenReview 主页。[旧站顾问委员会](https://prismax-team.github.io/AgentFrontierExam-Tasks/en/#academic-committee) · [ReX 项目名册](https://github.com/PrismaX-Team/Rex-Analysis/blob/main/content/committee.json)
+
+| 姓名 | 旧站公开原图 |
+| --- | --- |
+| Bo Zhang | [bo-zhang.webp](https://prismax-team.github.io/AgentFrontierExam-Tasks/committee/bo-zhang.webp) |
+| Wenlong Zhang | [wenlong-zhang.webp](https://prismax-team.github.io/AgentFrontierExam-Tasks/committee/wenlong-zhang.webp) |
+| Zhen Zhao | [zhen-zhao.jpg](https://prismax-team.github.io/AgentFrontierExam-Tasks/committee/zhen-zhao.jpg) |
+| Fenghua Ling | [fenghua-ling.webp](https://prismax-team.github.io/AgentFrontierExam-Tasks/committee/fenghua-ling.webp) |
+| Ming Hu | [ming_hu.webp](https://prismax-team.github.io/AgentFrontierExam-Tasks/committee/ming_hu.webp) |
+| Tianfan Fu | [tianfan-fu.webp](https://prismax-team.github.io/AgentFrontierExam-Tasks/committee/tianfan-fu.webp) |
 
 ## 旧站可复用的材料
 

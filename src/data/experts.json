@@ -4,16 +4,19 @@
     "members": [
       {
         "name": "Bo Zhang",
+        "portrait": "bo-zhang.webp",
         "affiliation": "Shanghai Artificial Intelligence Laboratory",
         "profile": "https://scholar.google.com/citations?user=UoAEwT0AAAAJ&hl=zh-CN"
       },
       {
         "name": "Wenlong Zhang",
+        "portrait": "wenlong-zhang.webp",
         "affiliation": "Shanghai Artificial Intelligence Laboratory",
         "profile": "https://wenlongzhang0517.github.io/"
       },
       {
         "name": "Zhen Zhao",
+        "portrait": "zhen-zhao.webp",
         "affiliation": "Shanghai Artificial Intelligence Laboratory",
         "profile": "https://scholar.google.com/citations?user=7mpuhO8AAAAJ&hl=en"
       }
@@ -34,6 +37,7 @@
     "members": [
       {
         "name": "Fenghua Ling",
+        "portrait": "fenghua-ling.webp",
         "affiliation": "Shanghai Artificial Intelligence Laboratory",
         "profile": "https://scholar.google.com/citations?user=uRQFvZYAAAAJ&hl=zh-CN"
       }
@@ -44,6 +48,7 @@
     "members": [
       {
         "name": "Ming Hu",
+        "portrait": "ming-hu.webp",
         "affiliation": "Shanghai Artificial Intelligence Laboratory · Monash University",
         "profile": "https://uni-medical.github.io/gmai-web/zh/team/ming-hu/"
       }
@@ -54,6 +59,7 @@
     "members": [
       {
         "name": "Tianfan Fu",
+        "portrait": "tianfan-fu.webp",
         "affiliation": "Nanjing University",
         "profile": "https://scholar.google.com.hk/citations?user=KPQ49w4AAAAJ&hl=zh-CN&oi=ao"
       }

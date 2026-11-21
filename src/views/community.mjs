@@ -5,24 +5,28 @@ const guideUrl = 'https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f';
 const submitUrl = 'https://discovery-home.intern-ai.org.cn/home/event/rex/index.html';
 const communityUrl = 'https://github.com/PrismaX-Team/AgentFrontierExam-Tasks#-contributor-community';
 
+function expertProfile(member) {
+  const photo = member.portrait
+    ? `<img src="/assets/committee/${escapeHtml(member.portrait)}" alt="" width="200" height="250" loading="lazy" decoding="async">`
+    : '';
+  return `<li class="cc-expert">${photo}
+    <div><a href="${escapeHtml(member.profile)}">${escapeHtml(member.name)}</a>
+      <p>${escapeHtml(member.affiliation)}</p></div>
+  </li>`;
+}
+
 export function expertise() {
   const fields = experts.map(({ field, members }) => `
-    <div class="cc-expertise-field">
+    <div class="cc-expertise-field${members.length > 1 ? ' cc-expertise-field-wide' : ''}">
       <h3>${escapeHtml(field)}</h3>
-      <ul>
-        ${members.map(member => `
-          <li>
-            <a href="${escapeHtml(member.profile)}">${escapeHtml(member.name)}</a>
-            <span>${escapeHtml(member.affiliation)}</span>
-          </li>`).join('')}
-      </ul>
+      <ul>${members.map(expertProfile).join('')}</ul>
     </div>`).join('');
 
   return `<section class="cc-expertise" id="scientific-expertise" aria-labelledby="expertise-heading">
     <div class="site-frame cc-expertise-inner">
       <header>
         <h2 id="expertise-heading">Scientific expertise behind the benchmark</h2>
-        <p>The Advisory Committee guides task selection and scientific review, and advises on how results should be evaluated.</p>
+        <p>The Advisory Committee supports task selection, scientific review and evaluation integrity.</p>
       </header>
       <div class="cc-expertise-roster">${fields}</div>
     </div>
@@ -286,6 +290,7 @@ export function authorship() {
           <li><a href="#acceptance">Task acceptance</a></li>
           <li><a href="#paper">The AFE paper</a></li>
           <li><a href="#faq">Frequently asked questions</a></li>
+          <li><a href="#scientific-expertise">Advisory Committee</a></li>
         </ul>
       </aside>
       <div class="cc-article-main cc-authorship-main">
@@ -329,5 +334,5 @@ export function authorship() {
         </section>
       </div>
     </div>
-  </article>`;
+  </article>${expertise()}`;
 }
