@@ -50,7 +50,7 @@ const contributionLevels = [
   },
   {
     level: 3,
-    goal: 'Describe an unknown phenomenon or scientific principle whose discovery would change what the field can explain or predict.',
+    goal: 'Frame a question that could reveal a previously unknown phenomenon, mechanism or principle. Say what such a discovery could explain or predict.',
     evidence: 'Explain what would distinguish a first discovery from a known effect and how an independent group could test it.'
   }
 ];
@@ -74,7 +74,7 @@ function folioIntro() {
         ${contributionLinks()}
       </div>
       <figure class="cc-folio" aria-labelledby="folio-caption">
-        <figcaption id="folio-caption">Choose one scientific level</figcaption>
+        <figcaption id="folio-caption">Scientific levels</figcaption>
         <ol class="cc-sheets">${sheets}</ol>
         <div class="cc-folder"><span>One task package</span><span>Duanyan ReX</span></div>
       </figure>
