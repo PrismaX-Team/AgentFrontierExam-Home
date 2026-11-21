@@ -259,7 +259,10 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
   .catalog-pager:has(ol li:nth-child(4)) ol {grid-area:1/1/2/3;gap:0}
   .catalog-pager:has(ol li:nth-child(4)) .page-step {justify-self:start}
   .catalog-pager:has(ol li:nth-child(4)) .page-step:last-child {justify-self:end}
+  .footer-inner {padding-block:.55rem;row-gap:.1rem}
+  .footer-partners a {min-height:36px}
   .footer-resources {column-gap:.95rem}
+  .footer-resources :is(a,button) {min-height:34px}
   .footer-resources .footer-contact {padding:0}
   .footer-contact::before {content:none}
   .page-intro p{margin-top:.8rem}
