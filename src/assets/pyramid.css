@@ -53,8 +53,7 @@
   grid-template-columns: minmax(0,.90fr) minmax(0,1.10fr);
   align-items: center;
   gap: 2.1%;
-  min-height: clamp(435px, 47.5cqi, 680px);
-  padding: 8px 2.4% clamp(24px, 3.6cqi, 52px) 6.2%;
+  padding: clamp(12px, 1.4cqi, 20px) 2.4% clamp(10px, 1cqi, 16px) 6.2%;
 }
 #taskonomy .copy { position: relative; z-index: 1; min-width: 0; }
 #taskonomy :is(h1,h2,h3) {
@@ -65,7 +64,7 @@
   --display-height: .78;
   font-size: clamp(48px,7.25cqi,108px);
   letter-spacing: .021em;
-  line-height: .84;
+  line-height: .93;
   transform-origin: left bottom;
 }
 #taskonomy h1 span { white-space: nowrap; }
@@ -211,7 +210,7 @@
   #taskonomy .model-stage { grid-row: 1; }
 }
 @container afe (max-width:660px) {
-  #taskonomy .spread { display: flex; flex-direction: column; align-items: stretch; min-height: 0; padding: 28px 2% 14px; gap: 12px; }
+  #taskonomy .spread { display: flex; flex-direction: column; align-items: stretch; padding: 26px 2% 8px; gap: 12px; }
   #taskonomy .copy { margin-inline: 5.15%; }
   #taskonomy h1 { font-size: clamp(48px,12.3cqi,72px); }
   #taskonomy .intro > p { margin-top: 15px; max-width: 35ch; font-size: clamp(16px,3.6cqi,18px); }
