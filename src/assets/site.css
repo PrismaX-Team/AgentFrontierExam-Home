@@ -5,6 +5,7 @@
   --line: #c9cec1;
   --link: #24544c;
   --wash: #e8ebe1;
+  --navigation-wash: rgb(218 225 211 / .48);
   --serif: AFEInstrument, Baskerville, Georgia, serif;
   --display-height: .81;
   --title-spacing: .012em;
@@ -40,11 +41,11 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .site-header {
   --mast-ink:#253d33;
   border-bottom:1px solid #bdc5b8;
-  background:rgba(218,225,211,.48);
+  background-color:var(--navigation-wash);
 }
 .header-inner {
   display:flex;align-items:center;justify-content:space-between;
-  gap:1.25rem;min-height:clamp(4.25rem,6.1vw,5.2rem);
+  gap:1.25rem;min-height:clamp(3.65rem,5.1vw,4.4rem);
 }
 .brand {
   display:inline-flex;align-items:center;flex:none;min-height:2.75rem;
@@ -75,14 +76,15 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .header-inner nav a:is(:hover,[aria-current]) {color:var(--mast-ink)}
 .header-inner nav a:is(:hover,[aria-current])::after {opacity:1}
 .header-inner nav a:focus-visible {outline-offset:-3px}
-.footer-inner nav {display:flex;align-items:center;gap:clamp(1.1rem,2.7vw,2.7rem);flex-wrap:wrap}
-.footer-inner nav a {padding:.3rem 0;color:var(--muted);text-decoration:none;font-size:.92rem}
+.footer-inner nav {display:flex;align-items:baseline;gap:clamp(2rem,4vw,4.5rem)}
+.footer-inner nav a {padding:.2rem 0;color:var(--ink);text-decoration:none;font-size:.94rem;font-weight:550}
 .footer-inner nav a:hover {color:var(--ink);text-decoration:underline;text-underline-offset:.34em}
-.site-footer {border-top:1px solid var(--line)}
-.footer-inner {display:flex;justify-content:space-between;align-items:baseline;gap:2rem;padding-block:2.3rem 3rem}
+.site-footer {border-top:1px solid #bdc5b8;background-color:var(--navigation-wash)}
+.footer-inner {display:flex;justify-content:space-between;align-items:baseline;gap:2rem;padding-block:clamp(1.5rem,3vw,2.6rem)}
 .footer-brand {font:400 1.7rem/1.05 var(--serif);text-decoration:none;letter-spacing:var(--title-spacing);color:var(--ink)}
-.footer-inner nav {column-gap:1.5rem;row-gap:.35rem}
-.site-footer nav a {font-size:.875rem}
+.footer-contributions ul {margin-top:.45rem;padding:0;list-style:none}
+.footer-contributions li + li {margin-top:.22rem}
+.footer-contributions li a {color:var(--muted);font-size:.875rem;font-weight:400}
 .eyeline {font:500 .78rem/1.45 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .section-heading {display:flex;align-items:baseline;justify-content:space-between;gap:1rem 2.2rem;flex-wrap:wrap;margin-bottom:1.8rem}
 .text-link {color:var(--link);font-size:.96rem;text-decoration:underline;text-underline-offset:.27em}
@@ -208,12 +210,16 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
   .brief-figure{max-width:34rem}.related-section li{display:grid;gap:.25rem}
 }
 @media(max-width:31rem) {
-  .header-inner {flex-direction:column;align-items:stretch;gap:0;min-height:0}
-  .brand {align-self:flex-start;padding-block:.6rem .5rem}
-  .header-inner nav {justify-content:space-between;border-top:1px solid #ccd4c7}
-  .header-inner nav a:first-child {justify-content:flex-start}
-  .header-inner nav a:last-child {justify-content:flex-end}
+  .header-inner {gap:.65rem;min-height:3.5rem}
+  .brand {gap:.5rem}
+  .brand-mark {font-size:2.35rem}
+  .brand-signature {gap:.1rem;padding-inline-start:.5rem}
+  .brand-name {font-size:.74rem}
+  .brand-edition {font-size:1rem}
+  .header-inner nav {gap:clamp(.55rem,2.8vw,1rem)}
+  .header-inner nav a {font-size:.88rem}
 }
+@media(max-width:22rem){.brand-signature{display:none}}
 @media(max-width:460px){
   .showcase-grid{grid-template-columns:1fr;gap:2.3rem}.card-content{padding-top:.85rem}
   .catalog-controls {grid-template-columns:1fr}.catalog-controls .catalog-search{grid-column:auto}

@@ -30,11 +30,10 @@ function relativeUrls(html, route) {
   });
 }
 
-function navLink(route, url, label, accessibleName) {
+function navLink(route, url, label, relatedRoutes = []) {
   const position = route === url ? 'page' : 'location';
-  const current = route.startsWith(url) ? ` aria-current="${position}"` : '';
-  const name = accessibleName ? ` aria-label="${accessibleName}"` : '';
-  return `<a href="${url}"${current}${name}>${label}</a>`;
+  const current = route.startsWith(url) || relatedRoutes.includes(route) ? ` aria-current="${position}"` : '';
+  return `<a href="${url}"${current}>${label}</a>`;
 }
 
 export function page({route, title, description, body, home = false, catalog = false, community = false}) {
@@ -55,11 +54,14 @@ ${js}</head>
 <body id="top">
 <a class="skip-link" href="#main-content">Skip to content</a>
 <header class="site-header"><div class="site-frame header-inner">${brand}
-<nav aria-label="Main navigation">${navLink(route, '/tasks/', 'Tasks')}${navLink(route, '/contribute/', 'Contribute')}${navLink(route, '/authorship/', 'Authorship', 'Authorship and participation')}</nav></div></header>
+<nav aria-label="Main navigation">${navLink(route, '/tasks/', 'Tasks')}${navLink(route, '/contribute/', 'Contribute', ['/authorship/'])}</nav></div></header>
 <main id="main-content">${body}</main>
 <footer class="site-footer"><div class="site-frame footer-inner">
 <a class="footer-brand" href="/">Agent Frontier Exam</a>
-<nav aria-label="Footer navigation"><a href="/tasks/">Tasks</a><a href="/contribute/">Contribute</a><a href="/contribute/task-package/">Task package guide</a><a href="/authorship/">Authorship</a></nav>
+<nav aria-label="Footer navigation"><a href="/tasks/">Tasks</a>
+  <div class="footer-contributions"><a href="/contribute/">Contribute</a>
+    <ul><li><a href="/contribute/task-package/">Task package guide</a></li><li><a href="/authorship/">Authorship</a></li></ul>
+  </div></nav>
 </div></footer>
 </body></html>\n`, route);
 }
