@@ -10,8 +10,8 @@ For offline use, download `agent-frontier-exam-v0.1.html` from the [v0.1 release
 
 ## Explore the site
 
-- Select a piece or its level label to bring that solid forward. L1 separates into seven research activities, including three sectors inside the base. L2 and L3 explain the goal and evidence for a breakthrough. Select either faded layer to reassemble the pyramid, or press Escape.
-- Explore 16 task briefs by field and research activity. Four illustrated showcases lead to the same briefs as the directory. Each brief covers starting materials, the required deliverable and how success is assessed.
+- The pyramid links scientific workflows, scientific breakthroughs and foundational discoveries to examples. Selecting a solid brings that level forward. The three sectors at the centre of L1 each open a different activity. A faded solid opens its own level. The complete pyramid beside **All levels**, the surrounding paper and Escape return to the assembled view.
+- Explore 16 task briefs in a matrix of scientific fields and research activities. Each occupied cell opens the matching briefs. The four illustrated showcases link to the same directory, where each brief gives the starting materials, expected deliverable and evidence of success.
 - Read the annotated Harbor task package guide, submit a workflow or breakthrough task through Duanyan ReX, or visit the authorship page for participant credit and area chair recruitment.
 
 ## Run locally
