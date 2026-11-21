@@ -44,7 +44,7 @@ export function contribute() {
     <header class="cc-contribute-hero">
       <div class="cc-contribute-intro">
         <h1>Contribute a scientific task</h1>
-        <p>Bring a question from your field, the materials an agent needs, and a way for another researcher to verify the result.</p>
+        <p>Bring a research question, its inputs and a test another researcher can run.</p>
         <div class="cc-links">
           <a class="cc-action" href="#submit">Prepare a submission</a>
           <a href="/contribute/task-package/" aria-label="Read the task package guide">Task package guide</a>
@@ -52,15 +52,15 @@ export function contribute() {
         </div>
       </div>
       <figure class="cc-dossier">
-        <figcaption><span>Example task package</span><a href="/tasks/m13-surface-brightness/">Measuring the light of M13</a></figcaption>
+        <figcaption><span>Example task package</span><a href="/tasks/m13-surface-brightness/">M13 light profile</a></figcaption>
         <div class="cc-dossier-image">
           <img src="/assets/plates/${escapeHtml(m13.file)}" alt="${escapeHtml(m13.alt)}" width="820" height="820">
           <span class="cc-aperture" aria-hidden="true"></span>
         </div>
         <dl class="cc-dossier-steps">
           <div><dt>Scientific question</dt><dd>How does M13’s light fade from its core?</dd></div>
-          <div><dt>Task package</dt><dd>From <code>m13_optical.fits</code>, return the centre and a 20-bin radial light profile.</dd></div>
-          <div><dt>Independent check</dt><dd>Sum each ring’s original pixel values to check brightness and uncertainty.</dd></div>
+          <div><dt>Task package</dt><dd>From <code>m13_optical.fits</code>, measure the centre and light in 20 rings.</dd></div>
+          <div><dt>Independent check</dt><dd>Recompute brightness and uncertainty from the original pixels.</dd></div>
         </dl>
         <small>Illustrative apertures on a <a href="${escapeHtml(m13.href)}">Hubble image</a> by NASA, ESA and the Hubble Heritage Team (STScI/AURA).</small>
       </figure>

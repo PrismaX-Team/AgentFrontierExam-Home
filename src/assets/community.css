@@ -295,16 +295,19 @@
   .cc-expertise-roster, .cc-expertise-field-wide ul { grid-template-columns: 1fr; }
   .cc-expert img { width: 4.5rem; }
   .cc-contribute { padding-top: 1.55rem; }
-  .cc-contribute-hero { gap: 1.2rem; }
+  .cc-contribute-hero { gap: 1rem; padding-bottom: 1.45rem; }
+  .cc-contribute-hero + .cc-section { padding-top: 1.75rem; }
   .cc-contribute-intro h1 { font-size: clamp(2.55rem, 9.9vw, 3.25rem); }
   .cc-contribute-intro > p { margin-top: .7rem; font-size: 1rem; line-height: 1.43; }
   .cc-contribute-intro .cc-links { margin-top: 1.05rem; gap: .6rem 1rem; }
   .cc-dossier {
-    grid-template-columns: minmax(0, 1fr) clamp(4.8rem, 21vw, 6.5rem);
+    grid-template-columns: minmax(0, 1fr) clamp(4.45rem, 18vw, 6rem);
     grid-template-areas: "caption image" "steps steps" "credit credit";
-    gap: .82rem .8rem;
+    gap: .65rem .8rem;
   }
   .cc-dossier figcaption > a { max-width: 12em; }
+  .cc-dossier-steps > div { font-size: .9rem; line-height: 1.4; }
+  .cc-dossier-steps > div + div { margin-top: .4rem; }
   .cc-dossier-steps dt, .cc-dossier-steps dd { display: inline; }
   .cc-dossier-steps dt { margin-inline-end: .38rem; }
   .cc-goal-evidence > div { grid-template-columns: 5.6rem minmax(0, 1fr); gap: .55rem; }
