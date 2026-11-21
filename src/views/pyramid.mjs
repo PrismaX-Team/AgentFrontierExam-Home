@@ -98,8 +98,7 @@ export function pyramid(tasks) {
           <h1>Agent<br><span><em>Frontier</em> Exam</span></h1>
           <p><span>A benchmark for AI agents in science,</span> <span>from demanding research workflows</span> <span>to verifiable breakthroughs.</span></p>
         </div>
-        <section class="detail" aria-label="Selected task type" hidden>
-          <button class="back" type="button">Back to overview</button>
+        <section class="detail" id="type-detail" aria-label="Selected task type" hidden>
           <p class="level-name"></p>
           <h2></h2>
           <p class="definition"></p>
@@ -116,15 +115,15 @@ export function pyramid(tasks) {
         </section>
       </div>
       <figure class="plate" aria-label="Explore the scientific task levels" hidden>
-        <canvas aria-label="Three levels of scientific work. Select a layer to explore its pieces.">The layer buttons provide keyboard access to this diagram.</canvas>
+        <canvas aria-label="Three levels of scientific work. Select a layer to bring it forward.">The layer buttons provide keyboard access to this diagram.</canvas>
         <div class="layer-labels" role="group" aria-label="Scientific task levels">
-          <button type="button" data-level="3" aria-label="L3 · Major scientific breakthroughs">L3</button>
-          <button type="button" data-level="2" aria-label="L2 · Open scientific breakthroughs cross-section">L2</button>
-          <button type="button" data-level="1" aria-label="L1 · Open scientific workflows cross-section">L1</button>
+          <button type="button" data-level="3" aria-controls="type-detail" aria-label="L3 · Major scientific breakthroughs">L3</button>
+          <button type="button" data-level="2" aria-controls="type-detail" aria-label="L2 · Scientific breakthroughs">L2</button>
+          <button type="button" data-level="1" aria-controls="type-detail" aria-label="L1 · Scientific workflows">L1</button>
         </div>
-        <button class="whole" type="button" hidden>Back to pyramid</button>
         <button class="motion" type="button" aria-label="Pause rotation" aria-pressed="false"><span aria-hidden="true"></span></button>
-        <div class="facet-keys" role="group" aria-label="Pieces in this cross-section" hidden></div>
+        <div class="facet-keys" role="group" aria-label="Pieces in the selected layer" hidden></div>
+        <p class="assembly-hint" hidden>Select a faded layer to reassemble.</p>
         <figcaption class="object-note" hidden><strong></strong><span></span></figcaption>
       </figure>
       <div class="pyramid-alternative">

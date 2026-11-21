@@ -10,7 +10,7 @@ For offline use, download `agent-frontier-exam-v0.1.html` from the [v0.1 release
 
 ## Explore the site
 
-- Select a layer of the rotating pyramid. L1 opens seven research activities, each with a related task and a link to its activity in the directory. L2 and L3 explain the scientific goal and the evidence a breakthrough would require.
+- Select a piece or its level label to bring that solid forward. L1 separates into seven research activities, including three sectors inside the base. L2 and L3 explain the goal and evidence for a breakthrough. Select either faded layer to reassemble the pyramid, or press Escape.
 - Explore 16 task briefs by field and research activity. Four illustrated showcases lead to the same briefs as the directory. Each brief covers starting materials, the required deliverable and how success is assessed.
 - Read the annotated Harbor task package guide, submit a workflow or breakthrough task through Duanyan ReX, or visit the authorship page for participant credit and area chair recruitment.
 

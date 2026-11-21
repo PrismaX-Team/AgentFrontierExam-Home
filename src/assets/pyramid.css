@@ -80,13 +80,6 @@
   #taskonomy .intro > p span { display: inline; }
 }
 #taskonomy .detail { max-width: 44ch; padding-block: 9px; }
-#taskonomy .back, #taskonomy .whole {
-  padding: 5px 0;
-  font-size: 13px;
-  color: var(--muted);
-}
-#taskonomy .back { margin-bottom: clamp(10px,1.5cqi,19px); scroll-margin-block-start: 5rem; }
-#taskonomy :is(.back,.whole):hover { text-decoration: underline; text-underline-offset: 4px; }
 #taskonomy .level-name, #taskonomy .task small {
   display: block;
   font: 500 12px/1.4 ui-monospace, "SFMono-Regular", Consolas, monospace;
@@ -119,6 +112,7 @@
 #taskonomy .pyramid-alternative dt { margin-top: 1rem; font-weight: 600; }
 #taskonomy .pyramid-alternative dd { margin-inline: 0; color: var(--muted); }
 #taskonomy .plate { position: relative; min-width: 0; width: 100%; overflow: clip; overflow-clip-margin: 2px; }
+#taskonomy[data-view]:not([data-view="0"]) .plate { padding-bottom: 1.25rem; }
 #taskonomy canvas { display: block; width: 100%; aspect-ratio: 1.20; touch-action: pan-y; }
 #taskonomy .layer-labels button, #taskonomy .facet-keys button {
   position: absolute;
@@ -140,7 +134,14 @@
 #taskonomy .layer-labels button:is(:hover,:focus-visible)::before { border-color: currentColor; }
 #taskonomy .facet-keys button { width: 42px; height: 42px; padding: 0; border-radius: 50%; }
 #taskonomy .facet-keys button:focus-visible { outline: 2px solid #164e50; outline-offset: -1px; border-radius: 50%; }
-#taskonomy .whole { position: absolute; left: 6%; top: 4%; }
+#taskonomy .assembly-hint {
+  position: absolute;
+  inset: auto 0 0;
+  pointer-events: none;
+  color: var(--muted);
+  font-size: .8125rem;
+  text-align: center;
+}
 #taskonomy .motion {
   position: absolute;
   right: 1%;
@@ -177,7 +178,6 @@
   #taskonomy .intro > p { margin-top: 15px; max-width: 35ch; font-size: clamp(16px,3.6cqi,18px); }
   #taskonomy canvas { aspect-ratio: 1.22; max-height: 410px; }
   #taskonomy .detail { padding-block: 0; }
-  #taskonomy .back { margin-bottom: 5px; }
   #taskonomy h2 { font-size: 41px; }
   #taskonomy .task { padding-top: 12px; }
 }

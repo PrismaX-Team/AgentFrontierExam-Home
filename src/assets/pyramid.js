@@ -15,7 +15,7 @@
   }
   const mixColor = (a, b, t) => a.map((value,i) => mix(value,b[i],t));
   const rgba = (color, opacity) => 'rgba(' + color.map(v => Math.round(clamp(v,0,255))).join(',') + ',' + opacity + ')';
-  const white = [248,247,235], dark = [33,53,53];
+  const white = [248,247,235], dark = [33,53,53], paper = [246,244,237];
   const light = normalize([-.95,.98,.40]);
   const heights = [0,.52,1.05,1.80];
   const tierOf = index => index < 7 ? 1 : index < 11 ? 2 : 3;
@@ -71,52 +71,57 @@
     });
     return normalize(n);
   }
-  function camera(width, height, angle, cut, lift) {
-    const pitch=mix(.48,Math.PI/2,cut), sinP=Math.sin(pitch), cosP=Math.cos(pitch);
-    const yaw=((angle%tau+3*Math.PI)%tau-Math.PI)*(1-cut);
-    const cosA=Math.cos(yaw), sinA=Math.sin(yaw);
-    const assembled=Math.min(width/3.12,height/2.56)*(1-.027*lift);
-    let scale=mix(assembled,Math.min(width/2.74,height/2.45),cut);
-    const x=width*mix(.49+.008*lift,.5,cut), y=height*mix(.723+.007*lift,.515,cut);
-    if(cut>0) {
-      // A square seen corner-on briefly occupies more space on the way to plan.
-      const margin=Math.min(width,height)*.033*Math.min(1,cut*8);
-      const extent=(Math.abs(cosA)+Math.abs(sinA))*(1.01+.055*cut);
-      const back=extent*sinP+mix(1.07,.26,cut)*cosP;
-      scale=Math.min(scale,(Math.min(x,width-x)-margin)/extent,(height-y-margin)/(extent*sinP),(y-margin)/back);
-    }
+  function camera(width,height,yaw,openness,focusLevel,level,lift) {
+    // All three solids keep their slopes and yaw. The nearer layer fills the foreground.
+    const primary=level===focusLevel;
+    const leftOfPair=level===(focusLevel===1?2:1);
+    const pitch=mix(.48,[0,.82,.66,.48][focusLevel],openness);
+    const sinP=Math.sin(pitch), cosP=Math.cos(pitch), cosA=Math.cos(yaw), sinA=Math.sin(yaw);
+    const baseRadius=1-heights[level-1]/heights[3];
+    const unit=Math.min(width,1.20*height);
+    const framedSize=primary?[0,.244,.235,.208][level]:[0,.11,.096,.083][level];
+    const assembled=Math.min(width/3.30,height/2.62)*(1-.027*lift);
+    const scale=mix(assembled,unit*framedSize/baseRadius,openness);
+    const x=width*mix(.48,primary?.495:leftOfPair?.266:.705,openness);
+    const y=height*mix(.72,primary?.585:leftOfPair?.211:.155,openness);
+    const pivot=openness*((heights[level-1]+heights[level])*.5+.022);
     return {
       scale, x, y, eye:[0,sinP,cosP],
       rotate:(u,v,z)=>[u*cosA-z*sinA,v,u*sinA+z*cosA],
-      project:p=>({x:x+scale*p[0],y:y+scale*(p[2]*sinP-p[1]*cosP),depth:p[1]*sinP+p[2]*cosP})
+      project:p=>({x:x+scale*p[0],y:y+scale*(p[2]*sinP-(p[1]-pivot)*cosP)})
     };
   }
   function mesh(index, cam, state) {
-    const level=tierOf(index), shape=shapes[index], isSection=level===state.section;
-    const cut=state.cut, alpha=isSection ? 1 : clamp(1-cut*1.8);
-    if(alpha<.015) return null;
+    const level=tierOf(index), shape=shapes[index], primary=level===state.focusLevel;
+    const openness=state.openness, mist=primary?0:openness*(state.hoverLevel===level?.40:.64);
     const [cx,cz]=shape.center, radius=Math.hypot(cx,cz)||1;
-    const pop=state.pops[index], radialGap=.009;
     const bottom=heights[level-1], top=heights[level], cap=level===3;
-    const half=mix(1-(bottom+top)/2/heights[3],1,isSection?cut:0);
-    const offset=(level-1)*.033+(level>1?state.lift*.195:0);
-    const centerY=mix((bottom+top)*.5+offset,.11,cut)+.022;
+    const baseRadius=1-bottom/heights[3], half=1-(bottom+top)/2/heights[3];
+    const pop=state.pops[index];
+    const spacing=index<3?.16:level===1?.265:level===2?.12:0;
+    const radialGap=.009+(primary?openness*baseRadius*spacing:0);
+    const liftInner=primary && index<3?.26*openness:0;
+    const offset=((level-1)*.033+(level>1?state.lift*.195:0))*(1-openness)+liftInner;
+    const centerY=(bottom+top)*.5+offset+.022;
     const resting=cam.rotate(cx*half+cx/radius*radialGap,centerY,cz*half+cz/radius*radialGap);
-    const travel=pop*mix(.25,.16,cut), growth=1+pop*.075;
-    const shift=cam.rotate(cx/radius*travel,pop*(cap?.235:.155),cz/radius*travel);
+    const travel=pop*mix(.25,.18*baseRadius,openness), growth=1+pop*.075;
+    const riseOnHover=mix(cap?.235:.155,.13*baseRadius,openness);
+    const shift=cam.rotate(cx/radius*travel,pop*riseOnHover,cz/radius*travel);
     const center3=addScaled(resting,shift,1);
     const restScreen=cam.project(resting), centerScreen=cam.project(center3);
     // The matching hit footprint follows the rotation while the glass lifts off it.
     const hitShift={x:centerScreen.x-restScreen.x*growth,y:centerScreen.y-restScreen.y*growth};
+    function place(x,y,z) {
+      const rotated=cam.rotate(x+cx/radius*radialGap,y+offset+.022,z+cz/radius*radialGap);
+      return addScaled(center3,minus(rotated,resting),growth);
+    }
     function ring(rise, bevel=0) {
-      const y=mix(bottom,top,rise);
-      const half=mix(1-y/heights[3],1,isSection?cut:0);
-      const worldY=mix(y+offset,.22*rise,cut)+.022;
+      const y=mix(bottom,top,rise), half=1-y/heights[3];
       return shape.points.map(([u,v],i)=>{
         const shrink=cap?1:.987;
-        const x=(cx+(u-cx)*shrink)*half+shape.inward[i][0]*bevel+cx/radius*radialGap;
-        const z=(cz+(v-cz)*shrink)*half+shape.inward[i][1]*bevel+cz/radius*radialGap;
-        return addScaled(center3,minus(cam.rotate(x,worldY,z),resting),growth);
+        const x=(cx+(u-cx)*shrink)*half+shape.inward[i][0]*bevel;
+        const z=(cz+(v-cz)*shrink)*half+shape.inward[i][1]*bevel;
+        return place(x,y,z);
       });
     }
     const rimWidth=cap ? .010 : .013, rise=.018/(top-bottom);
@@ -138,7 +143,9 @@
       face(cap?[shoulder[i],shoulder[j],neck[i]]:[shoulder[i],shoulder[j],neck[j],neck[i]],'wall',large,exterior);
       if(!cap) face([neck[i],neck[j],lid[j],lid[i]],'bevel',large,exterior);
     });
-    return {index,level,alpha,pop,faces,foot,center3,anchor:centerScreen,growth,hitShift};
+    const lidRadius=1-top/heights[3];
+    const anchor=cap?centerScreen:cam.project(place(cx*lidRadius,top,cz*lidRadius));
+    return {index,level,mist,faces,foot,center3,anchor,growth,hitShift};
   }
 
   function drawPath(ctx, points) {
@@ -206,15 +213,17 @@
     let body=mixColor(shade,milk,lightness);
     if(rim) body=mixColor(body,milk,.14);
     const colors=ctx.createLinearGradient(cam.x-s*.73,cam.y-s*1.59,cam.x+s*.64,cam.y+s*.55);
-    colors.addColorStop(0,rgba(mixColor(body,white,.20),1));
-    colors.addColorStop(.48,rgba(body,1));
-    colors.addColorStop(1,rgba(mixColor(body,dark,.155),1));
+    const pigment=tone=>rgba(mixColor(tone,paper,piece.mist),1);
+    colors.addColorStop(0,pigment(mixColor(body,white,.20)));
+    colors.addColorStop(.48,pigment(body));
+    colors.addColorStop(1,pigment(mixColor(body,dark,.155)));
     ctx.save();
-    ctx.globalAlpha=piece.alpha*(rim?.94:.928);
+    ctx.globalAlpha=rim?.95:.964;
     drawPath(ctx,face.screen);ctx.fillStyle=colors;ctx.fill();
+    if(!face.large) { ctx.strokeStyle=colors;ctx.lineWidth=.55;ctx.stroke(); }
     if(!rim && face.large && face.facing>.035) {
       ctx.clip();
-      ctx.globalAlpha=piece.alpha;
+      ctx.globalAlpha=1-piece.mist;
       softenRim(ctx,face.screen,s);
       frostOnFace(ctx,face,cam,pattern);
     }
@@ -242,8 +251,8 @@
     }
     return [...side(sorted),...side(sorted.reverse())];
   }
-  function ground(ctx,cam,pieces,cut) {
-    const s=cam.scale,opacity=1-cut;
+  function ground(ctx,cam,pieces,opacity) {
+    const s=cam.scale;
     if(opacity<.015) return;
     const origin=cam.project([0,0,0]);
     const cast=p=>cam.project([p[0]+p[1]*.76,0,p[2]+p[1]*.38]);
@@ -270,21 +279,6 @@
     const w=ctx.canvas.clientWidth,h=ctx.canvas.clientHeight,fade=ctx.createLinearGradient(w*.88,0,w,0);
     fade.addColorStop(0,'#000');fade.addColorStop(1,'transparent');ctx.fillStyle=fade;ctx.fillRect(0,0,w,h);ctx.restore();
   }
-  function cutSurface(ctx,piece,cam,alpha,pattern) {
-    const face=piece.faces.find(f=>f.kind==='top');
-    if(!face) return;
-    const points=face.screen,s=cam.scale,tint=mixColor(tints[piece.index],dark,piece.pop*.24);
-    ctx.save();ctx.globalAlpha=alpha;
-    const gradient=ctx.createLinearGradient(cam.x-s,cam.y-s*.92,cam.x+s*.72,cam.y+s);
-    gradient.addColorStop(0,rgba(mixColor(tint,white,.66-piece.pop*.12),1));
-    gradient.addColorStop(.45,rgba(mixColor(tint,white,.46-piece.pop*.13),1));
-    gradient.addColorStop(1,rgba(mixColor(tint,white,.20),1));
-    drawPath(ctx,points);ctx.shadowColor=rgba([38,62,53],.15+piece.pop*.16);
-    ctx.shadowBlur=s*(.027+piece.pop*.035);ctx.shadowOffsetY=s*(.016+piece.pop*.019);
-    ctx.fillStyle=gradient;ctx.fill();ctx.shadowColor='transparent';
-    ctx.clip();softenRim(ctx,points,s);frostOnFace(ctx,face,cam,pattern);
-    ctx.restore();
-  }
   function contains(points,x,y) {
     let inside=false;
     for(let i=0,j=points.length-1;i<points.length;j=i++) {
@@ -306,7 +300,7 @@
   const levels = ['', 'Scientific workflows', 'Scientific breakthroughs', 'Major scientific breakthroughs'];
   const labels = [...root.querySelectorAll('[data-level]')];
   const note = ui('.object-note'), keys = ui('.facet-keys'), motion = ui('.motion');
-  let yaw = -.59, view = 0, section = 1, cut = 0, lift = 0, hovered = -1, selected = -1, pointedLevel = 0;
+  let yaw = -.59, view = 0, focusLevel = 1, openness = 0, lift = 0, hovered = -1, selected = -1, pointedLevel = 0;
   let paused = reduced.matches, visible = true, width = 0, height = 0, frame = 0, lastTime = 0, hits = [];
   let mousePoint = null;
   const pops = shapes.map(() => 0);
@@ -315,17 +309,18 @@
     const button = document.createElement('button');
     const type = types[piece.type];
     button.type = 'button';
+    button.dataset.piece = index;
+    button.setAttribute('aria-controls','type-detail');
     const part = tierOf(index) === 2 ? ', piece ' + (index - 6) + ' of 4' : '';
     button.setAttribute('aria-label', type.name + part + (piece.task ? ' · ' + piece.task.title : ''));
-    button.addEventListener('click', () => choose(index));
+    button.addEventListener('click', event => {
+      if(event.detail===0) choose(index,true);
+      else activatePoint(event,index);
+    });
     button.addEventListener('focus', () => {
       if (button.matches(':focus-visible')) previewPiece(index, buttonPosition(button));
     });
     button.addEventListener('blur', clearPreview);
-    button.addEventListener('pointerenter', event => {
-      if (event.pointerType !== 'touch') previewPiece(index, buttonPosition(button));
-    });
-    button.addEventListener('pointerleave', clearPreview);
     keys.append(button);
     return button;
   });
@@ -368,9 +363,13 @@
       target.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }],
         { duration: 220, easing: 'ease-out' });
     }
-    ui('.layer-labels').hidden = !!view;
-    ui('.whole').hidden = !view;
-    motion.hidden = active || !!view;
+    root.dataset.view = view;
+    labels.forEach(button => {
+      const level=Number(button.dataset.level);
+      button.hidden=level===view;
+      button.setAttribute('aria-label','L'+level+' · '+levels[level]+(view?' · Reassemble the pyramid':' · Explore this level'));
+    });
+    ui('.assembly-hint').hidden = !view;
     motion.setAttribute('aria-pressed', String(paused));
     motion.setAttribute('aria-label', paused ? 'Resume rotation' : 'Pause rotation');
     keys.hidden = !view;
@@ -380,42 +379,27 @@
     });
   }
 
-  function choose(index) {
+  function choose(index, keyboard=false) {
+    const level=tierOf(index);
+    if(view && level!==view) { reset(keyboard); return; }
     clearPreview();
+    mousePoint=null;
+    view=focusLevel=level;
     selected = index;
     setCopy(true);
-    const back = ui('.back');
-    back.focus({ preventScroll: true });
-    if (root.clientWidth <= 660 && back.getBoundingClientRect().top < 0) {
-      back.scrollIntoView({ block: 'start', behavior: reduced.matches ? 'instant' : 'smooth' });
-    }
+    if(keyboard) buttons[index].focus({preventScroll:true});
     wake();
   }
-  function openSection(level, keyboard) {
+  function reset(keyboard=false) {
+    const former=view;
     clearPreview();
-    if (level === 3) {
-      choose(11);
-      return;
-    }
-    if (section !== level) cut = 0;
-    view = section = level;
-    selected = -1;
-    setCopy();
-    draw();
-    wake();
-    const next = keyboard ? buttons.find((_, index) => tierOf(index) === level) : ui('.whole');
-    next.focus({ preventScroll: true });
-  }
-  function reset() {
-    const former = view || (selected >= 0 ? tierOf(selected) : 0);
-    const hadCard = selected >= 0;
-    clearPreview();
+    mousePoint=null;
     selected = -1;
     view = 0;
-    setCopy(hadCard);
+    setCopy(true);
     wake();
     const label = labels.find(button => Number(button.dataset.level) === former);
-    label?.focus({ preventScroll: true });
+    if(keyboard) label?.focus({ preventScroll: true });
   }
   function buttonPosition(button) {
     const a=button.getBoundingClientRect(),b=canvas.getBoundingClientRect();
@@ -435,12 +419,15 @@
     hovered=index;pointedLevel=0;
     if(index<0) {clearPreview();return;}
     const category=types[content[index].type];
-    displayNote('L'+tierOf(index)+' · '+category.name,category.description,point);
+    const level=tierOf(index);
+    if(view && level!==view) displayNote('L'+level+' · '+levels[level],'Select to reassemble the pyramid.',point);
+    else displayNote('L'+level+' · '+category.name,category.description,point);
     wake();
   }
   function previewLevel(level,button) {
+    mousePoint=null;
     hovered=-1;pointedLevel=level;
-    const action=level===3?'Explore this scientific goal.':'Explore this cross-section.';
+    const action=view?'Select to reassemble the pyramid.':'Select to bring this layer forward.';
     displayNote('L'+level+' · '+levels[level],action,buttonPosition(button));
     wake();
   }
@@ -452,40 +439,49 @@
   }
   function draw() {
     if(!width||!height) return;
-    const cam=camera(width,height,yaw,cut,lift), state={cut,section,lift,pops};
-    const pieces=shapes.map((shape,index)=>mesh(index,cam,state)).filter(Boolean);
-    pieces.sort((a,b)=>a.level-b.level||dot(a.center3,cam.eye)-dot(b.center3,cam.eye));
+    const tiers=[1,2,3];
+    const cameras=tiers.map(level=>camera(width,height,yaw,openness,focusLevel,level,lift));
+    const hoverLevel=pointedLevel || (hovered>=0?tierOf(hovered):0);
+    const state={openness,focusLevel,lift,pops,hoverLevel};
+    const pieces=shapes.map((_,index)=>mesh(index,cameras[tierOf(index)-1],state));
+    const order=openness>.28?[...tiers.filter(level=>level!==focusLevel),focusLevel]:tiers;
     hits=[];
-    if(ctx) {
-      ctx.clearRect(0,0,width,height);
-      ground(ctx,cam,pieces,cut);
-      const cutaway=clamp((cut-.82)/.18);
+    ctx.clearRect(0,0,width,height);
+    ground(ctx,cameras[0],pieces,clamp(1-openness*2.6));
+    if(openness>0) {
+      const cam=cameras[focusLevel-1], base=heights[focusLevel-1];
+      const shadow=cam.project([0,base-.13,0]), size=cam.scale*(1-base/heights[3]);
+      softEllipse(ctx,shadow.x+size*.13,shadow.y+size*.23,size*1.32,size*.48,-.08,[
+        [0,rgba([52,75,65],openness*.20)],[.60,rgba([68,83,72],openness*.09)],[1,rgba([85,95,80],0)]
+      ]);
+    }
+    for(const level of order) {
+      const cam=cameras[level-1];
+      const layer=pieces.filter(piece=>piece.level===level)
+        .sort((a,b)=>dot(a.center3,cam.eye)-dot(b.center3,cam.eye));
       // The exterior walls wrap the three central sectors. A nearer sector's
       // centroid can still sit behind a wall where their projections overlap.
-      const facing=pieces.flatMap(piece=>piece.faces.filter(face=>face.facing>.003)
+      const facing=layer.flatMap(piece=>piece.faces.filter(face=>face.facing>.003)
         .sort((a,b)=>a.depth-b.depth).map(face=>({piece,face})));
-      facing.sort((a,b)=>a.piece.level-b.piece.level||Number(a.face.exterior)-Number(b.face.exterior));
+      facing.sort((a,b)=>Number(a.face.exterior)-Number(b.face.exterior));
       for(const {piece,face} of facing) {
-        if(cutaway<1) frostFace(ctx,face,piece,cam,frost);
-        if(piece.alpha>.6) hits.push({piece,points:face.screen});
+        frostFace(ctx,face,piece,cam,frost);
+        hits.push({piece,points:face.screen});
       }
-      if(cutaway>0) pieces.filter(piece=>piece.level===section).forEach(piece=>cutSurface(ctx,piece,cam,cutaway,frost));
     }
     if(view) {
       pieces.filter(piece=>piece.level===view).forEach(piece=>positionButton(buttons[piece.index],piece.anchor.x,piece.anchor.y));
-    } else {
-      let previousY=-100;
-      labels.forEach(button=>{
-        const level=Number(button.dataset.level),y=[0,.24,.81,1.43][level];
-        const range=1-y/heights[3];
-        const corners=[[-1,-1],[1,-1],[1,1],[-1,1]];
-        const x=Math.max(...corners.map(([u,v])=>cam.project(cam.rotate(u*range,y,v*range)).x));
-        const labelHeight=y+(level-1)*.033+(level>1?lift*.195:0);
-        const labelY=Math.max(cam.project([0,labelHeight,0]).y,previousY+44);
-        positionButton(button,Math.min(width-24,x+24),labelY);
-        previousY=labelY;
-      });
     }
+    let previousY=-100;
+    labels.filter(button=>!button.hidden).forEach(button=>{
+      const level=Number(button.dataset.level),cam=cameras[level-1],y=[0,.24,.81,1.43][level];
+      const reach=(1-y/heights[3])*(Math.abs(Math.cos(yaw))+Math.abs(Math.sin(yaw)));
+      const labelHeight=y+((level-1)*.033+(level>1?lift*.195:0))*(1-openness);
+      let labelY=cam.project([0,labelHeight,0]).y;
+      if(!view) labelY=Math.max(labelY,previousY+44);
+      positionButton(button,Math.min(width-24,cam.x+cam.scale*reach+20),labelY);
+      previousY=labelY;
+    });
     if(mousePoint) updateCanvasHover(mousePoint);
   }
   function resize() {
@@ -493,7 +489,7 @@
     width=box.width;height=box.height;
     const dpr=Math.min(devicePixelRatio||1,2);
     canvas.width=Math.max(1,Math.round(width*dpr));canvas.height=Math.max(1,Math.round(height*dpr));
-    if(ctx) ctx.setTransform(canvas.width/(width||1),0,0,canvas.height/(height||1),0,0);
+    ctx.setTransform(canvas.width/(width||1),0,0,canvas.height/(height||1),0,0);
     draw();wake();
   }
   function step(time) {
@@ -502,17 +498,19 @@
     const dt=lastTime?Math.min((time-lastTime)/1000,.1):0;
     lastTime=time;
     const speed=reduced.matches?1:1-Math.exp(-dt*12);
-    const active=hovered>=0?hovered:selected;
-    const spin=!view && !paused;
-    if(spin) yaw=(yaw+dt*tau/46)%tau;
+    const spin=!paused;
+    if(spin) yaw=(yaw+dt*tau/mix(46,80,openness))%tau;
     let moving=false;
     function approach(value,target) {
       if(Math.abs(value-target)<.0015) return target;
       moving=true;return mix(value,target,speed);
     }
-    cut=approach(cut,view?1:0);
-    lift=approach(lift,!view&&(pointedLevel===1||(active>=0&&tierOf(active)===1))?1:0);
-    pops.forEach((value,i)=>{pops[i]=approach(value,i===active?1:0);});
+    openness=approach(openness,view?1:0);
+    lift=approach(lift,!view&&(pointedLevel===1||(hovered>=0&&tierOf(hovered)===1))?1:0);
+    pops.forEach((value,i)=>{
+      const raised=i===hovered && (!view || tierOf(i)===view);
+      pops[i]=approach(value,raised?1:i===selected?.18:0);
+    });
     draw();
     if(spin||moving) wake(); else lastTime=0;
   }
@@ -539,21 +537,26 @@
     if(next!==hovered || next>=0 && (moved||note.hidden)) previewPiece(next,point);
   }
 
-  canvas.addEventListener('pointermove', event => {
-    if (event.pointerType === 'touch') return;
-    mousePoint=eventPoint(event);
-    updateCanvasHover(mousePoint,true);
-  });
-  canvas.addEventListener('pointerleave', () => { mousePoint=null;clearPreview(); });
-  canvas.addEventListener('click', event => {
+  function activatePoint(event,fallback=-1) {
     const point=eventPoint(event);
     let index=pick(point);
     if(index<0 && hovered>=0 && pick(point,true)===hovered) index=hovered;
-    if (index >= 0) choose(index);
+    if(index<0) index=fallback;
+    if(index>=0) choose(index);
+  }
+  const plate=ui('.plate');
+  plate.addEventListener('pointermove', event => {
+    if (event.pointerType === 'touch') return;
+    if(event.target!==canvas && !keys.contains(event.target)) { mousePoint=null;return; }
+    mousePoint=eventPoint(event);
+    updateCanvasHover(mousePoint,true);
   });
+  plate.addEventListener('pointerleave', () => { mousePoint=null;clearPreview(); });
+  canvas.addEventListener('click', event => activatePoint(event));
+  const representative=[-1,2,7,11];
   labels.forEach(button => {
     const level = Number(button.dataset.level);
-    button.addEventListener('click', event => openSection(level, event.detail === 0));
+    button.addEventListener('click', event => choose(representative[level],event.detail===0));
     button.addEventListener('pointerenter', event => {
       if (event.pointerType !== 'touch') previewLevel(level, button);
     });
@@ -563,10 +566,8 @@
     });
     button.addEventListener('blur', clearPreview);
   });
-  ui('.back').addEventListener('click', reset);
-  ui('.whole').addEventListener('click', reset);
   root.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && (selected >= 0 || view)) reset();
+    if (event.key === 'Escape' && view) { event.preventDefault();reset(true); }
   });
   motion.addEventListener('click', () => {
     paused = !paused;
