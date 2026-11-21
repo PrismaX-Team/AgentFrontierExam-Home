@@ -11,8 +11,9 @@ For offline use, download `agent-frontier-exam-v0.1.html` from the [v0.1 release
 ## Explore the site
 
 - The pyramid links scientific workflows, scientific breakthroughs and foundational discoveries to examples. Selecting a solid brings that level forward. The three sectors at the centre of L1 each open a different activity. A faded solid opens its own level. The complete pyramid beside **All levels**, the surrounding paper and Escape return to the assembled view.
-- Choose a scientific field to see its research activities, or compare fields in the full matrix. Both lead to the matching briefs. The directory lists six briefs per page and includes the current filters and page in its URL.
-- The Contribute page follows a real task from an image of the M13 star cluster to an independently checked light profile. It links to the annotated Harbor guide, Duanyan ReX submissions, and the authorship guide for participants and area chairs.
+- The Tasks page opens with a map of the collection. Each line joins a scientific field to a research activity found in its briefs. Use the matrix to open a particular combination. The directory lists six briefs per page and includes the current filters and page in its URL.
+- The two contribution pages present the same submission guide. Contribute1 illustrates how a workflow, breakthrough or foundational discovery fits in a task package. Contribute2 sets out the three goals and their evidence requirements in text. Both link to Duanyan ReX, the annotated Harbor guide and the authorship guide.
+- The footer links to Shanghai AI Laboratory, Duanyan, project resources and the contact address. **Copy citation** copies a BibTeX entry for the benchmark website.
 
 ## Run locally
 
