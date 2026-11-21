@@ -130,11 +130,14 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
   scrollbar-color:#98a79a #e4e8de;
 }
 .matrix-viewport:focus-visible {outline-offset:2px}
-.task-matrix {width:100%;min-width:58rem;table-layout:fixed;border-spacing:0;font-variant-numeric:tabular-nums}
+.matrix-viewport[data-large] {max-block-size:min(62vh,35rem);overflow:auto;scroll-padding-block-start:4rem}
+.matrix-viewport[data-large] thead th {position:sticky;top:0;z-index:2}
+.matrix-viewport[data-large] thead .matrix-stub {z-index:3}
+.task-matrix {width:100%;min-width:max(58rem,calc(var(--matrix-stub) + var(--matrix-field-span)));table-layout:fixed;border-spacing:0;font-variant-numeric:tabular-nums}
 .task-matrix th,.task-matrix td {padding:0;border-bottom:1px solid #d0d6cb;border-inline-end:1px solid #d5dbd0}
 .task-matrix tr>:last-child {border-inline-end:0}
 .task-matrix tbody tr:last-child>* {border-bottom:0}
-.task-matrix th {font-family:var(--sans);font-weight:500}
+.task-matrix th {font-family:var(--sans);font-weight:500;overflow-wrap:anywhere}
 .task-matrix thead th {padding:.6rem .25rem;background:#e9ede3;color:#354739;text-align:center;vertical-align:middle;font-size:.84rem;line-height:1.18}
 .task-matrix .matrix-stub,.task-matrix th[scope=row] {
   position:sticky;inset-inline-start:0;z-index:1;width:var(--matrix-stub);

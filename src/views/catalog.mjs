@@ -1,5 +1,6 @@
 import {escape, taskHref, filteredHref, levelNames} from './layout.mjs';
 import {plates} from '../data/plates.mjs';
+import {catalogueHero, intersectionHref} from './field-explorer.mjs';
 
 const order = new Intl.Collator('en', {sensitivity:'base'});
 
@@ -23,13 +24,13 @@ function taskMatrix(domains, workflows, groups) {
       const id = groupId(domain, workflow);
       const count = groups.get(id)?.length ?? 0;
       if (!count) return `<td><span class="matrix-zero">${empty}</span></td>`;
-      const query = new URLSearchParams({domain, workflow});
-      return `<td><a class="matrix-cell" href="?${escape(query)}#${id}" data-domain="${escape(domain)}" data-workflow="${escape(workflow)}" aria-label="${escape(taskCount(count) + ' · ' + domain + ' · ' + workflow)}">${count}</a><span class="matrix-zero" hidden>${empty}</span></td>`;
+      return `<td><a class="matrix-cell" href="${escape(intersectionHref(domain,workflow,id))}" data-domain="${escape(domain)}" data-workflow="${escape(workflow)}" aria-label="${escape(taskCount(count) + ' · ' + domain + ' · ' + workflow)}">${count}</a><span class="matrix-zero" hidden>${empty}</span></td>`;
     }).join('');
     return `<tr><th scope="row" data-axis-workflow="${escape(workflow)}">${escape(workflow)}</th>${cells}</tr>`;
   }).join('\n');
-  return `<div class="matrix-viewport" role="region" aria-labelledby="matrix-heading" tabindex="0">
-    <table class="task-matrix" aria-label="Task counts by scientific field and research activity">
+  const large = domains.length > 15 || workflows.length > 15;
+  return `<div class="matrix-viewport"${large ? ' data-large' : ''} role="region" aria-labelledby="matrix-heading" tabindex="0">
+    <table class="task-matrix" style="--matrix-field-span:${domains.length*5}rem" aria-label="Task counts by scientific field and research activity">
       <thead><tr><th scope="col" class="matrix-stub">Research activity</th>${domains.map(domain => `<th scope="col" data-axis-domain="${escape(domain)}">${escape(domain)}</th>`).join('')}</tr></thead>
       <tbody>${rows}</tbody>
     </table>
@@ -62,8 +63,7 @@ export function catalogue(tasks) {
     </div>`;
   }).join('\n');
   return `<div class="page-frame site-frame" id="catalogue" data-level-names="${escape(JSON.stringify(levelNames))}">
-    <header class="catalog-intro"><div><h1>Tasks</h1><p>Each brief sets out what the agent receives, what it must produce and how researchers assess the result.</p></div>
-      <a class="text-link" href="#task-directory">Browse task briefs</a></header>
+    ${catalogueHero(domains,groups)}
     <section class="matrix-section" id="activity-matrix" aria-labelledby="matrix-heading">
       <div class="matrix-heading"><h2 id="matrix-heading">Field × activity</h2>
         <p><span data-matrix-total>${taskCount(tasks.length)}</span> <span aria-hidden="true">·</span> ${domains.length} fields <span aria-hidden="true">·</span> ${workflows.length} activities</p></div>

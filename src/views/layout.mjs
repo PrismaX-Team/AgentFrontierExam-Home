@@ -41,9 +41,9 @@ export function page({route, title, description, body, home = false, catalog = f
     <span class="brand-mark" aria-hidden="true">AFE</span>
     <span class="brand-signature" aria-hidden="true"><span class="brand-name">Agent Frontier Exam</span><span class="brand-edition">Taskonomy</span></span>
   </a>`;
-  const css = ['pyramid', 'site', ...(community || home ? ['community'] : [])]
+  const css = ['pyramid', 'site', ...(community || home ? ['community'] : []), ...(catalog ? ['field-explorer'] : [])]
     .map(name => `<link rel="stylesheet" href="/assets/${name}.css">`).join('\n');
-  const js = ['site', ...(home ? ['pyramid'] : []), ...(catalog ? ['catalog'] : [])]
+  const js = ['site', ...(home ? ['pyramid'] : []), ...(catalog ? ['field-explorer','catalog'] : [])]
     .map(name => `<script src="/assets/${name}.js" defer></script>`).join('\n');
   return relativeUrls(`<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
