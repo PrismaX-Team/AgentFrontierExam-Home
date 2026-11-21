@@ -62,12 +62,14 @@
   font-kerning: normal;
 }
 #taskonomy h1 {
-  font-size: clamp(48px,7.1cqi,106px);
-  letter-spacing: -.032em;
-  line-height: .96;
+  --display-height: .85;
+  font-size: clamp(48px,7.25cqi,108px);
+  letter-spacing: -.018em;
+  line-height: .91;
+  transform-origin: left bottom;
 }
 #taskonomy h1 span { white-space: nowrap; }
-#taskonomy h1 em { font-family: inherit; font-weight: 400; font-style: italic; font-size: .985em; letter-spacing: -.03em; margin-right: .024em; }
+#taskonomy h1 em { font-family: inherit; font-weight: 400; font-style: italic; font-size: .985em; letter-spacing: -.015em; margin-right: .024em; }
 #taskonomy .intro > p {
   max-width: 34ch;
   margin-top: clamp(18px,1.9cqi,28px);
