@@ -243,19 +243,16 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
   .brief-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
   .brief-figure{max-width:34rem}.related-section li{display:grid;gap:.25rem}
 }
+@media(max-width:35rem){.brand-signature{display:none}}
 @media(max-width:31rem) {
   :root {--masthead-row:3.5rem}
-  .header-inner {gap:.65rem}
+  .header-inner {gap:.6rem;padding-inline:4%}
   .brand {gap:.32rem}
   .brand-emblem {width:1.4rem}
   .brand-mark {font-size:1.7rem}
-  .brand-signature {gap:.1rem;padding-inline-start:.5rem}
-  .brand-name {font-size:.74rem}
-  .brand-edition {font-size:1rem}
   .header-inner nav {gap:clamp(.55rem,2.8vw,1rem)}
   .header-inner nav a {font-size:.88rem}
 }
-@media(max-width:22rem){.brand-signature{display:none}}
 @media(max-width:460px){
   .showcase-grid{grid-template-columns:1fr;gap:2.3rem}.card-content{padding-top:.85rem}
   .catalog-pager:has(ol li:nth-child(4)) {display:grid;grid-template-columns:1fr 1fr}

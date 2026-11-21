@@ -57,7 +57,7 @@ ${js}</head>
 <body id="top">
 <a class="skip-link" href="#main-content">Skip to content</a>
 <header class="site-header"><div class="site-frame header-inner">${brand}
-<nav aria-label="Main navigation">${navLink(route, '/tasks/', 'Tasks')}${navLink(route, '/contribute/', 'Contribute', ['/authorship/'])}</nav></div></header>
+<nav aria-label="Main navigation">${navLink(route, '/tasks/', 'Tasks')}${navLink(route, '/contribute/', 'Contribute1', ['/authorship/'])}${navLink(route, '/contribute2/', 'Contribute2')}</nav></div></header>
 <main id="main-content">${body}</main>
 ${footer()}
 </body></html>\n`, route);
