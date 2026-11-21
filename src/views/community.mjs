@@ -1,6 +1,5 @@
 import experts from '../data/experts.json' with { type: 'json' };
-import { plates } from '../data/plates.mjs';
-import { escape as escapeHtml } from './layout.mjs';
+import { escape as escapeHtml, levelNames } from './layout.mjs';
 
 const guideUrl = 'https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f';
 const submitUrl = 'https://discovery-home.intern-ai.org.cn/home/event/rex/index.html';
@@ -38,56 +37,64 @@ export function expertise() {
   </section>`;
 }
 
-export function contribute() {
-  const m13 = plates['m13-surface-brightness'];
-  return `<article class="site-frame cc-page cc-contribute">
-    <header class="cc-contribute-hero">
+const contributionLevels = [
+  {
+    level: 1,
+    goal: 'Choose a measurement, analysis or experiment that calls for scientific judgment. Describe the observations, tools and limits the agent will work with.',
+    evidence: 'Name the output and the reference measurement, tolerance or control that would make it usable.'
+  },
+  {
+    level: 2,
+    goal: 'Identify a question the closest published work leaves open. State the claim the agent could establish by resolving it.',
+    evidence: 'Describe the observation, comparison or proof that would settle the question and how a second team could check it.'
+  },
+  {
+    level: 3,
+    goal: 'Describe an unknown phenomenon or scientific principle whose discovery would change what the field can explain or predict.',
+    evidence: 'Explain what would distinguish a first discovery from a known effect and how an independent group could test it.'
+  }
+];
+
+function folioIntro() {
+  const sheets = contributionLevels.map(({ level }) =>
+    `<li class="cc-sheet cc-level-${level}"><span class="cc-sheet-code">L${level}</span><span>${escapeHtml(levelNames[level])}</span></li>`
+  ).join('');
+  return `<header class="cc-contribute-hero">
       <div class="cc-contribute-intro">
         <h1>Contribute a scientific task</h1>
-        <p>Bring a research question, its inputs and a test another researcher can run.</p>
+        <p>Set a scientific goal for an agent. Give it the starting materials and say what evidence would convince a colleague that it succeeded.</p>
         <div class="cc-links">
           <a class="cc-action" href="#submit">Prepare a submission</a>
-          <a href="/contribute/task-package/" aria-label="Read the task package guide">Task package guide</a>
+          <a href="/contribute/task-package/">Task package guide</a>
           <a href="/authorship/">Authorship</a>
         </div>
       </div>
-      <figure class="cc-dossier">
-        <figcaption><span>Example task package</span><a href="/tasks/m13-surface-brightness/">M13 light profile</a></figcaption>
-        <div class="cc-dossier-image">
-          <img src="/assets/plates/${escapeHtml(m13.file)}" alt="${escapeHtml(m13.alt)}" width="820" height="820">
-          <span class="cc-aperture" aria-hidden="true"></span>
-        </div>
-        <dl class="cc-dossier-steps">
-          <div><dt>Scientific question</dt><dd>How does M13’s light fade from its core?</dd></div>
-          <div><dt>Task package</dt><dd>From <code>m13_optical.fits</code>, measure the centre and light in 20 rings.</dd></div>
-          <div><dt>Independent check</dt><dd>Recompute brightness and uncertainty from the original pixels.</dd></div>
-        </dl>
-        <small>Illustrative apertures on a <a href="${escapeHtml(m13.href)}">Hubble image</a> by NASA, ESA and the Hubble Heritage Team (STScI/AURA).</small>
+      <figure class="cc-folio" aria-labelledby="folio-caption">
+        <figcaption id="folio-caption">Choose one scientific level</figcaption>
+        <ol class="cc-sheets">${sheets}</ol>
+        <div class="cc-folder"><span>One task package</span><span>Duanyan ReX</span></div>
       </figure>
-    </header>
+    </header>`;
+}
 
-    <section class="cc-section" aria-labelledby="cc-goal">
-      <h2 id="cc-goal">Choose the scientific goal</h2>
-      <div class="cc-choices">
-        <section>
-          <header><p class="cc-meta">L1</p><h3>Scientific workflow</h3></header>
-          <p>Choose a demanding piece of research. Specify where the agent must make a decision, operate a specialist tool or judge the evidence.</p>
-          <dl class="cc-goal-evidence">
-            <div><dt>Deliverable</dt><dd>Name the measurement, analysis, model or other artifact a researcher needs.</dd></div>
-            <div><dt>Verification</dt><dd>Describe the reference, quality checks and conditions that make the result usable.</dd></div>
-          </dl>
-        </section>
-        <section>
-          <header><p class="cc-meta">L2 and L3 · AFE-research</p><h3>Scientific breakthrough</h3></header>
-          <p>Identify a gap in the closest prior work, the claim that fresh evidence could establish and how another group could verify it.</p>
-          <dl class="cc-goal-evidence">
-            <div><dt>L2</dt><dd>Resolve an open scientific question with independently verifiable evidence.</dd></div>
-            <div><dt>L3</dt><dd>Establish the first evidence of a phenomenon, mechanism or principle that changes what the field can explain or predict.</dd></div>
-          </dl>
-        </section>
-      </div>
-    </section>
+function scientificGoals() {
+  const goals = contributionLevels.map(({ level, goal, evidence }) =>
+    `<section class="cc-level-${level}">
+      <header><p class="cc-meta">L${level}</p><h3>${escapeHtml(levelNames[level])}</h3></header>
+      <p>${goal}</p>
+      <dl class="cc-goal-evidence"><dt>Evidence to include</dt><dd>${evidence}</dd></dl>
+    </section>`
+  ).join('');
+  return `<section class="cc-section cc-goal-section" aria-labelledby="cc-goal">
+      <h2 id="cc-goal">What would count as success?</h2>
+      <div class="cc-choices">${goals}</div>
+    </section>`;
+}
 
+export function contribute() {
+  return `<article class="site-frame cc-page cc-contribute">
+    ${folioIntro()}
+    ${scientificGoals()}
     <section class="cc-section cc-section-split cc-submission" id="submit" aria-labelledby="cc-submit">
       <div>
         <h2 id="cc-submit">Prepare your submission</h2>
