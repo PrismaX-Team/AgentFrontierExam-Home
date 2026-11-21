@@ -119,6 +119,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:-.018em}
 .matrix-heading p span[aria-hidden] {padding-inline:.2rem;color:#6e7c71}
 .matrix-viewport {
   --matrix-stub:clamp(8rem,14vw,12.6rem);
+  position:relative;
   overflow-x:auto;scroll-padding-inline-start:var(--matrix-stub);max-width:100%;
   border-block:1px solid #8b9a8e;
   scrollbar-color:#98a79a #e4e8de;
