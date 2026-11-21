@@ -6,6 +6,7 @@
   --link: #24544c;
   --wash: #e8ebe1;
   --navigation-wash: rgb(218 225 211 / .48);
+  --masthead-row: clamp(3.65rem,5.1vw,4.4rem);
   --serif: AFEInstrument, Baskerville, Georgia, serif;
   --display-height: .81;
   --title-spacing: .012em;
@@ -45,7 +46,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 }
 .header-inner {
   display:flex;align-items:center;justify-content:space-between;
-  gap:1.25rem;min-height:clamp(3.65rem,5.1vw,4.4rem);
+  gap:1.25rem;min-height:var(--masthead-row);
 }
 .brand {
   display:inline-flex;align-items:center;flex:none;min-height:2.75rem;
@@ -230,7 +231,8 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
   .brief-figure{max-width:34rem}.related-section li{display:grid;gap:.25rem}
 }
 @media(max-width:31rem) {
-  .header-inner {gap:.65rem;min-height:3.5rem}
+  :root {--masthead-row:3.5rem}
+  .header-inner {gap:.65rem}
   .brand {gap:.32rem}
   .brand-emblem {width:1.4rem}
   .brand-mark {font-size:1.7rem}
