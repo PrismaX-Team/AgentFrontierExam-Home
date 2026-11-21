@@ -26,7 +26,7 @@ h1 {font-size:clamp(3.2rem,6.3vw,6rem);letter-spacing:-.034em}
 h2 {font-size:clamp(2.25rem,3.65vw,3.75rem);letter-spacing:-.029em}
 h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:-.018em}
 /* Keep the original serif and its italic; only the display lettering takes a lower profile. */
-:where(h1,h2,.brand-mark,.brand-edition,.footer-brand,.card-content h3,.task-card h3,.cc-choices h3) {
+:where(h1,h2,.brand-mark,.brand-edition,.footer-brand,.card-content h3,.task-card h3,.cc-choices h3,.cc-expert a) {
   transform:scaleY(var(--display-height));
   transform-origin:left center;
 }

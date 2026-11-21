@@ -181,8 +181,9 @@
 .cc-expert > div { min-width: 0; }
 .cc-expert a {
   display: inline-block;
-  font: 400 clamp(1.35rem, 1.65vw, 1.65rem)/1.12 var(--cc-serif);
-  letter-spacing: -.01em;
+  font: 400 clamp(1.4rem, 1.72vw, 1.7rem)/1.12 var(--cc-serif);
+  padding-block: .12em;
+  margin-block: -.12em;
   text-decoration-color: #97a79a;
   text-underline-offset: .17em;
 }
