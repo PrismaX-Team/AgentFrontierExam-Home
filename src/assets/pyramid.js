@@ -96,18 +96,27 @@
     const cut=state.cut, alpha=isSection ? 1 : clamp(1-cut*1.8);
     if(alpha<.015) return null;
     const [cx,cz]=shape.center, radius=Math.hypot(cx,cz)||1;
-    const pop=state.pops[index], radialGap=.009+pop*mix(.11,.068,cut);
+    const pop=state.pops[index], radialGap=.009;
     const bottom=heights[level-1], top=heights[level], cap=level===3;
+    const half=mix(1-(bottom+top)/2/heights[3],1,isSection?cut:0);
+    const offset=(level-1)*.033+(level>1?state.lift*.195:0);
+    const centerY=mix((bottom+top)*.5+offset,.11,cut)+.022;
+    const resting=cam.rotate(cx*half+cx/radius*radialGap,centerY,cz*half+cz/radius*radialGap);
+    const travel=pop*mix(.25,.16,cut), growth=1+pop*.075;
+    const shift=cam.rotate(cx/radius*travel,pop*(cap?.235:.155),cz/radius*travel);
+    const center3=addScaled(resting,shift,1);
+    const restScreen=cam.project(resting), centerScreen=cam.project(center3);
+    // The matching hit footprint follows the rotation while the glass lifts off it.
+    const hitShift={x:centerScreen.x-restScreen.x*growth,y:centerScreen.y-restScreen.y*growth};
     function ring(rise, bevel=0) {
       const y=mix(bottom,top,rise);
       const half=mix(1-y/heights[3],1,isSection?cut:0);
-      const offset=(level-1)*.033+(level>1?state.lift*.195:0)+pop*.055;
-      const worldY=mix(y+offset, .22*rise+pop*.045,cut)+.022;
+      const worldY=mix(y+offset,.22*rise,cut)+.022;
       return shape.points.map(([u,v],i)=>{
-        const shrink=(cap?1:.987)*(1+pop*.046);
+        const shrink=cap?1:.987;
         const x=(cx+(u-cx)*shrink)*half+shape.inward[i][0]*bevel+cx/radius*radialGap;
         const z=(cz+(v-cz)*shrink)*half+shape.inward[i][1]*bevel+cz/radius*radialGap;
-        return cam.rotate(x,worldY,z);
+        return addScaled(center3,minus(cam.rotate(x,worldY,z),resting),growth);
       });
     }
     const rimWidth=cap ? .010 : .013, rise=.018/(top-bottom);
@@ -129,12 +138,7 @@
       face(cap?[shoulder[i],shoulder[j],neck[i]]:[shoulder[i],shoulder[j],neck[j],neck[i]],'wall',large,exterior);
       if(!cap) face([neck[i],neck[j],lid[j],lid[i]],'bevel',large,exterior);
     });
-    const half=mix(1-(bottom+top)/2/heights[3],1,isSection?cut:0);
-    const anchor=cam.project(cam.rotate(cx*half,mix((bottom+top)*.5,.12,cut),cz*half));
-    const offset=(level-1)*.033+(level>1?state.lift*.195:0)+pop*.055;
-    const centerY=mix((bottom+top)*.5+offset,.11+pop*.045,cut)+.022;
-    const center3=cam.rotate(cx*half+cx/radius*radialGap,centerY,cz*half+cz/radius*radialGap);
-    return {index,level,alpha,pop,faces,foot,center3,anchor};
+    return {index,level,alpha,pop,faces,foot,center3,anchor:centerScreen,growth,hitShift};
   }
 
   function drawPath(ctx, points) {
@@ -304,6 +308,7 @@
   const note = ui('.object-note'), keys = ui('.facet-keys'), motion = ui('.motion');
   let yaw = -.59, view = 0, section = 1, cut = 0, lift = 0, hovered = -1, selected = -1, pointedLevel = 0;
   let paused = reduced.matches, visible = true, width = 0, height = 0, frame = 0, lastTime = 0, hits = [];
+  let mousePoint = null;
   const pops = shapes.map(() => 0);
 
   const buttons = content.map((piece, index) => {
@@ -462,7 +467,7 @@
       facing.sort((a,b)=>a.piece.level-b.piece.level||Number(a.face.exterior)-Number(b.face.exterior));
       for(const {piece,face} of facing) {
         if(cutaway<1) frostFace(ctx,face,piece,cam,frost);
-        if(piece.alpha>.6) hits.push({index:piece.index,points:face.screen});
+        if(piece.alpha>.6) hits.push({piece,points:face.screen});
       }
       if(cutaway>0) pieces.filter(piece=>piece.level===section).forEach(piece=>cutSurface(ctx,piece,cam,cutaway,frost));
     }
@@ -481,6 +486,7 @@
         previousY=labelY;
       });
     }
+    if(mousePoint) updateCanvasHover(mousePoint);
   }
   function resize() {
     const box=canvas.getBoundingClientRect();
@@ -497,7 +503,7 @@
     lastTime=time;
     const speed=reduced.matches?1:1-Math.exp(-dt*12);
     const active=hovered>=0?hovered:selected;
-    const spin=!view && selected<0 && hovered<0 && !pointedLevel && !paused;
+    const spin=!view && !paused;
     if(spin) yaw=(yaw+dt*tau/46)%tau;
     let moving=false;
     function approach(value,target) {
@@ -517,22 +523,32 @@
     const box=canvas.getBoundingClientRect();
     return {x:event.clientX-box.left,y:event.clientY-box.top};
   }
-  function pick(point) {
+  function pick(point, resting=false) {
     for(let i=hits.length-1;i>=0;i--) {
-      if(contains(hits[i].points,point.x,point.y)) return hits[i].index;
+      const {piece,points}=hits[i];
+      const x=resting?point.x*piece.growth+piece.hitShift.x:point.x;
+      const y=resting?point.y*piece.growth+piece.hitShift.y:point.y;
+      if(contains(points,x,y)) return piece.index;
     }
     return -1;
+  }
+  function updateCanvasHover(point, moved=false) {
+    let next=pick(point);
+    if(hovered>=0 && next!==hovered && pick(point,true)===hovered) next=hovered;
+    canvas.style.cursor=next>=0?'pointer':'default';
+    if(next!==hovered || next>=0 && (moved||note.hidden)) previewPiece(next,point);
   }
 
   canvas.addEventListener('pointermove', event => {
     if (event.pointerType === 'touch') return;
-    const point = eventPoint(event), index = pick(point);
-    canvas.style.cursor = index >= 0 ? 'pointer' : 'default';
-    previewPiece(index, point);
+    mousePoint=eventPoint(event);
+    updateCanvasHover(mousePoint,true);
   });
-  canvas.addEventListener('pointerleave', clearPreview);
+  canvas.addEventListener('pointerleave', () => { mousePoint=null;clearPreview(); });
   canvas.addEventListener('click', event => {
-    const index = event.pointerType !== 'touch' && hovered >= 0 ? hovered : pick(eventPoint(event));
+    const point=eventPoint(event);
+    let index=pick(point);
+    if(index<0 && hovered>=0 && pick(point,true)===hovered) index=hovered;
     if (index >= 0) choose(index);
   });
   labels.forEach(button => {
