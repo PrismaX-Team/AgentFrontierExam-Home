@@ -225,3 +225,19 @@
   #taskonomy .facet-keys button { width: 44px; height: 44px; }
   #taskonomy .layer-labels li button, #taskonomy .whole-model { min-height: 44px; }
 }
+@media (max-height:46rem) {
+  #taskonomy[data-view="0"] canvas { max-height:calc(100dvh - var(--masthead-row) - 2rem); }
+  @container scene (max-width:619.99px) {
+    #taskonomy .layer-labels { position:relative; width:auto; margin:0 5.15%; }
+    #taskonomy .layer-labels ol { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 .35rem; margin:0; }
+    #taskonomy .layer-labels li:first-child { grid-column:2; }
+    #taskonomy .layer-labels li::before, #taskonomy .layer-labels li button::before { content:none; }
+    #taskonomy .layer-labels li button { min-height:44px; width:100%; padding:0; gap:4px; }
+    #taskonomy .whole-model { position:absolute; top:0; left:0; min-height:44px; }
+    #taskonomy[data-view="0"] canvas { max-height:calc(100dvh - var(--masthead-row) - 7.5rem); }
+  }
+  @container afe (max-width:660px) {
+    #taskonomy[data-view="0"] .spread { padding-block:10px; gap:4px; }
+    #taskonomy[data-view="0"] canvas { max-height:39dvh; }
+  }
+}
