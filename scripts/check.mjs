@@ -31,8 +31,16 @@ for(const [route,{html}] of pages) {
 const tasks=JSON.parse(await readFile(path.join(project,'src/data/tasks.json'),'utf8'));
 const home=pages.get('/').html;
 const config=JSON.parse(home.match(/<script type="application\/json" data-pyramid-content>([\s\S]*?)<\/script>/)[1]);
-assert.equal(config.pieces.length,12);
-for(const piece of config.pieces) {
+const pieceLevels = [1,1,1,1,1,1,1,2,2,2,2,3];
+assert.equal(config.pieces.length,pieceLevels.length);
+const cardImages = new Map([...home.matchAll(/<img data-task-art="([^"]+)" src="([^"]+)" alt="([^"]+)"/g)].map(hit => [hit[1],hit[2]]));
+assert.equal(cardImages.size,new Set(config.pieces.map(piece=>piece.task?.id).filter(Boolean)).size);
+for(const [index,piece] of config.pieces.entries()) {
+  assert.ok(piece.task, 'Every pyramid piece should lead to an illustrated task');
+  const task=tasks.find(item=>item.id===piece.task.id);
+  assert.ok(task && plates[task.id] && cardImages.has(task.id),`Missing pyramid artwork for ${piece.task.id}`);
+  assert.equal(new URL(cardImages.get(task.id),fake+'/').pathname,'/assets/plates/'+plates[task.id].file);
+  assert.equal(piece.task.related,task.level!==pieceLevels[index],`Incorrect level label for ${task.id}`);
   for(const link of [piece.task?.href,piece.browse.href].filter(Boolean)) {
     const url=new URL(link,fake+'/');assert.ok(pages.has(url.pathname),`Broken pyramid link ${link}`);
     if(url.searchParams.has('workflow'))assert.ok(tasks.some(t=>t.workflow===url.searchParams.get('workflow')));

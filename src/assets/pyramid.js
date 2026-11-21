@@ -340,18 +340,18 @@
 
       ui('.task').hidden = !task;
       if (task) {
-        ui('.task small').textContent = (task.related ? 'Related workflow task' : 'Example task') + ' · ' + task.domain;
-        const link = ui('.task h3 a');
-        link.textContent = task.title;
-        link.href = task.href;
+        ui('.task small').textContent = (task.related ? 'Related workflow' : 'Example task') + ' · ' + task.domain;
+        ui('.task-card').href = task.href;
+        ui('.task h3').textContent = task.title;
         ui('.task p').textContent = task.summary;
+        for (const image of ui('.task-art').children) image.hidden = image.dataset.taskArt !== task.id;
       }
       const evidence = ui('.evidence');
-      evidence.hidden = !!task || !category.evidence;
+      evidence.hidden = !category.evidence;
       evidence.textContent = category.evidence ?? '';
       ui('.browse').textContent = browse.label;
       ui('.browse').href = browse.href;
-      ui('.contribute').hidden = level === 1 || !!task;
+      ui('.contribute').hidden = level === 1 || task?.related === false;
       ui('.live').textContent = category.name + '. ' + (task ? task.title : category.description);
     } else if (animate) {
       ui('.live').textContent = 'Agent Frontier Exam overview';

@@ -1,3 +1,6 @@
+import {plates} from '../data/plates.mjs';
+import {escape} from './layout.mjs';
+
 const workflows = [
   {
     name: 'Literature review',
@@ -34,11 +37,13 @@ const research = [
     name: 'Scientific breakthroughs',
     description: 'Resolve an open scientific question with independently verifiable evidence.',
     evidence: 'State what existing work leaves open and which observation, calculation or proof would settle it.',
+    relatedTask: 'cosmic-ray-propagation',
   },
   {
     name: 'Major scientific breakthroughs',
     description: 'Resolve a question whose answer would change what an entire field can explain or predict.',
     evidence: 'Explain the consequence for the field and how another group could independently establish the result.',
+    relatedTask: 'ecological-recovery-shortfall',
   },
 ];
 
@@ -47,14 +52,15 @@ function catalogueLink(label, params = {}) {
   return { label, href: './tasks/' + (query ? '?' + query : '') };
 }
 
-function reference(task) {
+function reference(task, level) {
   if (!task) return null;
   return {
+    id: task.id,
     title: task.title,
     domain: task.domain,
     summary: task.summary,
     href: './tasks/' + encodeURIComponent(task.id) + '/',
-    related: task.level == null,
+    related: task.level !== level,
   };
 }
 
@@ -67,17 +73,18 @@ function selectFacets(tasks) {
     const sample = candidates.find(task => task.level === 1) ?? candidates.find(task => task.level == null);
     return {
       type: typeIndex,
-      task: reference(sample),
+      task: reference(sample, 1),
       browse: candidates.length ? catalogueLink('Browse this workflow', { workflow: type.name }) : allTasks,
     };
   });
 
   function researchFacets(level, count) {
     const candidates = ordered.filter(task => task.level === level);
+    const related = tasks.find(task => task.id === research[level - 2].relatedTask);
     const browse = candidates.length ? catalogueLink('Browse this level', { level }) : allTasks;
     return Array.from({ length: count }, (_, position) => ({
       type: workflows.length + level - 2,
-      task: reference(candidates.length ? candidates[position % candidates.length] : null),
+      task: reference(candidates.length ? candidates[position % candidates.length] : related, level),
       browse,
     }));
   }
@@ -89,8 +96,15 @@ function selectFacets(tasks) {
 }
 
 export function pyramid(tasks) {
+  const facets = selectFacets(tasks);
+  const cardIds = new Set(facets.pieces.flatMap(piece => piece.task ? [piece.task.id] : []));
+  const pictures = [...cardIds].map(id => {
+    const art = plates[id];
+    if (!art) throw new Error('Missing artwork for pyramid task ' + id);
+    return `<img data-task-art="${escape(id)}" src="/assets/plates/${escape(art.file)}" alt="${escape(art.alt)}" width="720" height="450" loading="lazy" decoding="async" hidden>`;
+  }).join('');
   // Escaping "<" keeps editorial text inside inert script data, including a literal </script>.
-  const config = JSON.stringify(selectFacets(tasks)).replaceAll('<', '\\u003c');
+  const config = JSON.stringify(facets).replaceAll('<', '\\u003c');
   return `<section id="taskonomy" aria-label="Agent Frontier Exam and its scientific task levels">
     <div class="spread">
       <div class="copy">
@@ -103,9 +117,12 @@ export function pyramid(tasks) {
           <h2></h2>
           <p class="definition"></p>
           <article class="task" hidden>
-            <small></small>
-            <h3><a></a></h3>
-            <p></p>
+            <a class="task-card" aria-labelledby="selected-task-title">
+              <span class="task-art">${pictures}</span>
+              <small></small>
+              <h3 id="selected-task-title"></h3>
+              <p></p>
+            </a>
           </article>
           <p class="evidence" hidden></p>
           <div class="detail-links">
