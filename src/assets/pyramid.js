@@ -71,19 +71,20 @@
     });
     return normalize(n);
   }
-  function camera(width,height,yaw,openness,focusLevel,level,lift) {
-    // All three solids keep their slopes and yaw. The nearer layer fills the foreground.
-    const primary=level===focusLevel;
-    const leftOfPair=level===(focusLevel===1?2:1);
-    const pitch=mix(.48,[0,.82,.66,.48][focusLevel],openness);
+  function camera(width,height,yaw,openness,focus,level,lift,legendBeside) {
+    // The three focus weights sum to one as solids trade places in depth.
+    const primary=focus[level];
+    const left=level===1?1-focus[1]:level===2?focus[1]:0;
+    const right=1-primary-left;
+    const pitch=mix(.48,.82*focus[1]+.66*focus[2]+.48*focus[3],openness);
     const sinP=Math.sin(pitch), cosP=Math.cos(pitch), cosA=Math.cos(yaw), sinA=Math.sin(yaw);
     const baseRadius=1-heights[level-1]/heights[3];
     const unit=Math.min(width,1.20*height);
-    const framedSize=primary?[0,.244,.235,.208][level]:[0,.11,.096,.083][level];
-    const assembled=Math.min(width/3.30,height/2.62)*(1-.027*lift);
+    const framedSize=mix([0,.11,.096,.083][level],[0,.244,.235,.208][level],primary);
+    const assembled=Math.min(width/(legendBeside?3.53:3.30),height/2.62)*(1-.027*lift);
     const scale=mix(assembled,unit*framedSize/baseRadius,openness);
-    const x=width*mix(.48,primary?.495:leftOfPair?.266:.705,openness);
-    const y=height*mix(.72,primary?.585:leftOfPair?.211:.155,openness);
+    const x=width*mix(legendBeside?.525:.49,primary*.50+left*(legendBeside?.555:.266)+right*(legendBeside?.84:.705),openness);
+    const y=height*mix(.72,primary*.585+left*.211+right*.155,openness);
     const pivot=openness*((heights[level-1]+heights[level])*.5+.022);
     return {
       scale, x, y, eye:[0,sinP,cosP],
@@ -92,15 +93,15 @@
     };
   }
   function mesh(index, cam, state) {
-    const level=tierOf(index), shape=shapes[index], primary=level===state.focusLevel;
-    const openness=state.openness, mist=primary?0:openness*(state.hoverLevel===level?.40:.64);
+    const level=tierOf(index), shape=shapes[index], primary=state.focus[level];
+    const openness=state.openness, mist=(1-primary)*openness*(state.hoverLevel===level?.40:.64);
     const [cx,cz]=shape.center, radius=Math.hypot(cx,cz)||1;
     const bottom=heights[level-1], top=heights[level], cap=level===3;
     const baseRadius=1-bottom/heights[3], half=1-(bottom+top)/2/heights[3];
     const pop=state.pops[index];
     const spacing=index<3?.16:level===1?.265:level===2?.12:0;
-    const radialGap=.009+(primary?openness*baseRadius*spacing:0);
-    const liftInner=primary && index<3?.26*openness:0;
+    const radialGap=.009+primary*openness*baseRadius*spacing;
+    const liftInner=index<3?.26*openness*primary:0;
     const offset=((level-1)*.033+(level>1?state.lift*.195:0))*(1-openness)+liftInner;
     const centerY=(bottom+top)*.5+offset+.022;
     const resting=cam.rotate(cx*half+cx/radius*radialGap,centerY,cz*half+cz/radius*radialGap);
@@ -297,11 +298,13 @@
   const frost = ctx.createPattern(makeFrostGrain(), 'repeat');
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const levels = ['', 'Scientific workflows', 'Scientific breakthroughs', 'Major scientific breakthroughs'];
   const labels = [...root.querySelectorAll('[data-level]')];
-  const note = ui('.object-note'), keys = ui('.facet-keys'), motion = ui('.motion');
+  const legend = ui('.layer-labels');
+  const workflowName = ui('[data-level="1"] .level-title').textContent;
+  const note = ui('.object-note'), keys = ui('.facet-keys');
   let yaw = -.59, view = 0, focusLevel = 1, openness = 0, lift = 0, hovered = -1, selected = -1, pointedLevel = 0;
-  let paused = reduced.matches, visible = true, width = 0, height = 0, frame = 0, lastTime = 0, hits = [];
+  let visible = true, legendBeside = false, width = 0, height = 0, frame = 0, lastTime = 0, hits = [];
+  const focus = [0,1,0,0];
   let mousePoint = null;
   const pops = shapes.map(() => 0);
 
@@ -337,7 +340,7 @@
       const level = tierOf(selected);
       const { type, task, browse } = content[selected];
       const category = types[type];
-      ui('.level-name').textContent = 'L' + level + ' / ' + (level === 1 ? levels[1] : 'AFE-research');
+      ui('.level-name').textContent = 'L' + level + ' / ' + (level === 1 ? workflowName : 'AFE-research');
       ui('h2').textContent = category.name;
       ui('.definition').textContent = category.description;
 
@@ -367,14 +370,7 @@
         { duration: 220, easing: 'ease-out' });
     }
     root.dataset.view = view;
-    labels.forEach(button => {
-      const level=Number(button.dataset.level);
-      button.hidden=level===view;
-      button.setAttribute('aria-label','L'+level+' · '+levels[level]+(view?' · Reassemble the pyramid':' · Explore this level'));
-    });
-    ui('.assembly-hint').hidden = !view;
-    motion.setAttribute('aria-pressed', String(paused));
-    motion.setAttribute('aria-label', paused ? 'Resume rotation' : 'Pause rotation');
+    labels.forEach(button => button.setAttribute('aria-pressed',String(Number(button.dataset.level)===view)));
     keys.hidden = !view;
     buttons.forEach((button, index) => {
       button.hidden = tierOf(index) !== view;
@@ -384,9 +380,9 @@
 
   function choose(index, keyboard=false) {
     const level=tierOf(index);
-    if(view && level!==view) { reset(keyboard); return; }
     clearPreview();
     if(keyboard) mousePoint=null;
+    if(!view && openness===0) focus.forEach((_,i)=>{focus[i]=Number(i===level);});
     view=focusLevel=level;
     selected = index;
     setCopy(true);
@@ -426,14 +422,11 @@
     if(index<0) {clearPreview();return;}
     const category=types[content[index].type];
     const level=tierOf(index);
-    if(view && level!==view) displayNote('L'+level+' · '+levels[level],'Select to reassemble the pyramid.',point);
-    else displayNote('L'+level+' · '+category.name,category.description,point);
+    displayNote('L'+level+' · '+category.name,category.description,point);
     wake();
   }
-  function previewLevel(level,button) {
-    hovered=-1;pointedLevel=level;
-    const action=view?'Select to reassemble the pyramid.':'Select to bring this layer forward.';
-    displayNote('L'+level+' · '+levels[level],action,buttonPosition(button));
+  function previewLevel(level) {
+    hovered=-1;pointedLevel=level;note.hidden=true;
     wake();
   }
   function clearPreview() {
@@ -445,19 +438,21 @@
   function draw() {
     if(!width||!height) return;
     const tiers=[1,2,3];
-    const cameras=tiers.map(level=>camera(width,height,yaw,openness,focusLevel,level,lift));
+    const cameras=tiers.map(level=>camera(width,height,yaw,openness,focus,level,lift,legendBeside));
     const hoverLevel=pointedLevel || (hovered>=0?tierOf(hovered):0);
-    const state={openness,focusLevel,lift,pops,hoverLevel};
+    const state={openness,focus,lift,pops,hoverLevel};
     const pieces=shapes.map((_,index)=>mesh(index,cameras[tierOf(index)-1],state));
-    const order=openness>.28?[...tiers.filter(level=>level!==focusLevel),focusLevel]:tiers;
+    const order=openness>.28?[...tiers].sort((a,b)=>focus[a]-focus[b]):tiers;
     hits=[];
     ctx.clearRect(0,0,width,height);
     ground(ctx,cameras[0],pieces,clamp(1-openness*2.6));
-    if(openness>0) {
-      const cam=cameras[focusLevel-1], base=heights[focusLevel-1];
+    for(const level of tiers) {
+      const opacity=focus[level]*openness;
+      if(opacity<=0) continue;
+      const cam=cameras[level-1], base=heights[level-1];
       const shadow=cam.project([0,base-.13,0]), size=cam.scale*(1-base/heights[3]);
       softEllipse(ctx,shadow.x+size*.13,shadow.y+size*.23,size*1.32,size*.48,-.08,[
-        [0,rgba([52,75,65],openness*.20)],[.60,rgba([68,83,72],openness*.09)],[1,rgba([85,95,80],0)]
+        [0,rgba([52,75,65],opacity*.20)],[.60,rgba([68,83,72],opacity*.09)],[1,rgba([85,95,80],0)]
       ]);
     }
     for(const level of order) {
@@ -477,24 +472,15 @@
     if(view) {
       pieces.filter(piece=>piece.level===view).forEach(piece=>positionButton(buttons[piece.index],piece.anchor.x,piece.anchor.y));
     }
-    let previousY=-100;
-    labels.filter(button=>!button.hidden).forEach(button=>{
-      const level=Number(button.dataset.level),cam=cameras[level-1],y=[0,.24,.81,1.43][level];
-      const reach=(1-y/heights[3])*(Math.abs(Math.cos(yaw))+Math.abs(Math.sin(yaw)));
-      const labelHeight=y+((level-1)*.033+(level>1?lift*.195:0))*(1-openness);
-      let labelY=cam.project([0,labelHeight,0]).y;
-      if(!view) labelY=Math.max(labelY,previousY+44);
-      positionButton(button,Math.min(width-24,cam.x+cam.scale*reach+20),labelY);
-      previousY=labelY;
-    });
     if(mousePoint) updatePointerPreview();
-    else if(!note.hidden && document.activeElement?.matches('[data-piece]:focus-visible,[data-level]:focus-visible')) {
+    else if(!note.hidden && document.activeElement?.matches('[data-piece]:focus-visible')) {
       positionNote(buttonPosition(document.activeElement));
     }
   }
   function resize() {
     const box=canvas.getBoundingClientRect();
     width=box.width;height=box.height;
+    legendBeside=getComputedStyle(legend).position==='absolute';
     const dpr=Math.min(devicePixelRatio||1,2);
     canvas.width=Math.max(1,Math.round(width*dpr));canvas.height=Math.max(1,Math.round(height*dpr));
     ctx.setTransform(canvas.width/(width||1),0,0,canvas.height/(height||1),0,0);
@@ -506,7 +492,7 @@
     const dt=lastTime?Math.min((time-lastTime)/1000,.1):0;
     lastTime=time;
     const speed=reduced.matches?1:1-Math.exp(-dt*12);
-    const spin=!paused;
+    const spin=!reduced.matches;
     if(spin) yaw=(yaw+dt*tau/mix(46,80,openness))%tau;
     let moving=false;
     function approach(value,target) {
@@ -514,6 +500,7 @@
       moving=true;return mix(value,target,speed);
     }
     openness=approach(openness,view?1:0);
+    for(let level=1;level<=3;level++) focus[level]=approach(focus[level],level===focusLevel?1:0);
     lift=approach(lift,!view&&(pointedLevel===1||(hovered>=0&&tierOf(hovered)===1))?1:0);
     pops.forEach((value,i)=>{
       const raised=i===hovered && (!view || tierOf(i)===view);
@@ -546,17 +533,18 @@
   }
   function updatePointerPreview(moved=false) {
     const control=document.elementFromPoint(mousePoint.clientX,mousePoint.clientY);
-    if(control?.hasAttribute('data-level') && root.contains(control)) {
-      const level=Number(control.dataset.level);
-      if(level!==pointedLevel || note.hidden || moved) previewLevel(level,control);
+    const label=control?.closest('[data-level]');
+    if(label && root.contains(label)) {
+      const level=Number(label.dataset.level);
+      if(level!==pointedLevel || hovered>=0) previewLevel(level);
       return;
     }
     if(control===canvas || keys.contains(control)) {
       const point=eventPoint(mousePoint);
       const next=hoveredAt(point);
-      canvas.style.cursor=next>=0?'pointer':'default';
+      canvas.style.cursor=next>=0 || view?'pointer':'default';
       if(next!==hovered || pointedLevel || next>=0 && (moved||note.hidden)) previewPiece(next,point);
-    } else if(!note.hidden) clearPreview();
+    } else if(pointedLevel || !note.hidden) clearPreview();
   }
 
   function activatePoint(event,fallback=-1) {
@@ -564,6 +552,7 @@
     const hit=event.pointerType==='touch' ? pick(point) : hoveredAt(point);
     const index=hit>=0 ? hit : fallback;
     if(index>=0) choose(index);
+    else if(view) reset();
   }
   const plate=ui('.plate');
   function trackPointer(event) {
@@ -578,26 +567,27 @@
   const representative=[-1,2,7,11];
   labels.forEach(button => {
     const level = Number(button.dataset.level);
-    button.addEventListener('click', event => choose(representative[level],event.detail===0));
+    button.addEventListener('click', event => {
+      if(level===view) return;
+      if(level===0) reset();
+      else choose(representative[level],event.detail===0);
+    });
     button.addEventListener('focus', () => {
       if (button.matches(':focus-visible')) {
         mousePoint=null;
-        previewLevel(level,button);
+        previewLevel(level);
       }
     });
     button.addEventListener('blur', clearPreview);
   });
-  root.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && view) { event.preventDefault();reset(true); }
-  });
-  motion.addEventListener('click', () => {
-    paused = !paused;
-    setCopy();
-    wake();
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && view && (root.contains(event.target) || event.target===document.body)) {
+      event.preventDefault();reset(true);
+    }
   });
   reduced.addEventListener('change', () => {
-    paused = reduced.matches;
-    setCopy();
+    if(reduced.matches) ui('.copy').getAnimations({subtree:true}).forEach(animation=>animation.cancel());
+    lastTime=0;
     wake();
   });
   document.addEventListener('visibilitychange', () => { lastTime = 0; wake(); });

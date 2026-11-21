@@ -151,51 +151,47 @@
 #taskonomy .pyramid-alternative { max-width: 44ch; padding: 1rem 5%; font-size: 16px; }
 #taskonomy .pyramid-alternative dt { margin-top: 1rem; font-weight: 600; }
 #taskonomy .pyramid-alternative dd { margin-inline: 0; color: var(--muted); }
-#taskonomy .plate { position: relative; min-width: 0; width: 100%; overflow: clip; overflow-clip-margin: 2px; }
-#taskonomy[data-view]:not([data-view="0"]) .plate { padding-bottom: 1.25rem; }
-#taskonomy canvas { display: block; width: 100%; aspect-ratio: 1.20; touch-action: pan-y; }
-#taskonomy .layer-labels button, #taskonomy .facet-keys button {
-  position: absolute;
-  min-width: 39px;
-  height: 38px;
-  padding: 0 3px;
-  transform: translate(-50%,-50%);
+#taskonomy .plate { display: grid; position: relative; min-width: 0; width: 100%; container: scene / inline-size; }
+#taskonomy .model-stage { position: relative; overflow: clip; }
+#taskonomy canvas { display: block; width: 100%; aspect-ratio: 1.20; touch-action: pan-y pinch-zoom; }
+#taskonomy .layer-labels { position: absolute; z-index: 1; top: 2%; left: 1%; width: max-content; }
+#taskonomy .layer-labels button { display: flex; align-items: center; padding: 0; text-align: left; color: var(--muted); font-size: 13px; line-height: 1.18; }
+#taskonomy .layer-labels button[aria-pressed="true"] { color: #202b24; font-weight: 600; }
+#taskonomy .layer-labels button:is(:hover,:focus-visible) { color: #214f44; text-decoration: underline; text-underline-offset: .2em; }
+#taskonomy .whole-model { gap: 7px; min-height: 32px; }
+#taskonomy .mini-pyramid { display: inline-block; position: relative; width: 29px; height: 27px; }
+#taskonomy .mini-pyramid i { position: absolute; inset: 0; }
+#taskonomy .mini-pyramid i:first-child, #taskonomy [data-level="1"] { --glass-light: #a1b9ac; --glass-side: #688f81; --glass-top: #cad7ca; }
+#taskonomy .mini-pyramid i:nth-child(2), #taskonomy [data-level="2"] { --glass-light: #adbdc1; --glass-side: #7e929e; --glass-top: #cdd7d6; }
+#taskonomy .mini-pyramid i:last-child, #taskonomy [data-level="3"] { --glass-light: #d8cfb6; --glass-side: #b3a588; }
+#taskonomy .mini-pyramid i, #taskonomy .layer-swatch { background: linear-gradient(90deg,var(--glass-light) 49%,var(--glass-side) 49%); }
+#taskonomy .mini-pyramid i:first-child {
+  clip-path: polygon(16% 55%,49% 67%,83% 55%,99% 77%,49% 97%,1% 77%);
 }
-#taskonomy .layer-labels button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font: 12px/1 ui-monospace, "SFMono-Regular", Consolas, monospace;
-  letter-spacing: .015em;
-  color: #4b5753;
+#taskonomy .mini-pyramid i:nth-child(2) {
+  clip-path: polygon(31% 32%,49% 39%,69% 32%,82% 53%,49% 65%,17% 53%);
 }
-#taskonomy .layer-labels button::before { content: ""; width: 13px; border-top: 1px solid #a5ada7; }
-#taskonomy .layer-labels button:is(:hover,:focus-visible) { color: #173f3e; }
-#taskonomy .layer-labels button:is(:hover,:focus-visible)::before { border-color: currentColor; }
-#taskonomy .facet-keys button { width: 42px; height: 42px; padding: 0; border-radius: 50%; }
+#taskonomy .mini-pyramid i:last-child {
+  clip-path: polygon(49% 1%,68% 30%,49% 37%,32% 30%);
+}
+#taskonomy .layer-labels ol { margin: 0 0 0 14px; list-style: none; padding: 0; }
+#taskonomy .layer-labels li { position: relative; }
+#taskonomy .layer-labels li::before { content: ""; position: absolute; border-left: 1px solid #b9c3b7; inset: 0 auto 0 0; }
+#taskonomy .layer-labels li:last-child::before { bottom: 50%; }
+#taskonomy .layer-labels li button { position: relative; gap: 6px; min-height: 28px; padding-left: 6px; }
+#taskonomy .layer-labels li button::before { content: ""; position: absolute; left: 0; width: 5px; border-top: 1px solid #b9c3b7; }
+#taskonomy .layer-swatch { position: relative; display: inline-block; flex: none; width: 18px; height: 15px; }
+#taskonomy [data-level="1"] .layer-swatch { clip-path: polygon(16% 38%,50% 21%,81% 38%,100% 73%,50% 96%,0 73%); }
+#taskonomy [data-level="2"] .layer-swatch { clip-path: polygon(28% 29%,50% 13%,72% 29%,89% 71%,50% 92%,11% 71%); }
+#taskonomy [data-level="3"] .layer-swatch { clip-path: polygon(49% 3%,86% 72%,49% 93%,13% 72%); }
+#taskonomy .layer-swatch::after { content: ""; position: absolute; inset: 0; background: var(--glass-top,transparent); }
+#taskonomy [data-level="1"] .layer-swatch::after { clip-path: polygon(16% 38%,50% 21%,81% 38%,50% 55%); }
+#taskonomy [data-level="2"] .layer-swatch::after { clip-path: polygon(28% 29%,50% 13%,72% 29%,50% 44%); }
+#taskonomy .level-code { color: #566960; font: 11px/1 ui-monospace, "SFMono-Regular", Consolas, monospace; }
+#taskonomy [data-level="2"] .level-code { color: #536b7a; }
+#taskonomy [data-level="3"] .level-code { color: #746545; }
+#taskonomy .facet-keys button { position: absolute; transform: translate(-50%,-50%); width: 42px; height: 42px; padding: 0; border-radius: 50%; }
 #taskonomy .facet-keys button:focus-visible { outline: 2px solid #164e50; outline-offset: -1px; border-radius: 50%; }
-#taskonomy .assembly-hint {
-  position: absolute;
-  inset: auto 0 0;
-  pointer-events: none;
-  color: var(--muted);
-  font-size: .8125rem;
-  text-align: center;
-}
-#taskonomy .motion {
-  position: absolute;
-  right: 1%;
-  top: 3%;
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  display: grid;
-  place-items: center;
-  color: #5d6560;
-}
-#taskonomy .motion span { width: 7px; height: 10px; border-inline: 2px solid currentColor; }
-#taskonomy .motion[aria-pressed=true] span { width: 0; height: 0; border: 5px solid transparent; border-right: 0; border-left: 8px solid currentColor; }
-#taskonomy .motion:is(:hover,:focus-visible) { color: #1f3b37; }
 #taskonomy .object-note {
   position: absolute;
   z-index: 2;
@@ -211,6 +207,10 @@
 }
 #taskonomy .object-note strong { display: block; margin-bottom: 3px; font-size: 13px; font-weight: 600; color: var(--ink); }
 #taskonomy .live { position: absolute; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
+@container scene (max-width:619.99px) {
+  #taskonomy .layer-labels { position: static; margin: 0 0 0 6%; }
+  #taskonomy .model-stage { grid-row: 1; }
+}
 @container afe (max-width:660px) {
   #taskonomy .spread { display: flex; flex-direction: column; align-items: stretch; min-height: 0; padding: 28px 2% 14px; gap: 12px; }
   #taskonomy .copy { margin-inline: 5.15%; }
@@ -222,5 +222,6 @@
 }
 @media(pointer:coarse) {
   #taskonomy button { min-width: 44px; min-height: 44px; }
-  #taskonomy .facet-keys button, #taskonomy .layer-labels button { width: 44px; height: 44px; }
+  #taskonomy .facet-keys button { width: 44px; height: 44px; }
+  #taskonomy .layer-labels li button, #taskonomy .whole-model { min-height: 44px; }
 }

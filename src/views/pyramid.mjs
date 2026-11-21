@@ -97,6 +97,9 @@ function selectFacets(tasks) {
 
 export function pyramid(tasks) {
   const facets = selectFacets(tasks);
+  const legend = Object.entries(levelNames).map(([level, name]) =>
+    `<li><button type="button" data-level="${level}" aria-controls="type-detail" aria-pressed="false"><span class="layer-swatch" aria-hidden="true"></span><span class="level-code">L${level}</span> <span class="level-title">${escape(name)}</span></button></li>`
+  ).join('');
   const cardIds = new Set(facets.pieces.flatMap(piece => piece.task ? [piece.task.id] : []));
   const pictures = [...cardIds].map(id => {
     const art = plates[id];
@@ -132,22 +135,23 @@ export function pyramid(tasks) {
         </section>
       </div>
       <figure class="plate" aria-label="Explore the scientific task levels" hidden>
-        <canvas aria-label="Three levels of scientific work. Select a layer to bring it forward.">The layer buttons provide keyboard access to this diagram.</canvas>
         <div class="layer-labels" role="group" aria-label="Scientific task levels">
-          <button type="button" data-level="3" aria-controls="type-detail" aria-label="L3 · Major scientific breakthroughs">L3</button>
-          <button type="button" data-level="2" aria-controls="type-detail" aria-label="L2 · Scientific breakthroughs">L2</button>
-          <button type="button" data-level="1" aria-controls="type-detail" aria-label="L1 · Scientific workflows">L1</button>
+          <button class="whole-model" type="button" data-level="0" aria-controls="type-detail" aria-pressed="true">
+            <span class="mini-pyramid" aria-hidden="true"><i></i><i></i><i></i></span>All levels
+          </button>
+          <ol>${legend}</ol>
         </div>
-        <button class="motion" type="button" aria-label="Pause rotation" aria-pressed="false"><span aria-hidden="true"></span></button>
-        <div class="facet-keys" role="group" aria-label="Pieces in the selected layer" hidden></div>
-        <p class="assembly-hint" hidden>Select a faded layer to reassemble.</p>
+        <div class="model-stage">
+          <canvas aria-label="Three levels of scientific work. Select a layer to explore its pieces.">The level buttons provide keyboard access to this diagram.</canvas>
+          <div class="facet-keys" role="group" aria-label="Pieces in the selected layer" hidden></div>
+        </div>
         <figcaption class="object-note" hidden><strong></strong><span></span></figcaption>
       </figure>
       <div class="pyramid-alternative">
         <dl>
-          <dt>L1 · Scientific workflows</dt><dd>Carry out a demanding part of scientific work.</dd>
-          <dt>L2 · Scientific breakthroughs</dt><dd>Resolve an open scientific question.</dd>
-          <dt>L3 · Major scientific breakthroughs</dt><dd>Establish a result with consequences across a field.</dd>
+          <dt>L1 · ${escape(levelNames[1])}</dt><dd>Carry out a demanding part of scientific work.</dd>
+          <dt>L2 · ${escape(levelNames[2])}</dt><dd>${escape(research[0].description)}</dd>
+          <dt>L3 · ${escape(levelNames[3])}</dt><dd>${escape(research[1].description)}</dd>
         </dl>
         <a href="./tasks/">Browse all tasks</a>
       </div>
