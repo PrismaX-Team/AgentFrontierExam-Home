@@ -65,7 +65,7 @@ export function catalogue(tasks) {
     </div>`;
   }).join('\n');
   return `<div class="page-frame site-frame" id="catalogue" data-level-names="${escape(JSON.stringify(levelNames))}">
-    ${catalogueHero(domains,groups)}
+    ${catalogueHero(domains,workflows,groups)}
     <section class="matrix-section" id="activity-matrix" aria-labelledby="matrix-heading">
       <div class="matrix-heading"><h2 id="matrix-heading">Field × activity</h2>
         <p><span data-matrix-total>${taskCount(tasks.length)}</span> <span aria-hidden="true">·</span> ${domains.length} fields <span aria-hidden="true">·</span> ${workflows.length} activities</p></div>

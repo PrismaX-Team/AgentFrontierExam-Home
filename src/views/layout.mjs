@@ -45,7 +45,7 @@ export function page({route, title, description, body, home = false, catalog = f
   </a>`;
   const css = ['pyramid', 'site', ...(community || home ? ['community'] : []), ...(catalog ? ['field-explorer'] : [])]
     .map(name => `<link rel="stylesheet" href="/assets/${name}.css">`).join('\n');
-  const js = ['site', ...(home ? ['pyramid'] : []), ...(catalog ? ['field-explorer','catalog'] : [])]
+  const js = ['site', ...(home ? ['pyramid'] : []), ...(catalog ? ['catalog'] : [])]
     .map(name => `<script src="/assets/${name}.js" defer></script>`).join('\n');
   return relativeUrls(`<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">

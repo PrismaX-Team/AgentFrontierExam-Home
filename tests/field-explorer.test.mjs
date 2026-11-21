@@ -2,29 +2,18 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {catalogue} from '../src/views/catalog.mjs';
 
-test('the script-free field map starts with the most diverse field and links to real matrix groups', () => {
-  const field = 'Earth & ocean';
-  const tasks = [];
-  function add(domain,workflow,n) {
-    for (let i=0;i<n;i++) tasks.push({id:'task-'+tasks.length,title:'Brief '+tasks.length,domain,workflow,summary:''});
-  }
-  add('Physics','Simulation',12);
-  for (const activity of ['Simulation','Mapping','Imaging','Data analysis','Prediction','Measurement']) add(field,activity,1);
-  add(field,'Data analysis',2);
+test('the static network shows each occupied matrix intersection once, across all fields', () => {
+  const pairs = [
+    ['Earth & ocean','Simulation'],['Physics','Simulation'],['Earth & ocean','Data quality'],['Energy','Imaging'],
+    ['Physics','Simulation'],
+  ];
+  const tasks = pairs.map(([domain,workflow],i) => ({id:'task-'+i,title:'Brief '+i,domain,workflow,summary:''}));
   const html = catalogue(tasks);
-  const plot = html.match(/<section class="field-explorer"[\s\S]*?<\/section>/)[0];
-  assert.match(plot,/data-origin-name>Earth &amp; ocean<\/strong>/);
-  assert.match(plot,/data-field-total>8 tasks</);
-  assert.match(plot,/data-activity-total>6 activities</);
-  const links = [...plot.matchAll(/<li><a href="([^"]+)"/g)].map(match=>match[1]);
-  assert.equal(links.length,5);
-  assert.match(links[0],/workflow=Data\+analysis/);
-  for (const link of links) {
-    assert.ok(html.includes('class="matrix-cell" href="'+link+'"'));
-    const href = new URL(link.replaceAll('&amp;','&'),'https://example.invalid/tasks/');
-    assert.equal(href.searchParams.get('domain'),field);
-    assert.ok(html.includes('id="'+href.hash.slice(1)+'"'));
-  }
-  assert.ok(html.includes('id="activity-matrix"'));
-  assert.doesNotMatch(catalogue([]),/class="field-explorer"/);
+  const figure = html.match(/<figure class="field-network">[\s\S]*?<\/figure>/)[0];
+  const edges = [...figure.matchAll(/<path d="M [^"]+"><title>([^<]+)<\/title><\/path>/g)].map(m => m[1]).sort();
+  assert.deepEqual(edges, ['Earth &amp; ocean · Data quality','Earth &amp; ocean · Simulation','Energy · Imaging','Physics · Simulation']);
+  assert.equal((figure.match(/<circle /g) || []).length,6);
+  assert.match(figure, /Dark lines trace Simulation/);
+  assert.doesNotMatch(figure, /<(button|select|a|canvas)\b/);
+  assert.doesNotMatch(catalogue([]), /class="field-network"/);
 });
