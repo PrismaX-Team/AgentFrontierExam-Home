@@ -135,13 +135,13 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .task-matrix tr>:last-child {border-inline-end:0}
 .task-matrix tbody tr:last-child>* {border-bottom:0}
 .task-matrix th {font-family:var(--sans);font-weight:500}
-.task-matrix thead th {padding:.6rem .25rem;background:#e9ede3;color:#354739;text-align:center;vertical-align:bottom;font-size:.84rem;line-height:1.18}
+.task-matrix thead th {padding:.6rem .25rem;background:#e9ede3;color:#354739;text-align:center;vertical-align:middle;font-size:.84rem;line-height:1.18}
 .task-matrix .matrix-stub,.task-matrix th[scope=row] {
   position:sticky;inset-inline-start:0;z-index:1;width:var(--matrix-stub);
-  text-align:left;padding-inline:.68rem;background:#efefe5;color:#293a2f;
+  padding-inline:.68rem;background:#efefe5;color:#293a2f;
 }
 .task-matrix .matrix-stub {background:#e4e9de}
-.task-matrix th[scope=row] {font-size:.9rem;line-height:1.2}
+.task-matrix th[scope=row] {text-align:left;font-size:.9rem;line-height:1.2}
 .task-matrix [data-selected] {background:#cfdbcc;color:#213e31}
 .task-matrix th[scope=row][data-selected] {background:#d6e1d2}
 .matrix-cell,.matrix-zero {display:grid;place-items:center;min-height:2rem;line-height:1.2;text-align:center}
