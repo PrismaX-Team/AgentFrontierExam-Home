@@ -1,5 +1,5 @@
 import {plates} from '../data/plates.mjs';
-import {escape} from './layout.mjs';
+import {escape, levelNames} from './layout.mjs';
 
 const workflows = [
   {
@@ -34,15 +34,15 @@ const workflows = [
 
 const research = [
   {
-    name: 'Scientific breakthroughs',
+    name: levelNames[2],
     description: 'Resolve an open scientific question with independently verifiable evidence.',
     evidence: 'State what existing work leaves open and which observation, calculation or proof would settle it.',
     relatedTask: 'cosmic-ray-propagation',
   },
   {
-    name: 'Major scientific breakthroughs',
-    description: 'Resolve a question whose answer would change what an entire field can explain or predict.',
-    evidence: 'Explain the consequence for the field and how another group could independently establish the result.',
+    name: levelNames[3],
+    description: 'Discover a previously unknown phenomenon or scientific principle and establish evidence that others can verify independently.',
+    evidence: 'Explain what the discovery would let the field predict or investigate for the first time, and how another group could test it.',
     relatedTask: 'ecological-recovery-shortfall',
   },
 ];
