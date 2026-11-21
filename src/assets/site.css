@@ -168,12 +168,15 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .catalog-status p {font-size:.88rem;font-variant-numeric:tabular-nums}
 .catalog-list {padding:0;list-style:none}
 .catalog-row {border-bottom:1px solid var(--line)}
-.catalog-title {display:grid;grid-template-columns:minmax(0,1fr) minmax(10rem,20%);align-items:center;column-gap:clamp(1.4rem,4.2vw,4rem);padding-block:clamp(.95rem,1.6vw,1.4rem);color:var(--ink);text-decoration:none}
-.catalog-copy h3 {max-width:48ch;font-size:clamp(1.55rem,2.05vw,2.04rem);letter-spacing:var(--title-spacing,0);line-height:1.1;text-wrap:pretty;transform:scaleY(var(--display-height,1));transform-origin:left center}
+.catalog-title {display:grid;grid-template-columns:minmax(0,1fr) clamp(4.5rem,7.2vw,6.8rem) minmax(9rem,18%);align-items:center;column-gap:clamp(1.1rem,2.5vw,2.5rem);padding-block:clamp(.95rem,1.6vw,1.4rem);color:var(--ink);text-decoration:none}
+.catalog-copy {grid-area:1/1}
+.catalog-title:not(:has(.catalog-art)) .catalog-copy {grid-column:1/3}
+.catalog-copy h3 {max-width:48ch;font-size:clamp(1.65rem,2.25vw,2.2rem);letter-spacing:var(--title-spacing);line-height:1.1;text-wrap:pretty;transform:scaleY(var(--display-height));transform-origin:left center}
 .catalog-copy p {max-width:77ch;margin-top:.36rem;color:var(--muted);font-size:1rem;line-height:1.43}
 .catalog-title:is(:hover,:focus-visible) h3 {text-decoration:underline;text-underline-offset:.15em;text-decoration-thickness:1px}
-.catalog-meta {display:grid;gap:.16rem;padding-left:1rem;border-left:1px solid var(--line);font-size:.86rem;line-height:1.34;color:var(--muted)}
-.catalog-meta>span:first-child {font-weight:500;color:#354a3d}
+.catalog-art {grid-area:1/2;width:100%;height:auto;aspect-ratio:1.6;object-fit:cover;filter:saturate(.8);outline:1px solid rgb(76 92 79 / .15);outline-offset:-1px}
+.catalog-meta {grid-area:1/3;display:grid;gap:.16rem;padding-left:1rem;border-left:1px solid var(--line);font-size:.86rem;line-height:1.34;color:var(--muted)}
+.catalog-meta>span:first-child {font-weight:600;color:#354a3d}
 .catalog-pager {display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;margin-top:1rem;color:var(--muted);font-size:.92rem;font-variant-numeric:tabular-nums}
 .catalog-pager ol {display:flex;align-items:center;justify-content:center;gap:.22rem;padding:0;list-style:none}
 .catalog-pager a {display:inline-flex;min-height:2.75rem;align-items:center;justify-content:center;color:var(--link);text-decoration:none}
@@ -212,8 +215,12 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
   .site-frame{padding-inline:7%}
   .footer-inner,.invitation{align-items:flex-start;flex-direction:column;gap:1.3rem}
   .section-heading{gap:.55rem 1rem;margin-bottom:1.3rem}
-  .catalog-title{grid-template-columns:1fr;row-gap:.6rem}
-  .catalog-meta{display:flex;align-items:baseline;flex-wrap:wrap;gap:.18rem .65rem;padding:0;border:0}
+  .catalog-title{grid-template-columns:minmax(0,1fr) auto;gap:.5rem .8rem}
+  .catalog-copy{display:contents}
+  .catalog-copy h3{grid-area:1/1/2/-1}.catalog-title:has(.catalog-art) h3{grid-column:1}
+  .catalog-copy p{grid-area:2/1/3/-1;margin-top:0}
+  .catalog-art{grid-area:1/2;width:clamp(3.7rem,16vw,4.6rem)}
+  .catalog-meta{grid-area:3/1/4/-1;display:flex;align-items:baseline;flex-wrap:wrap;gap:.18rem .65rem;padding:0;border:0}
   .catalog-meta>span+span{padding-left:.65rem;border-left:1px solid #b8c2b5}
   .catalog-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
   .catalog-controls .catalog-search{grid-column:1/-1}

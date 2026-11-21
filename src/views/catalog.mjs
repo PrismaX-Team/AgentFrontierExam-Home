@@ -38,9 +38,11 @@ function taskMatrix(domains, workflows, groups) {
 }
 
 function row(task, position) {
+  const art = plates[task.id];
   return `<li class="catalog-row" data-order="${position}" data-domain="${escape(task.domain)}" data-workflow="${escape(task.workflow)}" data-level="${task.level ?? ''}">
     <a class="catalog-title" href="${taskHref(task)}" aria-labelledby="brief-${escape(task.id)}">
       <div class="catalog-copy"><h3 id="brief-${escape(task.id)}">${escape(task.title)}</h3><p>${escape(task.summary)}</p></div>
+      ${art ? `<img class="catalog-art" src="/assets/plates/${escape(art.file)}" alt="" width="112" height="70" loading="lazy" decoding="async">` : ''}
       <div class="catalog-meta"><span><span class="visually-hidden">Field, </span>${escape(task.domain)}</span>
         <span><span class="visually-hidden">Research activity, </span>${escape(task.workflow)}</span></div>
     </a>
