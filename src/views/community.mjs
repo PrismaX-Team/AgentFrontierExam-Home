@@ -55,6 +55,14 @@ const contributionLevels = [
   }
 ];
 
+function contributionLinks() {
+  return `<div class="cc-links">
+    <a class="cc-action" href="#submit">Prepare a submission</a>
+    <a href="/contribute/task-package/">Task package guide</a>
+    <a href="/authorship/">Authorship</a>
+  </div>`;
+}
+
 function folioIntro() {
   const sheets = contributionLevels.map(({ level }) =>
     `<li class="cc-sheet cc-level-${level}"><span class="cc-sheet-code">L${level}</span><span>${escapeHtml(levelNames[level])}</span></li>`
@@ -63,11 +71,7 @@ function folioIntro() {
       <div class="cc-contribute-intro">
         <h1>Contribute a scientific task</h1>
         <p>Set a scientific goal for an agent. Give it the starting materials and say what evidence would convince a colleague that it succeeded.</p>
-        <div class="cc-links">
-          <a class="cc-action" href="#submit">Prepare a submission</a>
-          <a href="/contribute/task-package/">Task package guide</a>
-          <a href="/authorship/">Authorship</a>
-        </div>
+        ${contributionLinks()}
       </div>
       <figure class="cc-folio" aria-labelledby="folio-caption">
         <figcaption id="folio-caption">Choose one scientific level</figcaption>
@@ -75,6 +79,21 @@ function folioIntro() {
         <div class="cc-folder"><span>One task package</span><span>Duanyan ReX</span></div>
       </figure>
     </header>`;
+}
+
+function editorialIntro() {
+  return `<header class="cc-editorial-intro">
+    <h1>Contribute a task from <em>your field</em></h1>
+    <div class="cc-editorial-deck">
+      <div><p>Bring a question from your research. Describe the materials an agent can use, the result you want and how a colleague could decide whether it holds up.</p>
+        ${contributionLinks()}</div>
+      <dl class="cc-editorial-notes" aria-label="Submission details">
+        <div><dt>Format</dt><dd>One Harbor task per ZIP</dd></div>
+        <div><dt>Language</dt><dd>English or Chinese</dd></div>
+        <div><dt>Submit via</dt><dd>Duanyan ReX</dd></div>
+      </dl>
+    </div>
+  </header>`;
 }
 
 function scientificGoals() {
@@ -91,9 +110,10 @@ function scientificGoals() {
     </section>`;
 }
 
-export function contribute() {
-  return `<article class="site-frame cc-page cc-contribute">
-    ${folioIntro()}
+export function contribute(edition = 'folio') {
+  const editorial = edition === 'editorial';
+  return `<article class="site-frame cc-page cc-contribute${editorial ? ' cc-editorial-page' : ''}">
+    ${editorial ? editorialIntro() : folioIntro()}
     ${scientificGoals()}
     <section class="cc-section cc-section-split cc-submission" id="submit" aria-labelledby="cc-submit">
       <div>

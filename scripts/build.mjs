@@ -35,6 +35,7 @@ export async function build() {
     {route:'/tasks/', title:'Tasks', description:'Browse scientific task briefs by field or research activity.', catalog:true, body:catalogue(tasks)},
     ...tasks.map(t=>({route:`/tasks/${t.id}/`,title:t.title,description:t.summary,body:taskPage(t,tasks)})),
     {route:'/contribute/',title:'Contribute a scientific task',description:'Contribute a research workflow or a breakthrough question through Duanyan ReX.',community:true,body:contribute()},
+    {route:'/contribute2/',title:'Contribute a task from your field',description:'Choose a scientific goal, define its evidence and submit a task through Duanyan ReX.',community:true,body:contribute('editorial')},
     {route:'/contribute/task-package/',title:'Task package guide',description:'Read an annotated Harbor example and prepare a scientific task package.',community:true,body:packageGuide()},
     {route:'/authorship/',title:'Authorship',description:'Contributor credit, the role of area chairs, and how to join Agent Frontier Exam.',community:true,body:authorship()},
   ];
