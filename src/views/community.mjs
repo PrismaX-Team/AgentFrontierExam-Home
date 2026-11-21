@@ -1,9 +1,14 @@
 import experts from '../data/experts.json' with { type: 'json' };
+import { plates } from '../data/plates.mjs';
 import { escape as escapeHtml } from './layout.mjs';
 
 const guideUrl = 'https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f';
 const submitUrl = 'https://discovery-home.intern-ai.org.cn/home/event/rex/index.html';
 const communityUrl = 'https://github.com/PrismaX-Team/AgentFrontierExam-Tasks#-contributor-community';
+
+function contributeBreadcrumb(label) {
+  return `<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/contribute/">Contribute</a><span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(label)}</span></nav>`;
+}
 
 function expertProfile(member) {
   const photo = member.portrait
@@ -34,52 +39,81 @@ export function expertise() {
 }
 
 export function contribute() {
+  const m13 = plates['m13-surface-brightness'];
   return `<article class="site-frame cc-page cc-contribute">
-    <header class="cc-hero">
-      <h1>Contribute a scientific task</h1>
-      <p>Bring a question from your field. What decision should an agent make, what should it produce, and what evidence would convince a colleague that it succeeded?</p>
-      <div class="cc-links">
-        <a class="cc-action" href="#submit">Prepare a submission</a>
-        <a href="/contribute/task-package/">Read the task package guide</a>
+    <header class="cc-contribute-hero">
+      <div class="cc-contribute-intro">
+        <h1>Contribute a scientific task</h1>
+        <p>Bring a question from your field, the materials an agent needs, and a way for another researcher to verify the result.</p>
+        <div class="cc-links">
+          <a class="cc-action" href="#submit">Prepare a submission</a>
+          <a href="/contribute/task-package/" aria-label="Read the task package guide">Task package guide</a>
+          <a href="/authorship/">Authorship</a>
+        </div>
       </div>
+      <figure class="cc-dossier">
+        <figcaption><span>Example task package</span><a href="/tasks/m13-surface-brightness/">Measuring the light of M13</a></figcaption>
+        <div class="cc-dossier-image">
+          <img src="/assets/plates/${escapeHtml(m13.file)}" alt="${escapeHtml(m13.alt)}" width="820" height="820">
+          <span class="cc-aperture" aria-hidden="true"></span>
+        </div>
+        <dl class="cc-dossier-steps">
+          <div><dt>Scientific question</dt><dd>How does M13’s light fade from its core?</dd></div>
+          <div><dt>Task package</dt><dd>From <code>m13_optical.fits</code>, return the centre and a 20-bin radial light profile.</dd></div>
+          <div><dt>Independent check</dt><dd>Sum each ring’s original pixel values to check brightness and uncertainty.</dd></div>
+        </dl>
+        <small>Illustrative apertures on a <a href="${escapeHtml(m13.href)}">Hubble image</a> by NASA, ESA and the Hubble Heritage Team (STScI/AURA).</small>
+      </figure>
     </header>
 
     <section class="cc-section" aria-labelledby="cc-goal">
       <h2 id="cc-goal">Choose the scientific goal</h2>
       <div class="cc-choices">
         <section>
-          <p class="cc-meta">L1</p>
-          <h3>Scientific workflow</h3>
-          <p>Describe a demanding piece of scientific work. Show where a researcher has to choose a method, operate a specialist tool or decide whether the evidence is reliable.</p>
-          <p>For example, a crowded star field calls for an extraction recipe that recovers faint stars and separates close pairs. New exposures can show how many stars the recipe finds and how many false detections it introduces.</p>
+          <header><p class="cc-meta">L1</p><h3>Scientific workflow</h3></header>
+          <p>Choose a demanding piece of research. Specify where the agent must make a decision, operate a specialist tool or judge the evidence.</p>
+          <dl class="cc-goal-evidence">
+            <div><dt>Deliverable</dt><dd>Name the measurement, analysis, model or other artifact a researcher needs.</dd></div>
+            <div><dt>Verification</dt><dd>Describe the reference, quality checks and conditions that make the result usable.</dd></div>
+          </dl>
         </section>
         <section>
-          <p class="cc-meta">L2 and L3 · AFE-research</p>
-          <h3>Scientific breakthrough</h3>
-          <p>An L2 task asks for evidence that resolves an open question. An L3 task asks for the first evidence of a phenomenon, mechanism or principle. Identify the closest prior work, how another group could verify the result and what the finding would let the field explain or predict.</p>
-          <p>For example, two physical models may fit the same observations. Ask for a prediction on which they disagree and an independent measurement that could distinguish their explanations.</p>
+          <header><p class="cc-meta">L2 and L3 · AFE-research</p><h3>Scientific breakthrough</h3></header>
+          <p>Identify a gap in the closest prior work, the claim that fresh evidence could establish and how another group could verify it.</p>
+          <dl class="cc-goal-evidence">
+            <div><dt>L2</dt><dd>Resolve an open scientific question with independently verifiable evidence.</dd></div>
+            <div><dt>L3</dt><dd>Establish the first evidence of a phenomenon, mechanism or principle that changes what the field can explain or predict.</dd></div>
+          </dl>
         </section>
       </div>
     </section>
 
-    <section class="cc-section cc-section-split" id="submit" aria-labelledby="cc-submit">
+    <section class="cc-section cc-section-split cc-submission" id="submit" aria-labelledby="cc-submit">
       <div>
         <h2 id="cc-submit">Prepare your submission</h2>
-        <p>Duanyan accepts English and Chinese. Open <span lang="zh-Hans">提交科学问题</span> (Submit a scientific question) when you are ready to upload the package.</p>
+        <p>Submit one ZIP per task in English or Chinese. On Duanyan ReX, open <span lang="zh-Hans">提交科学问题</span> (Submit a scientific question).</p>
         <div class="cc-links"><a class="cc-action" href="${submitUrl}">Submit a task via Duanyan ReX</a></div>
+        <p class="cc-submission-source"><a href="${guideUrl}">Contributor guide and template (Chinese)</a></p>
       </div>
       <dl class="cc-definitions">
         <div><dt>Team and collaboration</dt><dd>Provide a contact for the submitting team. Under <span lang="zh-Hans">合作来源</span> (collaboration source), select <span lang="zh-Hans">学术合作</span> (academic collaboration).</dd></div>
         <div><dt>Proposed level</dt><dd>Use L1 for a scientific workflow, L2 for a verifiable breakthrough or L3 for a foundational discovery. If the level is unclear, choose <span lang="zh-Hans">暂不确定</span> (undecided). Describe the scientific target in your own words so reviewers can confirm the classification.</dd></div>
-        <div><dt>One task per ZIP</dt><dd>Place <code>task_package/</code> at the archive root, alongside any supplementary materials. Identify the inputs, runtime, expected output and success conditions. If some materials are still in preparation, select the corresponding completeness option and say where you would like help.</dd></div>
+        <div><dt>Package contents</dt><dd>Place <code>task_package/</code> at the archive root, alongside any supplementary materials. Identify the inputs, runtime, expected output and success conditions. If some materials are still in preparation, select the corresponding completeness option and say where you would like help.</dd></div>
         <div><dt>Permissions and follow-up</dt><dd>Record access conditions, attribution and redistribution terms. The form asks separately about task execution, use for model improvement and public release. Keep the submitted version so the team can refer to it when discussing review or revisions.</dd></div>
       </dl>
     </section>
 
-    <section class="cc-section cc-section-split" aria-labelledby="cc-participate">
-      <h2 id="cc-participate">Working with the team</h2>
-      <div><p>Participants develop tasks. Area chairs bring researchers together, help classify the work and take part in scientific review. The authorship guide explains how accepted contributions are counted.</p>
-        <div class="cc-links"><a href="/authorship/">Authorship and participation</a><a href="${guideUrl}">Contributor guide and template (Chinese)</a></div>
+    <section class="cc-section cc-section-split cc-participation" id="participation" aria-labelledby="cc-participate">
+      <div>
+        <h2 id="cc-participate">Authorship and participation</h2>
+        <p>Help shape the benchmark by contributing tasks from your field or coordinating scientific review.</p>
+        <div class="cc-links"><a href="/authorship/">Read the authorship guide</a></div>
+      </div>
+      <div class="cc-participation-roles">
+        <section><h3><a href="/authorship/#participants">Participants</a></h3>
+          <p>Participants develop scientific tasks. Three tasks accepted into the benchmark qualify a participant for co-authorship of the AFE paper.</p></section>
+        <section><h3><a href="/authorship/#area-chairs">Area chairs</a></h3>
+          <p>Area chairs recruit at least five participants, help define fields and workflows, and review tasks at project milestones.</p></section>
       </div>
     </section>
   </article>`;
@@ -242,6 +276,7 @@ function fileSection(file) {
 
 export function packageGuide() {
   return `<article class="site-frame cc-page cc-package">
+    ${contributeBreadcrumb('Task package guide')}
     <header class="cc-hero">
       <h1>Task package guide</h1>
       <p>A task package gives an agent a scientific question, an environment to work in and a way to tell whether the result holds up. Follow a North Sea storm-surge forecasting example through the files of a Harbor package.</p>
@@ -276,6 +311,7 @@ export function packageGuide() {
 
 export function authorship() {
   return `<article class="site-frame cc-page cc-authorship">
+    ${contributeBreadcrumb('Authorship')}
     <header class="cc-hero">
       <h1>Authorship and participation</h1>
       <p>Researchers contribute the questions that define Agent Frontier Exam. Participants turn scientific work into tasks. Area chairs bring colleagues together and help review what each task measures.</p>
