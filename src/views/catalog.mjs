@@ -4,8 +4,36 @@ import {plates} from '../data/plates.mjs';
 const order = new Intl.Collator('en', {sensitivity:'base'});
 
 function choices(values) {
-  return [...new Set(values.filter(Boolean))].sort(order.compare)
-    .map(value => `<option value="${escape(value)}">${escape(value)}</option>`).join('');
+  return values.map(value => `<option value="${escape(value)}">${escape(value)}</option>`).join('');
+}
+
+function groupId(field, activity) {
+  const slug = value => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  return `tasks-${slug(field)}--${slug(activity)}`;
+}
+
+function taskCount(count) {
+  return `${count} ${count === 1 ? 'task' : 'tasks'}`;
+}
+
+function taskMatrix(domains, workflows, groups) {
+  const empty = '<span aria-hidden="true">·</span><span class="visually-hidden">0 tasks</span>';
+  const rows = workflows.map(workflow => {
+    const cells = domains.map(domain => {
+      const id = groupId(domain, workflow);
+      const count = groups.get(id)?.length ?? 0;
+      if (!count) return `<td><span class="matrix-zero">${empty}</span></td>`;
+      const query = new URLSearchParams({domain, workflow});
+      return `<td><a class="matrix-cell" href="?${escape(query)}#${id}" data-domain="${escape(domain)}" data-workflow="${escape(workflow)}" aria-label="${escape(taskCount(count) + ' · ' + domain + ' · ' + workflow)}">${count}</a><span class="matrix-zero" hidden>${empty}</span></td>`;
+    }).join('');
+    return `<tr><th scope="row" data-axis-workflow="${escape(workflow)}">${escape(workflow)}</th>${cells}</tr>`;
+  }).join('\n');
+  return `<div class="matrix-viewport" role="region" aria-labelledby="matrix-heading" tabindex="0">
+    <table class="task-matrix" aria-label="Task counts by scientific field and research activity">
+      <thead><tr><th scope="col" class="matrix-stub">Research activity</th>${domains.map(domain => `<th scope="col" data-axis-domain="${escape(domain)}">${escape(domain)}</th>`).join('')}</tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
 }
 
 function row(task) {
@@ -17,22 +45,40 @@ function row(task) {
 
 export function catalogue(tasks) {
   const ordered = [...tasks].sort((a,b)=>order.compare(a.title,b.title));
+  const domains = [...new Set(tasks.map(t=>t.domain))].sort(order.compare);
+  const workflows = [...new Set(tasks.map(t=>t.workflow))].sort(order.compare);
+  const groups = Map.groupBy(ordered, task => groupId(task.domain,task.workflow));
   const assigned = [...new Set(tasks.map(t=>t.level).filter(Boolean))].sort();
   const levelSelect = assigned.length ? `<label><span id="filter-level">Scientific level</span><select name="level" aria-labelledby="filter-level"><option value="">All levels</option>${assigned.map(l=>`<option value="${l}">L${l} · ${levelNames[l]}</option>`).join('')}</select></label>` : '';
-  return `<div class="page-frame site-frame" id="catalogue">
-    <header class="page-intro"><h1>Tasks</h1><p>Find a scientific task by field or research activity. Each brief describes the starting materials, the work an agent must deliver and the evidence used to assess it.</p></header>
+  const taskGroups = [...groups].map(([id, entries]) => {
+    const {domain,workflow} = entries[0];
+    return `<div class="catalog-group" id="${id}">
+      <div class="matrix-native-result"><p><strong>${escape(domain)} · ${escape(workflow)}</strong><br>${taskCount(entries.length)}</p><a class="text-link" href="?#activity-matrix">Clear selection</a></div>
+      <ul class="catalog-list" aria-label="${escape(domain + ' · ' + workflow)}">${entries.map(row).join('\n')}</ul>
+    </div>`;
+  }).join('\n');
+  return `<div class="page-frame site-frame" id="catalogue" data-level-names="${escape(JSON.stringify(levelNames))}">
+    <header class="catalog-intro"><div><h1>Tasks</h1><p>Each brief sets out what the agent receives, what it must produce and how researchers assess the result.</p></div>
+      <a class="text-link" href="#task-directory">Browse task briefs</a></header>
+    <section class="matrix-section" id="activity-matrix" aria-labelledby="matrix-heading">
+      <div class="matrix-heading"><h2 id="matrix-heading">Field × activity</h2>
+        <p><span data-matrix-total>${taskCount(tasks.length)}</span> <span aria-hidden="true">·</span> ${domains.length} fields <span aria-hidden="true">·</span> ${workflows.length} activities</p></div>
+      ${taskMatrix(domains,workflows,groups)}
+    </section>
+    <section class="catalog-directory" id="task-directory" aria-labelledby="directory-heading">
+    <div class="directory-heading"><h2 id="directory-heading" tabindex="-1">Task briefs</h2><a class="text-link" href="#activity-matrix">Back to matrix</a></div>
     <form class="catalog-controls" role="search" aria-label="Filter tasks" method="get" action="/tasks/" hidden>
       <label class="catalog-search">Search tasks<input type="search" name="q" placeholder="Title, field or research activity" autocomplete="off"></label>
-      <label><span id="filter-field">Field</span><select name="domain" aria-labelledby="filter-field"><option value="">All fields</option>${choices(tasks.map(t=>t.domain))}</select></label>
-      <label><span id="filter-activity">Research activity</span><select name="workflow" aria-labelledby="filter-activity"><option value="">All activities</option>${choices(tasks.map(t=>t.workflow))}</select></label>
+      <label><span id="filter-field">Field</span><select name="domain" aria-labelledby="filter-field"><option value="">All fields</option>${choices(domains)}</select></label>
+      <label><span id="filter-activity">Research activity</span><select name="workflow" aria-labelledby="filter-activity"><option value="">All activities</option>${choices(workflows)}</select></label>
       ${levelSelect}<button type="submit" class="visually-hidden">Apply filters</button>
     </form>
     <div class="catalog-status"><p aria-live="polite" aria-atomic="true" data-results>${tasks.length} tasks</p>
       <a class="text-link" data-clear href="/tasks/" hidden>Clear filters</a></div>
     <div class="catalog-columns" aria-hidden="true"><span>Task</span><span>Field</span><span>Research activity</span></div>
-    <ul class="catalog-list">${ordered.map(row).join('\n')}</ul>
+    ${taskGroups}
     <section class="catalog-empty" hidden><h2></h2><p></p><a class="text-link" href="/tasks/" data-clear>Explore all tasks</a></section>
-  </div>`;
+    </section></div>`;
 }
 
 function fact(label, content) {
