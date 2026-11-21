@@ -28,8 +28,8 @@
   max-width: 1500px;
   margin-inline: auto;
   background-color: var(--paper);
-  background-image: var(--paper-grain, none);
-  background-size: 256px 256px;
+  background-image: radial-gradient(ellipse closest-side at 72% 53%, rgb(134 159 134 / .27), rgb(174 190 157 / .15) 61%, transparent), var(--paper-grain, none);
+  background-size: 100% 100%, 256px 256px;
   color: var(--ink);
   color-scheme: light;
   font: 16px/1.5 "Helvetica Neue", Arial, sans-serif;
@@ -37,6 +37,20 @@
   -webkit-font-smoothing: antialiased;
 }
 #taskonomy *, #taskonomy { box-sizing: border-box; }
+#taskonomy .model-stage { isolation: isolate; }
+#taskonomy .model-stage::before {
+  --ruling: clamp(23px, 2.8cqi, 40px);
+  --pencil: rgb(71 94 78 / .22);
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 36% -1% 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(23deg, transparent 0 calc(var(--ruling) - 1.2px), var(--pencil) calc(var(--ruling) - .6px), transparent var(--ruling)),
+    repeating-linear-gradient(-23deg, transparent 0 calc(var(--ruling) - 1.2px), var(--pencil) calc(var(--ruling) - .6px), transparent var(--ruling));
+  mask-image: radial-gradient(ellipse closest-side, #000 42%, rgb(0 0 0 / .75) 72%, transparent);
+}
 #taskonomy [hidden] { display: none !important; }
 #taskonomy :is(h1,h2,h3,p,figure) { margin: 0; }
 #taskonomy button {
