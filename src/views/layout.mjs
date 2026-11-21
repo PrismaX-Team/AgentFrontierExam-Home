@@ -30,12 +30,18 @@ function relativeUrls(html, route) {
   });
 }
 
-function navLink(url, label, current) {
-  return `<a href="${url}"${current ? ' aria-current="page"' : ''}>${label}</a>`;
+function navLink(route, url, label, accessibleName) {
+  const position = route === url ? 'page' : 'location';
+  const current = route.startsWith(url) ? ` aria-current="${position}"` : '';
+  const name = accessibleName ? ` aria-label="${accessibleName}"` : '';
+  return `<a href="${url}"${current}${name}>${label}</a>`;
 }
 
 export function page({route, title, description, body, home = false, catalog = false, community = false}) {
-  const brand = `<a class="brand" href="/" aria-label="Agent Frontier Exam home"><span class="brand-mark">AFE</span><span class="brand-name">Taskonomy</span></a>`;
+  const brand = `<a class="brand" href="/" aria-label="Agent Frontier Exam home, AFE Taskonomy"${home ? ' aria-current="page"' : ''}>
+    <span class="brand-mark" aria-hidden="true">AFE</span>
+    <span class="brand-signature" aria-hidden="true"><span class="brand-name">Agent Frontier Exam</span><span class="brand-edition">Taskonomy</span></span>
+  </a>`;
   const css = ['pyramid', 'site', ...(community || home ? ['community'] : [])]
     .map(name => `<link rel="stylesheet" href="/assets/${name}.css">`).join('\n');
   const js = ['site', ...(home ? ['pyramid'] : []), ...(catalog ? ['catalog'] : [])]
@@ -49,7 +55,7 @@ ${js}</head>
 <body id="top">
 <a class="skip-link" href="#main-content">Skip to content</a>
 <header class="site-header"><div class="site-frame header-inner">${brand}
-<nav aria-label="Main navigation">${navLink('/tasks/', 'Tasks', route === '/tasks/')}${navLink('/contribute/', 'Contribute', route === '/contribute/')}</nav></div></header>
+<nav aria-label="Main navigation">${navLink(route, '/tasks/', 'Tasks')}${navLink(route, '/contribute/', 'Contribute')}${navLink(route, '/authorship/', 'Authorship', 'Authorship and participation')}</nav></div></header>
 <main id="main-content">${body}</main>
 <footer class="site-footer"><div class="site-frame footer-inner">
 <a class="footer-brand" href="/">Agent Frontier Exam</a>
