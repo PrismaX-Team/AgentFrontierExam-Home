@@ -85,8 +85,8 @@ function fact(label, content) {
   return `<div><dt>${label}</dt><dd>${content}</dd></div>`;
 }
 
-function briefSection(title, text) {
-  return text ? `<section class="brief-section"><h2>${title}</h2><p>${escape(text)}</p></section>` : '';
+function briefSection(title, text, id) {
+  return text ? `<section class="brief-section"${id ? ` id="${id}"` : ''}><h2>${title}</h2><p>${escape(text)}</p></section>` : '';
 }
 
 function taskFigure(task) {
@@ -111,7 +111,7 @@ export function taskPage(task, tasks) {
     <div class="brief-heading${plates[task.id] ? ' with-figure' : ''}"><header>
       <p class="eyeline">${escape(task.workflow)}</p><h1>${escape(task.title)}</h1><p class="brief-lede">${escape(task.summary)}</p></header>${taskFigure(task)}</div>
     <div class="brief-body"><dl class="brief-facts">${facts}</dl>
-      <div class="brief-reading">${briefSection('Starting materials',task.input)}${briefSection('What the agent delivers',task.deliverable)}${briefSection('How success is assessed',task.evidence)}${briefSection('Scientific significance',task.significance)}</div>
+      <div class="brief-reading">${briefSection('Starting materials',task.input)}${briefSection('What the agent delivers',task.deliverable)}${briefSection('How success is assessed',task.evidence,'assessment')}${briefSection('Scientific significance',task.significance)}</div>
     </div>
     <section class="related-section"><div class="section-heading"><h2>${related.length ? 'Related tasks' : 'Explore the collection'}</h2>
     <a class="text-link" href="/tasks/">Browse all tasks</a></div>${related.length ? `<ul>${related.map(r=>`<li><a href="${taskHref(r)}">${escape(r.title)}</a><span>${escape(r.workflow)}</span></li>`).join('')}</ul>` : ''}</section>
