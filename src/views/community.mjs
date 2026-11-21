@@ -52,7 +52,7 @@ export function contribute() {
         <section>
           <p class="cc-meta">L2 and L3 · AFE-research</p>
           <h3>Scientific breakthrough</h3>
-          <p>Identify an open question and the closest prior work. State what a successful result would establish and how another researcher could verify it. For L3, explain its wider significance for the field.</p>
+          <p>An L2 task asks for evidence that resolves an open question. An L3 task asks for the first evidence of a phenomenon, mechanism or principle. Identify the closest prior work, how another group could verify the result and what the finding would let the field explain or predict.</p>
           <p>For example, two physical models may fit the same observations. Ask for a prediction on which they disagree and an independent measurement that could distinguish their explanations.</p>
         </section>
       </div>
@@ -66,7 +66,7 @@ export function contribute() {
       </div>
       <dl class="cc-definitions">
         <div><dt>Team and collaboration</dt><dd>Provide a contact for the submitting team. Under <span lang="zh-Hans">合作来源</span> (collaboration source), select <span lang="zh-Hans">学术合作</span> (academic collaboration).</dd></div>
-        <div><dt>Proposed level</dt><dd>Use L1 for a scientific workflow, L2 for a verifiable breakthrough or L3 for a major breakthrough. If the level is unclear, choose <span lang="zh-Hans">暂不确定</span> (undecided). Include the scientific target in your own words so reviewers can confirm the classification.</dd></div>
+        <div><dt>Proposed level</dt><dd>Use L1 for a scientific workflow, L2 for a verifiable breakthrough or L3 for a foundational discovery. If the level is unclear, choose <span lang="zh-Hans">暂不确定</span> (undecided). Describe the scientific target in your own words so reviewers can confirm the classification.</dd></div>
         <div><dt>One task per ZIP</dt><dd>Place <code>task_package/</code> at the archive root, alongside any supplementary materials. Identify the inputs, runtime, expected output and success conditions. If some materials are still in preparation, select the corresponding completeness option and say where you would like help.</dd></div>
         <div><dt>Permissions and follow-up</dt><dd>Record access conditions, attribution and redistribution terms. The form asks separately about task execution, use for model improvement and public release. Keep the submitted version so the team can refer to it when discussing review or revisions.</dd></div>
       </dl>

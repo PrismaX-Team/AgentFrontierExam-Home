@@ -15,7 +15,7 @@ export function filteredHref(key, value) {
 export const levelNames = {
   1: 'Scientific workflows',
   2: 'Scientific breakthroughs',
-  3: 'Major scientific breakthroughs',
+  3: 'Foundational discoveries',
 };
 
 // Every generated document can be served from a domain root or a subdirectory.
