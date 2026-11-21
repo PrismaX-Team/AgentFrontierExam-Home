@@ -38,9 +38,8 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:-.018em}
 .skip-link:focus {transform:none}
 .site-header {
   --mast-ink:#253d33;
-  border-top:2px solid #42594b;
-  border-bottom:1px solid #b4bfb0;
-  background:rgba(212,224,207,.44);
+  border-bottom:1px solid #bdc5b8;
+  background:rgba(218,225,211,.48);
 }
 .header-inner {
   display:flex;align-items:center;justify-content:space-between;
