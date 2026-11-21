@@ -6,7 +6,8 @@
   --link: #24544c;
   --wash: #e8ebe1;
   --serif: AFEInstrument, Baskerville, Georgia, serif;
-  --display-height: .87;
+  --display-height: .81;
+  --title-spacing: .012em;
   --sans: "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, "SFMono-Regular", Consolas, monospace;
   color-scheme: light;
@@ -22,9 +23,9 @@ a:hover {text-decoration-thickness:2px}
 h1,h2,h3,p,ul,ol,dl,dd,figure {margin:0}
 img {max-width:100%;display:block}
 h1,h2,h3 {font-family:var(--serif);font-weight:400;line-height:1.04;color:var(--ink)}
-h1 {font-size:clamp(3.2rem,6.3vw,6rem);letter-spacing:-.034em}
-h2 {font-size:clamp(2.25rem,3.65vw,3.75rem);letter-spacing:-.029em}
-h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:-.018em}
+h1 {font-size:clamp(3.2rem,6.3vw,6rem);letter-spacing:var(--title-spacing)}
+h2 {font-size:clamp(2.25rem,3.65vw,3.75rem);letter-spacing:var(--title-spacing)}
+h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 /* Keep the original serif and its italic; only the display lettering takes a lower profile. */
 :where(h1,h2,.brand-mark,.brand-edition,.footer-brand,.card-content h3,.task-card h3,.cc-choices h3,.cc-expert a) {
   transform:scaleY(var(--display-height));
@@ -51,15 +52,15 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:-.018em}
 }
 .brand-mark {
   font:400 clamp(2.6rem,3.75vw,3.55rem)/.87 var(--serif);
-  letter-spacing:-.035em;padding-inline-end:.035em;
-  --display-height:.82;
+  letter-spacing:.03em;
+  --display-height:.75;
 }
 .brand-signature {
   display:grid;align-content:center;gap:.16rem;
   padding-inline-start:clamp(.65rem,1.05vw,1rem);border-inline-start:1px solid #9ba99c;
 }
 .brand-name {font:600 .825rem/1.12 var(--sans);letter-spacing:.012em}
-.brand-edition {font:italic 400 1.17rem/1 var(--serif);color:#455b4e}
+.brand-edition {font:italic 400 1.17rem/1 var(--serif);letter-spacing:.017em;color:#455b4e}
 .brand:hover .brand-name {text-decoration:underline;text-underline-offset:.2em;text-decoration-thickness:1px}
 .header-inner nav {align-self:stretch;display:flex;gap:clamp(1rem,2.6vw,2.65rem)}
 .header-inner nav a {
@@ -79,7 +80,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:-.018em}
 .footer-inner nav a:hover {color:var(--ink);text-decoration:underline;text-underline-offset:.34em}
 .site-footer {border-top:1px solid var(--line)}
 .footer-inner {display:flex;justify-content:space-between;align-items:baseline;gap:2rem;padding-block:2.3rem 3rem}
-.footer-brand {font:400 1.7rem/1.05 var(--serif);text-decoration:none;letter-spacing:-.035em;color:var(--ink)}
+.footer-brand {font:400 1.7rem/1.05 var(--serif);text-decoration:none;letter-spacing:var(--title-spacing);color:var(--ink)}
 .footer-inner nav {column-gap:1.5rem;row-gap:.35rem}
 .site-footer nav a {font-size:.875rem}
 .eyeline {font:500 .78rem/1.45 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
@@ -164,7 +165,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:-.018em}
 .catalog-list {padding:0;list-style:none}
 .catalog-row {align-items:baseline;padding:clamp(1rem,2vw,1.65rem) 0;border-bottom:1px solid var(--line)}
 .catalog-title {display:block;color:var(--ink);text-decoration:none}
-.catalog-title h2 {font-size:clamp(1.65rem,2.35vw,2.4rem);letter-spacing:-.018em}
+.catalog-title h2 {font-size:clamp(1.65rem,2.35vw,2.4rem);letter-spacing:var(--title-spacing)}
 .catalog-title p {color:var(--muted);font-size:1rem;line-height:1.42;margin-top:.42rem;max-width:68ch}
 .catalog-title:is(:hover,:focus-visible) h2 {text-decoration:underline;text-underline-offset:.14em;text-decoration-thickness:1px}
 .row-field {font-size:.94rem;color:var(--muted)}
