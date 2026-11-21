@@ -29,7 +29,7 @@ h1 {font-size:clamp(3.2rem,6.3vw,6rem);letter-spacing:var(--title-spacing)}
 h2 {font-size:clamp(2.25rem,3.65vw,3.75rem);letter-spacing:var(--title-spacing)}
 h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 /* Keep the original serif and its italic; only the display lettering takes a lower profile. */
-:where(h1,h2,.brand-mark,.brand-edition,.footer-brand,.card-content h3,.task-card h3,.cc-choices h3,.cc-expert a) {
+:where(h1,h2,.brand-mark,.brand-edition,.card-content h3,.task-card h3,.cc-choices h3,.cc-expert a) {
   transform:scaleY(var(--display-height));
   transform-origin:left center;
 }
@@ -78,15 +78,27 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .header-inner nav a:is(:hover,[aria-current]) {color:var(--mast-ink)}
 .header-inner nav a:is(:hover,[aria-current])::after {opacity:1}
 .header-inner nav a:focus-visible {outline-offset:-3px}
-.footer-inner nav {display:flex;align-items:baseline;gap:clamp(2rem,4vw,4.5rem)}
-.footer-inner nav a {padding:.2rem 0;color:var(--ink);text-decoration:none;font-size:.94rem;font-weight:550}
-.footer-inner nav a:hover {color:var(--ink);text-decoration:underline;text-underline-offset:.34em}
 .site-footer {border-top:1px solid #bdc5b8;background-color:var(--navigation-wash)}
-.footer-inner {display:flex;justify-content:space-between;align-items:baseline;gap:2rem;padding-block:clamp(1.5rem,3vw,2.6rem)}
-.footer-brand {font:400 1.7rem/1.05 var(--serif);text-decoration:none;letter-spacing:var(--title-spacing);color:var(--ink)}
-.footer-contributions ul {margin-top:.45rem;padding:0;list-style:none}
-.footer-contributions li + li {margin-top:.22rem}
-.footer-contributions li a {color:var(--muted);font-size:.875rem;font-weight:400}
+.footer-inner,.footer-partners,.footer-resources {display:flex;align-items:center;flex-wrap:wrap}
+.footer-inner {justify-content:space-between;gap:.25rem 2rem;padding-block:clamp(.6rem,1.25vw,1.15rem)}
+.footer-partners {gap:clamp(1rem,1.8vw,1.8rem)}
+.footer-partners a {display:flex;align-items:center;min-height:44px}
+.footer-partners img {height:auto}
+.partner-lab {width:clamp(9.6rem,17.6vw,13.5rem)}
+.partner-duanyan {width:clamp(5.65rem,8.4vw,6.9rem)}
+.footer-resources {gap:0 clamp(.9rem,1.65vw,1.7rem)}
+.footer-resources :is(a,button) {
+  display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;
+  background:none;font:500 .89rem/1.25 var(--sans);color:#384e43;text-decoration:none;cursor:pointer;
+}
+.footer-resources :is(a,button):hover {text-decoration:underline;text-underline-offset:.23em}
+.footer-citation {min-inline-size:5.3rem}
+.footer-citation button::before {
+  content:"";width:.59rem;height:.68rem;margin:0 .43rem .1rem .12rem;border:1px solid currentColor;
+  border-radius:1px;box-shadow:-2px 2px 0 -1px var(--paper),-2px 2px currentColor;
+}
+.footer-resources .footer-contact {padding-inline-start:clamp(.9rem,1.65vw,1.7rem);position:relative;font-weight:400}
+.footer-contact::before {content:"";position:absolute;inset-inline-start:0;height:1rem;border-inline-start:1px solid #aab9aa}
 .eyeline {font:500 .78rem/1.45 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .section-heading {display:flex;align-items:baseline;justify-content:space-between;gap:1rem 2.2rem;flex-wrap:wrap;margin-bottom:1.8rem}
 .text-link {color:var(--link);font-size:.96rem;text-decoration:underline;text-underline-offset:.27em}
@@ -215,7 +227,8 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 @media(max-width:1000px){.showcase-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:2rem 1.4rem}.card-content h3{font-size:1.95rem}.card-summary{max-width:52ch}}
 @media(max-width:700px){
   .site-frame{padding-inline:7%}
-  .footer-inner,.invitation{align-items:flex-start;flex-direction:column;gap:1.3rem}
+  .invitation{align-items:flex-start;flex-direction:column;gap:1.3rem}
+  .footer-inner {align-items:flex-start;flex-direction:column}
   .section-heading{gap:.55rem 1rem;margin-bottom:1.3rem}
   .catalog-title{grid-template-columns:minmax(0,1fr) auto;gap:.5rem .8rem}
   .catalog-copy{display:contents}
@@ -249,6 +262,9 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
   .catalog-pager:has(ol li:nth-child(4)) ol {grid-area:1/1/2/3;gap:0}
   .catalog-pager:has(ol li:nth-child(4)) .page-step {justify-self:start}
   .catalog-pager:has(ol li:nth-child(4)) .page-step:last-child {justify-self:end}
-  .footer-inner{padding-bottom:2rem}.page-intro p{margin-top:.8rem}
+  .footer-resources {column-gap:.95rem}
+  .footer-resources .footer-contact {padding:0}
+  .footer-contact::before {content:none}
+  .page-intro p{margin-top:.8rem}
 }
 @media(prefers-reduced-motion:reduce){.card-plate img{transition:none}}

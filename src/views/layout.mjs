@@ -1,4 +1,5 @@
 import path from 'node:path';
+import {footer} from './footer.mjs';
 
 export function escape(value) {
   return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
@@ -58,12 +59,6 @@ ${js}</head>
 <header class="site-header"><div class="site-frame header-inner">${brand}
 <nav aria-label="Main navigation">${navLink(route, '/tasks/', 'Tasks')}${navLink(route, '/contribute/', 'Contribute', ['/authorship/'])}</nav></div></header>
 <main id="main-content">${body}</main>
-<footer class="site-footer"><div class="site-frame footer-inner">
-<a class="footer-brand" href="/">Agent Frontier Exam</a>
-<nav aria-label="Footer navigation"><a href="/tasks/">Tasks</a>
-  <div class="footer-contributions"><a href="/contribute/">Contribute</a>
-    <ul><li><a href="/contribute/task-package/">Task package guide</a></li><li><a href="/authorship/">Authorship</a></li></ul>
-  </div></nav>
-</div></footer>
+${footer()}
 </body></html>\n`, route);
 }
