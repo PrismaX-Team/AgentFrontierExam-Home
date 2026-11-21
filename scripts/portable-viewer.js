@@ -46,6 +46,9 @@
     for(const img of doc.querySelectorAll('img[src]')) {
       img.setAttribute('src',archive.images[asset(img.getAttribute('src'))]);
     }
+    for(const icon of doc.querySelectorAll('link[rel="icon"]')) {
+      icon.setAttribute('href',archive.images[asset(icon.getAttribute('href'))]);
+    }
     const install=doc.createElement('script');
     install.textContent='('+bridge.toString()+')('+JSON.stringify(url.pathname+url.search+url.hash).replaceAll('<','\\u003c')+','+JSON.stringify(origin)+')';
     doc.body.append(install);

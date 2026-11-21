@@ -49,10 +49,11 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 }
 .brand {
   display:inline-flex;align-items:center;flex:none;min-height:2.75rem;
-  gap:clamp(.65rem,1.05vw,1rem);color:var(--mast-ink);text-decoration:none;
+  gap:clamp(.35rem,.65vw,.6rem);color:var(--mast-ink);text-decoration:none;
 }
+.brand-emblem {width:clamp(1.55rem,2.2vw,2.04rem);height:auto;flex:none}
 .brand-mark {
-  font:400 clamp(2.6rem,3.75vw,3.55rem)/.87 var(--serif);
+  font:400 clamp(1.95rem,2.45vw,2.35rem)/.87 var(--serif);
   letter-spacing:.03em;
   --display-height:.75;
 }
@@ -230,8 +231,9 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 }
 @media(max-width:31rem) {
   .header-inner {gap:.65rem;min-height:3.5rem}
-  .brand {gap:.5rem}
-  .brand-mark {font-size:2.35rem}
+  .brand {gap:.32rem}
+  .brand-emblem {width:1.4rem}
+  .brand-mark {font-size:1.7rem}
   .brand-signature {gap:.1rem;padding-inline-start:.5rem}
   .brand-name {font-size:.74rem}
   .brand-edition {font-size:1rem}

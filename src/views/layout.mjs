@@ -38,6 +38,7 @@ function navLink(route, url, label, relatedRoutes = []) {
 
 export function page({route, title, description, body, home = false, catalog = false, community = false}) {
   const brand = `<a class="brand" href="/" aria-label="Agent Frontier Exam home, AFE Taskonomy"${home ? ' aria-current="page"' : ''}>
+    <img class="brand-emblem" src="/assets/afe-mark.svg" alt="" width="32" height="32">
     <span class="brand-mark" aria-hidden="true">AFE</span>
     <span class="brand-signature" aria-hidden="true"><span class="brand-name">Agent Frontier Exam</span><span class="brand-edition">Taskonomy</span></span>
   </a>`;
@@ -49,6 +50,7 @@ export function page({route, title, description, body, home = false, catalog = f
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f6f4ed"><meta name="description" content="${escape(description)}">
 <title>${escape(home ? 'Agent Frontier Exam' : title + ' · Agent Frontier Exam')}</title>
+<link rel="icon" type="image/svg+xml" href="/assets/afe-mark.svg">
 ${css}
 ${js}</head>
 <body id="top">

@@ -3,7 +3,7 @@ import path from 'node:path';
 import {readFile,stat} from 'node:fs/promises';
 import {build,output} from './build.mjs';
 
-const type={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webp':'image/webp','.jpg':'image/jpeg','.png':'image/png','.woff':'font/woff','.txt':'text/plain; charset=utf-8'};
+const type={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webp':'image/webp','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml','.woff':'font/woff','.txt':'text/plain; charset=utf-8'};
 const args=process.argv.slice(2);
 function option(name,fallback){const i=args.indexOf(name);return i<0?fallback:args[i+1];}
 const host=option('--host','127.0.0.1'),port=Number(option('--port',4173));
