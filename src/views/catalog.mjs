@@ -36,15 +36,19 @@ function taskMatrix(domains, workflows, groups) {
   </div>`;
 }
 
-function row(task) {
-  return `<li class="catalog-row" data-domain="${escape(task.domain)}" data-workflow="${escape(task.workflow)}" data-level="${task.level ?? ''}">
-    <a class="catalog-title" href="${taskHref(task)}"><h2>${escape(task.title)}</h2><p>${escape(task.summary)}</p></a>
-    <span class="row-field">${escape(task.domain)}</span><span class="row-field">${escape(task.workflow)}</span>
+function row(task, position) {
+  return `<li class="catalog-row" data-order="${position}" data-domain="${escape(task.domain)}" data-workflow="${escape(task.workflow)}" data-level="${task.level ?? ''}">
+    <a class="catalog-title" href="${taskHref(task)}" aria-labelledby="brief-${escape(task.id)}">
+      <div class="catalog-copy"><h3 id="brief-${escape(task.id)}">${escape(task.title)}</h3><p>${escape(task.summary)}</p></div>
+      <div class="catalog-meta"><span><span class="visually-hidden">Field, </span>${escape(task.domain)}</span>
+        <span><span class="visually-hidden">Research activity, </span>${escape(task.workflow)}</span></div>
+    </a>
   </li>`;
 }
 
 export function catalogue(tasks) {
-  const ordered = [...tasks].sort((a,b)=>order.compare(a.title,b.title));
+  const ordered = [...tasks].sort((a,b)=>order.compare(a.title,b.title) || order.compare(a.id,b.id));
+  const positions = new Map(ordered.map((task,index) => [task,index]));
   const domains = [...new Set(tasks.map(t=>t.domain))].sort(order.compare);
   const workflows = [...new Set(tasks.map(t=>t.workflow))].sort(order.compare);
   const groups = Map.groupBy(ordered, task => groupId(task.domain,task.workflow));
@@ -54,7 +58,7 @@ export function catalogue(tasks) {
     const {domain,workflow} = entries[0];
     return `<div class="catalog-group" id="${id}">
       <div class="matrix-native-result"><p><strong>${escape(domain)} · ${escape(workflow)}</strong><br>${taskCount(entries.length)}</p><a class="text-link" href="?#activity-matrix">Clear selection</a></div>
-      <ul class="catalog-list" aria-label="${escape(domain + ' · ' + workflow)}">${entries.map(row).join('\n')}</ul>
+      <ul class="catalog-list" aria-label="${escape(domain + ' · ' + workflow)}">${entries.map(task=>row(task,positions.get(task))).join('\n')}</ul>
     </div>`;
   }).join('\n');
   return `<div class="page-frame site-frame" id="catalogue" data-level-names="${escape(JSON.stringify(levelNames))}">
@@ -75,8 +79,13 @@ export function catalogue(tasks) {
     </form>
     <div class="catalog-status"><p aria-live="polite" aria-atomic="true" data-results>${tasks.length} tasks</p>
       <a class="text-link" data-clear href="/tasks/" hidden>Clear filters</a></div>
-    <div class="catalog-columns" aria-hidden="true"><span>Task</span><span>Field</span><span>Research activity</span></div>
     ${taskGroups}
+    <ul class="catalog-list" data-page-list aria-labelledby="directory-heading" hidden></ul>
+    <nav class="catalog-pager" aria-label="Task brief pages" hidden>
+      <a class="page-step" data-previous rel="prev">Previous</a>
+      <ol aria-label="Pages"></ol>
+      <a class="page-step" data-next rel="next">Next</a>
+    </nav>
     <section class="catalog-empty" hidden><h2></h2><p></p><a class="text-link" href="/tasks/" data-clear>Explore all tasks</a></section>
     </section></div>`;
 }

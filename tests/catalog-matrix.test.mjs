@@ -21,3 +21,15 @@ test('a field and activity pair links to all its briefs, including without scrip
   assert.doesNotMatch(group, /href="\/tasks\/b\/"/);
   assert.match(group, />Clear selection<\/a>/);
 });
+
+test('briefs in separate native groups retain a single alphabetical order for paging', () => {
+  const tasks = ['D','G','A','H','C','F','B','E'].map((title,i) => ({
+    id:title.toLowerCase(), title, summary:'A short summary.', domain:i%2 ? 'Physics' : 'Medicine',
+    workflow:'Simulation',
+  }));
+  const html = catalogue(tasks);
+  const rows = [...html.matchAll(/<li class="catalog-row" data-order="(\d+)"[\s\S]*?<h3 id="brief-[^"]+">([^<]+)<\/h3>/g)];
+  assert.equal(rows.length,8);
+  assert.deepEqual(rows.sort((a,b)=>Number(a[1])-Number(b[1])).map(row=>row[2]),[...'ABCDEFGH']);
+  assert.match(html, /<nav class="catalog-pager" aria-label="Task brief pages" hidden>/);
+});
