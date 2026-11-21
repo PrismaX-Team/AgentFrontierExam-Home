@@ -318,7 +318,10 @@
       else activatePoint(event,index);
     });
     button.addEventListener('focus', () => {
-      if (button.matches(':focus-visible')) previewPiece(index, buttonPosition(button));
+      if (button.matches(':focus-visible')) {
+        mousePoint=null;
+        previewPiece(index,buttonPosition(button));
+      }
     });
     button.addEventListener('blur', clearPreview);
     keys.append(button);
@@ -383,7 +386,7 @@
     const level=tierOf(index);
     if(view && level!==view) { reset(keyboard); return; }
     clearPreview();
-    mousePoint=null;
+    if(keyboard) mousePoint=null;
     view=focusLevel=level;
     selected = index;
     setCopy(true);
@@ -393,7 +396,7 @@
   function reset(keyboard=false) {
     const former=view;
     clearPreview();
-    mousePoint=null;
+    if(keyboard) mousePoint=null;
     selected = -1;
     view = 0;
     setCopy(true);
@@ -406,10 +409,13 @@
     return {x:a.left-b.left+a.width/2,y:a.top-b.top+a.height/2};
   }
   function displayNote(name,description,point) {
-    if(note.firstElementChild.textContent!==name || note.hidden) {
+    if(note.firstElementChild.textContent!==name || note.lastElementChild.textContent!==description) {
       note.firstElementChild.textContent=name;note.lastElementChild.textContent=description;
     }
     note.hidden=false;
+    positionNote(point);
+  }
+  function positionNote(point) {
     const nw=note.offsetWidth,nh=note.offsetHeight;
     const x=point.x+nw+18<width?point.x+14:point.x-nw-14;
     note.style.left=clamp(x,5,width-nw-5)+'px';
@@ -425,7 +431,6 @@
     wake();
   }
   function previewLevel(level,button) {
-    mousePoint=null;
     hovered=-1;pointedLevel=level;
     const action=view?'Select to reassemble the pyramid.':'Select to bring this layer forward.';
     displayNote('L'+level+' · '+levels[level],action,buttonPosition(button));
@@ -482,7 +487,10 @@
       positionButton(button,Math.min(width-24,cam.x+cam.scale*reach+20),labelY);
       previousY=labelY;
     });
-    if(mousePoint) updateCanvasHover(mousePoint);
+    if(mousePoint) updatePointerPreview();
+    else if(!note.hidden && document.activeElement?.matches('[data-piece]:focus-visible,[data-level]:focus-visible')) {
+      positionNote(buttonPosition(document.activeElement));
+    }
   }
   function resize() {
     const box=canvas.getBoundingClientRect();
@@ -530,39 +538,52 @@
     }
     return -1;
   }
-  function updateCanvasHover(point, moved=false) {
-    let next=pick(point);
-    if(hovered>=0 && next!==hovered && pick(point,true)===hovered) next=hovered;
-    canvas.style.cursor=next>=0?'pointer':'default';
-    if(next!==hovered || next>=0 && (moved||note.hidden)) previewPiece(next,point);
+  function hoveredAt(point) {
+    const front=pick(point);
+    if(front===hovered || hovered<0) return front;
+    // Keep the raised solid reachable through the gap it just left behind.
+    return pick(point,true)===hovered ? hovered : front;
+  }
+  function updatePointerPreview(moved=false) {
+    const control=document.elementFromPoint(mousePoint.clientX,mousePoint.clientY);
+    if(control?.hasAttribute('data-level') && root.contains(control)) {
+      const level=Number(control.dataset.level);
+      if(level!==pointedLevel || note.hidden || moved) previewLevel(level,control);
+      return;
+    }
+    if(control===canvas || keys.contains(control)) {
+      const point=eventPoint(mousePoint);
+      const next=hoveredAt(point);
+      canvas.style.cursor=next>=0?'pointer':'default';
+      if(next!==hovered || pointedLevel || next>=0 && (moved||note.hidden)) previewPiece(next,point);
+    } else if(!note.hidden) clearPreview();
   }
 
   function activatePoint(event,fallback=-1) {
     const point=eventPoint(event);
-    let index=pick(point);
-    if(index<0 && hovered>=0 && pick(point,true)===hovered) index=hovered;
-    if(index<0) index=fallback;
+    const hit=event.pointerType==='touch' ? pick(point) : hoveredAt(point);
+    const index=hit>=0 ? hit : fallback;
     if(index>=0) choose(index);
   }
   const plate=ui('.plate');
-  plate.addEventListener('pointermove', event => {
-    if (event.pointerType === 'touch') return;
-    if(event.target!==canvas && !keys.contains(event.target)) { mousePoint=null;return; }
-    mousePoint=eventPoint(event);
-    updateCanvasHover(mousePoint,true);
-  });
+  function trackPointer(event) {
+    if(event.pointerType==='touch') { mousePoint=null;return; }
+    mousePoint={clientX:event.clientX,clientY:event.clientY};
+    updatePointerPreview(true);
+  }
+  plate.addEventListener('pointerenter',trackPointer);
+  plate.addEventListener('pointermove',trackPointer);
   plate.addEventListener('pointerleave', () => { mousePoint=null;clearPreview(); });
   canvas.addEventListener('click', event => activatePoint(event));
   const representative=[-1,2,7,11];
   labels.forEach(button => {
     const level = Number(button.dataset.level);
     button.addEventListener('click', event => choose(representative[level],event.detail===0));
-    button.addEventListener('pointerenter', event => {
-      if (event.pointerType !== 'touch') previewLevel(level, button);
-    });
-    button.addEventListener('pointerleave', clearPreview);
     button.addEventListener('focus', () => {
-      if (button.matches(':focus-visible')) previewLevel(level, button);
+      if (button.matches(':focus-visible')) {
+        mousePoint=null;
+        previewLevel(level,button);
+      }
     });
     button.addEventListener('blur', clearPreview);
   });
@@ -580,6 +601,7 @@
     wake();
   });
   document.addEventListener('visibilitychange', () => { lastTime = 0; wake(); });
+  window.addEventListener('scroll', () => { if(mousePoint) wake(); }, {passive:true});
   new ResizeObserver(resize).observe(canvas);
   new IntersectionObserver(entries => {
     visible = entries[0].isIntersecting;
