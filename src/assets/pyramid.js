@@ -15,7 +15,14 @@
   }
   const mixColor = (a, b, t) => a.map((value,i) => mix(value,b[i],t));
   const rgba = (color, opacity) => 'rgba(' + color.map(v => Math.round(clamp(v,0,255))).join(',') + ',' + opacity + ')';
-  const white = [248,247,235], dark = [33,53,53], paper = [246,244,237];
+  const white = [248,247,235], dark = [33,53,53];
+  let paper, night;
+  function readPalette() {
+    night = document.documentElement.dataset.theme === 'dark';
+    const background = getComputedStyle(root).backgroundColor.match(/[\d.]+/g);
+    paper = background?.length >= 3 ? background.slice(0, 3).map(Number) : (night ? [24,34,30] : [246,244,237]);
+  }
+  readPalette();
   const light = normalize([-.95,.98,.40]);
   const heights = [0,.52,1.05,1.80];
   const tierOf = index => index < 7 ? 1 : index < 11 ? 2 : 3;
@@ -210,7 +217,7 @@
   function frostFace(ctx,face,piece,cam,pattern) {
     const n=face.normal,lightness=clamp(.32+.68*(dot(n,light)+.33)/1.33);
     const tint=tints[piece.index],s=cam.scale,rim=face.kind==='bevel';
-    const shade=mixColor(tint,[46,63,65],.29),milk=mixColor(tint,[241,240,228],.74);
+    const shade=mixColor(tint, night ? [28,43,45] : [46,63,65], night ? .45 : .29),milk=mixColor(tint,[241,240,228], night ? .48 : .74);
     let body=mixColor(shade,milk,lightness);
     if(rim) body=mixColor(body,milk,.14);
     const colors=ctx.createLinearGradient(cam.x-s*.73,cam.y-s*1.59,cam.x+s*.64,cam.y+s*.55);
@@ -294,7 +301,7 @@
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  const { types, pieces: content } = JSON.parse(ui('[data-pyramid-content]').textContent);
+  const { types, pieces: content, labels: copy } = JSON.parse(ui('[data-pyramid-content]').textContent);
   const frost = ctx.createPattern(makeFrostGrain(), 'repeat');
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -314,7 +321,7 @@
     button.type = 'button';
     button.dataset.piece = index;
     button.setAttribute('aria-controls','type-detail');
-    const part = tierOf(index) === 2 ? ', piece ' + (index - 6) + ' of 4' : '';
+    const part = tierOf(index) === 2 ? ' · ' + copy.piecePosition.replace('{n}', index - 6).replace('{total}', 4) : '';
     button.setAttribute('aria-label', type.name + part + (piece.task ? ' · ' + piece.task.title : ''));
     button.addEventListener('click', event => {
       if(event.detail===0) choose(index,true);
@@ -340,13 +347,13 @@
       const level = tierOf(selected);
       const { type, task, browse } = content[selected];
       const category = types[type];
-      ui('.level-name').textContent = 'L' + level + ' / ' + (level === 1 ? workflowName : 'AFE-research');
+      ui('.level-name').textContent = 'L' + level + ' / ' + (level === 1 ? workflowName : copy.research);
       ui('h2').textContent = category.name;
       ui('.definition').textContent = category.description;
 
       ui('.task').hidden = !task;
       if (task) {
-        ui('.task small').textContent = (task.related ? 'Related workflow' : 'Example task') + ' · ' + task.domain;
+        ui('.task small').textContent = (task.related ? copy.related : copy.example) + ' · ' + task.domain;
         ui('.task-card').href = task.href;
         ui('.task h3').textContent = task.title;
         ui('.task p').textContent = task.summary;
@@ -360,7 +367,7 @@
       ui('.contribute').hidden = level === 1 || task?.related === false;
       ui('.live').textContent = category.name + '. ' + (task ? task.title : category.description);
     } else if (animate) {
-      ui('.live').textContent = 'Agent Frontier Exam overview';
+      ui('.live').textContent = copy.overview;
     }
 
     if (animate && !reduced.matches) {
@@ -590,6 +597,7 @@
     lastTime=0;
     wake();
   });
+  window.addEventListener('afe:themechange', () => { readPalette(); wake(); });
   document.addEventListener('visibilitychange', () => { lastTime = 0; wake(); });
   window.addEventListener('scroll', () => { if(mousePoint) wake(); }, {passive:true});
   new ResizeObserver(resize).observe(canvas);
