@@ -3,7 +3,8 @@
   const root = document.getElementById('catalogue');
   if (!root) return;
   const zh = root.dataset.lang === 'zh';
-  const activityView = root.querySelector('#view-activities');
+  const overview = root.querySelector('.catalog-overview');
+  const views = [...overview.querySelectorAll('input[name="distribution"]')];
   const form = root.querySelector('.catalog-controls');
   const counter = root.querySelector('[data-results]');
   const clear = root.querySelector('.catalog-status [data-clear]');
@@ -56,7 +57,8 @@
 
   function readQuery() {
     const query = params();
-    root.querySelector(query.get('view') === 'types' ? '#view-activities' : '#view-fields').checked = true;
+    const view = views.find(input => input.value === query.get('view')) ?? views[0];
+    view.checked = true;
     for (const key of filters) {
       const control = form.elements.namedItem(key);
       let value = query.get(key) || '';
@@ -74,8 +76,9 @@
 
   function queryFromForm() {
     const query = params();
-    if (activityView.checked) query.set('view','types');
-    else query.delete('view');
+    const view = views.find(input => input.checked).value;
+    if (view === 'fields') query.delete('view');
+    else query.set('view',view);
     for (const key of filters) {
       const value = form.elements.namedItem(key).value.trim();
       if (value) query.set(key,value);
@@ -229,9 +232,7 @@
     return event.ctrlKey || event.metaKey || event.shiftKey || event.altKey;
   }
 
-  root.querySelector('.catalog-overview').addEventListener('change',() => {
-    storeQuery(queryFromForm(),true,'');
-  });
+  overview.addEventListener('change',() => writeQuery(true,'',currentPage));
   form.addEventListener('input',event => {
     if (event.target.name === 'q') writeQuery(false);
   });
