@@ -24,3 +24,11 @@ test('the collection overview counts every brief and keeps GDPX separate from as
   assert.match(zh, /参数反演与校准/);
   assert.match(zh, /奠基性发现/);
 });
+
+test('the distribution includes fields tied for the third-highest count', () => {
+  const tasks = ['A','A','A','B','B','C','D'].map(domain => ({domain,workflow:'Model validation'}));
+  const html = catalogueHero(tasks,collectionCounts(tasks));
+  const ranking = html.match(/<h2>Leading fields<\/h2><ol>([\s\S]*?)<\/ol>/)[1];
+  assert.match(ranking, />C<\/span><span class="rank-count">1</);
+  assert.match(ranking, />D<\/span><span class="rank-count">1</);
+});

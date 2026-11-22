@@ -32,11 +32,13 @@ const descriptions = {
 };
 
 function ranking(counts, heading, lang) {
-  const ordered = [...counts].sort(([a, n], [b, m]) => m - n || a.localeCompare(b, 'en')).slice(0, 3);
+  const ordered = [...counts].sort(([a, n], [b, m]) => m - n || a.localeCompare(b, 'en'));
   if (!ordered.length) return '';
   const peak = ordered[0][1];
+  const cutoff = ordered[Math.min(2,ordered.length - 1)][1];
+  const leaders = ordered.filter(([,count]) => count >= cutoff);
   return `<div class="catalog-ranking"><h2>${heading}</h2><ol>
-    ${ordered.map(([name, count]) => `<li style="--share:${(count * 100 / peak).toFixed(2)}%">
+    ${leaders.map(([name, count]) => `<li style="--share:${(count * 100 / peak).toFixed(2)}%">
       <span>${escape(axisLabel(name, lang))}</span><span class="rank-count">${count}</span></li>`).join('')}
   </ol></div>`;
 }
@@ -65,7 +67,7 @@ export function catalogueHero(tasks, {fields, types}, lang = 'en') {
     [disciplines.size, zh ? '个科学领域' : 'Scientific fields'],
     [types.size, zh ? '种任务类型' : 'Task types'],
   ];
-  const scopeNote = zh ? `另有 ${gdpx} 道 GDPX 任务计入总数，其领域单独归档。` : `The total includes ${gdpx} GDPX ${gdpx === 1 ? 'task' : 'tasks'} awaiting field assignment.`;
+  const scopeNote = zh ? `题库含 ${gdpx} 道 GDPX 任务，科学领域尚未确定。` : `The total includes ${gdpx} GDPX ${gdpx === 1 ? 'task' : 'tasks'} awaiting field assignment.`;
   return `<header class="tasks-hero">
     <div class="tasks-hero-copy"><h1>${zh ? '任务目录' : 'Tasks'}</h1>
       <p>${zh ? '从研究对象或研究方法出发，查找任务，了解它要回答的问题和需要提交的证据。' : 'Explore what scientific agents are asked to do, from measuring an observation to testing an explanation.'}</p>
