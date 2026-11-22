@@ -6,21 +6,28 @@
         "name": "Bo Zhang",
         "portrait": "bo-zhang.webp",
         "affiliation": "Shanghai Artificial Intelligence Laboratory",
-        "profile": "https://scholar.google.com/citations?user=UoAEwT0AAAAJ&hl=zh-CN"
+        "profile": "https://scholar.google.com/citations?user=UoAEwT0AAAAJ&hl=zh-CN",
+        "nameZh": "张铂",
+        "affiliationZh": "上海人工智能实验室"
       },
       {
         "name": "Wenlong Zhang",
         "portrait": "wenlong-zhang.webp",
         "affiliation": "Shanghai Artificial Intelligence Laboratory",
-        "profile": "https://wenlongzhang0517.github.io/"
+        "profile": "https://wenlongzhang0517.github.io/",
+        "nameZh": "张文龙",
+        "affiliationZh": "上海人工智能实验室"
       },
       {
         "name": "Zhen Zhao",
         "portrait": "zhen-zhao.webp",
         "affiliation": "Shanghai Artificial Intelligence Laboratory",
-        "profile": "https://scholar.google.com/citations?user=7mpuhO8AAAAJ&hl=en"
+        "profile": "https://scholar.google.com/citations?user=7mpuhO8AAAAJ&hl=en",
+        "nameZh": "赵振",
+        "affiliationZh": "上海人工智能实验室"
       }
-    ]
+    ],
+    "fieldZh": "科学智能体"
   },
   {
     "field": "Physics",
@@ -28,9 +35,12 @@
       {
         "name": "Shufei Zhang",
         "affiliation": "Shanghai Artificial Intelligence Laboratory",
-        "profile": "https://openreview.net/profile?id=~Shufei_Zhang1"
+        "profile": "https://openreview.net/profile?id=~Shufei_Zhang1",
+        "nameZh": "张舒飞",
+        "affiliationZh": "上海人工智能实验室"
       }
-    ]
+    ],
+    "fieldZh": "物理学"
   },
   {
     "field": "Earth science",
@@ -39,9 +49,12 @@
         "name": "Fenghua Ling",
         "portrait": "fenghua-ling.webp",
         "affiliation": "Shanghai Artificial Intelligence Laboratory",
-        "profile": "https://scholar.google.com/citations?user=uRQFvZYAAAAJ&hl=zh-CN"
+        "profile": "https://scholar.google.com/citations?user=uRQFvZYAAAAJ&hl=zh-CN",
+        "nameZh": "零丰华",
+        "affiliationZh": "上海人工智能实验室"
       }
-    ]
+    ],
+    "fieldZh": "地球科学"
   },
   {
     "field": "Medicine",
@@ -50,9 +63,12 @@
         "name": "Ming Hu",
         "portrait": "ming-hu.webp",
         "affiliation": "Shanghai Artificial Intelligence Laboratory · Monash University",
-        "profile": "https://uni-medical.github.io/gmai-web/zh/team/ming-hu/"
+        "profile": "https://uni-medical.github.io/gmai-web/zh/team/ming-hu/",
+        "nameZh": "胡铭",
+        "affiliationZh": "上海人工智能实验室 · 莫纳什大学"
       }
-    ]
+    ],
+    "fieldZh": "医学"
   },
   {
     "field": "Chemistry and materials",
@@ -61,8 +77,11 @@
         "name": "Tianfan Fu",
         "portrait": "tianfan-fu.webp",
         "affiliation": "Nanjing University",
-        "profile": "https://scholar.google.com.hk/citations?user=KPQ49w4AAAAJ&hl=zh-CN&oi=ao"
+        "profile": "https://scholar.google.com.hk/citations?user=KPQ49w4AAAAJ&hl=zh-CN&oi=ao",
+        "nameZh": "符天凡",
+        "affiliationZh": "南京大学"
       }
-    ]
+    ],
+    "fieldZh": "化学与材料"
   }
 ]
