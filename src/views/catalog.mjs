@@ -81,7 +81,9 @@ function taskMatrix(domains, workflows, groups, counts, tasks, lang) {
 function row(task, position, lang) {
   const t = labels[lang];
   const level = task.level ? 'L' + task.level : t.unassigned;
-  return `<li class="catalog-row" data-order="${position}" data-domain="${escape(task.domain)}" data-workflow="${escape(task.workflow)}" data-level="${task.level ?? 'unassigned'}">
+  const other = lang === 'zh' ? 'en' : 'zh';
+  const translation = [task.translatedSearch, fieldLabel(task.domain,other), axisLabel(task.workflow,other), levelLabels(other)[task.level]].filter(Boolean).join(' ');
+  return `<li class="catalog-row" data-order="${position}" data-translation="${escape(translation)}" data-domain="${escape(task.domain)}" data-workflow="${escape(task.workflow)}" data-level="${task.level ?? 'unassigned'}">
     <a class="catalog-title" href="${taskHref(task)}" aria-labelledby="brief-${escape(task.id)}">
       <div class="catalog-copy"><h3 id="brief-${escape(task.id)}">${escape(task.title)}</h3><p>${escape(task.summary)}</p></div>
       <div class="catalog-meta"><span><span class="visually-hidden">${t.field} · </span>${escape(fieldLabel(task.domain,lang))}</span>

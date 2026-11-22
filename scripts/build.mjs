@@ -32,7 +32,10 @@ function validate(tasks) {
 
 function sitePages(archive, lang) {
   const zh = lang === 'zh';
-  const tasks = zh ? archive.map(task => ({...task, ...task.zh})) : archive;
+  const tasks = archive.map(task => {
+    const alternate = zh ? task : task.zh;
+    return {...task, ...(zh ? task.zh : {}), translatedSearch: alternate.title + ' ' + alternate.summary};
+  });
   return [
     {route:'/', title:'Agent Frontier Exam', description:zh ? '评测 AI 智能体开展科研的能力，从复杂的科研流程到可独立验证的科学突破。' : 'A benchmark for AI agents in science, from demanding research workflows to verifiable breakthroughs.', home:true, body:homePage(tasks,lang)},
     {route:'/tasks/', title:zh ? '科研任务' : 'Tasks', description:zh ? '按科学领域、科研活动与目标层级浏览任务。' : 'Browse scientific task briefs by field, research activity and scientific level.', catalog:true, body:catalogue(tasks,lang)},

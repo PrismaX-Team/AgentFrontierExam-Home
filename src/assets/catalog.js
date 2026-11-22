@@ -26,7 +26,7 @@
     const {domain,workflow,level} = element.dataset;
     const text = normalize([
       element.querySelector('h3').textContent, element.querySelector('.catalog-copy p').textContent,
-      domain, workflow, fieldLabels.get(domain), typeLabels.get(workflow),
+      element.dataset.translation, domain, workflow, fieldLabels.get(domain), typeLabels.get(workflow),
       levelNames[level] ? 'L' + level + ' ' + levelNames[level] : '',
     ].join(' '));
     return {element, group:element.closest('.catalog-group').id, text, domain, workflow, level};

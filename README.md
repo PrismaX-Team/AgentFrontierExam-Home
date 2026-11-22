@@ -13,7 +13,7 @@ The first offline edition is available in the [v0.1 release](https://github.com/
 - The pyramid links scientific workflows, scientific breakthroughs and foundational discoveries to examples. Selecting a solid brings that level forward. The three sectors at the centre of L1 each open a different activity. A faded solid opens its own level. The complete pyramid beside **All levels**, the surrounding paper and Escape return to the assembled view.
 - The directory covers all 119 archived tasks. It shows field and activity counts, explains the three scientific levels, and includes a field-by-activity matrix. Search or filter the text index, ten briefs per page. Selected examples carry a photograph or a scientific diagram.
 - Contribute illustrates how a workflow, breakthrough or foundational discovery fits in a task package. It links to Duanyan ReX, the annotated Harbor guide and the authorship guide.
-- Choose **中文** or **EN** in the header to open the same page in the other language, including the current catalogue filters. The sun and moon control switches the colour scheme. The site follows the system appearance until the reader makes a choice.
+- Choose **中文** or **EN** in the header to open the same page in the other language, including the current catalogue filters. Search matches terms from either language. The sun and moon control switches the colour scheme. The site follows the system appearance until the reader makes a choice.
 - The footer links to Shanghai AI Laboratory, Duanyan, project resources and the contact address. **Copy citation** copies a BibTeX entry for the benchmark website.
 
 ## Run locally
