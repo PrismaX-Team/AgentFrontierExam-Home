@@ -217,7 +217,7 @@
 .task-matrix .matrix-sum {font-weight:600;text-align:center;padding:.3rem .2rem}
 .task-matrix tfoot>* {border-top:1px solid var(--line)}
 .task-matrix .matrix-cell {color:var(--blue);background:color-mix(in srgb,var(--blue) 9%,var(--paper));text-decoration-color:color-mix(in srgb,var(--blue) 48%,transparent)}
-.task-matrix .matrix-cell:is(:hover,:focus-visible),.task-matrix .matrix-cell[aria-current] {background:var(--blue);color:var(--paper);text-decoration-color:currentColor}
+.task-matrix .matrix-cell:is(:hover,:focus-visible),.task-matrix .matrix-cell[aria-current] {background:light-dark(var(--blue),#354a59);color:light-dark(var(--paper),#dae7ec);text-decoration-color:currentColor}
 .task-matrix .matrix-zero {color:var(--muted)}
 #catalogue .catalog-directory {margin-top:clamp(1.8rem,3.4vw,3.25rem)}
 .catalog-directory .directory-heading {margin-bottom:.85rem}
