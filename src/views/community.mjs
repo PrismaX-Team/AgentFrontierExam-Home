@@ -68,8 +68,8 @@ export function expertise(lang = 'en') {
         <h2 id="expertise-heading">${zh ? '科学顾问委员会' : 'Scientific expertise behind the benchmark'}</h2>
         <p>${zh ? '顾问委员会参与任务遴选和<span class="text-phrase">科学审核，</span>确保评测依据充分、结果可信。' : 'The Advisory Committee supports task selection, scientific review and <span class="text-phrase">evaluation integrity.</span>'}</p>
         <div class="cc-expert-controls" role="group" aria-label="${profiles}" hidden>
-          <button type="button" data-expert-prev aria-controls="advisor-profiles" aria-label="${previous}" title="${previous}">${icon('<path d="m12 5-5 5 5 5"/>')}</button>
           <button type="button" data-expert-motion data-pause="${pause}" data-play="${play}" aria-controls="advisor-profiles" aria-label="${pause}" title="${pause}">${icon('<path class="cc-pause" d="M7.25 5v10m5.5-10v10"/><path class="cc-play" d="m7 4.5 8 5.5-8 5.5z"/>')}</button>
+          <button type="button" data-expert-prev aria-controls="advisor-profiles" aria-label="${previous}" title="${previous}">${icon('<path d="m12 5-5 5 5 5"/>')}</button>
           <button type="button" data-expert-next aria-controls="advisor-profiles" aria-label="${next}" title="${next}">${icon('<path d="m8 5 5 5-5 5"/>')}</button>
         </div>
       </header>

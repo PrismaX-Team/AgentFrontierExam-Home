@@ -191,7 +191,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .showcase-grid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(.9rem,2vw,2rem)}
 .showcase-card {min-width:0}
 .showcase-card>a {display:block;height:100%;color:inherit;text-decoration:none}
-.card-plate {overflow:hidden;aspect-ratio:1.53;background:var(--wash)}
+.card-plate {overflow:hidden;aspect-ratio:1.53;border-radius:var(--panel-radius);background:var(--wash)}
 .card-plate img {width:100%;height:100%;object-fit:cover;transition:transform .35s ease-out}
 .card-content {padding-top:1.1rem}
 .card-content .eyeline {margin-bottom:.55rem;color:var(--blue)}
