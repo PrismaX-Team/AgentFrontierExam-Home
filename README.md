@@ -38,6 +38,7 @@ Open `http://127.0.0.1:4173/`. To choose a port, run `npm run dev -- --port 8080
 | --- | --- |
 | Release scope and publication process | [Publication plan](docs/publication-plan.md) |
 | Scientific levels, pyramid geometry and interactions | [Homepage and pyramid](docs/home-and-pyramid.md) |
+| Section headers, cards, night colours and bilingual typography | [Visual design principles](docs/visual-design.md) |
 | Routes, community materials and sources | [Pages and editorial sources](docs/pages-and-sources.md) |
 | Task selection, package provenance and scientific-level evidence | [Task card provenance](docs/task-selection.md) |
 | Current edition and next editorial decisions | [项目现状](项目现状.md) |
