@@ -240,7 +240,7 @@
 .catalog-register .matrix-native-result {padding-inline:var(--register-inset)}
 .catalog-directory .catalog-copy h3 {max-width:46ch}
 .catalog-directory .catalog-copy p {max-width:75ch;line-height:1.48}
-.catalog-directory .catalog-meta {display:grid;grid-area:auto;gap:.3rem;padding:0;border:0;align-content:start}
+.catalog-directory .catalog-meta {display:grid;grid-area:auto;gap:.3rem;padding:0;border:0;align-content:start;text-wrap:balance}
 .catalog-directory .catalog-meta>span:first-child {color:var(--ink);font-weight:550}
 .catalog-directory .catalog-meta>span+span {color:var(--muted);font-weight:400}
 .catalog-row-level {align-self:center;color:var(--muted);font-size:.88rem;font-variant-numeric:tabular-nums}
@@ -258,9 +258,7 @@
   .catalog-directory .catalog-title {grid-template-columns:1fr auto;gap:.58rem 1rem;align-items:baseline}
   .catalog-directory .catalog-title .catalog-copy {display:block;grid-area:auto;grid-column:1/-1}
   .catalog-directory .catalog-copy p {margin-top:.32rem}
-  .catalog-directory .catalog-meta {display:flex;align-items:baseline;flex-wrap:wrap;gap:.15rem .65rem}
-  .catalog-directory .catalog-meta>span+span {padding:0;border:0}
-  .catalog-directory .catalog-meta>span+span::before {content:"";display:inline-block;height:.7em;width:1px;background:var(--line);margin-inline-end:.65rem}
+  .catalog-directory .catalog-meta {gap:.15rem}
   .catalog-directory .catalog-status {display:block}
   .catalog-column-label {display:none}
   .catalog-row-level {align-self:baseline;white-space:nowrap;font-size:.8rem}

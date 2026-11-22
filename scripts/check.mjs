@@ -66,7 +66,10 @@ for (const lang of ['en','zh']) {
     const text = lang === 'zh' ? task.zh : task;
     assert.ok(directory.includes(`id="brief-${task.id}"`),`Missing directory entry ${task.id}`);
     const brief = pages.get(localizedPath(`/tasks/${task.id}/`,lang)).html;
-    assert.ok(brief.includes(escape(text.title)) && brief.includes(escape(text.summary)),`Missing brief text ${lang}/${task.id}`);
+    for (const [element, value] of [[/<h1>(.*?)<\/h1>/s, text.title], [/<p class="brief-lede">(.*?)<\/p>/s, text.summary]]) {
+      const visible = brief.match(element)?.[1].replace(/<[^>]+>/g, '');
+      assert.equal(visible, escape(value), `Missing brief text ${lang}/${task.id}`);
+    }
     if (task.showcase) {
       assert.ok(home.includes(escape(text.title)),`Missing showcase ${task.id}`);
       assert.ok(plates[task.id],`Missing artwork ${task.id}`);

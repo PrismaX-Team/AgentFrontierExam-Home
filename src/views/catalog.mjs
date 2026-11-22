@@ -81,9 +81,9 @@ function row(task, position, lang) {
   const translation = [task.translatedSearch, axisLabel(task.domain,other), axisLabel(task.workflow,other), levelLabels(other)[task.level]].filter(Boolean).join(' ');
   return `<li class="catalog-row" data-order="${position}" data-translation="${escape(translation)}" data-domain="${escape(task.domain)}" data-workflow="${escape(task.workflow)}" data-level="${task.level}">
     <a class="catalog-title" href="${taskHref(task)}" aria-labelledby="brief-${escape(task.id)}">
-      <div class="catalog-copy"><h3 id="brief-${escape(task.id)}">${escape(task.title)}</h3><p>${escape(task.summary)}</p></div>
+      <div class="catalog-copy"><h3 id="brief-${escape(task.id)}">${keepEnding(escape(task.title), lang)}</h3><p>${keepEnding(escape(task.summary), lang)}</p></div>
       <div class="catalog-meta"><span><span class="visually-hidden">${t.field} · </span>${escape(axisLabel(task.domain,lang))}</span>
-        <span><span class="visually-hidden">${t.type} · </span>${escape(axisLabel(task.workflow,lang))}</span></div>
+        <span><span class="visually-hidden">${t.type} · </span>${keepEnding(escape(axisLabel(task.workflow,lang)), lang)}</span></div>
       <span class="catalog-row-level" title="${escape(levelLabels(lang)[task.level])}"><span class="entry-level-key">${t.rowLevel} </span>${level}</span>
     </a>
   </li>`;
@@ -150,8 +150,8 @@ function fact(label, content) {
   return `<div><dt>${label}</dt><dd>${content}</dd></div>`;
 }
 
-function briefSection(title, text, id) {
-  return text ? `<section class="brief-section"${id ? ` id="${id}"` : ''}><h2>${title}</h2><p>${escape(text)}</p></section>` : '';
+function briefSection(title, text, lang, id) {
+  return text ? `<section class="brief-section"${id ? ` id="${id}"` : ''}><h2>${title}</h2><p>${keepEnding(escape(text), lang)}</p></section>` : '';
 }
 
 function taskFigure(art, lang) {
@@ -177,12 +177,12 @@ export function taskPage(task, tasks, lang = 'en') {
     task.packageVersion ? fact(t.version,escape(task.packageVersion)) : '',
     task.sourceLabel ? fact(t.source,task.sourceUrl ? `<a href="${escape(task.sourceUrl)}">${escape(task.sourceLabel)}</a>` : escape(task.sourceLabel)) : '',
   ].join('');
-  const sections = briefSection(t.input,task.input) + briefSection(t.deliverable,task.deliverable)
-    + briefSection(t.evidence,task.evidence,'assessment') + briefSection(t.significance,task.significance);
+  const sections = briefSection(t.input,task.input,lang) + briefSection(t.deliverable,task.deliverable,lang)
+    + briefSection(t.evidence,task.evidence,lang,'assessment') + briefSection(t.significance,task.significance,lang);
   return `<article class="site-frame task-page">
     <nav aria-label="${t.breadcrumb}" class="breadcrumbs"><a href="/tasks/">${t.catalogue}</a><span aria-hidden="true">/</span>${fieldLink}</nav>
     <div class="brief-heading${art ? ' with-figure' : ''}"><header>
-      <p class="eyeline">${type}</p><h1>${escape(task.title)}</h1><p class="brief-lede">${escape(task.summary)}</p></header>${taskFigure(art,lang)}</div>
+      <p class="eyeline">${type}</p><h1>${keepEnding(escape(task.title), lang)}</h1><p class="brief-lede">${keepEnding(escape(task.summary), lang)}</p></header>${taskFigure(art,lang)}</div>
     <div class="brief-body${sections ? '' : ' metadata-only'}"><dl class="brief-facts">${facts}</dl>
       ${sections ? `<div class="brief-reading">${sections}</div>` : ''}</div>
     <section class="related-section"><div class="section-heading"><h2>${related.length ? t.related : t.explore}</h2>
