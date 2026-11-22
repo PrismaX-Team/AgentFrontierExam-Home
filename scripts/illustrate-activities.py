@@ -108,23 +108,6 @@ def river_corridor():
     save(figure, "river-corridor")
 
 
-def river_validation():
-    figure, ax = plate("#f1d7b6", "#ccab87")
-    terrain(ax, "#ad8d70", 33)
-    control = [(69, -22), (141, 74), (244, 121), (288, 190), (382, 211),
-               (455, 272), (508, 341), (645, 379), (703, 483)]
-    expected = smooth(control)
-    alternate = smooth([(69, -22), (145, 71), (196, 141), (247, 196), (276, 264),
-                        (368, 293), (438, 276), (514, 342), (648, 384), (703, 483)])
-    for path, color, width, style in [(expected, "#e9d4b0", 6, "-"), (expected, "#315c60", 2.5, "-"),
-                                      (alternate, "#a1513f", 2.5, (0, (5, 3)))]:
-        ax.plot(*path, color=color, lw=width, linestyle=style)
-    points = np.array([(139, 73), (203, 102), (250, 136), (325, 196),
-                       (447, 259), (503, 335), (590, 366), (640, 376)])
-    ax.scatter(*points.T, s=59, facecolor="#f3dfbc", edgecolor="#284a50", lw=1.6, zorder=4)
-    save(figure, "river-validation")
-
-
 def cosmic_rays():
     figure, ax = plate("#233b50", "#1c2938")
     grid, pale, observed, alternative = "#577382", "#dce2cf", "#a3d0c4", "#e2ae77"
@@ -175,6 +158,5 @@ def recovery():
 if __name__ == "__main__":
     fine_tuning()
     river_corridor()
-    river_validation()
     cosmic_rays()
     recovery()

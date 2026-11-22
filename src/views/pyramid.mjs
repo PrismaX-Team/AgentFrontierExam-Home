@@ -11,9 +11,9 @@ function workflowTypes(lang) {
       description: zh ? '追溯一项论断在不同研究中的依据，判断已有证据能支持怎样的结论。' : 'Trace a claim across published work and weigh the evidence for it.',
     },
     {
-      example: 'quantum-circuit-experiment-design',
-      name: zh ? '实验设计' : 'Experimental design',
-      description: zh ? '在给定预算内安排测量或干预，使实验结果能够区分不同的科学解释。' : 'Choose measurements or interventions that distinguish competing explanations under a fixed budget.',
+      example: 'ecological-recovery-shortfall',
+      name: zh ? '证据综合' : 'Evidence synthesis',
+      description: zh ? '综合多项研究的结果，估计一个共同效应，并说明研究之间的差异如何影响结论。' : 'Combine results across studies to estimate a shared effect and account for the differences between them.',
     },
     {
       example: 'm13-surface-brightness',
@@ -36,9 +36,9 @@ function workflowTypes(lang) {
       description: zh ? '预测一个科学系统的可测性质，用此前未见的样本检验预测。' : 'Predict a measurable property of a scientific system and test the predictions on unseen cases.',
     },
     {
-      example: 'river-routing-models',
-      name: zh ? '模型验证' : 'Model validation',
-      description: zh ? '检验科学模型在哪些条件下能给出可靠结果，哪些情形会使模型的假设失效。' : 'Determine where a scientific model gives reliable results and where its assumptions break down.',
+      example: 'cosmic-ray-propagation',
+      name: zh ? '假设检验' : 'Hypothesis testing',
+      description: zh ? '用观测数据检验不同假设的预测，判断哪些解释与证据相符。' : 'Test the predictions of competing hypotheses against observations to see which explanations the evidence supports.',
     },
   ];
 }
