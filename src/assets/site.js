@@ -18,12 +18,14 @@ if (location.protocol === 'file:') {
 // A plain download also serves readers with scripting disabled.
 const citationDownload = document.querySelector('[data-citation]');
 if (citationDownload) {
+  const zh = document.documentElement.lang.startsWith('zh');
+  const copy = zh ? '复制引用' : 'Copy citation';
   const bibtex = decodeURIComponent(citationDownload.getAttribute('href').split(',')[1]);
   const status = document.querySelector('[data-citation-status]');
   const button = document.createElement('button');
   button.type = 'button';
-  button.textContent = 'Copy citation';
-  button.title = 'Copy BibTeX citation';
+  button.textContent = copy;
+  button.title = zh ? '复制 BibTeX 引用' : 'Copy BibTeX citation';
   citationDownload.replaceWith(button);
   let feedbackTimer;
 
@@ -42,19 +44,19 @@ if (citationDownload) {
       selection.remove();
       button.focus({preventScroll:true});
       if (!copied) {
-        citationDownload.textContent = 'Download .bib';
+        citationDownload.textContent = zh ? '下载 .bib' : 'Download .bib';
         button.replaceWith(citationDownload);
         citationDownload.focus({preventScroll:true});
-        status.textContent = 'Clipboard unavailable. Download the BibTeX citation.';
+        status.textContent = zh ? '剪贴板不可用，请下载 BibTeX 引用。' : 'Clipboard unavailable. Download the BibTeX citation.';
         citationDownload.click();
         return;
       }
     }
     clearTimeout(feedbackTimer);
-    button.textContent = 'Copied';
-    status.textContent = 'Citation copied to clipboard.';
+    button.textContent = zh ? '已复制' : 'Copied';
+    status.textContent = zh ? '已将引用复制到剪贴板。' : 'Citation copied to clipboard.';
     feedbackTimer = setTimeout(() => {
-      button.textContent = 'Copy citation';
+      button.textContent = copy;
       status.textContent = '';
     }, 2400);
   });

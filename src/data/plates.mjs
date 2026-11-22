@@ -38,3 +38,22 @@ export const plates = {
     caption:'Illustrative recovery trajectories through two observations. The shaded area shows the cumulative shortfall for the solid trajectory.',
   },
 };
+
+const chineseCaptions = {
+  'm13-surface-brightness': ['M13 球状星团中密集的蓝色和琥珀色恒星。', '哈勃望远镜拍摄的 M13。图源为 NASA、ESA 和哈勃遗产团队（STScI/AURA）。'],
+  'brain-connectivity-modules': ['分块矩阵上方的树状图表示脑区之间的聚类关系。', '脑区共分配矩阵及其层次聚类示意图。'],
+  'quantum-circuit-experiment-design': ['三条量子比特线路上的量子门与测量位置。', '三个量子比特上的量子门和测量示意图。'],
+  'crystal-stability': ['两种原子在三维晶格中周期性排列。', '包含两类原子位点的晶格示意图。'],
+  'review-efficient-fine-tuning': ['三幅图对比可学习的提示嵌入、瓶颈适配器和低秩权重更新。', '语言模型中三种参数高效微调方法的示意图。'],
+  'western-cape-river-corridor': ['不同河流支流汇入一条连续的河岸缓冲带。', '等宽缓冲区在河流交汇处合并的示意图。'],
+  'river-routing-models': ['独立河道控制点与两条预测水流路径、地形等高线叠加。', '利用独立河道控制点对比两条预测水流路径。'],
+  'cosmic-ray-propagation': ['两条幂律曲线穿过标有不确定度的硼碳比示意数据点。', '两种幂律模型给出的硼碳比随刚度变化的预测。图中数据点和误差棒用于示意。'],
+  'ecological-recovery-shortfall': ['两条恢复轨迹连接同一组观测点，阴影表示相对参照状态的缺口。', '连接两次观测的生态恢复轨迹。阴影表示实线轨迹相对参照状态的累积缺口。'],
+};
+
+export function plateFor(id, lang = 'en') {
+  const art = plates[id];
+  if (!art || lang !== 'zh') return art;
+  const [alt, caption] = chineseCaptions[id];
+  return {...art, alt, caption};
+}

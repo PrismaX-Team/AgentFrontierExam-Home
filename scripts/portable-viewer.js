@@ -12,9 +12,14 @@
     let base=new URL(route,origin);
     window.afePreviewAddress={
       search:base.search,
-      setSearch(search,push) {
-        if(base.search===search) return;
-        base.search=search;this.search=search;
+      hash:base.hash,
+      setSearch(search,push,anchor=base.hash) {
+        const previous=base.href;
+        base.search=search;
+        base.hash=anchor;
+        if(base.href===previous) return;
+        this.search=base.search;
+        this.hash=base.hash;
         parent.postMessage({afePreview:'search',href:base.href,push},'*');
       },
     };
@@ -36,6 +41,7 @@
   function mount(path) {
     let url;
     try {url=new URL(path,origin);} catch {url=new URL('/',origin);}
+    if(url.pathname==='/contribute2/') url.pathname='/contribute/';
     if(url.origin!==origin || !Object.hasOwn(archive.pages,url.pathname)) url=new URL('/',origin);
     current=url;
     const doc=new DOMParser().parseFromString(archive.pages[url.pathname],'text/html');
@@ -72,7 +78,11 @@
       record(url,true);mount(url.pathname+url.search+url.hash);
     }
   });
-  const locationRoute=()=>location.hash.startsWith('#/')?location.hash.slice(1):'/';
+  function locationRoute() {
+    if(location.hash.startsWith('#/')) return location.hash.slice(1);
+    try { if(localStorage.getItem('afe.home.language')==='zh') return '/zh/'; } catch { /* A local file can disable storage. */ }
+    return '/';
+  }
   window.addEventListener('popstate',()=>mount(locationRoute()));
   mount(locationRoute());
 })();
