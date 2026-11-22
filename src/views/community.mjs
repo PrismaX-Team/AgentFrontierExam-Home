@@ -36,32 +36,46 @@ function contributeBreadcrumb(label, lang) {
   return `<nav class="breadcrumbs" aria-label="${zh ? '面包屑导航' : 'Breadcrumb'}"><a href="/contribute/">${zh ? '共建' : 'Contribute'}</a><span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(label)}</span></nav>`;
 }
 
-function expertProfile(member, lang) {
+function expertProfile(member, field, lang) {
   const zh = lang === 'zh';
-  const photo = member.portrait
+  const name = zh ? member.nameZh : member.name;
+  const initials = zh ? name[0] : name.split(' ').map(word => word[0]).join('');
+  const portrait = member.portrait
     ? `<img src="/assets/committee/${escapeHtml(member.portrait)}" alt="" width="200" height="250" loading="lazy" decoding="async">`
-    : '';
-  return `<li class="cc-expert">${photo}
-    <div><a href="${escapeHtml(member.profile)}">${escapeHtml(zh ? member.nameZh : member.name)}</a>
-      <p>${escapeHtml(zh ? member.affiliationZh : member.affiliation)}</p></div>
-  </li>`;
+    : `<span class="cc-expert-initial" aria-hidden="true">${escapeHtml(initials)}</span>`;
+  return `<li class="cc-expert"><a href="${escapeHtml(member.profile)}">${portrait}
+    <span class="cc-expert-copy">
+      <span class="cc-expert-field">${escapeHtml(field)}</span>
+      <span class="cc-expert-name">${escapeHtml(name)}</span>
+      <span class="cc-expert-affiliation">${escapeHtml(zh ? member.affiliationZh : member.affiliation)}</span>
+    </span></a></li>`;
 }
 
 export function expertise(lang = 'en') {
   const zh = lang === 'zh';
-  const fields = experts.map(({ field, fieldZh, members }) => `
-    <div class="cc-expertise-field${members.length > 1 ? ' cc-expertise-field-wide' : ''}">
-      <h3>${escapeHtml(zh ? fieldZh : field)}</h3>
-      <ul>${members.map(member => expertProfile(member, lang)).join('')}</ul>
-    </div>`).join('');
+  const members = experts.flatMap(({field, fieldZh, members}) =>
+    members.map(member => expertProfile(member, zh ? fieldZh : field, lang))).join('');
+  const profiles = zh ? '顾问名录' : 'Advisor profiles';
+  const previous = zh ? '上一位顾问' : 'Previous advisor';
+  const next = zh ? '下一位顾问' : 'Next advisor';
+  const pause = zh ? '暂停名录滚动' : 'Pause scrolling';
+  const play = zh ? '继续滚动名录' : 'Resume scrolling';
+  const icon = (drawing) => `<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${drawing}</svg>`;
 
   return `<section class="cc-expertise" id="scientific-expertise" aria-labelledby="expertise-heading">
     <div class="site-frame cc-expertise-inner">
       <header>
         <h2 id="expertise-heading">${zh ? '科学顾问委员会' : 'Scientific expertise behind the benchmark'}</h2>
         <p>${zh ? '顾问委员会参与任务遴选和科学审核，确保评测依据充分、结果可信。' : 'The Advisory Committee supports task selection, scientific review and evaluation integrity.'}</p>
+        <div class="cc-expert-controls" role="group" aria-label="${profiles}" hidden>
+          <button type="button" data-expert-prev aria-controls="advisor-profiles" aria-label="${previous}" title="${previous}">${icon('<path d="m12 5-5 5 5 5"/>')}</button>
+          <button type="button" data-expert-motion data-pause="${pause}" data-play="${play}" aria-controls="advisor-profiles" aria-label="${pause}" title="${pause}">${icon('<path class="cc-pause" d="M7.25 5v10m5.5-10v10"/><path class="cc-play" d="m7 4.5 8 5.5-8 5.5z"/>')}</button>
+          <button type="button" data-expert-next aria-controls="advisor-profiles" aria-label="${next}" title="${next}">${icon('<path d="m8 5 5 5-5 5"/>')}</button>
+        </div>
       </header>
-      <div class="cc-expertise-roster">${fields}</div>
+      <div class="cc-expert-viewport" id="advisor-profiles" role="region" aria-label="${profiles}" tabindex="0">
+        <div class="cc-expert-rail"><ul class="cc-expert-list" role="list">${members}</ul></div>
+      </div>
     </div>
   </section>`;
 }
