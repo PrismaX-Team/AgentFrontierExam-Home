@@ -13,7 +13,6 @@
   const pager = root.querySelector('.catalog-pager');
   const pageSize = 10;
   const matrix = root.querySelector('.task-matrix');
-  const matrixTotal = root.querySelector('[data-matrix-total]');
   const heading = root.querySelector('#directory-heading');
   const filters = ['q','domain','workflow','level'];
   const aliases = JSON.parse(root.dataset.typeAliases);
@@ -152,8 +151,6 @@
 
   function updateMatrix(query, counts, eligible) {
     const {domain,workflow} = form.elements;
-    matrixTotal.textContent = eligible === rows.length ? taskCount(eligible)
-      : zh ? taskCount(eligible) + ' / 共 ' + taskCount(rows.length) : eligible + ' of ' + taskCount(rows.length);
     const address = new URLSearchParams(query);
     address.delete('page');
     for (const {link,group,zero} of cells) {

@@ -198,15 +198,16 @@
 
 /* The full cross-tabulation is a reference. The searchable reading list follows it. */
 #catalogue {--directory-columns:minmax(0,1fr) minmax(10rem,23%) minmax(3.3rem,6%);--directory-gutter:clamp(.9rem,3vw,2.8rem)}
-#catalogue .matrix-section {margin-top:clamp(1.2rem,2.35vw,2.25rem)}
-.catalog-matrix summary {display:flex;gap:1rem;align-items:center;justify-content:space-between;min-height:3.75rem;padding-block:.6rem;list-style:none;cursor:pointer}
+#catalogue .matrix-section {position:relative;margin-top:clamp(1.2rem,2.35vw,2.25rem)}
+.catalog-matrix summary {
+  position:absolute;inset:0 0 auto auto;display:grid;place-items:center;inline-size:2.75rem;
+  block-size:max(2.75rem,calc(var(--section-heading-size) * var(--section-leading)));border-radius:var(--control-radius);
+  list-style:none;cursor:pointer;color:var(--link);
+}
 .catalog-matrix summary::-webkit-details-marker {display:none}
-.catalog-matrix summary::after {content:"";width:.55rem;height:.55rem;flex:none;margin-inline-end:.32rem;border-right:1.5px solid var(--link);border-bottom:1.5px solid var(--link);transform:rotate(45deg) translate(-.1rem,-.1rem)}
+.catalog-matrix summary::after {content:"";width:.63rem;height:.63rem;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-.1rem,-.1rem)}
 .catalog-matrix[open] summary::after {transform:rotate(225deg) translate(-.1rem,-.1rem)}
-.catalog-matrix summary h2 {display:flex;align-items:baseline;flex-wrap:wrap;gap:.25rem 1.15rem;font-size:clamp(1.6rem,2.4vw,2.15rem);letter-spacing:var(--title-spacing);transform:none}
-.catalog-matrix summary h2>span:first-child {color:var(--green)}
-.catalog-matrix summary:hover h2>span:first-child {text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.13em}
-.catalog-matrix .matrix-count {font:400 .88rem/1.25 var(--sans);color:var(--muted);letter-spacing:normal}
+.catalog-matrix summary:is(:hover,:focus-visible) {background:var(--green-wash)}
 .catalog-matrix .matrix-viewport {--matrix-stub:clamp(9rem,15vw,15rem);border:1px solid var(--line);border-radius:var(--panel-radius)}
 .task-matrix .matrix-sum,.task-matrix tfoot th[scope=row] {background:light-dark(color-mix(in srgb,var(--green-wash) 68%,var(--paper)),#27342a);color:var(--ink)}
 .task-matrix .matrix-sum {font-weight:600;text-align:center;padding:.3rem .2rem}
@@ -235,9 +236,10 @@
 .catalog-column-label,.catalog-status p {font-size:.87rem;color:var(--muted)}
 .catalog-directory .catalog-title {align-items:center;padding:var(--entry-space) var(--register-inset);color:var(--ink);text-decoration:none}
 .catalog-title:focus-visible {outline-offset:-3px;border-radius:var(--control-radius)}
-.catalog-directory .catalog-title .catalog-copy {position:relative;min-width:0;grid-area:auto;grid-column:1}
-.catalog-row:nth-child(n+2 of :not([hidden])) .catalog-copy::before {
-  content:"";position:absolute;inset-inline:0 12%;inset-block-start:calc(-1 * var(--entry-space));border-block-start:1px solid var(--line);
+.catalog-directory .catalog-title .catalog-copy {min-width:0;grid-area:auto;grid-column:1}
+.catalog-row:nth-child(n+2 of :not([hidden])),
+.catalog-register:not(:has(.catalog-group:target)) .catalog-group + .catalog-group .catalog-row:first-child {
+  border-block-start:1px solid var(--line);
 }
 .catalog-register .matrix-native-result {padding-inline:var(--register-inset)}
 .catalog-directory .catalog-copy h3 {max-width:46ch}

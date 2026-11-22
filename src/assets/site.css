@@ -222,10 +222,8 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .catalog-intro h1 {line-height:.98}
 .catalog-intro p {max-width:57ch;margin-top:.7rem;color:var(--muted);font-size:clamp(1.05rem,1.4vw,1.28rem);line-height:1.45}
 .matrix-section {margin-top:clamp(1.7rem,3.3vw,3.3rem)}
-.matrix-heading {margin-bottom:.7rem;flex-wrap:wrap}
+.matrix-heading {min-block-size:2.75rem;margin-inline-end:3.5rem;margin-bottom:.85rem;align-items:center}
 .matrix-heading h2,.directory-heading h2 {font-size:var(--section-heading-size);line-height:var(--section-leading)}
-.matrix-heading p {font-size:.85rem;color:var(--muted)}
-.matrix-heading p span[aria-hidden] {padding-inline:.2rem;color:var(--muted)}
 .matrix-viewport {
   --matrix-stub:clamp(8rem,14vw,12.6rem);
   position:relative;

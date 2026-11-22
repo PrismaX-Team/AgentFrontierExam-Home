@@ -38,7 +38,7 @@ html:lang(zh) .brief-heading h1 {
 }
 html:lang(zh) .section-hero { --hero-ink-inset: calc(var(--page-title-size) * .1); }
 html:lang(zh) :is(#showcase-heading, .invitation h2, .cc-expertise h2, .cc-section h2,
-    .cc-prose h2, .directory-heading h2, .brief-section h2, .related-section h2, .catalog-empty h2) {
+    .cc-prose h2, .matrix-heading h2, .directory-heading h2, .brief-section h2, .related-section h2, .catalog-empty h2) {
   font-size: var(--section-heading-size);
   line-height: var(--section-leading);
   letter-spacing: .018em;
