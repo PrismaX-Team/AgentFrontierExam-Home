@@ -50,9 +50,10 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 }
 .header-inner {
   display:flex;align-items:center;justify-content:space-between;
-  width:100%;max-width:none;padding-inline:clamp(.75rem,1.8vw,2.25rem);
+  width:100%;max-width:none;
   gap:1.25rem;min-height:var(--masthead-row);
 }
+.site-header .header-inner {padding-inline:clamp(.6rem,1.8vw,2.25rem)}
 .brand {
   display:inline-flex;align-items:center;flex:none;min-height:2.75rem;
   gap:clamp(.35rem,.65vw,.6rem);color:var(--mast-ink);text-decoration:none;
@@ -252,7 +253,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 @media(max-width:35rem){.brand-signature{display:none}}
 @media(max-width:31rem) {
   :root {--masthead-row:2.875rem}
-  .header-inner {gap:.3rem;padding-inline:.6rem}
+  .header-inner {gap:.3rem}
   .header-actions {gap:clamp(.35rem,2.2vw,.85rem)}
   .site-preferences {padding-inline-start:.18rem;gap:0}
   .brand {gap:.32rem}
