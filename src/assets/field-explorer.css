@@ -129,11 +129,11 @@
 #chart-levels .distribution-keys { display: grid; align-content: safe center; gap: .28rem; }
 #chart-levels .distribution-key { min-height: 2.45rem; padding-block: .6rem; }
 
-@media (max-width: 54rem) {
+@media (max-width: 56rem) {
   .tasks-hero { grid-template-columns: 1fr; gap: 1.4rem; }
   .tasks-hero-copy p { max-width: 46ch; }
 }
-@media (min-width: 37rem) and (max-width: 54rem) {
+@media (min-width: 37rem) and (max-width: 56rem) {
   .tasks-hero-copy { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: .6rem 1.5rem; }
   .tasks-hero-copy h1 { grid-column: 1 / -1; }
   .tasks-hero-copy p { margin: 0; }
