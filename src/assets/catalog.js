@@ -273,7 +273,6 @@
   form.hidden = false;
   readQuery();
   apply();
-  if (anchor === '#activity-matrix') root.querySelector('.catalog-matrix').open = true;
   const directoryQuery = filters.some(key => initial.has(key)) || initial.has('page');
   if (directoryQuery && (!anchor || anchor === '#task-directory' || anchor.startsWith('#tasks-') || anchor.startsWith('#?'))) {
     heading.scrollIntoView({block:'start'});

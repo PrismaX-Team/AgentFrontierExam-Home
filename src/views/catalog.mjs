@@ -63,7 +63,7 @@ function taskMatrix(domains, workflows, groups, counts, tasks, lang) {
   const fieldTotals = domains.map(domain => `<td class="matrix-sum" data-domain-total="${escape(domain)}">${counts.fields.get(domain)}</td>`).join('');
   const large = domains.length >= 15 || workflows.length >= 15;
   return `<section class="matrix-section" id="activity-matrix" aria-labelledby="matrix-heading">
-    <details class="catalog-matrix"><summary><h2 id="matrix-heading"><span>${t.matrix}</span><span class="matrix-count" data-matrix-total>${taskCount(tasks.length,lang)}</span></h2></summary>
+    <details class="catalog-matrix" open><summary><h2 id="matrix-heading"><span>${t.matrix}</span><span class="matrix-count" data-matrix-total>${taskCount(tasks.length,lang)}</span></h2></summary>
       <div class="matrix-viewport"${large ? ' data-large' : ''} role="region" aria-label="${t.matrixLabel}" tabindex="0">
         <table class="task-matrix" style="--matrix-field-span:${(domains.length+1)*5.25}rem" aria-label="${t.matrixLabel}">
           <thead><tr><th scope="col" class="matrix-stub">${t.type}</th>${fieldHeaders}<th scope="col">${t.total}</th></tr></thead>

@@ -49,7 +49,7 @@ test('bilingual task types, totals, native links and level filters retain their 
   assert.match(html, /data-workflow-total="Modelling and simulation">2<\/td>/);
   assert.match(html, /data-domain-total="Physics">1<\/td>/);
   assert.match(html, /data-grid-total>2<\/td>/);
-  assert.match(html, /<details class="catalog-matrix"><summary>/);
+  assert.match(html, /<details class="catalog-matrix" open><summary>/);
   assert.doesNotMatch(html, /<img/);
   const brief = taskPage(tasks[1],tasks,'zh');
   assert.match(brief, /<dt>领域<\/dt><dd><a [^>]+>物理学<\/a>/);
