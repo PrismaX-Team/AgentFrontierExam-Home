@@ -188,12 +188,22 @@ function levelPyramid(entries) {
       liquid=contents(square(y0,inset),square(heights[3]*(1-filled-inset),inset),id,.67+.32*share);
     }
     const hit=body(foot,lip);
-    const chamberBody=body(square(low+.035,.065),square(high-.115,.025));
-    const glass=path(hit+(cap?chamberBody:''),'da-tier-shell',id+'-top') +
-      (cap ? path(chamberBody,'da-cap-cavity','da-levels-air') : path(loop(bore.all),'da-tier-hollow','da-levels-hollow')) + liquid +
-      frostedWall(foot,shoulder,neck,lip,id,cap?.39:.33) +
+    let shell;
+    if (cap) {
+      // The rear surface and the return around the open underside show through the two front faces.
+      const innerBase=square(low+.028,.034), innerTip=square(high-.075,.013);
+      const cavity=body(innerBase,innerTip);
+      shell=path(hit+cavity,'da-cap-shell',id+'-top') +
+        path(band(innerBase.back,innerTip.back),'da-cap-rear',id+'-wall') +
+        path(cavity,'da-cap-cavity','da-levels-air') +
+        path(rim(shoulder,innerBase),'da-cap-base',id+'-wall');
+    } else {
+      shell=path(hit,'da-tier-shell',id+'-top') + path(loop(bore.all),'da-tier-hollow','da-levels-hollow');
+    }
+    const glass=shell + liquid +
+      frostedWall(foot,shoulder,neck,lip,id,cap?.14:.33) +
       (cap?path(loop(lip.all),'da-mouth',id+'-top'):path(rim(lip,bore),'da-mouth',id+'-top')) +
-      path(hit,'da-inspect',id+'-top');
+      path(hit,cap?'da-inspect da-cap-inspect':'da-inspect',id+'-top');
     return item(i,color,hit,glass);
   }).join('');
   return shadow(view,190,207,140,36)+shadow(view,181,216,110,21)+tiers;

@@ -35,9 +35,9 @@
 .da-well-mid { stop-color: var(--frost-shade); stop-opacity: .26; }
 .da-well-fade { stop-color: var(--frost-body); stop-opacity: .05; }
 .da-well-edge { stop-color: var(--frost-shade); stop-opacity: .23; }
-.da-air-bottom { stop-color: var(--frost-deep); stop-opacity: .19; }
-.da-air-body { stop-color: var(--frost-shade); stop-opacity: .045; }
-.da-air-tip { stop-color: var(--frost-milk); stop-opacity: .14; }
+.da-air-bottom { stop-color: var(--frost-deep); stop-opacity: .08; }
+.da-air-body { stop-color: var(--frost-shade); stop-opacity: .018; }
+.da-air-tip { stop-color: var(--frost-milk); stop-opacity: .055; }
 .da-shadow { stop-color: var(--frost-deep); stop-opacity: .28; }
 .da-penumbra { stop-color: var(--frost-deep); stop-opacity: .15; }
 .da-fade { stop-color: var(--frost-deep); stop-opacity: 0; }
@@ -45,6 +45,7 @@
 .da-specimen { transition: transform .2s ease-out; }
 .da-inspect { opacity: 0; transition: opacity .2s; }
 .distribution-art [data-active] .da-inspect { opacity: .22; }
+.da-levels [data-active] .da-cap-inspect { opacity: .09; }
 .distribution-art [data-active] .da-specimen { transform: translateY(-2.5px); }
 .da-levels [data-active] .da-specimen { transform: translateY(-3.5px); }
 @media (prefers-reduced-motion: reduce) {
@@ -70,3 +71,6 @@
 .da-inner { fill-opacity: .55; }
 .da-tier-shell { fill-opacity: .19; fill-rule: evenodd; }
 .da-tier-hollow { fill-opacity: .47; }
+.da-cap-shell { fill-rule: evenodd; fill-opacity: .17; }
+.da-cap-rear { fill-opacity: .08; }
+.da-cap-base { fill-rule: evenodd; fill-opacity: .38; }
