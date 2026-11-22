@@ -105,7 +105,7 @@ export function contribute(lang = 'en') {
       <figure class="cc-folio" aria-labelledby="folio-caption">
         <figcaption id="folio-caption">${c.levels}</figcaption><ol class="cc-sheets">${sheets}</ol>
         <div class="cc-folder">
-          <div><span class="cc-folder-title">${c.package}</span><a class="cc-folder-format" href="${formatUrl}">${c.format}</a></div>
+          <div class="cc-folder-package"><span class="cc-folder-title">${c.package}</span><a class="cc-folder-format" href="${formatUrl}">${c.format}</a></div>
           <span class="cc-folder-destination">${c.platform}</span>
         </div>
       </figure>
