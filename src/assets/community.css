@@ -134,7 +134,7 @@
 .cc-folder-title { font-size: clamp(1.55rem, 2.5vw, 2.35rem); }
 .cc-folder .cc-folder-format { display: inline-block; padding-block: .2rem; font-size: .82rem; line-height: 1.45; color: var(--folder-note); text-decoration-color: color-mix(in srgb, currentColor 65%, transparent); }
 .cc-folder .cc-folder-format:is(:hover, :focus-visible) { color: var(--folder-ink); text-decoration-color: currentColor; }
-.cc-folder-destination { color: light-dark(var(--green), var(--folder-note)); font-size: .83rem; font-weight: 550; text-align: end; line-height: 1.28; }
+.cc-folder-destination { color: light-dark(var(--green), var(--folder-note)); font-size: .83rem; font-weight: 550; text-align: end; line-height: 1.28; white-space: nowrap; }
 .cc-section { margin-block-start: clamp(2.7rem, 4.8vw, 5rem); }
 .cc-contribute-hero + .cc-section { margin-block-start: clamp(1.75rem, 3vw, 3.1rem); }
 .cc-choices {
@@ -178,11 +178,13 @@
 }
 .cc-submission .cc-submission-source { margin-top: .95rem; font-size: .9rem; }
 .cc-contribute .cc-participation {
+  grid-template-columns: minmax(0,.94fr) minmax(0,1.26fr);
   padding: clamp(1.25rem, 2.55vw, 2.5rem);
   border-radius: var(--panel-radius);
   background: color-mix(in srgb, var(--blue-wash) 73%, var(--paper));
   gap: clamp(1.75rem, 4vw, 4.25rem);
 }
+.cc-participation h2 { font-size: clamp(1.85rem, 2.95vw, 3rem); }
 .cc-participation-roles { display: grid; align-content: start; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .cc-participation-roles section { padding-inline-start: clamp(1rem, 1.7vw, 1.75rem); border-inline-start: 1px solid var(--cc-rule); }
 .cc-participation-roles section:first-child { padding-inline-end: clamp(1rem, 1.7vw, 1.75rem); }
@@ -259,7 +261,7 @@
   margin-bottom: clamp(1.15rem, 2vw, 2rem);
 }
 .cc-expertise h2 { max-width: 16em; }
-.cc-expertise header p { max-width: 38ch; }
+.cc-expertise header p { max-width: 46ch; }
 .cc-expert-controls { display: flex; align-items: center; gap: .12rem; }
 .cc-expert-controls button {
   display: grid; place-items: center; width: 2.25rem; height: 2.25rem; padding: 0;
@@ -312,8 +314,17 @@
 @media (min-width: 58rem) {
   .cc-index { position: sticky; top: 5.5rem; }
 }
+@media (min-width: 44rem) and (max-width: 62rem) {
+  .cc-choices { grid-template-columns: 1fr; }
+  .cc-choices section { grid-row: auto; grid-template: auto auto / repeat(2, minmax(0,1fr)); column-gap: 1.5rem; }
+  .cc-choices header { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 1rem; }
+  .cc-choices h3 { margin-top: 0; }
+  .cc-choices .cc-goal-evidence { margin-top: .65rem; }
+}
 @media (max-width: 57.99rem) {
   .cc-section-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr); gap: 2rem; }
+  .cc-contribute .cc-participation { grid-template-columns: 1fr; gap: 1.2rem; }
+  .cc-participation-roles section:first-child { border: 0; padding-inline-start: 0; }
   .cc-section-split .cc-definitions > div { grid-template-columns: 1fr; gap: .4rem; }
   .cc-article-layout { grid-template-columns: 1fr; gap: 2rem; }
   .cc-index { border-bottom: 1px solid var(--cc-rule); padding-bottom: 1.15rem; }
@@ -328,12 +339,10 @@
   .cc-contribute-intro h1 { max-width: 100%; }
   .cc-folio { justify-self: start; width: min(100%, 29rem); }
 }
-@media (max-width: 52rem) {
+@media (max-width: 43.99rem) {
   .cc-participation-roles { grid-template-columns: 1fr; gap: 1.1rem; }
   .cc-participation-roles section { padding: 0; border: 0; }
   .cc-participation-roles section:first-child { padding: 0; }
-}
-@media (max-width: 43.99rem) {
   .cc-choices, .cc-section-split { grid-template-columns: 1fr; }
   .cc-section-split, .cc-choices { gap: 1.6rem; }
   .cc-choices { margin-top: 1.5rem; }

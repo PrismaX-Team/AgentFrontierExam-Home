@@ -5,6 +5,13 @@ export function escape(value) {
   return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
 }
 
+// Keep the final words of editorial copy on the same line even in long
+// paragraphs. Match the trailing text only, leaving existing inline markup intact.
+export function keepEnding(html, lang) {
+  const ending = lang === 'zh' ? /\p{Script=Han}{2}\p{P}*$/u : /[^\s<>]+ [^\s<>]+$/u;
+  return html.replace(ending, '<span class="text-phrase">$&</span>');
+}
+
 export function taskHref(task) {
   return `/tasks/${task.id}/`;
 }

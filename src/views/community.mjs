@@ -1,14 +1,14 @@
 import experts from '../data/experts.json' with { type: 'json' };
 import {contributionCopy, guideCopy, authorshipCopy} from '../data/community-copy.mjs';
 import {packageFiles, packageTree} from '../data/package-example.mjs';
-import {escape as escapeHtml, levelLabels} from './layout.mjs';
+import {escape as escapeHtml, keepEnding, levelLabels} from './layout.mjs';
 
 const guideUrl = 'https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f';
 const formatUrl = 'https://docs.harborframework.com/tasks/overview';
 const submitUrl = 'https://discovery-home.intern-ai.org.cn/home/event/rex/index.html';
 const communityUrl = 'https://github.com/PrismaX-Team/AgentFrontierExam-Tasks#-contributor-community';
 
-function fileSection(file) {
+function fileSection(file, lang) {
   const rows = file.fields.map(({ label, prose, code, heading, note, source }) => `
     <div class="cc-file-row">
       <div class="cc-file-excerpt">
@@ -17,7 +17,7 @@ function fileSection(file) {
       </div>
       <div class="cc-file-note">
         <h3>${escapeHtml(heading)}</h3>
-        <p>${escapeHtml(note)}</p>
+        <p>${keepEnding(escapeHtml(note), lang)}</p>
         ${source ? `<a href="${escapeHtml(source.url)}">${escapeHtml(source.label)}</a>` : ''}
       </div>
     </div>`).join('');
@@ -25,7 +25,7 @@ function fileSection(file) {
   return `<section class="cc-file" id="${file.id}" aria-labelledby="file-${file.id}">
     <header class="cc-file-heading">
       <h2 id="file-${file.id}"><code>${escapeHtml(file.name)}</code></h2>
-      <p>${escapeHtml(file.purpose)}</p>
+      <p>${keepEnding(escapeHtml(file.purpose), lang)}</p>
     </header>
     ${rows}
   </section>`;
@@ -66,7 +66,7 @@ export function expertise(lang = 'en') {
     <div class="site-frame cc-expertise-inner">
       <header>
         <h2 id="expertise-heading">${zh ? '科学顾问委员会' : 'Scientific expertise behind the benchmark'}</h2>
-        <p>${zh ? '顾问委员会参与任务遴选和科学审核，确保评测依据充分、结果可信。' : 'The Advisory Committee supports task selection, scientific review and evaluation integrity.'}</p>
+        <p>${zh ? '顾问委员会参与任务遴选和<span class="text-phrase">科学审核，</span>确保评测依据充分、结果可信。' : 'The Advisory Committee supports task selection, scientific review and <span class="text-phrase">evaluation integrity.</span>'}</p>
         <div class="cc-expert-controls" role="group" aria-label="${profiles}" hidden>
           <button type="button" data-expert-prev aria-controls="advisor-profiles" aria-label="${previous}" title="${previous}">${icon('<path d="m12 5-5 5 5 5"/>')}</button>
           <button type="button" data-expert-motion data-pause="${pause}" data-play="${play}" aria-controls="advisor-profiles" aria-label="${pause}" title="${pause}">${icon('<path class="cc-pause" d="M7.25 5v10m5.5-10v10"/><path class="cc-play" d="m7 4.5 8 5.5-8 5.5z"/>')}</button>
@@ -80,8 +80,8 @@ export function expertise(lang = 'en') {
   </section>`;
 }
 
-function definitions(entries) {
-  return entries.map(([label, body]) => `<div><dt>${label}</dt><dd>${body}</dd></div>`).join('\n');
+function definitions(entries, lang) {
+  return entries.map(([label, body]) => `<div><dt>${label}</dt><dd>${keepEnding(body, lang)}</dd></div>`).join('\n');
 }
 
 export function contribute(lang = 'en') {
@@ -91,7 +91,7 @@ export function contribute(lang = 'en') {
   const goals = c.goals.map(({level, goal, evidence}) =>
     `<section class="cc-level-${level}">
       <header><p class="cc-meta">L${level}</p><h3>${escapeHtml(levels[level])}</h3></header>
-      <p>${goal}</p><dl class="cc-goal-evidence"><dt>${c.evidenceLabel}</dt><dd>${evidence}</dd></dl>
+      <p>${keepEnding(goal, lang)}</p><dl class="cc-goal-evidence"><dt>${c.evidenceLabel}</dt><dd>${keepEnding(evidence, lang)}</dd></dl>
     </section>`
   ).join('');
 
@@ -115,19 +115,19 @@ export function contribute(lang = 'en') {
     </section>
     <section class="cc-section cc-section-split cc-submission" id="submit" aria-labelledby="cc-submit">
       <div>
-        <h2 id="cc-submit">${c.submitTitle}</h2><p>${c.submitIntro}</p>
+        <h2 id="cc-submit">${c.submitTitle}</h2><p>${keepEnding(c.submitIntro, lang)}</p>
         <div class="cc-links"><a class="cc-action" href="${submitUrl}">${c.submit}</a></div>
         <p class="cc-submission-source"><a href="${guideUrl}">${c.template}</a></p>
       </div>
-      <dl class="cc-definitions">${definitions(c.details)}</dl>
+      <dl class="cc-definitions">${definitions(c.details, lang)}</dl>
     </section>
     <section class="cc-section cc-section-split cc-participation" id="participation" aria-labelledby="cc-participate">
       <div>
-        <h2 id="cc-participate">${c.participationTitle}</h2><p>${c.participationIntro}</p>
+        <h2 id="cc-participate">${keepEnding(c.participationTitle, lang)}</h2><p>${keepEnding(c.participationIntro, lang)}</p>
       </div>
       <div class="cc-participation-roles">
-        <section><h3><a href="/authorship/#participants">${c.participants}</a></h3><p>${c.participantRole}</p></section>
-        <section><h3><a href="/authorship/#area-chairs">${c.chairs}</a></h3><p>${c.chairRole}</p></section>
+        <section><h3><a href="/authorship/#participants">${c.participants}</a></h3><p>${keepEnding(c.participantRole, lang)}</p></section>
+        <section><h3><a href="/authorship/#area-chairs">${c.chairs}</a></h3><p>${keepEnding(c.chairRole, lang)}</p></section>
       </div>
     </section>
   </article>`;
@@ -139,7 +139,7 @@ export function packageGuide(lang = 'en') {
   return `<article class="site-frame cc-page cc-package">
     ${contributeBreadcrumb(c.title, lang)}
     <header class="cc-hero">
-      <h1>${c.title}</h1><p>${c.intro}</p>
+      <h1>${c.title}</h1><p>${keepEnding(c.intro, lang)}</p>
       <div class="cc-links"><a class="cc-action" href="${guideUrl}">${c.template}</a><a href="/contribute/#submit">${c.submit}</a></div>
     </header>
     <div class="cc-article-layout">
@@ -152,12 +152,12 @@ export function packageGuide(lang = 'en') {
       </aside>
       <div class="cc-article-main">
         <section class="cc-prose cc-layout-intro" id="package-layout">
-          <h2>${c.layout}</h2><p>${c.layoutIntro}</p>
-          <pre class="cc-tree" aria-label="${c.treeLabel}"><code>${escapeHtml(packageTree(lang))}</code></pre><p>${c.supplemental}</p>
+          <h2>${c.layout}</h2><p>${keepEnding(c.layoutIntro, lang)}</p>
+          <pre class="cc-tree" aria-label="${c.treeLabel}"><code>${escapeHtml(packageTree(lang))}</code></pre><p>${keepEnding(c.supplemental, lang)}</p>
         </section>
-        ${files.map(fileSection).join('')}
+        ${files.map(file => fileSection(file, lang)).join('')}
         <section class="cc-prose cc-delivery" id="delivery">
-          <h2>${c.before}</h2><p>${c.preflight}</p><p>${c.permissions}</p>
+          <h2>${c.before}</h2><p>${keepEnding(c.preflight, lang)}</p><p>${keepEnding(c.permissions, lang)}</p>
           <div class="cc-links"><a class="cc-action" href="/contribute/#submit">${c.prepare}</a></div>
         </section>
       </div>
@@ -173,12 +173,12 @@ export function authorship(lang = 'en') {
   ];
   const questions = c.questions.map(({question, answer, link, communityLink}) => {
     const target = communityLink ? {href: communityUrl, label: communityLink} : link;
-    return `<details><summary>${question}</summary><p>${answer}${target ? ` <a href="${target.href}">${target.label}</a>` : ''}</p></details>`;
+    return `<details><summary>${keepEnding(question, lang)}</summary><p>${keepEnding(answer, lang)}${target ? ` <a href="${target.href}">${keepEnding(target.label, lang)}</a>` : ''}</p></details>`;
   }).join('');
   return `<article class="site-frame cc-page cc-authorship">
     ${contributeBreadcrumb(c.breadcrumb, lang)}
     <header class="cc-hero">
-      <h1>${c.title}</h1><p>${c.intro}</p>
+      <h1>${c.title}</h1><p>${keepEnding(c.intro, lang)}</p>
       <div class="cc-links"><a class="cc-action" href="/contribute/">${c.contribute}</a><a href="#area-chairs">${c.join}</a></div>
     </header>
     <div class="cc-article-layout">
@@ -189,19 +189,19 @@ export function authorship(lang = 'en') {
       <div class="cc-article-main cc-authorship-main">
         <section class="cc-prose" id="participants">
           <h2>${c.participants}</h2>
-          <p class="cc-lead"><strong>${c.threshold}</strong></p><p>${c.firstTask}</p><p>${c.record}</p>
+          <p class="cc-lead"><strong>${keepEnding(c.threshold, lang)}</strong></p><p>${keepEnding(c.firstTask, lang)}</p><p>${keepEnding(c.record, lang)}</p>
           <p class="cc-text-link"><a href="/contribute/task-package/#configuration">${c.recordLink}</a></p>
         </section>
         <section class="cc-prose" id="area-chairs">
-          <h2>${c.chairs}</h2><p>${c.chairIntro}</p>
-          <dl class="cc-definitions cc-role-list">${definitions(c.responsibilities)}</dl><p>${c.joinIntro}</p>
+          <h2>${keepEnding(c.chairs, lang)}</h2><p>${keepEnding(c.chairIntro, lang)}</p>
+          <dl class="cc-definitions cc-role-list">${definitions(c.responsibilities, lang)}</dl><p>${keepEnding(c.joinIntro, lang)}</p>
           <p class="cc-text-link"><a href="${communityUrl}">${c.joinLink}</a></p>
         </section>
         <section class="cc-prose" id="acceptance">
-          <h2>${c.counts}</h2><p>${c.review}</p><p>${c.example}</p><p>${c.changes}</p>
+          <h2>${c.counts}</h2><p>${keepEnding(c.review, lang)}</p><p>${keepEnding(c.example, lang)}</p><p>${keepEnding(c.changes, lang)}</p>
         </section>
         <section class="cc-prose" id="paper">
-          <h2>${c.paper}</h2><p>${c.paperIntro}</p><p>${c.order}</p>
+          <h2>${c.paper}</h2><p>${keepEnding(c.paperIntro, lang)}</p><p>${keepEnding(c.order, lang)}</p>
           <p class="cc-text-link"><a href="${guideUrl}">${c.guide}</a></p>
         </section>
         <section class="cc-prose cc-faq" id="faq"><h2>${c.faq}</h2>${questions}</section>

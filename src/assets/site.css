@@ -39,6 +39,10 @@ a {color:var(--link);text-underline-offset:.22em;text-decoration-thickness:1px}
 a:hover {text-decoration-thickness:2px}
 :focus-visible {outline:2px solid var(--blue);outline-offset:4px}
 h1,h2,h3,p,ul,ol,dl,dd,figure {margin:0}
+:where(.home-section,.invitation,.cc-expertise,.cc-page,.task-page,#catalogue) :where(p,dd,dt,summary,h1,h2,h3) {text-wrap:pretty}
+:where(.invitation,.cc-expertise header,.tasks-hero-copy,.cc-contribute-intro,.cc-hero,.card-content,.cc-choices,.cc-participation-roles,.catalog-copy) p,
+.cc-goal-evidence dd,.cc-section-split dt,.brief-lede {text-wrap:balance}
+.text-phrase {display:inline-block;max-inline-size:100%}
 img {max-width:100%;display:block}
 h1,h2,h3 {font-family:var(--serif);font-weight:400;line-height:1.04;color:var(--ink)}
 h1 {font-size:clamp(3.2rem,6.3vw,6rem);letter-spacing:var(--title-spacing)}
@@ -183,7 +187,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .card-plate img {width:100%;height:100%;object-fit:cover;transition:transform .35s ease-out}
 .card-content {padding-top:1.1rem}
 .card-content .eyeline {margin-bottom:.55rem;color:var(--blue)}
-.card-content h3 {font-size:clamp(1.63rem,2.05vw,2.04rem);line-height:1.06;text-wrap:pretty}
+.card-content h3 {font-size:clamp(1.63rem,2.05vw,2.04rem);line-height:1.06;text-wrap:balance}
 .card-summary {font-size:1rem;line-height:1.46;color:var(--muted);margin-top:.72rem}
 @media(min-width:461px) {
   .showcase-card,.showcase-card>a {display:grid;grid-template-rows:subgrid;grid-row:span 4;row-gap:0}
@@ -225,12 +229,13 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .matrix-viewport[data-large] {max-block-size:min(62vh,35rem);overflow:auto;scroll-padding-block-start:4rem}
 .matrix-viewport[data-large] thead th {position:sticky;top:0;z-index:2}
 .matrix-viewport[data-large] thead .matrix-stub {z-index:3}
-.task-matrix {width:100%;min-width:max(58rem,calc(var(--matrix-stub) + var(--matrix-field-span)));table-layout:fixed;border-spacing:0;font-variant-numeric:tabular-nums}
+.task-matrix {--field-width:5.25rem;width:100%;min-width:max(58rem,calc(var(--matrix-stub) + var(--matrix-value-columns) * var(--field-width)));border-spacing:0;font-variant-numeric:tabular-nums}
 .task-matrix th,.task-matrix td {padding:0;border-bottom:1px solid var(--line);border-inline-end:1px solid var(--line)}
 .task-matrix tr>:last-child {border-inline-end:0}
 .task-matrix tbody tr:last-child>* {border-bottom:0}
 .task-matrix th {font-family:var(--sans);font-weight:500;overflow-wrap:anywhere}
 .task-matrix thead th {padding:.6rem .25rem;background:var(--green-wash);color:var(--green);border-block-end-color:var(--green-edge);text-align:center;vertical-align:middle;font-size:.84rem;line-height:1.18}
+.task-matrix thead th:not(.matrix-stub) {min-width:var(--field-width);overflow-wrap:normal;text-wrap:balance}
 .task-matrix .matrix-stub,.task-matrix th[scope=row] {
   position:sticky;inset-inline-start:0;z-index:1;width:var(--matrix-stub);
   padding-inline:.68rem;
@@ -258,7 +263,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .catalog-status p {font-size:.88rem;font-variant-numeric:tabular-nums}
 .catalog-list {padding:0;list-style:none}
 .catalog-title {display:grid;align-items:center;column-gap:clamp(1.1rem,2.5vw,2.5rem);padding-block:clamp(.95rem,1.6vw,1.4rem);color:var(--ink);text-decoration:none}
-.catalog-copy h3 {max-width:48ch;font-size:clamp(1.65rem,2.25vw,2.2rem);letter-spacing:var(--title-spacing);line-height:1.1;text-wrap:pretty;transform:scaleY(var(--display-height));transform-origin:left center}
+.catalog-copy h3 {max-width:48ch;font-size:clamp(1.65rem,2.25vw,2.2rem);letter-spacing:var(--title-spacing);line-height:1.1;text-wrap:balance;transform:scaleY(var(--display-height));transform-origin:left center}
 .catalog-copy p {max-width:77ch;margin-top:.36rem;color:var(--muted);font-size:1rem;line-height:1.43}
 .catalog-title:is(:hover,:focus-visible) h3 {text-decoration:underline;text-underline-offset:.15em;text-decoration-thickness:1px}
 .catalog-meta {display:grid;gap:.16rem;padding-left:1rem;border-left:1px solid var(--line);font-size:.86rem;line-height:1.34;color:var(--muted)}
@@ -279,7 +284,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .brief-heading .eyeline,.brief-facts a {color:var(--blue)}
 .brief-heading {margin-bottom:clamp(2.8rem,5.8vw,5.7rem)}
 .brief-heading.with-figure {display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr);align-items:center;gap:clamp(2rem,6vw,6rem)}
-.brief-heading h1 {font-size:clamp(3rem,5.45vw,5.55rem);line-height:.99;max-width:19ch;text-wrap:pretty;margin-block:.55rem 1.05rem}
+.brief-heading h1 {font-size:clamp(3rem,5.45vw,5.55rem);line-height:.99;max-width:19ch;text-wrap:balance;margin-block:.55rem 1.05rem}
 .brief-lede {max-width:57ch}
 .brief-figure img {width:100%;height:auto;aspect-ratio:1.6;object-fit:cover;border-radius:var(--panel-radius)}
 .brief-figure figcaption {margin-top:.5rem;font-size:.81rem;line-height:1.42;color:var(--muted)}
@@ -296,8 +301,8 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .related-section .section-heading {margin-bottom:.5rem}
 .related-section ul {padding:0;list-style:none}
 .related-section li {display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);gap:1rem;padding-block:.8rem}
-.related-section li a {font-size:1.1rem}
-.related-section li span {font-size:.89rem;color:var(--muted)}
+.related-section li a {font-size:1.1rem;text-wrap:balance}
+.related-section li > span {font-size:.89rem;color:var(--muted)}
 @media(max-width:1000px){.showcase-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:2rem 1.4rem}.card-content h3{font-size:1.95rem}.card-summary{max-width:52ch}}
 @media(max-width:700px){
   .site-frame{padding-inline:7%}

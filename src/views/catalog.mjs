@@ -1,4 +1,4 @@
-import {escape, taskHref, filteredHref, levelLabels} from './layout.mjs';
+import {escape, keepEnding, taskHref, filteredHref, levelLabels} from './layout.mjs';
 import {plateFor} from '../data/plates.mjs';
 import {axisLabel, activityAliases} from '../data/taxonomy.mjs';
 import {catalogueHero, collectionCounts, intersectionHref} from './field-explorer.mjs';
@@ -65,7 +65,7 @@ function taskMatrix(domains, workflows, groups, counts, tasks, lang) {
   return `<section class="matrix-section" id="activity-matrix" aria-labelledby="matrix-heading">
     <details class="catalog-matrix" open><summary><h2 id="matrix-heading"><span>${t.matrix}</span><span class="matrix-count" data-matrix-total>${taskCount(tasks.length,lang)}</span></h2></summary>
       <div class="matrix-viewport"${large ? ' data-large' : ''} role="region" aria-label="${t.matrixLabel}" tabindex="0">
-        <table class="task-matrix" style="--matrix-field-span:${(domains.length+1)*5.25}rem" aria-label="${t.matrixLabel}">
+        <table class="task-matrix" style="--matrix-value-columns:${domains.length+1}" aria-label="${t.matrixLabel}">
           <thead><tr><th scope="col" class="matrix-stub">${t.type}</th>${fieldHeaders}<th scope="col">${t.total}</th></tr></thead>
           <tbody>${rows}</tbody><tfoot><tr><th scope="row">${t.total}</th>${fieldTotals}<td class="matrix-sum" data-grid-total>${tasks.length}</td></tr></tfoot>
         </table>
@@ -186,6 +186,6 @@ export function taskPage(task, tasks, lang = 'en') {
     <div class="brief-body${sections ? '' : ' metadata-only'}"><dl class="brief-facts">${facts}</dl>
       ${sections ? `<div class="brief-reading">${sections}</div>` : ''}</div>
     <section class="related-section"><div class="section-heading"><h2>${related.length ? t.related : t.explore}</h2>
-      <a class="text-link" href="/tasks/">${t.browse}</a></div>${related.length ? `<ul>${related.map(other=>`<li><a href="${taskHref(other)}">${escape(other.title)}</a><span>${escape(axisLabel(other.workflow,lang))}</span></li>`).join('')}</ul>` : ''}</section>
+      <a class="text-link" href="/tasks/">${t.browse}</a></div>${related.length ? `<ul>${related.map(other=>`<li><a href="${taskHref(other)}">${keepEnding(escape(other.title), lang)}</a><span>${escape(axisLabel(other.workflow,lang))}</span></li>`).join('')}</ul>` : ''}</section>
   </article>`;
 }
