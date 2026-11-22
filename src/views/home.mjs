@@ -17,7 +17,7 @@ export function homePage(tasks, lang = 'en') {
   const selected = tasks.filter(task => task.showcase).sort((a,b)=>a.showcase-b.showcase);
   return `${pyramid(tasks, lang)}
   <section class="home-section site-frame" id="showcase" aria-labelledby="showcase-heading">
-    <div class="section-heading"><h2 id="showcase-heading">${zh ? '精选任务' : 'Task showcase'}</h2>
+    <div class="section-heading"><h2 id="showcase-heading">${zh ? '任务展示' : 'Task showcase'}</h2>
       <a class="text-link" href="/tasks/">${zh ? '浏览全部任务' : 'Browse all tasks'}</a></div>
     <div class="showcase-grid">${selected.map(task => showcaseCard(task, lang)).join('\n')}</div>
   </section>
