@@ -1,90 +1,72 @@
 .distribution-art {
-  --da-light: light-dark(#cccfb5, #9bada7);
-  --da-mid: light-dark(#869789, #586c6b);
-  --da-shade: light-dark(#394d48, #25343a);
-  --da-edge: light-dark(#52665f, #9aaca8);
-  --da-glass: light-dark(#8ea397, #738a88);
-  --da-ground: light-dark(#45574e, #080f14);
+  --frost-lamp: light-dark(#efeada, #c4cbbf);
+  --frost-milk: light-dark(#d4dfcf, #a8b8af);
+  --frost-body: light-dark(#a3b8ac, #788d87);
+  --frost-shade: light-dark(#3b5753, #2c3c42);
+  --frost-deep: light-dark(#334940, #10191c);
+  --cast-lit: light-dark(#d7e0cf, #798a82);
+  --cast-mid: light-dark(#b8c9bb, #5c706b);
+  --cast-dim: light-dark(#8ca598, #425852);
   display: block;
   inline-size: 100%;
   block-size: 100%;
   overflow: visible;
 }
 
-.distribution-art [data-art-index] { --da-rim: color-mix(in srgb, var(--sample) 40%, var(--da-edge)); }
-.distribution-art :is(path, ellipse, .da-specimen, .da-ground) { pointer-events: none; }
+.distribution-art :is(path,ellipse,.da-specimen) { pointer-events: none; }
 .distribution-art .da-hit { fill: transparent; pointer-events: fill; cursor: pointer; }
-.distribution-art path { stroke-linejoin: round; stroke-linecap: round; }
-.da-sample-lit { stop-color: color-mix(in srgb, var(--sample) 56%, var(--da-light)); }
-.da-sample-mid { stop-color: color-mix(in srgb, var(--sample) 84%, var(--da-mid)); }
-.da-sample-dim { stop-color: color-mix(in srgb, var(--sample) 80%, var(--da-shade)); }
-.da-sample-frontlight { stop-color: color-mix(in srgb, var(--sample) 71%, var(--da-light)); }
-.da-sample-frontfoot { stop-color: color-mix(in srgb, var(--sample) 73%, var(--da-shade)); }
-.da-sample-flank { stop-color: color-mix(in srgb, var(--sample) 60%, var(--da-shade)); }
-.da-sample-foot { stop-color: color-mix(in srgb, var(--sample) 37%, var(--da-shade)); }
-.da-edge-deep { stop-color: var(--da-shade); stop-opacity: .35; }
-.da-edge-lit { stop-color: var(--da-light); stop-opacity: .44; }
-.da-edge-mid { stop-color: var(--da-mid); stop-opacity: .29; }
-.da-bevel-lit { stop-color: var(--da-light); stop-opacity: .43; }
-.da-bevel-soft { stop-color: var(--da-mid); stop-opacity: .08; }
-.da-bevel-dim { stop-color: var(--da-shade); stop-opacity: .2; }
-.da-shadow-core { stop-color: var(--da-ground); stop-opacity: .3; }
-.da-shadow-soft { stop-color: var(--da-ground); stop-opacity: .14; }
-.da-shadow-end { stop-color: var(--da-ground); stop-opacity: 0; }
+
+.da-lit  { stop-color: color-mix(in srgb, var(--sample) 34%, var(--frost-lamp)); }
+.da-milk { stop-color: color-mix(in srgb, var(--sample) 59%, var(--frost-milk)); }
+.da-body { stop-color: color-mix(in srgb, var(--sample) 73%, var(--frost-body)); }
+.da-turn { stop-color: color-mix(in srgb, var(--sample) 62%, var(--frost-body)); }
+.da-front { stop-color: color-mix(in srgb, var(--sample) 44%, var(--frost-milk)); }
+.da-mid { stop-color: color-mix(in srgb, var(--sample) 65%, var(--frost-body)); }
+.da-flank { stop-color: color-mix(in srgb, var(--sample) 78%, var(--frost-shade)); }
+.da-side { stop-color: color-mix(in srgb, var(--sample) 68%, var(--frost-shade)); }
+.da-types .da-lit { stop-color: color-mix(in srgb, var(--sample) 53%, var(--frost-lamp)); }
+
+.da-cast-lit { stop-color: var(--cast-lit); }
+.da-cast-mid { stop-color: var(--cast-mid); }
+.da-cast-dim { stop-color: var(--cast-dim); }
+.da-soft-lit { stop-color: var(--frost-milk); stop-opacity: .54; }
+.da-soft-mid { stop-color: var(--frost-body); stop-opacity: .14; }
+.da-soft-foot { stop-color: var(--frost-shade); stop-opacity: .48; }
+.da-well-mid { stop-color: var(--frost-shade); stop-opacity: .26; }
+.da-well-fade { stop-color: var(--frost-body); stop-opacity: .05; }
+.da-well-edge { stop-color: var(--frost-shade); stop-opacity: .23; }
+.da-air-bottom { stop-color: var(--frost-deep); stop-opacity: .19; }
+.da-air-body { stop-color: var(--frost-shade); stop-opacity: .045; }
+.da-air-tip { stop-color: var(--frost-milk); stop-opacity: .14; }
+.da-shadow { stop-color: var(--frost-deep); stop-opacity: .28; }
+.da-penumbra { stop-color: var(--frost-deep); stop-opacity: .15; }
+.da-fade { stop-color: var(--frost-deep); stop-opacity: 0; }
 
 .da-specimen { transition: transform .2s ease-out; }
-.da-inspect { fill: none; stroke: var(--da-rim); stroke-width: 1.3; opacity: 0; transition: opacity .18s; }
-.distribution-art [data-active] .da-inspect { opacity: .95; }
-.distribution-art [data-active] .da-specimen { transform: translateY(-2px); }
-.da-levels [data-active] .da-specimen { transform: translateY(-3px); }
+.da-inspect { opacity: 0; transition: opacity .2s; }
+.distribution-art [data-active] .da-inspect { opacity: .22; }
+.distribution-art [data-active] .da-specimen { transform: translateY(-2.5px); }
+.da-levels [data-active] .da-specimen { transform: translateY(-3.5px); }
 @media (prefers-reduced-motion: reduce) {
   .distribution-art .da-specimen, .distribution-art .da-inspect { transition: none; }
   .distribution-art [data-active] .da-specimen { transform: none; }
 }
 
-.da-liquid-surface { fill-opacity: .96; }
-.da-liquid-edge { fill: color-mix(in srgb, var(--sample) 59%, var(--da-shade)); }
-.da-liquid-collar { fill: color-mix(in srgb, var(--sample) 57%, var(--da-light)); fill-opacity: .51; }
-.da-meniscus { fill: none; stroke: color-mix(in srgb, var(--sample) 53%, var(--da-light)); stroke-width: .68; opacity: .8; }
-.da-glass-line { fill: none; stroke: var(--da-edge); stroke-opacity: .36; stroke-width: .8; }
-.da-glass-bed { fill: var(--da-glass); fill-opacity: .13; }
-.da-dish-apron, .da-dish-back { stroke: var(--da-edge); stroke-width: 1; stroke-opacity: .59; }
-.da-dish-back { opacity: .57; }
-.da-dish-floor { fill: var(--da-glass); fill-opacity: .09; }
-.da-dish-recess { stroke: var(--da-edge); stroke-width: .8; stroke-opacity: .32; }
-.da-refracted-lip { stroke: var(--da-mid); stroke-width: .65; stroke-opacity: .32; }
-.da-dish-well { fill: var(--sample); fill-opacity: .105; }
-.da-partition { fill: var(--da-glass); fill-opacity: .2; stroke: var(--da-edge); stroke-opacity: .26; stroke-width: .7; }
-.da-hub-wall { fill: var(--da-mid); fill-opacity: .7; }
-.da-hub { fill: color-mix(in srgb, var(--da-glass) 58%, var(--da-light)); stroke: var(--da-edge); stroke-width: .85; stroke-opacity: .6; }
-.da-dish-lip, .da-mouth, .da-tier-mouth {
-  fill: var(--da-glass); fill-rule: evenodd; fill-opacity: .27;
-  stroke: var(--da-edge); stroke-width: .85; stroke-opacity: .65;
-}
-.da-graduations { fill: none; stroke: var(--da-edge); stroke-opacity: .64; stroke-width: .72; }
-
-.da-tray-deck { fill: var(--da-glass); fill-opacity: .1; stroke: var(--da-edge); stroke-width: .85; stroke-opacity: .34; }
-.da-tray-edge { fill: var(--da-mid); fill-opacity: .26; }
-.da-tray-end { fill: var(--da-shade); fill-opacity: .3; }
-.da-well-base { fill: var(--da-glass); fill-opacity: .2; }
-.da-glass-back, .da-glass-far, .da-glass-near, .da-glass-side {
-  fill: var(--da-glass); fill-opacity: .13;
-  stroke: var(--da-rim); stroke-width: .76; stroke-opacity: .46;
-}
-.da-glass-far { fill-opacity: .075; }
-.da-glass-near { fill-opacity: .13; }
-.da-glass-side { fill-opacity: .22; }
-.da-mouth { fill-opacity: .32; stroke: var(--da-rim); stroke-opacity: .7; stroke-width: .75; }
-
-.da-tier-bed, .da-tier-back, .da-tier-far, .da-tier-near, .da-tier-side {
-  fill: var(--sample); fill-opacity: .14;
-  stroke: var(--da-rim); stroke-width: .88; stroke-opacity: .47;
-}
-.da-tier-back { fill-opacity: .045; stroke-opacity: .18; }
-.da-tier-far { fill-opacity: .075; stroke-opacity: .18; }
-.da-tier-near { fill-opacity: .095; }
-.da-tier-side { fill-opacity: .2; }
-.da-tier-inset { fill: none; stroke: var(--da-rim); stroke-width: .64; stroke-opacity: .3; }
-.da-tier-mouth { fill: var(--sample); fill-opacity: .22; stroke: var(--da-rim); stroke-opacity: .48; }
-.da-tier-bevel { fill: var(--da-rim); fill-opacity: .29; }
-.da-tier-foot { fill: none; stroke: var(--da-rim); stroke-width: .85; stroke-opacity: .6; }
+.da-mouth { fill-rule: evenodd; fill-opacity: .63; }
+.da-heel { fill-opacity: .89; }
+.da-roll { fill-opacity: .96; }
+.da-submerged { opacity: .72; }
+.da-port { fill: var(--frost-shade); fill-opacity: .25; }
+.da-reagent-floor { fill-opacity: .67; }
+.da-dish-hub { opacity: .34; }
+.da-rolled-lip { opacity: .56; }
+.da-dish-face { fill-opacity: .78; }
+.da-drum { fill-opacity: .86; }
+.da-drum-turn { fill-opacity: .74; }
+.da-tray { fill-opacity: .44; }
+.da-tray-roll { fill-opacity: .79; }
+.da-plinth { fill-opacity: .68; }
+.da-well-shell { fill-opacity: .15; }
+.da-inner { fill-opacity: .55; }
+.da-tier-shell { fill-opacity: .19; fill-rule: evenodd; }
+.da-tier-hollow { fill-opacity: .47; }

@@ -1,206 +1,206 @@
 import {escape} from './layout.mjs';
 
-const tau = Math.PI * 2;
-const number = value => Math.round(value * 100) / 100;
-const pair = point => point.map(number).join(' ');
-const outline = points => 'M' + points.map(pair).join('L') + 'Z';
-const shape = (path, style, paint = '') => `<path class="${style}" d="${path}"${paint ? ` fill="${paint}"` : ''}/>`;
-const face = (points, style, paint) => shape(outline(points), style, paint);
-const plane = (base, top, side) => [base[side], base[(side + 1) % 4], top[(side + 1) % 4], top[side]];
+const tau = 2 * Math.PI;
+const n = value => Math.round(value * 100) / 100;
+const pair = point => point.map(n).join(' ');
+const loop = points => 'M' + points.map(pair).join('L') + 'Z';
+const path = (d, css, paint) => `<path class="${css}" d="${d}"${paint ? ` fill="url(#${paint})"` : ''}/>`;
+const pigment = (view, i) => `da-${view}-${i}`;
 
-function paintbox(view, entries) {
-  const pigments = entries.map(({color}, i) => {
-    const id = `da-${view}-sample-${i}`;
-    const pigment = `style="--sample:${escape(color)}"`;
-    const top = `<linearGradient id="${id}" x2=".82" y2="1" ${pigment}>
-      <stop class="da-sample-lit"/><stop offset=".58" class="da-sample-mid"/><stop offset="1" class="da-sample-dim"/>
-    </linearGradient>`;
-    return view === 'fields' ? top : top + `<linearGradient id="${id}-near" x1=".15" y1="0" x2=".8" y2="1" ${pigment}>
-      <stop class="da-sample-frontlight"/><stop offset="1" class="da-sample-frontfoot"/>
-    </linearGradient>
-    <linearGradient id="${id}-side" x1="0" y1="0" x2="1" y2=".65" ${pigment}>
-      <stop class="da-sample-flank"/><stop offset="1" class="da-sample-foot"/>
-    </linearGradient>`;
+function glassPaint(view, entries) {
+  const colors = entries.map(({color}, i) => {
+    const id = pigment(view,i);
+    // The change of face is a broad roll through the corner of the square casting.
+    const corner = view === 'levels' ? .57 : .79;
+    return `<g style="--sample:${escape(color)}">
+      <linearGradient id="${id}-top" x1="0" y1=".03" x2=".85" y2="1">
+        <stop class="da-lit"/><stop offset=".53" class="da-milk"/><stop offset="1" class="da-body"/>
+      </linearGradient>
+      <linearGradient id="${id}-wall" x1="0" x2="1" y1=".3" y2=".32">
+        <stop class="da-turn"/><stop offset=".15" class="da-front"/><stop offset="${corner-.06}" class="da-mid"/>
+        <stop offset="${corner+.05}" class="da-flank"/><stop offset=".96" class="da-side"/><stop offset="1" class="da-turn"/>
+      </linearGradient></g>`;
   }).join('');
-  const dishGlass = view === 'fields' ? `<linearGradient id="da-fields-edge" x1="0" y1="0" x2="1" y2=".3">
-      <stop class="da-edge-deep"/><stop offset=".17" class="da-edge-lit"/>
-      <stop offset=".55" class="da-edge-mid"/><stop offset="1" class="da-edge-deep"/>
-    </linearGradient>
-    <linearGradient id="da-fields-bevel" x2=".18" y2="1">
-      <stop class="da-bevel-lit"/><stop offset=".54" class="da-bevel-soft"/><stop offset="1" class="da-bevel-dim"/>
-    </linearGradient>` : '';
-  return `<defs>${pigments}${dishGlass}
-    <radialGradient id="da-${view}-shadow"><stop class="da-shadow-core"/><stop offset=".62" class="da-shadow-soft"/><stop offset="1" class="da-shadow-end"/></radialGradient>
+  return `<defs>${colors}
+    <linearGradient id="da-${view}-casting" x2=".85" y2="1"><stop class="da-cast-lit"/><stop offset=".53" class="da-cast-mid"/><stop offset="1" class="da-cast-dim"/></linearGradient>
+    <linearGradient id="da-${view}-shoulder" x2=".24" y2="1"><stop class="da-soft-lit"/><stop offset=".55" class="da-soft-mid"/><stop offset="1" class="da-soft-foot"/></linearGradient>
+    <radialGradient id="da-${view}-hollow" cx=".37" cy=".3" r=".76"><stop class="da-well-mid"/><stop offset=".72" class="da-well-fade"/><stop offset="1" class="da-well-edge"/></radialGradient>
+    ${view === 'levels' ? '<linearGradient id="da-levels-air" x1="0" y1=".78" x2=".7" y2=".14"><stop class="da-air-bottom"/><stop offset=".6" class="da-air-body"/><stop offset="1" class="da-air-tip"/></linearGradient>' : ''}
+    <radialGradient id="da-${view}-shadow"><stop class="da-shadow"/><stop offset=".58" class="da-penumbra"/><stop offset="1" class="da-fade"/></radialGradient>
+    <filter id="da-${view}-satin" color-interpolation-filters="sRGB" x="-3%" y="-4%" width="106%" height="108%">
+      <feTurbulence type="fractalNoise" baseFrequency=".88" numOctaves="2" seed="19" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".19"/></feComponentTransfer>
+      <feComposite in2="SourceAlpha" operator="in" result="frost"/><feBlend in="frost" in2="SourceGraphic" mode="soft-light"/>
+    </filter>
   </defs>`;
 }
 
 function shadow(view, cx, cy, rx, ry) {
-  return `<ellipse class="da-ground" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="url(#da-${view}-shadow)"/>`;
+  return `<ellipse cx="${n(cx)}" cy="${n(cy)}" rx="${n(rx)}" ry="${n(ry)}" fill="url(#da-${view}-shadow)"/>`;
+}
+function item(index, color, hit, art) {
+  return `<g data-art-index="${index}" style="--sample:${escape(color)}">${path(hit,'da-hit')}<g class="da-specimen">${art}</g></g>`;
 }
 
-function specimen(index, color, hitArea, material) {
-  return `<g data-art-index="${index}" style="--sample:${escape(color)}">${shape(hitArea, 'da-hit')}<g class="da-specimen">${material}</g></g>`;
+// Horizontal sections carry the same mould radius through the lip, body and foot.
+// Five intervals per quarter turn give a subpixel chord error at this display size.
+function roundedRectangle(width, depth, radius) {
+  const x = width / 2, z = depth / 2, r = Math.min(radius,x,z);
+  const centers = [[r-x,r-z], [x-r,r-z], [x-r,z-r], [r-x,z-r]];
+  return centers.flatMap(([cx,cz], corner) => Array.from({length:6}, (_, j) => {
+    const angle = Math.PI + (corner + j / 5) * Math.PI / 2;
+    return [cx + r * Math.cos(angle), cz + r * Math.sin(angle)];
+  }));
 }
 
-// A shallow annular dish. Equal-angle chambers keep even the smallest field easy to inspect.
-const dish = {x: 177, y: 114, pitch: .58};
-function radial(radius, angle, height) {
-  return [dish.x + radius * Math.cos(angle), dish.y + dish.pitch * radius * Math.sin(angle) - height];
+function between(points, start, end) {
+  return start <= end ? points.slice(start,end+1) : [...points.slice(start), ...points.slice(0,end+1)];
+}
+function section(points) {
+  let left = 0, right = 0;
+  points.forEach(([x], i) => {
+    if (x < points[left][0]) left = i;
+    if (x > points[right][0]) right = i;
+  });
+  return {all:points, back:between(points,left,right), front:between(points,right,left)};
+}
+const band = (a,b) => loop([...a,...b.toReversed()]);
+const body = (foot, crown) => loop([...crown.back,...foot.front]);
+const front = (foot, crown) => band(crown.front,foot.front);
+const rim = (outer,inner) => loop(outer.all) + loop(inner.all);
+function frostedWall(foot, shoulder, neck, lip, color, density) {
+  return `<g opacity="${n(density)}">${path(front(shoulder,neck),'da-wall',color+'-wall')}
+    ${path(front(foot,shoulder),'da-heel',color+'-wall')}
+    ${path(front(neck,lip),'da-roll',color+'-top')}</g>`;
+}
+function contents(foot, surface, color, opacity) {
+  return `<g opacity="${n(opacity)}">${path(front(foot,surface),'da-liquid-wall',color+'-wall')}
+    ${path(loop(surface.all),'da-liquid-surface',color+'-top')}</g>`;
 }
 
-function arc(radius, start, end, height) {
-  const radiusY = number(radius * dish.pitch);
-  const sweep = end > start ? 1 : 0;
-  // Two arcs also describe the full rim of a dish containing a single field.
-  return [(start + end) / 2, end].map(angle =>
-    `A${number(radius)} ${radiusY} 0 0 ${sweep} ${pair(radial(radius, angle, height))}`
-  ).join('');
+const dish = {x:177,y:114,tilt:.575};
+function polar(r, a) { return [r * Math.cos(a), r * Math.sin(a)]; }
+function platter([x,z], height) { return [dish.x + x, dish.y + dish.tilt * z - height]; }
+function ellipse(rx, ry, y, css, paint) {
+  return `<ellipse class="${css}" cx="${dish.x}" cy="${n(y)}" rx="${n(rx)}" ry="${n(ry)}" fill="url(#${paint})"/>`;
 }
 
-function sector(inner, outer, start, end, height) {
-  return 'M' + pair(radial(outer, start, height)) + arc(outer, start, end, height) +
-    'L' + pair(radial(inner, end, height)) + arc(inner, end, start, height) + 'Z';
+// Build the sector in its physical plane. Its rounded liquid profile is scaled
+// about the inner end, so the visible sample area is exactly proportional to count.
+function sectorPath(inner, outer, a, b, height, scale = 1) {
+  const corner = Math.min(5.4,(outer-inner)*.32,inner*(b-a)*.28);
+  const da = corner / outer, db = corner / inner;
+  const anchor = polar(inner,(a+b)/2);
+  const point = (r,angle) => {
+    const [x,z] = polar(r,angle);
+    return pair(platter([anchor[0] + (x-anchor[0])*scale, anchor[1] + (z-anchor[1])*scale],height));
+  };
+  const arc = (r, start, end) => [(start+end)/2,end].map(angle =>
+    'A' + n(r*scale) + ' ' + n(r*scale*dish.tilt) + ' 0 0 ' + (end>start?1:0) + ' ' + point(r,angle)).join('');
+  return 'M' + point(outer,a+da) + arc(outer,a+da,b-da) +
+    'Q' + point(outer,b) + ' ' + point(outer-corner,b) + 'L' + point(inner+corner,b) +
+    'Q' + point(inner,b) + ' ' + point(inner,b-db) + arc(inner,b-db,a+db) +
+    'Q' + point(inner,a) + ' ' + point(inner+corner,a) + 'L' + point(outer-corner,a) +
+    'Q' + point(outer,a) + ' ' + point(outer,a+da) + 'Z';
 }
-
-function apron(radius, start, end, base, top) {
-  return 'M' + pair(radial(radius, start, top)) + arc(radius, start, end, top) +
-    'L' + pair(radial(radius, end, base)) + arc(radius, end, start, base) + 'Z';
-}
-
 function fieldsDish(entries) {
-  const rim = 142, inner = 15, outer = 128;
-  const largest = Math.max(1, ...entries.map(e => e.count));
-  const step = tau / entries.length, datum = -Math.PI * .87;
-  const wells = entries.map(({color, count}, i) => {
-    const start = datum + i * step, end = start + step;
-    const divider = Math.min(.016, step * .08);
-    const a = start + divider, b = end - divider;
-    const glass = shape(sector(inner - 1, outer + 2, a, b, 0), 'da-dish-well');
-    // Area of an annular sector is proportional to the difference of its squared radii.
-    const filled = Math.sqrt(inner ** 2 + (outer ** 2 - inner ** 2) * count / largest);
-    let liquid = '';
-    if (count) {
-      const level = 4.2;
-      liquid = shape(apron(filled, a, b, .25, level), 'da-liquid-edge') +
-        shape(sector(inner, filled, a, b, level), 'da-liquid-surface', `url(#da-fields-sample-${i})`) +
-        shape(sector(Math.max(inner, filled - 2.5), filled, a, b, level), 'da-liquid-collar') +
-        shape('M' + pair(radial(filled, a, level)) + arc(filled, a, b, level), 'da-meniscus');
-    }
-    const dividerFace = face([radial(inner, start, 0), radial(outer + 2, start, 0), radial(outer + 2, start, 6), radial(inner, start, 6)], 'da-partition');
-    const opening = shape(sector(inner - 1, outer + 2, a, b, 4), 'da-inspect');
-    return specimen(i, color, sector(inner - 2, outer + 4, start, end, 2), glass + liquid + dividerFace + opening);
+  const view='fields', radius=143, inside=131;
+  const left=dish.x-radius,right=dish.x+radius, y=dish.y, ry=radius*dish.tilt;
+  const heel=radius-4.5;
+  // The turned drum rolls into its bottom edge. The continuous top surface has
+  // recessed wells, with the interstitial glass itself forming their dividers.
+  const apron = `M${left} ${y-5}Q${left-1} ${y+9} ${dish.x-heel} ${y+15}A${heel} ${n(heel*dish.tilt)} 0 0 0 ${dish.x+heel} ${y+15}
+    Q${right+1} ${y+9} ${right} ${y-5}A${radius} ${n(ry)} 0 0 1 ${left} ${y-5}Z`;
+  const peak=Math.max(1,...entries.map(e=>e.count)), step=tau/Math.max(1,entries.length);
+  const wells=entries.map(({color,count},i)=>{
+    const start=-Math.PI*.87+i*step, gap=Math.min(.014,step*.05);
+    const a=start+gap, b=start+step-gap, inner=12.5;
+    const mould=sectorPath(inner,inside,a,b,5);
+    const floor=sectorPath(inner+1.7,inside-2.1,a,b,2.7);
+    const share=Math.sqrt(count/peak), id=pigment(view,i);
+    const liquid=count ? path(sectorPath(inner+.8,inside-1.7,a,b,4,share),'da-submerged',id+'-wall')+
+      path(sectorPath(inner+.8,inside-1.7,a,b,6.6,share),'da-liquid-surface',id+'-top') : '';
+    const recess=`<defs><clipPath id="${id}-opening"><path d="${mould}"/></clipPath></defs>` +
+      path(mould,'da-port') + `<g clip-path="url(#${id}-opening)">${path(floor,'da-reagent-floor','da-fields-casting')}${liquid}</g>`;
+    return item(i,color,sectorPath(inner-1,inside+2,start,start+step,5),recess+path(mould,'da-inspect',id+'-top'));
   }).join('');
-
-  const ticks = Array.from({length: 60}, (_, i) => {
-    const angle = datum + tau * i / 60;
-    return 'M' + pair(radial(i % 5 ? 136.5 : 134.2, angle, 8)) + 'L' + pair(radial(139, angle, 8));
-  }).join('');
-  const outerWall = apron(rim, 0, Math.PI, -17, 8);
-  const front = shape(outerWall, 'da-dish-apron', 'url(#da-fields-edge)') +
-    shape(outerWall, 'da-bevel', 'url(#da-fields-bevel)');
-  const footing = shape('M' + pair(radial(rim - 1, 0, -13)) + arc(rim - 1, 0, Math.PI, -13), 'da-glass-line');
-  return shadow('fields', 187, 165, 152, 59) +
-    `<ellipse class="da-glass-bed" cx="${dish.x}" cy="${dish.y + 17}" rx="${rim}" ry="${number(rim * dish.pitch)}"/>` +
-    shape(apron(rim, Math.PI, tau, -17, 8), 'da-dish-back', 'url(#da-fields-edge)') +
-    `<ellipse class="da-dish-floor" cx="${dish.x}" cy="${dish.y}" rx="${outer + 2}" ry="${number((outer + 2) * dish.pitch)}"/>` +
-    front + footing +
-    shape(apron(outer + 3, Math.PI, tau, -1, 8), 'da-dish-recess', 'url(#da-fields-edge)') +
-    wells + shape(apron(outer + 3, 0, Math.PI, -1, 8), 'da-refracted-lip', 'url(#da-fields-bevel)') +
-    shape(apron(inner - 1, 0, Math.PI, 0, 5.2), 'da-hub-wall') +
-    `<ellipse class="da-hub" cx="${dish.x}" cy="${dish.y - 5.2}" rx="${inner - 1}" ry="${number((inner - 1) * dish.pitch)}"/>` +
-    shape(sector(outer + 3, rim, 0, tau, 8), 'da-dish-lip') +
-    shape(sector(outer + 4.5, rim - 1.5, 0, tau, 8), 'da-bevel', 'url(#da-fields-bevel)') +
-    shape(ticks, 'da-graduations');
-}
-
-// Project a square vessel's four corners from back to front.
-function ring(project, cx, cz, half, height) {
-  return [[-1,-1], [1,-1], [1,1], [-1,1]].map(([x,z]) =>
-    project(cx + half * x, cz + half * z, height)
-  );
-}
-
-function walls(base, top, sides, classes) {
-  return sides.map((side, i) => face(plane(base, top, side), classes[i])).join('');
-}
-
-function fluid(base, top, paintId) {
-  return face(plane(base, top, 2), 'da-fluid-near', `url(#${paintId}-near)`) +
-    face(plane(base, top, 1), 'da-fluid-side', `url(#${paintId}-side)`) +
-    face(top, 'da-liquid-surface', `url(#${paintId})`);
+  const shoulder=`M${dish.x-radius+1} ${y-5.5}A${radius-1} ${n(ry-1)} 0 0 0 ${dish.x+radius-1} ${y-5.5}
+    Q${right} ${y-5.5} ${right} ${y-4}A${radius} ${n(ry)} 0 0 1 ${left} ${y-4}Q${left} ${y-5.5} ${dish.x-radius+1} ${y-5.5}Z`;
+  return shadow(view,185,162,155,60)+shadow(view,180,168,139,46)+
+    path(apron,'da-drum','da-fields-casting')+path(apron,'da-drum-turn','da-fields-shoulder')+
+    ellipse(radius,ry,y-5,'da-dish-face','da-fields-casting')+path(shoulder,'da-rolled-lip','da-fields-shoulder')+
+    ellipse(11,11*dish.tilt,y-4,'da-dish-hub','da-fields-hollow')+wells;
 }
 
 function typePlate(entries) {
-  const columns = Math.max(1, Math.min(entries.length, Math.ceil(Math.sqrt(1.55 * entries.length))));
-  const rows = Math.max(1, Math.ceil(entries.length / columns));
-  const pitch = .73, yaw = .25, dx = Math.cos(yaw), dz = Math.sin(yaw);
-  const pitchX = 50, pitchZ = 76, height = 28;
-  const width = (columns - 1) * pitchX + 53, depth = (rows - 1) * pitchZ + 53;
-  const span = width * dx + depth * dz;
-  const front = (width * dz + depth * dx) * Math.sin(pitch);
-  const unit = Math.min(327 / span, 210 / (front + height * Math.cos(pitch)), 1.85);
-  function project(x, z, y) {
-    return [178 + unit * (x * dx - z * dz), 141 + unit * ((x * dz + z * dx) * Math.sin(pitch) - y * Math.cos(pitch))];
+  const view='types', columns=Math.max(1,Math.min(entries.length,Math.ceil(Math.sqrt(1.55*entries.length))));
+  const rows=Math.max(1,Math.ceil(entries.length/columns)), pitch=.73, yaw=.25;
+  const dx=Math.cos(yaw),dz=Math.sin(yaw), pitchX=50,pitchZ=76,height=30;
+  const width=(columns-1)*pitchX+54, depth=(rows-1)*pitchZ+53;
+  const scale=Math.min(327/(width*dx+depth*dz),210/((width*dz+depth*dx)*Math.sin(pitch)+height*Math.cos(pitch)),1.85);
+  function project(x,z,y) {
+    return [178+scale*(x*dx-z*dz),141+scale*((x*dz+z*dx)*Math.sin(pitch)-y*Math.cos(pitch))];
   }
-  const slab = y => [[-1,-1],[1,-1],[1,1],[-1,1]].map(([x,z]) => project(x * width / 2, z * depth / 2, y));
-  const foot = slab(-5), deck = slab(0);
-  const peak = Math.max(1, ...entries.map(e => e.count));
-  const wells = entries.map(({color, count}, i) => {
-    const x = (i % columns - (columns - 1) / 2) * pitchX;
-    const z = (Math.floor(i / columns) - (rows - 1) / 2) * pitchZ;
-    const square = (r, y) => ring(project, x, z, r, y);
-    const bottom = square(16.4, 1), mouth = square(20.3, height), bore = square(17.7, height);
-    const floor = square(14.8, 3.2), share = count / peak;
-    const surface = square(14.8 + share * 2.6, 3.2 + share * (height - 5.5));
-    const well = face(bottom, 'da-well-base') + walls(bottom, mouth, [3,0], ['da-glass-back','da-glass-far']) +
-      (count ? `<g opacity="${number(.21 + .79 * Math.sqrt(share))}">${fluid(floor, surface, `da-types-sample-${i}`)}</g>` : '') +
-      walls(bottom, mouth, [2,1], ['da-glass-near','da-glass-side']) +
-      shape(outline(mouth) + outline(bore), 'da-mouth') + face(mouth, 'da-inspect');
-    const hit = outline([mouth[0],mouth[1],bottom[1],bottom[2],bottom[3],mouth[3]]);
-    return specimen(i, color, hit, well);
+  const tray=(inset,y) => section(roundedRectangle(width-2*inset,depth-2*inset,14-inset*.45).map(([x,z])=>project(x,z,y)));
+  const base=tray(2.8,-6), belt=tray(0,-3.4), deck=tray(.8,0);
+  const peak=Math.max(1,...entries.map(e=>e.count));
+  const wells=entries.map(({color,count}, i)=>{
+    const x=(i%columns-(columns-1)/2)*pitchX, z=(Math.floor(i/columns)-(rows-1)/2)*pitchZ;
+    const square=(w,y) => section(roundedRectangle(w,w,w*.195).map(([u,v])=>project(x+u,z+v,y)));
+    const foot=square(32,1),shoulder=square(35,3.5),neck=square(40,27.7), lip=square(38.8,height);
+    const bore=square(33.3,height-.3), floor=square(28,4.8), share=count/peak, id=pigment(view,i);
+    const surface=square(28+share*4.8,4.8+share*(height-7.2));
+    const hit=body(foot,lip), [sx,sy]=project(x+2,z+2,.4);
+    const chamber=path(hit,'da-well-shell','da-types-casting') + path(loop(bore.all),'da-inner','da-types-hollow') +
+      (count ? contents(floor,surface,id,.24+.76*Math.sqrt(share)) : '') +
+      frostedWall(foot,shoulder,neck,lip,id,.22) + path(rim(lip,bore),'da-mouth','da-types-casting') +
+      path(loop(lip.all),'da-inspect',id+'-top');
+    return shadow(view,sx,sy+2,22*scale,11*scale)+item(i,color,hit,chamber);
   }).join('');
-  return shadow('types', 186, 170, 162, 66) +
-    walls(foot, deck, [2,1], ['da-tray-edge','da-tray-end']) + face(deck, 'da-tray-deck') + wells;
+  return shadow(view,187,172,161,66)+shadow(view,181,173,143,55)+
+    path(front(base,belt),'da-plinth','da-types-casting')+path(front(belt,deck),'da-tray-roll','da-types-shoulder')+
+    path(loop(deck.all),'da-tray','da-types-casting')+wells;
 }
 
-const tierHeights = [0, .52, 1.05, 1.8];
+const heights=[0,.52,1.05,1.8];
 function levelPyramid(entries) {
-  const total = entries.reduce((sum, e) => sum + e.count, 0);
-  const yaw = .64, pitch = .34, unit = 89;
-  const tiers = entries.map(({color, count}, i) => {
-    const low = tierHeights[i], high = tierHeights[i + 1], cap = i === 2;
-    const r = y => 1 - y / tierHeights[3];
-    const planeAt = (height, inset = 0) => ring((x,z,y) => [
-      178 + unit * (x * Math.cos(yaw) - z * Math.sin(yaw)),
-      204 + unit * (x * Math.sin(yaw) + z * Math.cos(yaw)) * Math.sin(pitch) - 72 * y - 27 * i,
-    ], 0, 0, Math.max(0, r(height) - inset), height);
-    const base = planeAt(low), roof = planeAt(high);
-    const inside = planeAt(low + .025, .027), rim = planeAt(high, .023);
-    const share = total ? count / total : 0;
-    let liquid = '';
-    if (count) {
-      // The capacity of a narrowing square frustum follows the difference of two cubes.
-      const floor = low + .033, ceiling = high - .035, inset = .024;
-      const footRadius = r(floor) - inset, rimRadius = Math.max(0, r(ceiling) - inset);
-      const fit = Math.cbrt(footRadius ** 3 + (rimRadius ** 3 - footRadius ** 3) * share);
-      const fillHeight = tierHeights[3] * (1 - fit - inset);
-      liquid = `<g opacity="${number(.62 + .38 * share)}">${fluid(planeAt(floor,inset), planeAt(fillHeight,inset), `da-levels-sample-${i}`)}</g>`;
+  const view='levels', total=entries.reduce((sum,e)=>sum+e.count,0);
+  const yaw=.64, pitch=.34, unit=89;
+  const widthAt=y=>Math.max(0,1-y/heights[3]);
+  const tiers=entries.map(({color,count},i)=>{
+    const low=heights[i], high=heights[i+1], cap=i===2;
+    function square(y, inset=0) {
+      const half=Math.max(.002,widthAt(y)-inset);
+      return section(roundedRectangle(2*half,2*half,half*.185).map(([x,z])=>[
+        178+unit*(x*Math.cos(yaw)-z*Math.sin(yaw)),
+        204+unit*(x*Math.sin(yaw)+z*Math.cos(yaw))*Math.sin(pitch)-72*y-27*i,
+      ]));
     }
-    const glass = face(base, 'da-tier-bed') + face(inside, 'da-tier-inset') +
-      walls(base, roof, [3,0], ['da-tier-back','da-tier-far']) + liquid +
-      walls(base, roof, [2,1], ['da-tier-near','da-tier-side']) +
-      walls(base, inside, [2,1], ['da-tier-bevel','da-tier-bevel']) +
-      (cap ? '' : shape(outline(roof) + outline(rim), 'da-tier-mouth')) +
-      shape('M' + [base[3],base[2],base[1]].map(pair).join('L'), 'da-tier-foot') +
-      shape('M' + [roof[3],base[3],base[2],base[1],roof[1],roof[2],roof[3]].map(pair).join('L'), 'da-inspect');
-    return specimen(i, color, outline([base[3],base[2],base[1],roof[1],roof[0],roof[3]]), glass);
+    const foot=square(low,.041), shoulder=square(low+.032,.004);
+    const neck=square(high-(cap?.052:.033)), lip=square(high-(cap?.029:.005),cap?.009:.012);
+    const bore=square(high-.008,.055), id=pigment(view,i), share=total ? count/total : 0;
+    let liquid='';
+    if(count) {
+      // Homothetic rounded-square sections preserve the cubic frustum law.
+      const y0=low+.034, y1=high-.045, inset=.031;
+      const bottom=widthAt(y0)-inset, top=Math.max(0,widthAt(y1)-inset);
+      const filled=Math.cbrt(bottom**3+(top**3-bottom**3)*share);
+      liquid=contents(square(y0,inset),square(heights[3]*(1-filled-inset),inset),id,.67+.32*share);
+    }
+    const hit=body(foot,lip);
+    const chamberBody=body(square(low+.035,.065),square(high-.115,.025));
+    const glass=path(hit+(cap?chamberBody:''),'da-tier-shell',id+'-top') +
+      (cap ? path(chamberBody,'da-cap-cavity','da-levels-air') : path(loop(bore.all),'da-tier-hollow','da-levels-hollow')) + liquid +
+      frostedWall(foot,shoulder,neck,lip,id,cap?.39:.33) +
+      (cap?path(loop(lip.all),'da-mouth',id+'-top'):path(rim(lip,bore),'da-mouth',id+'-top')) +
+      path(hit,'da-inspect',id+'-top');
+    return item(i,color,hit,glass);
   }).join('');
-  return shadow('levels', 190, 207, 135, 35) + tiers;
+  return shadow(view,190,207,140,36)+shadow(view,181,216,110,21)+tiers;
 }
 
-export function distributionArt(view, entries) {
-  const draw = {fields: fieldsDish, types: typePlate, levels: levelPyramid}[view];
+export function distributionArt(view,entries) {
+  const draw={fields:fieldsDish,types:typePlate,levels:levelPyramid}[view];
   return `<svg class="distribution-art da-${view}" viewBox="0 0 360 260" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-    ${paintbox(view, entries)}${draw(entries)}
-  </svg>`;
+    ${glassPaint(view,entries)}<g filter="url(#da-${view}-satin)">${draw(entries)}</g></svg>`;
 }
