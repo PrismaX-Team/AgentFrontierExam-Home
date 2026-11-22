@@ -1,11 +1,43 @@
-import {escape, taskHref, filteredHref, levelNames} from './layout.mjs';
-import {plates} from '../data/plates.mjs';
+import {escape, taskHref, filteredHref, levelLabels} from './layout.mjs';
+import {plateFor} from '../data/plates.mjs';
+import {axisLabel, activityAliases} from '../data/taxonomy.mjs';
 import {catalogueHero, collectionCounts, intersectionHref} from './field-explorer.mjs';
 
-const order = new Intl.Collator('en', {sensitivity:'base'});
+const labels = {
+  en: {
+    catalogue: 'Tasks', matrix: 'Field × task type matrix', matrixLabel: 'Number of tasks by field and task type',
+    type: 'Task type', field: 'Field', level: 'Scientific level', otherField: 'GDPX · field unassigned',
+    total: 'Total', briefs: 'Task briefs', clearSelection: 'Clear selection', filter: 'Filter tasks',
+    search: 'Search', query: 'Title, field or task type', fields: 'All fields', types: 'All task types',
+    levels: 'All levels', research: 'L2 and L3', unassigned: 'Unassigned', apply: 'Apply filters',
+    clear: 'Clear filters', rowClass: 'Field / task type', rowLevel: 'Level',
+    pages: 'Task brief pages', pageList: 'Pages', previous: 'Previous', next: 'Next',
+    explore: 'Explore all tasks', breadcrumb: 'Breadcrumb', suggested: 'Suggested field',
+    version: 'Task package version', source: 'Source', input: 'Starting materials',
+    deliverable: 'What the agent delivers', evidence: 'How success is assessed', significance: 'Scientific significance',
+    picture: 'Image source', related: 'Related tasks', browse: 'Browse all tasks',
+  },
+  zh: {
+    catalogue: '任务目录', matrix: '领域与任务类型矩阵', matrixLabel: '按领域和类型统计的任务数量',
+    type: '任务类型', field: '领域', level: '科学层级', otherField: 'GDPX · 领域待定',
+    total: '合计', briefs: '任务列表', clearSelection: '清除选择', filter: '筛选任务',
+    search: '搜索', query: '题目、领域或任务类型', fields: '全部领域', types: '全部类型',
+    levels: '全部层级', research: 'L2 和 L3', unassigned: '尚未定级', apply: '应用筛选',
+    clear: '清除筛选', rowClass: '领域 / 任务类型', rowLevel: '层级',
+    pages: '任务列表分页', pageList: '页码', previous: '上一页', next: '下一页',
+    explore: '浏览全部任务', breadcrumb: '面包屑导航', suggested: '建议领域',
+    version: '任务包版本', source: '来源', input: '起始材料',
+    deliverable: '任务交付物', evidence: '验收依据', significance: '科学意义',
+    picture: '图片来源', related: '相关任务', browse: '浏览全部任务',
+  },
+};
 
-function choices(values) {
-  return values.map(value => `<option value="${escape(value)}">${escape(value)}</option>`).join('');
+function fieldLabel(field, lang) {
+  return field === 'GDPX' ? labels[lang].otherField : axisLabel(field, lang);
+}
+
+function taskCount(count, lang) {
+  return lang === 'zh' ? `${count} 道任务` : `${count} ${count === 1 ? 'task' : 'tasks'}`;
 }
 
 function groupId(field, activity) {
@@ -13,83 +45,106 @@ function groupId(field, activity) {
   return `tasks-${slug(field)}--${slug(activity)}`;
 }
 
-function taskCount(count) {
-  return `${count} ${count === 1 ? 'task' : 'tasks'}`;
+function choices(values, label) {
+  return values.map(value => `<option value="${escape(value)}">${escape(label(value))}</option>`).join('');
 }
 
-function taskMatrix(domains, workflows, groups) {
-  const empty = '<span aria-hidden="true">·</span><span class="visually-hidden">0 tasks</span>';
+function taskMatrix(domains, workflows, groups, counts, tasks, lang) {
+  const t = labels[lang];
+  const empty = `<span aria-hidden="true">·</span><span class="visually-hidden">${taskCount(0,lang)}</span>`;
   const rows = workflows.map(workflow => {
+    const type = axisLabel(workflow,lang);
     const cells = domains.map(domain => {
       const id = groupId(domain, workflow);
       const count = groups.get(id)?.length ?? 0;
       if (!count) return `<td><span class="matrix-zero">${empty}</span></td>`;
-      return `<td><a class="matrix-cell" href="${escape(intersectionHref(domain,workflow,id))}" data-domain="${escape(domain)}" data-workflow="${escape(workflow)}" aria-label="${escape(taskCount(count) + ' · ' + domain + ' · ' + workflow)}">${count}</a><span class="matrix-zero" hidden>${empty}</span></td>`;
+      const axis = fieldLabel(domain,lang) + ' · ' + type;
+      return `<td><a class="matrix-cell" href="${escape(intersectionHref(domain,workflow,id))}" data-domain="${escape(domain)}" data-workflow="${escape(workflow)}" data-axis-label="${escape(axis)}" aria-label="${escape(taskCount(count,lang) + ' · ' + axis)}">${count}</a><span class="matrix-zero" hidden>${empty}</span></td>`;
     }).join('');
-    return `<tr><th scope="row" data-axis-workflow="${escape(workflow)}">${escape(workflow)}</th>${cells}</tr>`;
+    return `<tr><th scope="row" data-axis-workflow="${escape(workflow)}">${escape(type)}</th>${cells}<td class="matrix-sum" data-workflow-total="${escape(workflow)}">${counts.types.get(workflow)}</td></tr>`;
   }).join('\n');
+  const fieldHeaders = domains.map(domain => `<th scope="col" data-axis-domain="${escape(domain)}">${escape(fieldLabel(domain,lang))}</th>`).join('');
+  const fieldTotals = domains.map(domain => `<td class="matrix-sum" data-domain-total="${escape(domain)}">${counts.fields.get(domain)}</td>`).join('');
   const large = domains.length > 15 || workflows.length > 15;
-  return `<div class="matrix-viewport"${large ? ' data-large' : ''} role="region" aria-labelledby="matrix-heading" tabindex="0">
-    <table class="task-matrix" style="--matrix-field-span:${domains.length*5}rem" aria-label="Task counts by scientific field and research activity">
-      <thead><tr><th scope="col" class="matrix-stub">Research activity</th>${domains.map(domain => `<th scope="col" data-axis-domain="${escape(domain)}">${escape(domain)}</th>`).join('')}</tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-  </div>`;
+  return `<section class="matrix-section" id="activity-matrix" aria-labelledby="matrix-heading">
+    <details class="catalog-matrix"><summary><h2 id="matrix-heading"><span>${t.matrix}</span><span class="matrix-count" data-matrix-total>${taskCount(tasks.length,lang)}</span></h2></summary>
+      <div class="matrix-viewport"${large ? ' data-large' : ''} role="region" aria-label="${t.matrixLabel}" tabindex="0">
+        <table class="task-matrix" style="--matrix-field-span:${(domains.length+1)*5.25}rem" aria-label="${t.matrixLabel}">
+          <thead><tr><th scope="col" class="matrix-stub">${t.type}</th>${fieldHeaders}<th scope="col">${t.total}</th></tr></thead>
+          <tbody>${rows}</tbody><tfoot><tr><th scope="row">${t.total}</th>${fieldTotals}<td class="matrix-sum" data-grid-total>${tasks.length}</td></tr></tfoot>
+        </table>
+      </div>
+    </details>
+  </section>`;
 }
 
-function row(task, position) {
-  const art = plates[task.id];
-  return `<li class="catalog-row" data-order="${position}" data-domain="${escape(task.domain)}" data-workflow="${escape(task.workflow)}" data-level="${task.level ?? ''}">
+function row(task, position, lang) {
+  const t = labels[lang];
+  const level = task.level ? 'L' + task.level : t.unassigned;
+  return `<li class="catalog-row" data-order="${position}" data-domain="${escape(task.domain)}" data-workflow="${escape(task.workflow)}" data-level="${task.level ?? 'unassigned'}">
     <a class="catalog-title" href="${taskHref(task)}" aria-labelledby="brief-${escape(task.id)}">
       <div class="catalog-copy"><h3 id="brief-${escape(task.id)}">${escape(task.title)}</h3><p>${escape(task.summary)}</p></div>
-      ${art ? `<img class="catalog-art" src="/assets/plates/${escape(art.file)}" alt="" width="112" height="70" loading="lazy" decoding="async">` : ''}
-      <div class="catalog-meta"><span><span class="visually-hidden">Field, </span>${escape(task.domain)}</span>
-        <span><span class="visually-hidden">Research activity, </span>${escape(task.workflow)}</span></div>
+      <div class="catalog-meta"><span><span class="visually-hidden">${t.field} · </span>${escape(fieldLabel(task.domain,lang))}</span>
+        <span><span class="visually-hidden">${t.type} · </span>${escape(axisLabel(task.workflow,lang))}</span></div>
+      <span class="catalog-row-level" title="${escape(t.level + ' · ' + level)}"><span class="entry-level-key">${t.rowLevel} </span>${task.level ? level : `<span aria-hidden="true">—</span><span class="visually-hidden">${t.unassigned}</span>`}</span>
     </a>
   </li>`;
 }
 
+function filters(domains, workflows, tasks, lang) {
+  const t = labels[lang];
+  const levels = levelLabels(lang);
+  const assigned = Map.groupBy(tasks, task => String(task.level ?? 'unassigned'));
+  const option = (code, name) => {
+    const count = assigned.get(code)?.length ?? 0;
+    return `<option value="${code}"${count ? '' : ' disabled'}>${escape(name)} (${count})</option>`;
+  };
+  return `<form class="catalog-controls" role="search" aria-label="${t.filter}" method="get" action="/tasks/" hidden>
+    <label class="catalog-search">${t.search}<input type="search" name="q" placeholder="${t.query}" autocomplete="off"></label>
+    <label>${t.field}<select name="domain"><option value="">${t.fields}</option>${choices(domains, field=>fieldLabel(field,lang))}</select></label>
+    <label>${t.type}<select name="workflow"><option value="">${t.types}</option>${choices(workflows, type=>axisLabel(type,lang))}</select></label>
+    <label>${t.level}<select name="level"><option value="">${t.levels}</option>${Object.entries(levels).map(([code,name]) => option(code,'L'+code+' · '+name)).join('')}${assigned.has('unassigned') ? option('unassigned',t.unassigned) : ''}<option value="research" hidden>${t.research}</option></select></label>
+    <button type="submit" class="visually-hidden">${t.apply}</button>
+  </form>`;
+}
+
 export function catalogue(tasks, lang = 'en') {
-  const ordered = [...tasks].sort((a,b)=>order.compare(a.title,b.title) || order.compare(a.id,b.id));
+  const t = labels[lang];
+  const order = new Intl.Collator(lang, {sensitivity:'base'});
+  const ordered = [...tasks].sort((a,b)=>order.compare(a.title,b.title) || a.id.localeCompare(b.id,'en'));
   const positions = new Map(ordered.map((task,index) => [task,index]));
-  const domains = [...new Set(tasks.map(t=>t.domain))].sort(order.compare);
-  const workflows = [...new Set(tasks.map(t=>t.workflow))].sort(order.compare);
+  const counts = collectionCounts(tasks);
+  const sortAxis = (a,b) => order.compare(axisLabel(a,lang),axisLabel(b,lang));
+  const domains = [...counts.fields.keys()].filter(value => value !== 'GDPX').sort(sortAxis);
+  if (counts.fields.has('GDPX')) domains.push('GDPX');
+  const workflows = [...counts.types.keys()].sort(sortAxis);
   const groups = Map.groupBy(ordered, task => groupId(task.domain,task.workflow));
-  const assigned = [...new Set(tasks.map(t=>t.level).filter(Boolean))].sort();
-  const levelSelect = assigned.length ? `<label><span id="filter-level">Scientific level</span><select name="level" aria-labelledby="filter-level"><option value="">All levels</option>${assigned.map(l=>`<option value="${l}">L${l} · ${levelNames[l]}</option>`).join('')}</select></label>` : '';
-  const taskGroups = [...groups].map(([id, entries]) => {
+  const taskGroups = [...groups].map(([id,entries]) => {
     const {domain,workflow} = entries[0];
+    const groupLabel = escape(fieldLabel(domain,lang) + ' · ' + axisLabel(workflow,lang));
     return `<div class="catalog-group" id="${id}">
-      <div class="matrix-native-result"><p><strong>${escape(domain)} · ${escape(workflow)}</strong><br>${taskCount(entries.length)}</p><a class="text-link" href="?#activity-matrix">Clear selection</a></div>
-      <ul class="catalog-list" aria-label="${escape(domain + ' · ' + workflow)}">${entries.map(task=>row(task,positions.get(task))).join('\n')}</ul>
+      <div class="matrix-native-result"><p><strong>${groupLabel}</strong><br>${taskCount(entries.length,lang)}</p><a class="text-link" href="?#activity-matrix">${t.clearSelection}</a></div>
+      <ul class="catalog-list" aria-label="${groupLabel}">${entries.map(task=>row(task,positions.get(task),lang)).join('\n')}</ul>
     </div>`;
   }).join('\n');
-  return `<div class="page-frame site-frame" id="catalogue" data-level-names="${escape(JSON.stringify(levelNames))}">
-    ${catalogueHero(tasks,collectionCounts(tasks),lang)}
-    <section class="matrix-section" id="activity-matrix" aria-labelledby="matrix-heading">
-      <div class="matrix-heading"><h2 id="matrix-heading">Field × activity</h2>
-        <p><span data-matrix-total>${taskCount(tasks.length)}</span> <span aria-hidden="true">·</span> ${domains.length} fields <span aria-hidden="true">·</span> ${workflows.length} activities</p></div>
-      ${taskMatrix(domains,workflows,groups)}
-    </section>
+  return `<div class="page-frame site-frame" id="catalogue" data-lang="${lang}" data-level-names="${escape(JSON.stringify(levelLabels(lang)))}" data-type-aliases="${escape(JSON.stringify(activityAliases))}">
+    ${catalogueHero(tasks,counts,lang)}
+    ${taskMatrix(domains,workflows,groups,counts,tasks,lang)}
     <section class="catalog-directory" id="task-directory" aria-labelledby="directory-heading">
-    <div class="directory-heading"><h2 id="directory-heading" tabindex="-1">Task briefs</h2><a class="text-link" href="#activity-matrix">Back to matrix</a></div>
-    <form class="catalog-controls" role="search" aria-label="Filter tasks" method="get" action="/tasks/" hidden>
-      <label class="catalog-search">Search tasks<input type="search" name="q" placeholder="Title, field or research activity" autocomplete="off"></label>
-      <label><span id="filter-field">Field</span><select name="domain" aria-labelledby="filter-field"><option value="">All fields</option>${choices(domains)}</select></label>
-      <label><span id="filter-activity">Research activity</span><select name="workflow" aria-labelledby="filter-activity"><option value="">All activities</option>${choices(workflows)}</select></label>
-      ${levelSelect}<button type="submit" class="visually-hidden">Apply filters</button>
-    </form>
-    <div class="catalog-status"><p aria-live="polite" aria-atomic="true" data-results>${tasks.length} tasks</p>
-      <a class="text-link" data-clear href="/tasks/" hidden>Clear filters</a></div>
-    ${taskGroups}
-    <ul class="catalog-list" data-page-list aria-labelledby="directory-heading" hidden></ul>
-    <nav class="catalog-pager" aria-label="Task brief pages" hidden>
-      <a class="page-step" data-previous rel="prev">Previous</a>
-      <ol aria-label="Pages"></ol>
-      <a class="page-step" data-next rel="next">Next</a>
-    </nav>
-    <section class="catalog-empty" hidden><h2></h2><p></p><a class="text-link" href="/tasks/" data-clear>Explore all tasks</a></section>
-    </section></div>`;
+      <div class="directory-heading"><h2 id="directory-heading" tabindex="-1">${t.briefs}</h2></div>
+      ${filters(domains,workflows,tasks,lang)}
+      <div class="catalog-status"><div><p aria-live="polite" aria-atomic="true" data-results>${taskCount(tasks.length,lang)}</p>
+        <a class="text-link" data-clear href="/tasks/" hidden>${t.clear}</a></div>
+        <span class="catalog-column-label" aria-hidden="true">${t.rowClass}</span><span class="catalog-column-label" aria-hidden="true">${t.rowLevel}</span></div>
+      ${taskGroups}
+      <ul class="catalog-list" data-page-list aria-labelledby="directory-heading" hidden></ul>
+      <nav class="catalog-pager" aria-label="${t.pages}" hidden>
+        <a class="page-step" data-previous rel="prev">${t.previous}</a><ol aria-label="${t.pageList}"></ol>
+        <a class="page-step" data-next rel="next">${t.next}</a>
+      </nav>
+      <section class="catalog-empty" hidden><h2></h2><p></p><a class="text-link" href="/tasks/" data-clear>${t.explore}</a></section>
+    </section>
+  </div>`;
 }
 
 function fact(label, content) {
@@ -100,31 +155,39 @@ function briefSection(title, text, id) {
   return text ? `<section class="brief-section"${id ? ` id="${id}"` : ''}><h2>${title}</h2><p>${escape(text)}</p></section>` : '';
 }
 
-function taskFigure(task) {
-  const art = plates[task.id];
+function taskFigure(art, lang) {
   if (!art) return '';
-  const caption = `${escape(art.caption)}${art.href ? ` <a href="${escape(art.href)}">Image source</a>` : ''}`;
-  return `<figure class="brief-figure"><img src="/assets/plates/${art.file}" alt="${escape(art.alt)}" width="720" height="450"><figcaption>${caption}</figcaption></figure>`;
+  const credit = art.href ? ` <a href="${escape(art.href)}">${labels[lang].picture}</a>` : '';
+  return `<figure class="brief-figure"><img src="/assets/plates/${art.file}" alt="${escape(art.alt)}" width="720" height="450"><figcaption>${escape(art.caption)}${credit}</figcaption></figure>`;
 }
 
-export function taskPage(task, tasks) {
-  const related = tasks.filter(t=>t.id!==task.id && (t.domain === task.domain || t.workflow === task.workflow))
+export function taskPage(task, tasks, lang = 'en') {
+  const t = labels[lang], levels = levelLabels(lang);
+  const order = new Intl.Collator(lang, {sensitivity:'base'});
+  const related = tasks.filter(other=>other.id!==task.id && (other.domain === task.domain || other.workflow === task.workflow))
     .sort((a,b)=>Number(b.workflow===task.workflow)-Number(a.workflow===task.workflow) || order.compare(a.title,b.title)).slice(0,3);
+  const art = plateFor(task.id,lang);
+  const field = escape(fieldLabel(task.domain,lang));
+  const type = escape(axisLabel(task.workflow,lang));
+  const fieldLink = `<a href="${filteredHref('domain',task.domain)}#task-directory">${field}</a>`;
+  const level = task.level ? `<a href="${filteredHref('level',task.level)}#task-directory">L${task.level} · ${escape(levels[task.level])}</a>` : t.unassigned;
   const facts = [
-    fact('Field', `<a href="${filteredHref('domain',task.domain)}">${escape(task.domain)}</a>`),
-    fact('Research activity', `<a href="${filteredHref('workflow',task.workflow)}">${escape(task.workflow)}</a>`),
-    task.level ? fact('Scientific level', `L${task.level} · ${levelNames[task.level]}`) : '',
-    task.packageVersion ? fact('Task package version', escape(task.packageVersion)) : '',
-    task.sourceLabel ? fact('Source', task.sourceUrl ? `<a href="${escape(task.sourceUrl)}">${escape(task.sourceLabel)}</a>` : escape(task.sourceLabel)) : '',
+    fact(t.field,fieldLink),
+    task.suggestedDomain ? fact(t.suggested,escape(axisLabel(task.suggestedDomain,lang))) : '',
+    fact(t.type,`<a href="${filteredHref('workflow',task.workflow)}#task-directory">${type}</a>`),
+    fact(t.level,level),
+    task.packageVersion ? fact(t.version,escape(task.packageVersion)) : '',
+    task.sourceLabel ? fact(t.source,task.sourceUrl ? `<a href="${escape(task.sourceUrl)}">${escape(task.sourceLabel)}</a>` : escape(task.sourceLabel)) : '',
   ].join('');
+  const sections = briefSection(t.input,task.input) + briefSection(t.deliverable,task.deliverable)
+    + briefSection(t.evidence,task.evidence,'assessment') + briefSection(t.significance,task.significance);
   return `<article class="site-frame task-page">
-    <nav aria-label="Breadcrumb" class="breadcrumbs"><a href="/tasks/">Tasks</a><span aria-hidden="true">/</span><a href="${filteredHref('domain',task.domain)}">${escape(task.domain)}</a></nav>
-    <div class="brief-heading${plates[task.id] ? ' with-figure' : ''}"><header>
-      <p class="eyeline">${escape(task.workflow)}</p><h1>${escape(task.title)}</h1><p class="brief-lede">${escape(task.summary)}</p></header>${taskFigure(task)}</div>
-    <div class="brief-body"><dl class="brief-facts">${facts}</dl>
-      <div class="brief-reading">${briefSection('Starting materials',task.input)}${briefSection('What the agent delivers',task.deliverable)}${briefSection('How success is assessed',task.evidence,'assessment')}${briefSection('Scientific significance',task.significance)}</div>
-    </div>
-    <section class="related-section"><div class="section-heading"><h2>${related.length ? 'Related tasks' : 'Explore the collection'}</h2>
-    <a class="text-link" href="/tasks/">Browse all tasks</a></div>${related.length ? `<ul>${related.map(r=>`<li><a href="${taskHref(r)}">${escape(r.title)}</a><span>${escape(r.workflow)}</span></li>`).join('')}</ul>` : ''}</section>
+    <nav aria-label="${t.breadcrumb}" class="breadcrumbs"><a href="/tasks/">${t.catalogue}</a><span aria-hidden="true">/</span>${fieldLink}</nav>
+    <div class="brief-heading${art ? ' with-figure' : ''}"><header>
+      <p class="eyeline">${type}</p><h1>${escape(task.title)}</h1><p class="brief-lede">${escape(task.summary)}</p></header>${taskFigure(art,lang)}</div>
+    <div class="brief-body${sections ? '' : ' metadata-only'}"><dl class="brief-facts">${facts}</dl>
+      ${sections ? `<div class="brief-reading">${sections}</div>` : ''}</div>
+    <section class="related-section"><div class="section-heading"><h2>${related.length ? t.related : t.explore}</h2>
+      <a class="text-link" href="/tasks/">${t.browse}</a></div>${related.length ? `<ul>${related.map(other=>`<li><a href="${taskHref(other)}">${escape(other.title)}</a><span>${escape(axisLabel(other.workflow,lang))}</span></li>`).join('')}</ul>` : ''}</section>
   </article>`;
 }

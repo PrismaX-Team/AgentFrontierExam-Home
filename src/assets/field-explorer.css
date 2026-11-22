@@ -47,3 +47,72 @@
   .catalog-levels dt {display:grid;grid-template-columns:1.55rem 1fr;align-items:baseline;font-size:.88rem}
   .catalog-levels dd {margin:0;font-size:.88rem}
 }
+
+/* The full cross-tabulation is a reference. The searchable reading list follows it. */
+#catalogue {--directory-columns:minmax(0,1fr) minmax(10rem,23%) minmax(3.3rem,6%);--directory-gutter:clamp(.9rem,3vw,2.8rem)}
+#catalogue .matrix-section {margin-top:clamp(1.2rem,2.35vw,2.25rem)}
+.catalog-matrix {border-block:1px solid var(--line)}
+.catalog-matrix summary {display:flex;gap:1rem;align-items:center;justify-content:space-between;min-height:3.75rem;padding-block:.6rem;list-style:none;cursor:pointer}
+.catalog-matrix summary::-webkit-details-marker {display:none}
+.catalog-matrix summary::after {content:"";width:.55rem;height:.55rem;flex:none;margin-inline-end:.32rem;border-right:1.5px solid var(--link);border-bottom:1.5px solid var(--link);transform:rotate(45deg) translate(-.1rem,-.1rem)}
+.catalog-matrix[open] summary::after {transform:rotate(225deg) translate(-.1rem,-.1rem)}
+.catalog-matrix summary h2 {display:flex;align-items:baseline;flex-wrap:wrap;gap:.25rem 1.15rem;font-size:clamp(1.6rem,2.4vw,2.15rem);letter-spacing:var(--title-spacing);transform:none}
+.catalog-matrix summary:hover h2>span:first-child {text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.13em}
+.catalog-matrix .matrix-count {font:400 .88rem/1.25 var(--sans);color:var(--muted);letter-spacing:normal}
+.catalog-matrix .matrix-viewport {--matrix-stub:clamp(9rem,15vw,15rem);border-color:var(--line);border-bottom:none;scrollbar-color:var(--line) var(--wash)}
+.task-matrix :is(th,td) {border-color:var(--line)}
+.task-matrix thead th,.task-matrix .matrix-stub,.task-matrix .matrix-sum,.task-matrix tfoot th[scope=row] {background:var(--wash);color:var(--ink)}
+.task-matrix th[scope=row] {background:var(--paper);color:var(--ink)}
+.task-matrix [data-selected],.task-matrix th[scope=row][data-selected] {background:color-mix(in srgb,var(--link) 18%,var(--paper));color:var(--ink)}
+.task-matrix .matrix-sum {font-weight:600;text-align:center;padding:.3rem .2rem}
+.task-matrix tfoot>* {border-top:1px solid var(--line)}
+.task-matrix .matrix-cell {color:var(--link);background:color-mix(in srgb,var(--link) 10%,var(--paper));text-decoration-color:color-mix(in srgb,var(--link) 48%,transparent)}
+.task-matrix .matrix-cell:is(:hover,:focus-visible),.task-matrix .matrix-cell[aria-current] {background:var(--link);color:var(--paper);text-decoration-color:currentColor}
+.task-matrix .matrix-zero {color:var(--muted)}
+#catalogue .catalog-directory {margin-top:clamp(1.8rem,3.4vw,3.25rem)}
+.catalog-directory .directory-heading {margin-bottom:.85rem}
+.catalog-directory .catalog-controls {display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,.9fr) minmax(0,1.18fr) minmax(0,.97fr);gap:.7rem clamp(.6rem,1.15vw,1.15rem);align-items:end}
+.catalog-controls :is(select,input) {color:var(--ink);border-color:var(--line);background-color:color-mix(in srgb,var(--paper) 60%,var(--wash))}
+.catalog-controls select {background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%)}
+.catalog-directory .catalog-status,.catalog-directory .catalog-title {display:grid;grid-template-columns:var(--directory-columns);column-gap:var(--directory-gutter)}
+.catalog-directory .catalog-status {align-items:baseline;border-block:1px solid var(--line);padding-block:.45rem .55rem}
+.catalog-status>div {display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap}
+.catalog-column-label,.catalog-status p {font-size:.87rem;color:var(--muted)}
+.catalog-directory .catalog-title {align-items:center;padding-block:clamp(.95rem,1.65vw,1.5rem);color:var(--ink);text-decoration:none}
+.catalog-directory .catalog-title .catalog-copy {min-width:0;grid-area:auto;grid-column:1}
+.catalog-directory .catalog-copy h3 {max-width:46ch}
+.catalog-directory .catalog-copy p {max-width:75ch;line-height:1.48}
+.catalog-directory .catalog-meta {display:grid;grid-area:auto;gap:.3rem;padding:0;border:0;align-content:start}
+.catalog-directory .catalog-meta>span:first-child {color:var(--ink);font-weight:550}
+.catalog-directory .catalog-meta>span+span {color:var(--muted);font-weight:400}
+.catalog-row-level {align-self:center;color:var(--muted);font-size:.88rem;font-variant-numeric:tabular-nums}
+.entry-level-key {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.catalog-pager .page-step[aria-disabled] {color:var(--muted);opacity:.76}
+.brief-body.metadata-only {display:block}
+.brief-body.metadata-only .brief-facts {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(12rem,100%),1fr));gap:1.5rem 2rem}
+.brief-section p {color:var(--muted)}
+.brief-reading #assessment {background:var(--wash);border-color:var(--link)}
+@media(max-width:800px){
+  .catalog-directory .catalog-controls {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .catalog-directory .catalog-search {grid-column:auto}
+}
+@media(max-width:700px){
+  .catalog-directory .catalog-title {grid-template-columns:1fr auto;gap:.58rem 1rem;align-items:baseline}
+  .catalog-directory .catalog-title .catalog-copy {display:block;grid-area:auto;grid-column:1/-1}
+  .catalog-directory .catalog-copy p {margin-top:.32rem}
+  .catalog-directory .catalog-meta {display:flex;align-items:baseline;flex-wrap:wrap;gap:.15rem .65rem}
+  .catalog-directory .catalog-meta>span+span {padding:0;border:0}
+  .catalog-directory .catalog-meta>span+span::before {content:"";display:inline-block;height:.7em;width:1px;background:var(--line);margin-inline-end:.65rem}
+  .catalog-directory .catalog-status {display:block}
+  .catalog-column-label {display:none}
+  .catalog-row-level {align-self:baseline;white-space:nowrap;font-size:.8rem}
+  .entry-level-key {position:static;width:auto;height:auto;clip-path:none}
+}
+@media(max-width:440px){
+  .catalog-directory .catalog-controls {gap:.65rem}
+  .catalog-directory .catalog-controls label {font-size:.83rem}
+  .catalog-directory .catalog-controls :is(select,input) {font-size:1rem}
+}
+@media print {
+  .catalog-levels,.catalog-measures,.catalog-matrix {break-inside:avoid}
+}

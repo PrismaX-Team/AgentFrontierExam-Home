@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {catalogue} from '../src/views/catalog.mjs';
+import {catalogue, taskPage} from '../src/views/catalog.mjs';
 
 test('a field and activity pair links to all its briefs, including without scripts', () => {
   const tasks = [
@@ -32,4 +32,27 @@ test('briefs in separate native groups retain a single alphabetical order for pa
   assert.equal(rows.length,8);
   assert.deepEqual(rows.sort((a,b)=>Number(a[1])-Number(b[1])).map(row=>row[2]),[...'ABCDEFGH']);
   assert.match(html, /<nav class="catalog-pager" aria-label="Task brief pages" hidden>/);
+});
+
+test('bilingual task types, totals, native links and level filters retain their own meanings', () => {
+  const tasks = [
+    {id:'first',title:'任务甲',summary:'研究案例。',domain:'Earth science',workflow:'Modelling and simulation',level:null},
+    {id:'second',title:'任务乙',summary:'另一项研究。',domain:'GDPX',suggestedDomain:'Physics',workflow:'Modelling and simulation',level:2},
+  ];
+  const html = catalogue(tasks,'zh');
+  assert.match(html, /<option value="Modelling and simulation">建模计算与仿真<\/option>/);
+  assert.match(html, /<option value="1" disabled>L1 · 科研流程 \(0\)<\/option>/);
+  assert.match(html, /<option value="2">L2 · 科学突破 \(1\)<\/option>/);
+  assert.match(html, /<option value="unassigned">尚未定级 \(1\)<\/option>/);
+  assert.match(html, /data-workflow-total="Modelling and simulation">2<\/td>/);
+  assert.match(html, /data-domain-total="GDPX">1<\/td>/);
+  assert.match(html, /data-grid-total>2<\/td>/);
+  assert.match(html, /<details class="catalog-matrix"><summary>/);
+  assert.doesNotMatch(html, /<img/);
+  const brief = taskPage(tasks[1],tasks,'zh');
+  assert.match(brief, /<dt>建议领域<\/dt><dd>物理学<\/dd>/);
+  assert.match(brief, /href="\/tasks\/\?level=2#task-directory">L2 · 科学突破/);
+  assert.match(brief, /class="brief-body metadata-only"/);
+  assert.doesNotMatch(brief, /class="brief-section"/);
+  assert.match(taskPage(tasks[0],tasks,'zh'), /<dt>科学层级<\/dt><dd>尚未定级<\/dd>/);
 });
