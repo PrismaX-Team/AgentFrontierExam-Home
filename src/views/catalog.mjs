@@ -130,11 +130,13 @@ export function catalogue(tasks, lang = 'en') {
     <section class="catalog-directory" id="task-directory" aria-labelledby="directory-heading">
       <div class="directory-heading"><h2 id="directory-heading" tabindex="-1">${t.briefs}</h2></div>
       ${filters(domains,workflows,tasks,lang)}
-      <div class="catalog-status"><div><p aria-live="polite" aria-atomic="true" data-results>${taskCount(tasks.length,lang)}</p>
-        <a class="text-link" data-clear href="/tasks/" hidden>${t.clear}</a></div>
-        <span class="catalog-column-label" aria-hidden="true">${t.rowClass}</span><span class="catalog-column-label" aria-hidden="true">${t.rowLevel}</span></div>
-      ${taskGroups}
-      <ul class="catalog-list" data-page-list aria-labelledby="directory-heading" hidden></ul>
+      <div class="catalog-register">
+        <div class="catalog-status"><div><p aria-live="polite" aria-atomic="true" data-results>${taskCount(tasks.length,lang)}</p>
+          <a class="text-link" data-clear href="/tasks/" hidden>${t.clear}</a></div>
+          <span class="catalog-column-label" aria-hidden="true">${t.rowClass}</span><span class="catalog-column-label" aria-hidden="true">${t.rowLevel}</span></div>
+        ${taskGroups}
+        <ul class="catalog-list" data-page-list aria-labelledby="directory-heading" hidden></ul>
+      </div>
       <nav class="catalog-pager" aria-label="${t.pages}" hidden>
         <a class="page-step" data-previous rel="prev">${t.previous}</a><ol aria-label="${t.pageList}"></ol>
         <a class="page-step" data-next rel="next">${t.next}</a>

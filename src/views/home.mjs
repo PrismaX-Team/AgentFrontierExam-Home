@@ -21,8 +21,8 @@ export function homePage(tasks, lang = 'en') {
       <a class="text-link" href="/tasks/">${zh ? '浏览全部任务' : 'Browse all tasks'}</a></div>
     <div class="showcase-grid">${selected.map(task => showcaseCard(task, lang)).join('\n')}</div>
   </section>
-  <section class="home-contribute"><div class="site-frame invitation">
-    <div><h2>${zh ? '共建科学任务' : 'Contribute a scientific task'}</h2><p>${zh
+  <section class="site-frame home-contribute" aria-labelledby="invitation-heading"><div class="invitation">
+    <div><h2 id="invitation-heading">${zh ? '共建科学任务' : 'Contribute a scientific task'}</h2><p>${zh
       ? '从你的研究中选取一项有挑战的科研工作，或一个尚待解答的科学问题，并说明怎样的证据足以证明智能体完成了它。'
       : 'Bring a demanding research workflow or an open scientific question, together with a way to tell when it has been solved.'}</p></div>
     <a class="solid-link" href="/contribute/">${zh ? '参与共建' : 'How to contribute'}</a>
