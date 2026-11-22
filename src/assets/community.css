@@ -143,7 +143,7 @@
 }
 .cc-choices section {
   min-width: 0; padding: clamp(1rem, 1.85vw, 1.8rem);
-  border: 1px solid var(--cc-rule); border-radius: var(--panel-radius); background: var(--paper);
+  border: 1px solid var(--cc-rule); border-radius: var(--panel-radius); background: light-dark(var(--paper), var(--surface));
 }
 @media (min-width: 44rem) {
   .cc-choices section { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; }
@@ -181,7 +181,7 @@
   grid-template-columns: minmax(0,.94fr) minmax(0,1.26fr);
   padding: clamp(1.25rem, 2.55vw, 2.5rem);
   border-radius: var(--panel-radius);
-  background: color-mix(in srgb, var(--blue-wash) 73%, var(--paper));
+  background: light-dark(color-mix(in srgb, var(--blue-wash) 73%, var(--paper)), var(--blue-wash));
   gap: clamp(1.75rem, 4vw, 4.25rem);
 }
 .cc-participation h2 { font-size: clamp(1.85rem, 2.95vw, 3rem); }

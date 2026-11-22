@@ -130,7 +130,7 @@
 }
 #chart-types .distribution-key::before { border-radius: 1px; }
 .distribution-key[data-active] {
-  background: color-mix(in srgb, var(--swatch) 13%, transparent);
+  background: light-dark(color-mix(in srgb, var(--swatch) 13%, transparent), var(--wash));
 }
 .distribution-key:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
 .distribution-code { margin-inline-end: .3rem; color: var(--muted); font: 500 .82rem/1 var(--mono); }
@@ -207,21 +207,22 @@
 .catalog-matrix summary:hover h2>span:first-child {text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.13em}
 .catalog-matrix .matrix-count {font:400 .88rem/1.25 var(--sans);color:var(--muted);letter-spacing:normal}
 .catalog-matrix .matrix-viewport {--matrix-stub:clamp(9rem,15vw,15rem);border:1px solid var(--line);border-radius:var(--panel-radius)}
-.task-matrix .matrix-sum,.task-matrix tfoot th[scope=row] {background:color-mix(in srgb,var(--green-wash) 68%,var(--paper));color:var(--ink)}
+.task-matrix .matrix-sum,.task-matrix tfoot th[scope=row] {background:light-dark(color-mix(in srgb,var(--green-wash) 68%,var(--paper)),#27342a);color:var(--ink)}
 .task-matrix .matrix-sum {font-weight:600;text-align:center;padding:.3rem .2rem}
 .task-matrix tfoot>* {border-top:1px solid var(--line)}
-.task-matrix .matrix-cell {color:var(--blue);background:color-mix(in srgb,var(--blue) 9%,var(--paper));text-decoration-color:color-mix(in srgb,var(--blue) 48%,transparent)}
-.task-matrix .matrix-cell:is(:hover,:focus-visible),.task-matrix .matrix-cell[aria-current] {background:light-dark(var(--blue),#354a59);color:light-dark(var(--paper),#dae7ec);text-decoration-color:currentColor}
+.task-matrix .matrix-cell {color:var(--blue);background:light-dark(color-mix(in srgb,var(--blue) 9%,var(--paper)),var(--blue-wash));text-decoration-color:light-dark(color-mix(in srgb,var(--blue) 48%,transparent),var(--blue-edge))}
+.task-matrix .matrix-cell:is(:hover,:focus-visible),.task-matrix .matrix-cell[aria-current] {background:light-dark(var(--blue),#374954);color:light-dark(var(--paper),#e0e3df);text-decoration-color:currentColor}
 .task-matrix .matrix-zero {color:var(--muted)}
 #catalogue .catalog-directory {margin-top:clamp(2.5rem,4.5vw,4.5rem)}
 .catalog-directory .directory-heading {margin-bottom:.85rem}
 .catalog-directory .catalog-controls {display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,.9fr) minmax(0,1.18fr) minmax(0,.97fr);gap:.7rem clamp(.6rem,1.15vw,1.15rem);align-items:end}
 .catalog-controls:has(.catalog-level-filter[hidden]) {grid-template-columns:minmax(0,1.65fr) minmax(0,1fr) minmax(0,1.26fr)}
-.catalog-controls :is(select,input) {color:var(--ink);border-color:var(--line);background-color:color-mix(in srgb,var(--paper) 60%,var(--wash))}
+.catalog-controls :is(select,input) {color:var(--ink);border-color:light-dark(var(--line),#748274);background-color:light-dark(color-mix(in srgb,var(--paper) 60%,var(--wash)),var(--surface))}
 .catalog-controls select {background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%)}
 .catalog-register {
   --register-inset:clamp(.8rem,1.75vw,1.7rem);
   --entry-space:clamp(1rem,1.65vw,1.5rem);
+  background-color:light-dark(transparent,var(--surface));
   border:1px solid var(--line);border-radius:var(--panel-radius);
 }
 .catalog-directory .catalog-status,.catalog-directory .catalog-title {display:grid;grid-template-columns:var(--directory-columns);column-gap:var(--directory-gutter)}
