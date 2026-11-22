@@ -3,6 +3,7 @@
   const root = document.getElementById('catalogue');
   if (!root) return;
   const zh = root.dataset.lang === 'zh';
+  const activityView = root.querySelector('#view-activities');
   const form = root.querySelector('.catalog-controls');
   const counter = root.querySelector('[data-results]');
   const clear = root.querySelector('.catalog-status [data-clear]');
@@ -55,6 +56,7 @@
 
   function readQuery() {
     const query = params();
+    root.querySelector(query.get('view') === 'types' ? '#view-activities' : '#view-fields').checked = true;
     for (const key of filters) {
       const control = form.elements.namedItem(key);
       let value = query.get(key) || '';
@@ -72,6 +74,8 @@
 
   function queryFromForm() {
     const query = params();
+    if (activityView.checked) query.set('view','types');
+    else query.delete('view');
     for (const key of filters) {
       const value = form.elements.namedItem(key).value.trim();
       if (value) query.set(key,value);
@@ -225,6 +229,9 @@
     return event.ctrlKey || event.metaKey || event.shiftKey || event.altKey;
   }
 
+  root.querySelector('.catalog-overview').addEventListener('change',() => {
+    storeQuery(queryFromForm(),true,'');
+  });
   form.addEventListener('input',event => {
     if (event.target.name === 'q') writeQuery(false);
   });
@@ -266,7 +273,8 @@
   readQuery();
   apply();
   if (anchor === '#activity-matrix') root.querySelector('.catalog-matrix').open = true;
-  if (initial.size && (!anchor || anchor === '#task-directory' || anchor.startsWith('#tasks-') || anchor.startsWith('#?'))) {
+  const directoryQuery = filters.some(key => initial.has(key)) || initial.has('page');
+  if (directoryQuery && (!anchor || anchor === '#task-directory' || anchor.startsWith('#tasks-') || anchor.startsWith('#?'))) {
     heading.scrollIntoView({block:'start'});
   }
 })();
