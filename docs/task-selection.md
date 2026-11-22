@@ -1,26 +1,24 @@
 # Task card provenance
 
-The directory covers all 119 distinct packages in the first Taskonomy archive. Every task has an English and Chinese title, scientific brief and deliverable. The original 16 cards retain their public URLs and longer descriptions of materials and assessment. Four of those are featured on the homepage. [Catalogue data](../src/data/tasks.json)
+The public directory covers 109 L1 scientific workflow packages from the first Taskonomy archive. Every task has an English and Chinese title, scientific brief and deliverable. Fourteen of the original editorial cards are in this edition and retain their URLs and longer descriptions. Four of these appear in the homepage task showcase. [Catalogue data](../src/data/tasks.json)
 
 ## Selection and sources
 
 `AFE_Taskonomy_v1/分类说明.md` counts 119 unique packages across ten collections and describes 16 primary workflows. `AFE_Taskonomy_v1/逐题分类.tsv` records the canonical archive path, domain, workflow and rationale for each one. The domain and workflow directories link to the same packages. Use the archive path when tracing a card.
 
-Each record has a stable website `id` and an `archiveKey` matching its package in the inventory. The archive assigns 109 packages to 11 scientific fields. Its 10 GDPX packages have suggested disciplines and are counted separately. All 119 use one of 16 primary activities. Both languages use the same field and activity keys. [Taxonomy labels](../src/data/taxonomy.mjs)
+Each record has a stable website `id` and an `archiveKey` matching its package in the inventory. The November 22 publication decision excludes the 10 GDPX records from the public catalogue. The remaining 109 packages span nine collections, 11 scientific fields and 15 research activities, with 43 occupied field–activity intersections. Both languages use the same field and activity keys. [Taxonomy labels](../src/data/taxonomy.mjs)
 
-With the archive mounted, run `node scripts/check-archive.mjs <AFE_Taskonomy_v1 directory>` to match every record to the inventory, its original package and both classification views. The public site builds from the checked-in descriptions.
+With the archive mounted, run `node scripts/check-archive.mjs <AFE_Taskonomy_v1 directory>` to verify the published set against the scoped inventory, the original packages and both classification views. The public site builds from the checked-in descriptions.
 
-The table traces the original 16 editorial briefs. Paths are relative to `AFE_Taskonomy_v1/original_archive/`. Starting materials, requested outputs and assessment are paraphrased from package instructions.
+The table traces the 14 longer editorial briefs in this edition. Paths are relative to `AFE_Taskonomy_v1/original_archive/`. Starting materials, requested outputs and assessment are paraphrased from package instructions.
 
 | Card ID | Source directory | Basis for the card |
 | --- | --- | --- |
 | `m13-surface-brightness` | `gui_cli/gui/ds9-m13-profile` | Showcase 1. Measure a cluster centre, surface-brightness profile and counting uncertainties from an image in DS9. |
 | `brain-connectivity-modules` | `brainarena/legare_2025__Fig_3A` | Showcase 2. Reconstruct a specified paper panel from regional brain connectivity, including its module boundaries and clustering tree. The package README says the study data must be supplied separately. |
-| `quantum-circuit-experiment-design` | `ale_v1009_top10/tasks/computing_math-qcompile-dynamic-circuit-experiment-design-02` | Showcase 3. Choose five experiments on a calibrated quantum processor, allocating measurements under a time budget. Suggested discipline is physics. |
 | `crystal-stability` | `external_collaboration/tasks/crystal_stability` | Showcase 4. Predict formation energies. The reference energy hull and structural-prototype evaluation set determine the stability classification score. |
 | `review-efficient-fine-tuning` | `deepresearch_xhw/tasks/lr_peft_llm_002` | Compare parameter-efficient fine-tuning research from 2019 through 2025 in a structured review. |
-| `western-cape-river-corridor` | `gui_cli/gui/qgis-river-buffer` | Reproject a river network and produce a portable QGIS project with a ten-kilometre corridor. |
-| `river-routing-models` | `ale_v1009_top10/tasks/geospatial-hydro-flow-accumulation-inverse-inference-02` | Compare drainage-routing predictions against independent channel controls in two regions. Suggested discipline is Earth science. |
+| `western-cape-river-corridor` | `gui_cli/gui/qgis-river-buffer` | Showcase 3. Reproject a river network and produce a portable QGIS project with a ten-kilometre corridor. |
 | `rain-gauge-diagnostics` | `earth_cql/earthcosci_4e1528ed76e20041` | Diagnose extreme hourly readings with nearby gauges and radar, and assess sensitivity to time scale. |
 | `ecological-recovery-shortfall` | `earth_cql/earthcosci_e1e0f2682bc3c4cf` | Estimate cumulative shortfall relative to a reference condition and account for within-study dependence. |
 | `cosmic-ray-propagation` | `hep_zju/ams02-boron-carbon-propagation-models` | Compare two proposed slopes with the measured cosmic-ray boron-to-carbon spectrum. |
@@ -37,9 +35,7 @@ Decision D44 of 19 November 2026 and `AFE_Control_Board/docs/38_afe_v1_scope_and
 
 The website uses **Foundational discoveries** as the English title for L3. The submission should identify what would be established for the first time, how others could verify it, and which new predictions or lines of inquiry it would open for the field. The cards retain their recorded scientific levels.
 
-The current records consulted do not provide a post-D44 level assignment for the 119 packages. Their `level` fields are null. This includes the older L1 metadata on the crystal, EEG, literature-review and clinical synthesis packages. The verified Earth Co-Scientist collection explicitly leaves formal levels pending in `AFE_Control_Board/AFE_1_0_verified/earth_cql/README.md`. Numerical difficulty and the ligand identifier L2 in the zinc task have separate meanings.
-
-The guide illustrates L1 with faint-star recovery. The matching task brief in `AFE_Control_Board/cli_harbor_v0_2/tasks/sextractor-recovery/` evaluates faint sources and close pairs across exposures. The first archive’s `gui_cli/cli/sextractor-catalog/` instead requires a catalogue, a background image and two morphology-selected samples in a single field. The M13 card describes a third scientific activity. An L1 assignment for the illustration cannot be attached to either archive task on the strength of their shared subject or software.
+The project confirmed on November 22 that all 109 tasks in this release belong to L1. The site records that decision in each task’s `level` field. The L2 and L3 pyramid examples use related L1 workflows to illustrate the evidence a breakthrough would require. Future tasks can carry their own L2 or L3 assignments.
 
 ## Package metadata
 

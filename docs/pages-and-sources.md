@@ -4,18 +4,18 @@
 
 | 页面 | 读者可以做什么 |
 | --- | --- |
-| Home · `/` | 用可选的金字塔探索科学目标与科研活动，或浏览四张不同学科与不同交付物的精选题卡。页末有共建入口与按领域编排的顾问委员会名录。 |
-| Tasks · `/tasks/` | 首屏展示收录题数、领域与类型的分布和三种科学层级。可以展开领域与类型的完整矩阵，按交点打开匹配的任务。纯文字目录每页十题。 |
+| Home · `/` | 用可选的金字塔探索科学目标与科研活动，或浏览四张不同学科与不同交付物的题卡。页末有共建入口与可横向浏览的顾问委员会名录。 |
+| Tasks · `/tasks/` | 首屏展示科学领域的环形分布图和任务类型的条形图，两图附有名称与题数。可以展开领域与类型的完整矩阵，按交点打开匹配的任务。纯文字目录每页十题。 |
 | Task · `/tasks/<id>/` | 阅读问题目标、交付物与分类。已有详细简报的题目还列出起始材料与验收证据。有记录时显示题包版本。学科与活动链接都可继续查找相关题。 |
 | Contribute · `/contribute/` | 三张分层图页标出 L1、L2、L3 可申报的目标，汇入同一种任务包。随后按层级比较验收证据，准备 ZIP 并交给端砚 ReX。 |
 | Task package guide · `/contribute/task-package/` | 按五种题包组成阅读 Harbor 示例。示例与十三处旁注并排，手机顺序排布。页面内可直达每个文件、归档布局和交付要求。 |
 | Authorship · `/authorship/` | 属于 Contribute 栏目。阅读参与者署名、Area Chair 招募、入库计数、论文与 FAQ，或从页内导航查看顾问委员会。 |
 
-Results 的编辑标准是可比较的实验、任务版本、分母与运行条件，可参阅[出版计划](publication-plan.md)。四张精选题和目录均从同一份数据生成。逐题的归档位置、领域标签和科学层级依据记录在[题卡溯源](task-selection.md)。
+Results 的编辑标准是可比较的实验、任务版本、分母与运行条件，可参阅[出版计划](publication-plan.md)。首页任务展示和目录均从同一份数据生成。逐题的归档位置、领域标签和科学层级依据记录在[题卡溯源](task-selection.md)。
 
 每个页面都有同路径的 `/zh/` 中文版。切换语言会带上查询和章节锚点。英文共建页沿用 `/contribute/`，早期比较稿 `/contribute2/` 的书签也会到达这里。
 
-目录概览、矩阵合计和逐题摘要使用同一份数据。GDPX 的十题计入总题数，保留建议学科，单独列在领域轴末端。读者展开矩阵可以查到每种活动与领域的完整交叉计数。常规题目以一致的文字行排列，配图用于精选卡与有相应科学示意图的详情页。这种元数据优先的目录也可见于 [Harbor 注册表](https://hub.harborframework.com/datasets)。
+目录概览、矩阵合计和逐题摘要使用同一份数据。本版收录 109 道 L1 科研流程题，涵盖 11 个领域和 15 种科研活动。两张分布图可切换和分享，展开矩阵可查每种活动与领域的交叉计数。常规题目以一致的文字行排列，首页的任务展示和对应的详情页共用科学配图。[任务类型分布](https://prismax-team.github.io/AgentFrontierExam-Home/zh/tasks/?view=types) · [同类目录参考](https://hub.harborframework.com/datasets)
 
 ## 标志与页脚
 
@@ -27,19 +27,19 @@ GitHub 链接指向本站仓库。Hugging Face 暂链接到平台首页，待项
 
 金字塔中的七种活动各关联一道实际归档题。L2 在没有正式定级题目时，展示宇宙线传播模型的假设检验。L3 对应生态恢复的跨研究证据综合。这两处的卡片注明 Related workflow，旁边保留各层级需要提交的证据。未来有确切定级的题目时，优先展示该级别的题卡与配图。
 
-M13 采用已署名的哈勃照片，脑连接、量子实验与晶体沿用精选区的示意图。其余五幅均为[本站绘制的科研示意图](../scripts/illustrate-activities.py)，分别展示三类微调方法、汇合处融并的河流缓冲带、河道验证点与候选路线、两种幂律与观测误差，以及生态恢复路径下的累积缺口。每幅图的任务详情页均有说明。河网、曲线和观测点用来说明方法，未采用源研究的数据。
+M13 采用已署名的哈勃照片，脑连接和晶体任务使用各自的示意图。其余四幅图分别展示三类微调方法、汇合处融并的河流缓冲带、两种幂律与观测误差，以及生态恢复路径下的累积缺口。每道题的详情页均有图注，说明照片来源或示意图所表达的研究方法。[图示生成脚本](../scripts/illustrate-activities.py)
 
 ## 共建与署名依据
 
 2026-11-20 核读的飞书指南为修订 1098。征题同时覆盖有挑战的科学流程和突破类科研问题。流程按 L1 申报，突破按目标选择 L2 或 L3，也可以选择暂不确定。端砚表单的合作来源选学术合作。中英文共建页将这些选项与科学目标放在一起讲清楚。[AFE 共建指南](https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f) · [端砚 ReX](https://discovery-home.intern-ai.org.cn/home/event/rex/index.html)
 
-任务包说明按当前指南的 Harbor 0.25.0 和模板 1.0.1 整理。用一个海岸预报教学例串联五组文件，把对应注解贴在题面片段旁。网站只将提交引向端砚，端砚接收每题一个含 `task_package/` 的 ZIP。
+任务包说明按当前指南的 Harbor 0.25.0 和模板 1.0.1 整理。用一个海岸预报教学例串联五组文件，把对应注解贴在题面片段旁。网站只将提交引向端砚，端砚接收每题一个含 `task_package/` 的 ZIP。共建页档案夹上的 Harbor 链接打开官方格式说明。[Harbor 任务结构](https://docs.harborframework.com/tasks/overview)
 
 同一指南规定成功入库三道题可获得论文共同作者资格。AC 招募至少五位参与者，同时参与科学领域和流程分类及阶段评审。参与者与 AC 各自的贡献、共同供题与计数问题在独立署名页说明。[署名依据](https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f)
 
 ## 顾问委员会肖像
 
-首页和署名页共用 [专家名录](../src/data/experts.json)。七位顾问依五个领域编排，中英文姓名、机构与研究者主页沿用旧站公示信息。六张照片裁为 4∶5，在页面上降低饱和度，随站点和离线版一同提供。物理组 Shufei Zhang 的原名册照片栏为空，该条目保留姓名、机构及 OpenReview 主页。[旧站顾问委员会](https://prismax-team.github.io/AgentFrontierExam-Tasks/en/#academic-committee) · [ReX 项目名册](https://github.com/PrismaX-Team/Rex-Analysis/blob/main/content/committee.json)
+首页和署名页共用 [专家名录](../src/data/experts.json)。横幅上的七位顾问依五个领域编排，每位的卡片都标出领域，提供中英文姓名、机构与已公示的个人主页。六张照片裁为 4∶5，在页面上降低饱和度，随站点和离线版一同提供。物理组 Shufei Zhang 的原名册照片栏为空，该条目保留姓名、机构及 OpenReview 主页。[旧站顾问委员会](https://prismax-team.github.io/AgentFrontierExam-Tasks/en/#academic-committee) · [ReX 项目名册](https://github.com/PrismaX-Team/Rex-Analysis/blob/main/content/committee.json)
 
 | 姓名 | 旧站公开原图 |
 | --- | --- |
