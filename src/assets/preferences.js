@@ -16,7 +16,7 @@
   function apply() {
     const dark = chosen === 'dark' || (chosen !== 'light' && media.matches);
     root.dataset.theme = dark ? 'dark' : 'light';
-    document.querySelector('meta[name="theme-color"]').content = dark ? '#19221f' : '#f6f4ed';
+    document.querySelector('meta[name="theme-color"]').content = dark ? '#191e23' : '#f6f4ed';
     if (button) {
       const label = dark ? (zh ? '切换到浅色模式' : 'Switch to light mode') : (zh ? '切换到深色模式' : 'Switch to dark mode');
       button.title = label;

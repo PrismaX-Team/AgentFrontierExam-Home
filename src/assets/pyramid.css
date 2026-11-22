@@ -15,23 +15,23 @@
 }
 
 :root {
-  --paper: #f6f4ed;
   --paper-grain: url('./paper-grain.png');
 }
 #taskonomy {
-  --ink: light-dark(#202724, #e8ede5);
-  --muted: light-dark(#45514b, #b8c7bb);
-  --line: light-dark(#c8cbc1, #435649);
+  --level-ink: var(--green);
   container: afe / inline-size;
   position: relative;
   isolation: isolate;
   max-width: 1500px;
   margin-inline: auto;
   background-color: var(--paper);
-  background-image: radial-gradient(ellipse closest-side at 72% 53%, light-dark(rgb(134 159 134 / .27), rgb(66 112 87 / .28)), light-dark(rgb(174 190 157 / .15), rgb(66 98 76 / .16)) 61%, transparent), var(--paper-grain, none);
-  background-size: 100% 100%, 256px 256px;
+  background-image:
+    radial-gradient(ellipse closest-side at 74% 56%, light-dark(rgb(132 160 149 / .25), rgb(83 119 142 / .20)), transparent),
+    radial-gradient(ellipse closest-side at 69% 32%, light-dark(rgb(213 188 131 / .14), rgb(139 125 94 / .08)), transparent),
+    var(--paper-grain, none);
+  background-size: 100% 100%, 100% 100%, 256px 256px;
   color: var(--ink);
-  background-blend-mode:normal,var(--grain-blend,normal);
+  background-blend-mode: normal,normal,var(--grain-blend,normal);
   font: 16px/1.5 "Helvetica Neue", Arial, sans-serif;
   text-align: left;
   -webkit-font-smoothing: antialiased;
@@ -47,7 +47,7 @@
   background: transparent;
   cursor: pointer;
 }
-#taskonomy :is(button,a):focus-visible { outline: 2px solid light-dark(#316561, #a0dac2); outline-offset: 4px; border-radius: 2px; }
+#taskonomy :is(button,a):focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 2px; }
 #taskonomy .spread {
   display: grid;
   min-block-size: calc(100vh - var(--masthead-row) - 1px);
@@ -90,6 +90,9 @@
   text-transform: uppercase;
   color: var(--muted);
 }
+#taskonomy[data-view="2"] { --level-ink: var(--blue); }
+#taskonomy[data-view="3"] { --level-ink: var(--gold); }
+#taskonomy .level-name { color: var(--level-ink); }
 #taskonomy h2 {
   margin-block: 7px 12px;
   font-size: clamp(37px,4.8cqi,70px);
@@ -113,7 +116,7 @@
   color: inherit;
   text-decoration: none;
 }
-#taskonomy .task-art { grid-area: art; align-self: center; display: block; aspect-ratio: 1.6; overflow: hidden; background: light-dark(#d6dcd1, #2a3c31); }
+#taskonomy .task-art { grid-area: art; align-self: center; display: block; aspect-ratio: 1.6; overflow: hidden; background: var(--wash); }
 #taskonomy .task-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
 #taskonomy .task small { grid-area: meta; align-self: end; font-size: .75rem; letter-spacing: .06em; }
 #taskonomy .task h3 { grid-area: title; font-size: clamp(25px,6.1cqi,34px); line-height: 1.03; letter-spacing: .006em; text-wrap: pretty; }
@@ -124,7 +127,7 @@
 #taskonomy :is(.detail-links,.pyramid-alternative) a {
   color: var(--ink);
   text-decoration: underline;
-  text-decoration-color: light-dark(#8a9a90, #7e9a87);
+  text-decoration-color: var(--blue-edge);
   text-decoration-thickness: 1px;
   text-underline-offset: .19em;
 }
@@ -142,7 +145,7 @@
 #taskonomy .model-stage { position: relative; isolation: isolate; overflow: clip; }
 #taskonomy .model-stage::before {
   --ruling: clamp(23px, 6cqi, 40px);
-  --pencil: light-dark(rgb(71 94 78 / .22), rgb(148 183 153 / .21));
+  --pencil: light-dark(rgb(71 94 91 / .22), rgb(145 173 185 / .21));
   content: "";
   position: absolute;
   z-index: -1;
@@ -156,8 +159,8 @@
 #taskonomy canvas { display: block; width: 100%; aspect-ratio: 1.20; touch-action: pan-y pinch-zoom; }
 #taskonomy .layer-labels { position: absolute; z-index: 1; top: 2%; left: 1%; width: max-content; }
 #taskonomy .layer-labels button { display: flex; align-items: center; padding: 0; text-align: left; color: var(--muted); font-size: 13px; line-height: 1.18; }
-#taskonomy .layer-labels button[aria-pressed="true"] { color: light-dark(#202b24, #edf1e8); font-weight: 600; }
-#taskonomy .layer-labels button:is(:hover,:focus-visible) { color: light-dark(#214f44, #bbdfcb); text-decoration: underline; text-underline-offset: .2em; }
+#taskonomy .layer-labels button[aria-pressed="true"] { color: var(--ink); font-weight: 600; }
+#taskonomy .layer-labels button:is(:hover,:focus-visible) { color: var(--green); text-decoration: underline; text-underline-offset: .2em; }
 #taskonomy .whole-model { gap: 7px; min-height: 32px; }
 #taskonomy .mini-pyramid { display: inline-block; position: relative; width: 29px; height: 27px; }
 #taskonomy .mini-pyramid i { position: absolute; inset: 0; }
@@ -176,10 +179,10 @@
 }
 #taskonomy .layer-labels ol { margin: 0 0 0 14px; list-style: none; padding: 0; }
 #taskonomy .layer-labels li { position: relative; }
-#taskonomy .layer-labels li::before { content: ""; position: absolute; border-left: 1px solid light-dark(#b9c3b7, #526959); inset: 0 auto 0 0; }
+#taskonomy .layer-labels li::before { content: ""; position: absolute; border-left: 1px solid var(--line); inset: 0 auto 0 0; }
 #taskonomy .layer-labels li:last-child::before { bottom: 50%; }
 #taskonomy .layer-labels li button { position: relative; gap: 6px; min-height: 28px; padding-left: 6px; }
-#taskonomy .layer-labels li button::before { content: ""; position: absolute; left: 0; width: 5px; border-top: 1px solid light-dark(#b9c3b7, #526959); }
+#taskonomy .layer-labels li button::before { content: ""; position: absolute; left: 0; width: 5px; border-top: 1px solid var(--line); }
 #taskonomy .layer-swatch { position: relative; display: inline-block; flex: none; width: 18px; height: 15px; }
 #taskonomy [data-level="1"] .layer-swatch { clip-path: polygon(16% 38%,50% 21%,81% 38%,100% 73%,50% 96%,0 73%); }
 #taskonomy [data-level="2"] .layer-swatch { clip-path: polygon(28% 29%,50% 13%,72% 29%,89% 71%,50% 92%,11% 71%); }
@@ -187,18 +190,18 @@
 #taskonomy .layer-swatch::after { content: ""; position: absolute; inset: 0; background: var(--glass-top,transparent); }
 #taskonomy [data-level="1"] .layer-swatch::after { clip-path: polygon(16% 38%,50% 21%,81% 38%,50% 55%); }
 #taskonomy [data-level="2"] .layer-swatch::after { clip-path: polygon(28% 29%,50% 13%,72% 29%,50% 44%); }
-#taskonomy .level-code { color: light-dark(#566960, #abcabb); font: 11px/1 ui-monospace, "SFMono-Regular", Consolas, monospace; }
-#taskonomy [data-level="2"] .level-code { color: light-dark(#536b7a, #a7c5d7); }
-#taskonomy [data-level="3"] .level-code { color: light-dark(#746545, #d4c498); }
+#taskonomy .level-code { color: var(--green); font: 11px/1 ui-monospace, "SFMono-Regular", Consolas, monospace; }
+#taskonomy [data-level="2"] .level-code { color: var(--blue); }
+#taskonomy [data-level="3"] .level-code { color: var(--gold); }
 #taskonomy .facet-keys button { position: absolute; transform: translate(-50%,-50%); width: 42px; height: 42px; padding: 0; border-radius: 50%; }
-#taskonomy .facet-keys button:focus-visible { outline: 2px solid light-dark(#164e50, #bde7da); outline-offset: -1px; border-radius: 50%; }
+#taskonomy .facet-keys button:focus-visible { outline: 2px solid var(--ink); outline-offset: -1px; border-radius: 50%; }
 #taskonomy .object-note {
   position: absolute;
   z-index: 2;
   max-width: min(238px,76%);
   padding: 10px 13px 11px;
-  border-left: 1px solid light-dark(#84938d, #789c88);
-  background: var(--paper);
+  border-left: 2px solid var(--blue-edge);
+  background: var(--surface);
   pointer-events: none;
   font-size: 12px;
   line-height: 1.38;

@@ -15,21 +15,32 @@
   }
   const mixColor = (a, b, t) => a.map((value,i) => mix(value,b[i],t));
   const rgba = (color, opacity) => 'rgba(' + color.map(v => Math.round(clamp(v,0,255))).join(',') + ',' + opacity + ')';
-  const white = [248,247,235], dark = [33,53,53];
-  let paper, night;
+  const dayMaterial = {
+    light:[248,247,235], shade:[33,53,53], ambient:[241,240,228], milk:.74,
+    shadow:[51,68,61],
+    tints:[
+      [119,162,150], [93,157,148], [77,141,130], [98,154,149], [69,136,133], [111,161,149], [91,151,142],
+      [99,125,149], [83,111,140], [99,132,151], [119,143,159], [188,163,121],
+    ],
+  };
+  const nightMaterial = {
+    light:[218,226,222], shade:[28,38,50], ambient:[192,201,199], milk:.30,
+    shadow:[10,15,23],
+    tints:[
+      [117,159,139], [103,151,130], [78,137,122], [108,150,138], [84,139,125], [128,165,142], [96,147,131],
+      [105,140,166], [93,125,153], [111,144,170], [123,155,174], [198,171,119],
+    ],
+  };
+  let paper, material;
   function readPalette() {
-    night = document.documentElement.dataset.theme === 'dark';
+    material = document.documentElement.dataset.theme === 'dark' ? nightMaterial : dayMaterial;
     const background = getComputedStyle(root).backgroundColor.match(/[\d.]+/g);
-    paper = background?.length >= 3 ? background.slice(0, 3).map(Number) : (night ? [24,34,30] : [246,244,237]);
+    paper = background?.length >= 3 ? background.slice(0, 3).map(Number) : material.shade;
   }
   readPalette();
   const light = normalize([-.95,.98,.40]);
   const heights = [0,.52,1.05,1.80];
   const tierOf = index => index < 7 ? 1 : index < 11 ? 2 : 3;
-  const tints = [
-    [119,162,150], [93,157,148], [77,141,130], [98,154,149], [69,136,133], [111,161,149], [91,151,142],
-    [99,125,149], [83,111,140], [99,132,151], [119,143,159], [188,163,121]
-  ];
   const turn = ([x,z], angle) => [x*Math.cos(angle)-z*Math.sin(angle), x*Math.sin(angle)+z*Math.cos(angle)];
   function arc(start, end, steps) {
     return Array.from({length:steps+1}, (_,i) => {
@@ -207,7 +218,7 @@
       const nx=-dy*winding/length,ny=dx*winding/length;
       const breadth=Math.min(scale*.072,length*.19),x=nx*breadth,y=ny*breadth;
       const daylight=nx*.48+ny*.8;
-      const tone=daylight>0?white:dark,amount=daylight>0?.13:.108;
+      const tone=daylight>0?material.light:material.shade,amount=daylight>0?.13:.108;
       const fade=ctx.createLinearGradient(a.x,a.y,a.x+x,a.y+y);
       fade.addColorStop(0,rgba(tone,amount));fade.addColorStop(.42,rgba(tone,amount*.49));fade.addColorStop(1,rgba(tone,0));
       ctx.fillStyle=fade;
@@ -216,15 +227,15 @@
   }
   function frostFace(ctx,face,piece,cam,pattern) {
     const n=face.normal,lightness=clamp(.32+.68*(dot(n,light)+.33)/1.33);
-    const tint=tints[piece.index],s=cam.scale,rim=face.kind==='bevel';
-    const shade=mixColor(tint, night ? [28,43,45] : [46,63,65], night ? .45 : .29),milk=mixColor(tint,[241,240,228], night ? .48 : .74);
+    const tint=material.tints[piece.index],s=cam.scale,rim=face.kind==='bevel';
+    const shade=mixColor(tint,material.shade,.30),milk=mixColor(tint,material.ambient,material.milk);
     let body=mixColor(shade,milk,lightness);
     if(rim) body=mixColor(body,milk,.14);
     const colors=ctx.createLinearGradient(cam.x-s*.73,cam.y-s*1.59,cam.x+s*.64,cam.y+s*.55);
     const pigment=tone=>rgba(mixColor(tone,paper,piece.mist),1);
-    colors.addColorStop(0,pigment(mixColor(body,white,.20)));
+    colors.addColorStop(0,pigment(mixColor(body,material.light,.20)));
     colors.addColorStop(.48,pigment(body));
-    colors.addColorStop(1,pigment(mixColor(body,dark,.155)));
+    colors.addColorStop(1,pigment(mixColor(body,material.shade,.155)));
     ctx.save();
     ctx.globalAlpha=rim?.95:.964;
     drawPath(ctx,face.screen);ctx.fillStyle=colors;ctx.fill();
@@ -269,17 +280,17 @@
     if(crown) edge.push(cast(crown.faces.find(face=>face.kind==='wall').points[2]));
     ctx.save();ctx.filter='blur('+Math.max(5,s*.093)+'px)';
     const shade=ctx.createLinearGradient(origin.x,origin.y,origin.x+s*1.72,origin.y+s*.38);
-    shade.addColorStop(0,rgba([51,68,61],.19*opacity));
-    shade.addColorStop(.54,rgba([92,103,93],.16*opacity));
-    shade.addColorStop(1,rgba([110,114,99],.025*opacity));
+    shade.addColorStop(0,rgba(material.shadow,.20*opacity));
+    shade.addColorStop(.54,rgba(material.shadow,.14*opacity));
+    shade.addColorStop(1,rgba(material.shadow,.025*opacity));
     drawPath(ctx,convexHull(edge));ctx.fillStyle=shade;ctx.fill();ctx.restore();
     softEllipse(ctx,origin.x+s*.10,origin.y+s*.025,s*1.42,s*.52,-.07,[
-      [0,rgba([44,61,53],.21*opacity)],[.64,rgba([86,99,85],.105*opacity)],[1,rgba([104,112,98],0)]
+      [0,rgba(material.shadow,.21*opacity)],[.64,rgba(material.shadow,.105*opacity)],[1,rgba(material.shadow,0)]
     ]);
     ctx.save();ctx.filter='blur('+Math.max(1,s*.035)+'px)';
     for(const piece of pieces.filter(p=>p.level===1)) {
       const contact=piece.foot.map(p=>cam.project([p[0]+.02,0,p[2]+.016]));
-      drawPath(ctx,contact);ctx.fillStyle=rgba([48,67,56],.21*opacity);ctx.fill();
+      drawPath(ctx,contact);ctx.fillStyle=rgba(material.shadow,.21*opacity);ctx.fill();
     }
     ctx.restore();
     // Feather the cast shadow into the paper even on a narrow mobile plate.
@@ -459,7 +470,7 @@
       const cam=cameras[level-1], base=heights[level-1];
       const shadow=cam.project([0,base-.13,0]), size=cam.scale*(1-base/heights[3]);
       softEllipse(ctx,shadow.x+size*.13,shadow.y+size*.23,size*1.32,size*.48,-.08,[
-        [0,rgba([52,75,65],opacity*.20)],[.60,rgba([68,83,72],opacity*.09)],[1,rgba([85,95,80],0)]
+        [0,rgba(material.shadow,opacity*.20)],[.60,rgba(material.shadow,opacity*.09)],[1,rgba(material.shadow,0)]
       ]);
     }
     for(const level of order) {
