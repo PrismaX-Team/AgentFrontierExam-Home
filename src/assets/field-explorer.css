@@ -1,44 +1,49 @@
 .tasks-hero {
-  display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);
-  align-items:center;gap:clamp(2rem,5.2vw,5.8rem);
+  display:grid;
+  grid-template-columns:minmax(16rem,.78fr) minmax(0,1.4fr);
+  align-items:center;
+  gap:clamp(2rem,6vw,6.25rem);
 }
-.tasks-hero-copy {min-width:0}
 .tasks-hero-copy h1 {line-height:.96}
-.tasks-hero-copy p {max-width:36ch;margin:.9rem 0 0;color:var(--muted);font-size:clamp(1.05rem,1.4vw,1.23rem);line-height:1.48}
-.tasks-hero-links {display:flex;align-items:center;flex-wrap:wrap;gap:.65rem 1.35rem;margin-top:1.55rem}
-.field-network {
-  --thread-ink:#365d50;
-  position:relative;isolation:isolate;width:100%;max-width:42rem;justify-self:end;
+.tasks-hero-copy p {max-width:34ch;margin:.85rem 0 1.3rem;color:var(--muted);font-size:clamp(1.07rem,1.5vw,1.3rem);line-height:1.48}
+.catalog-overview {border-block:1px solid var(--line);padding-block:.7rem .85rem}
+.catalog-measures {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid var(--line);padding-bottom:1rem}
+.catalog-measures div {display:flex;flex-direction:column-reverse;align-items:flex-start;justify-content:end;padding-inline:clamp(.75rem,2.25vw,2rem);border-left:1px solid var(--line)}
+.catalog-measures div:first-child {padding-left:0;border:0}
+.catalog-measures dd {font:400 clamp(2.85rem,4.95vw,4.9rem)/1 var(--serif);letter-spacing:var(--title-spacing);font-variant-numeric:lining-nums tabular-nums;color:var(--ink);transform:scaleY(var(--display-height));transform-origin:left bottom}
+.catalog-measures dt {color:var(--muted);font:.9rem/1.25 var(--sans);margin-top:.25rem}
+.catalog-rankings {display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(1rem,3vw,3.2rem);margin-top:1rem}
+.catalog-ranking h2 {font:600 .92rem/1.3 var(--sans);color:var(--ink);letter-spacing:normal;transform:none}
+.catalog-ranking ol {padding:0;margin-top:.55rem;list-style:none}
+.catalog-ranking li {display:grid;grid-template-columns:1fr auto;align-items:end;gap:.19rem .5rem;padding-block:.22rem;color:var(--muted);font-size:.88rem;line-height:1.28}
+.catalog-ranking li::after {content:"";grid-column:1/-1;display:block;block-size:2px;background:linear-gradient(to right,color-mix(in srgb,var(--link) 65%,var(--line)) var(--share),var(--line) var(--share))}
+.catalog-ranking .rank-count {color:var(--ink);font-variant-numeric:tabular-nums}
+.catalog-scope-note {margin-top:.78rem;color:var(--muted);font-size:.82rem;line-height:1.4}
+.catalog-levels {display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,3fr);gap:clamp(1rem,2vw,2rem);align-items:start;margin-top:clamp(1.7rem,3.8vw,3.8rem);padding:clamp(1rem,1.9vw,1.55rem);background:var(--wash);border-top:1px solid var(--line)}
+.catalog-levels header h2 {font:600 1rem/1.3 var(--sans);letter-spacing:normal;transform:none}
+.catalog-levels header p,.catalog-levels dd {color:var(--muted);font-size:.91rem;line-height:1.44;margin-top:.34rem}
+.catalog-levels dl {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.85rem,2.2vw,2rem)}
+.catalog-levels dl>div {padding-inline-start:clamp(.65rem,1.6vw,1.55rem);border-inline-start:1px solid var(--line)}
+.catalog-levels dt {font-weight:550;font-size:1rem;line-height:1.35}
+.catalog-level-code {display:block;margin-bottom:.34rem;color:var(--link);font:600 .8rem/1.2 var(--mono);letter-spacing:.04em}
+@media(max-width:850px){
+  .tasks-hero {grid-template-columns:minmax(13rem,.72fr) minmax(0,1.3fr);gap:1.55rem}
+  .catalog-levels {grid-template-columns:1fr}
+  .catalog-levels header {display:flex;align-items:baseline;flex-wrap:wrap;column-gap:1rem}
+  .catalog-levels header p {margin:0}
+  .catalog-levels dl>div:first-child {border:0;padding:0}
 }
-.field-network::before {
-  content:"";position:absolute;z-index:-1;inset:2% -2% 8%;
-  background:radial-gradient(ellipse at 48% 52%,rgb(165 187 161 / .22), transparent 70%);
+@media(max-width:650px){
+  .tasks-hero {grid-template-columns:1fr;gap:1.45rem}
+  .tasks-hero-copy p {max-width:45ch}
+  .catalog-levels {gap:.95rem}
+  .catalog-measures dd {font-size:3.35rem}
 }
-.field-network svg {display:block;width:100%;height:auto;overflow:visible}
-.network-rims {stroke:#90a291;stroke-width:.85;fill:rgb(177 191 168 / .085)}
-.network-rims ellipse+ellipse {stroke:#9ba9a7;fill:rgb(171 189 190 / .085)}
-.network-edges {stroke:#829b8d;stroke-width:1.05;fill:none}
-.network-thread {stroke:var(--thread-ink);stroke-width:2}
-.network-fields {fill:#789383;stroke:var(--paper);stroke-width:1.4}
-.network-fields .in-thread {fill:var(--thread-ink)}
-.network-activities {fill:var(--paper);stroke:#788e8a;stroke-width:1.4}
-.network-activities .in-thread {stroke:var(--thread-ink);stroke-width:2}
-.network-leader {fill:none;stroke:#627b6e;stroke-dasharray:1.8 2.1;stroke-width:1}
-.field-network figcaption {display:grid;grid-template-columns:60% 40%;align-items:start;font:.84rem/1.3 var(--sans);color:#455c50}
-.network-keys {display:flex;flex-wrap:wrap;align-items:center;gap:.3rem 1.2rem}
-.network-keys>span {display:inline-flex;align-items:center;gap:.42rem}
-.network-keys>span::before {content:"";box-sizing:border-box;width:.53rem;height:.53rem;border-radius:50%;flex:none}
-.network-field-key::before {background:#56765f}
-.network-activity-key::before {border:1.4px solid #566f6a;background:var(--paper)}
-.network-label {text-align:center;color:var(--thread-ink);font:italic 1.35rem/1.05 var(--serif);text-wrap:balance;overflow-wrap:anywhere}
-@media(max-width:860px) {
-  .tasks-hero {grid-template-columns:1fr;gap:1.15rem}
-  .tasks-hero-copy p {max-width:56ch}
-  .tasks-hero-links {margin-top:1rem}
-  .field-network {max-width:34rem;justify-self:center}
-}
-@media(max-width:470px) {
-  .network-keys {gap:.3rem 1rem}
-  .field-network figcaption {font-size:.78rem}
-  .network-label {font-size:1.12rem}
+@media(max-width:480px){
+  .catalog-measures dt,.catalog-ranking li {font-size:.84rem}
+  .catalog-rankings {grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:1rem}
+  .catalog-levels dl {grid-template-columns:1fr;gap:.65rem}
+  .catalog-levels dl>div,.catalog-levels dl>div:first-child {border:0;padding:0;display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:.7rem;align-items:baseline}
+  .catalog-levels dt {display:grid;grid-template-columns:1.55rem 1fr;align-items:baseline;font-size:.88rem}
+  .catalog-levels dd {margin:0;font-size:.88rem}
 }

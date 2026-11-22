@@ -1,74 +1,84 @@
-import {escape} from './layout.mjs';
+import {escape, levelLabels} from './layout.mjs';
+import {axisLabel} from '../data/taxonomy.mjs';
 
 export function intersectionHref(domain, workflow, id) {
   return '?' + new URLSearchParams({domain, workflow}) + '#' + id;
 }
 
-// Two oblique cross-sections keep the two kinds of node distinct even in print.
-function ring(names, x, y, phase) {
-  const rx = 44, ry = 78, skew = .39;
-  const points = new Map(names.map((name, i) => {
-    const angle = phase + 2 * Math.PI * i / names.length;
-    const dy = ry * Math.sin(angle);
-    return [name, {x: +(x + rx * Math.cos(angle) + skew * dy).toFixed(1), y: +(y + dy).toFixed(1)}];
-  }));
-  return {points, rim: `<ellipse cx="0" cy="0" rx="${rx}" ry="${ry}" transform="matrix(1 0 ${skew} 1 ${x} ${y})"/>`};
+function tally(tasks, key) {
+  const counts = new Map();
+  for (const task of tasks) {
+    const value = task[key];
+    counts.set(value, (counts.get(value) ?? 0) + 1);
+  }
+  return counts;
 }
 
-function nodes(points, active, radius) {
-  return [...points].map(([name,{x,y}]) =>
-    `<circle cx="${x}" cy="${y}" r="${radius}"${active.has(name) ? ' class="in-thread"' : ''}><title>${escape(name)}</title></circle>`
-  ).join('');
+export function collectionCounts(tasks) {
+  return {fields: tally(tasks, 'domain'), types: tally(tasks, 'workflow')};
 }
 
-function filament({domain, workflow}, fields, activities) {
-  const a = fields.get(domain), b = activities.get(workflow);
-  const span = Math.round((b.x - a.x) * .42);
-  return `<path d="M ${a.x} ${a.y} C ${(a.x+span).toFixed(1)} ${a.y}, ${(b.x-span).toFixed(1)} ${b.y}, ${b.x} ${b.y}"><title>${escape(domain)} · ${escape(workflow)}</title></path>`;
+const descriptions = {
+  en: [
+    'Complete a defined piece of scientific work.',
+    'Resolve an open scientific question.',
+    'Establish a new phenomenon, mechanism or principle.',
+  ],
+  zh: [
+    '完成一项具体的科研工作。',
+    '解决一个尚未得到回答的科学问题。',
+    '发现并验证新的现象、机制或原理。',
+  ],
+};
+
+function ranking(counts, heading, lang) {
+  const ordered = [...counts].sort(([a, n], [b, m]) => m - n || a.localeCompare(b, 'en')).slice(0, 3);
+  if (!ordered.length) return '';
+  const peak = ordered[0][1];
+  return `<div class="catalog-ranking"><h2>${heading}</h2><ol>
+    ${ordered.map(([name, count]) => `<li style="--share:${(count * 100 / peak).toFixed(2)}%">
+      <span>${escape(axisLabel(name, lang))}</span><span class="rank-count">${count}</span></li>`).join('')}
+  </ol></div>`;
 }
 
-function fieldNetwork(domains, workflows, groups) {
-  if (!groups.size) return '';
-  const pairs = [...groups.values()].map(entries => entries[0]);
-  const byActivity = Map.groupBy(pairs, pair => pair.workflow);
-  // Trace one shared practice, choosing a short label when several span the same number of fields.
-  const [example, related] = [...byActivity].sort(([a,left],[b,right]) =>
-    right.length - left.length || a.length - b.length || a.localeCompare(b,'en')
-  )[0];
-  const sampleFields = new Set(related.map(pair => pair.domain));
-  const exampleFields = [...sampleFields].slice(0,2).sort((a,b) => a.localeCompare(b,'en'));
-  const orderedActivities = [example, ...workflows.filter(name => name !== example)];
-  const fields = ring(domains, 107, 119, -Math.PI * .58);
-  const activities = ring(orderedActivities, 378, 91, Math.PI * .5);
-  const ordinary = pairs.filter(pair => pair.workflow !== example);
-  const trace = pair => filament(pair,fields.points,activities.points);
-  const end = activities.points.get(example);
-  const fieldRadius = Math.min(5, 76 / domains.length);
-  const activityRadius = Math.min(4.4, 76 / workflows.length);
-  return `<figure class="field-network">
-    <svg viewBox="0 0 510 211" role="img" aria-labelledby="network-title network-description">
-      <title id="network-title">Scientific fields and research activities in the task collection</title>
-      <desc id="network-description">Filled dots are fields. Open dots are activities. Each line connects a field and an activity represented together in at least one task. Dark lines trace ${escape(example)}, including its use in ${escape(new Intl.ListFormat('en').format(exampleFields))}.</desc>
-      <g class="network-rims" aria-hidden="true">${fields.rim}${activities.rim}</g>
-      <g class="network-edges" stroke-opacity="${Math.min(1, Math.sqrt(24 / pairs.length)).toFixed(2)}">${ordinary.map(trace).join('')}</g>
-      <g class="network-edges network-thread">${related.map(trace).join('')}</g>
-      <g class="network-fields">${nodes(fields.points,sampleFields,fieldRadius)}</g>
-      <g class="network-activities">${nodes(activities.points,new Set([example]),activityRadius)}</g>
-      <path class="network-leader" d="M ${end.x} ${(end.y+activityRadius+3).toFixed(1)} V 209" aria-hidden="true"/>
-    </svg>
-    <figcaption>
-      <span class="network-keys"><span class="network-field-key">Scientific fields</span><span class="network-activity-key">Research activities</span></span>
-      <span class="network-label" aria-hidden="true">${escape(example)}</span>
-    </figcaption>
-  </figure>`;
+function levelsOverview(tasks, lang) {
+  const zh = lang === 'zh';
+  const names = levelLabels(lang);
+  const assigned = tasks.filter(task => task.level).length;
+  let note = zh ? '层级取决于任务希望取得的科学成果。' : 'A level describes the scientific result a task seeks.';
+  if (tasks.length && !assigned) note = zh ? '本版已按科研活动归类，逐题层级尚待评定。' : 'This edition records task types. Individual levels await assignment.';
+  return `<section class="catalog-levels" aria-labelledby="catalog-level-heading">
+    <header><h2 id="catalog-level-heading">${zh ? '科学层级' : 'Scientific levels'}</h2><p>${note}</p></header>
+    <dl>${descriptions[lang].map((description, index) => `<div>
+      <dt><span class="catalog-level-code">L${index + 1}</span> ${escape(names[index + 1])}</dt><dd>${description}</dd>
+    </div>`).join('')}</dl>
+  </section>`;
 }
 
-export function catalogueHero(domains, workflows, groups) {
+export function catalogueHero(tasks, {fields, types}, lang = 'en') {
+  const zh = lang === 'zh';
+  const disciplines = new Map(fields);
+  const gdpx = disciplines.get('GDPX') ?? 0;
+  disciplines.delete('GDPX');
+  const measures = [
+    [tasks.length, zh ? '道任务' : 'Task briefs'],
+    [disciplines.size, zh ? '个科学领域' : 'Scientific fields'],
+    [types.size, zh ? '种任务类型' : 'Task types'],
+  ];
+  const scopeNote = zh ? `另有 ${gdpx} 道 GDPX 任务计入总数，其领域单独归档。` : `The total includes ${gdpx} GDPX ${gdpx === 1 ? 'task' : 'tasks'} awaiting field assignment.`;
   return `<header class="tasks-hero">
-    <div class="tasks-hero-copy"><h1>Tasks</h1>
-      <p>Find a task by field or research activity. Each brief describes the goal, materials and evidence for success.</p>
-      <div class="tasks-hero-links"><a class="solid-link" href="#task-directory">Browse task briefs</a><a class="text-link" href="#activity-matrix">View full matrix</a></div>
+    <div class="tasks-hero-copy"><h1>${zh ? '任务目录' : 'Tasks'}</h1>
+      <p>${zh ? '从研究对象或研究方法出发，查找任务，了解它要回答的问题和需要提交的证据。' : 'Explore what scientific agents are asked to do, from measuring an observation to testing an explanation.'}</p>
+      <a class="solid-link" href="#task-directory">${zh ? '浏览任务' : 'Browse task briefs'}</a>
     </div>
-    ${fieldNetwork(domains,workflows,groups)}
-  </header>`;
+    <div class="catalog-overview">
+      <dl class="catalog-measures">${measures.map(([number, label]) => `<div><dt>${label}</dt><dd>${number}</dd></div>`).join('')}</dl>
+      <div class="catalog-rankings">
+        ${ranking(disciplines, zh ? '题量最多的领域' : 'Leading fields', lang)}
+        ${ranking(types, zh ? '题量最多的类型' : 'Leading task types', lang)}
+      </div>
+      ${gdpx ? `<p class="catalog-scope-note">${scopeNote}</p>` : ''}
+    </div>
+  </header>
+  ${levelsOverview(tasks, lang)}`;
 }

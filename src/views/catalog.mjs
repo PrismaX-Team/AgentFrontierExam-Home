@@ -1,6 +1,6 @@
 import {escape, taskHref, filteredHref, levelNames} from './layout.mjs';
 import {plates} from '../data/plates.mjs';
-import {catalogueHero, intersectionHref} from './field-explorer.mjs';
+import {catalogueHero, collectionCounts, intersectionHref} from './field-explorer.mjs';
 
 const order = new Intl.Collator('en', {sensitivity:'base'});
 
@@ -49,7 +49,7 @@ function row(task, position) {
   </li>`;
 }
 
-export function catalogue(tasks) {
+export function catalogue(tasks, lang = 'en') {
   const ordered = [...tasks].sort((a,b)=>order.compare(a.title,b.title) || order.compare(a.id,b.id));
   const positions = new Map(ordered.map((task,index) => [task,index]));
   const domains = [...new Set(tasks.map(t=>t.domain))].sort(order.compare);
@@ -65,7 +65,7 @@ export function catalogue(tasks) {
     </div>`;
   }).join('\n');
   return `<div class="page-frame site-frame" id="catalogue" data-level-names="${escape(JSON.stringify(levelNames))}">
-    ${catalogueHero(domains,workflows,groups)}
+    ${catalogueHero(tasks,collectionCounts(tasks),lang)}
     <section class="matrix-section" id="activity-matrix" aria-labelledby="matrix-heading">
       <div class="matrix-heading"><h2 id="matrix-heading">Field × activity</h2>
         <p><span data-matrix-total>${taskCount(tasks.length)}</span> <span aria-hidden="true">·</span> ${domains.length} fields <span aria-hidden="true">·</span> ${workflows.length} activities</p></div>
