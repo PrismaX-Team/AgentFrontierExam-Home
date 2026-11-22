@@ -21,12 +21,19 @@
   --field-9: light-dark(#989960, #aaac7e);
   --field-10: light-dark(#a8b59a, #99ac8d);
   --field-11: light-dark(#ac8973, #b59580);
-  --instrument-line: color-mix(in srgb, var(--line) 77%, transparent);
+  --instrument-line: light-dark(rgb(60 85 68 / .24), rgb(174 185 182 / .23));
   container: distribution / inline-size;
-  min-inline-size: 0; margin: 0; padding: 0; border: 0;
+  min-inline-size: 0; margin: 0; border: 0;
+  padding: .3rem clamp(.75rem, 1.75vw, 1.65rem) clamp(.7rem, 1.25vw, 1.15rem);
+  border-radius: clamp(.75rem, 1.2vw, 1.1rem);
+  background-color: #dce5d7;
+  background-color: light-dark(#dce5d7, #292f33);
+  background-image: radial-gradient(ellipse at 27% 43%, rgb(108 140 119 / .12), transparent 68%), var(--paper-grain, none);
+  background-size: 100% 100%, 256px 256px;
+  background-blend-mode: normal, multiply;
   color: var(--ink);
 }
-.chart-switch { display: flex; gap: clamp(1.35rem, 5.8cqi, 3.25rem); border-bottom: 1px solid var(--line); }
+.chart-switch { display: flex; gap: clamp(1.35rem, 5.8cqi, 3.25rem); border-bottom: 1px solid var(--instrument-line); }
 .chart-switch label {
   position: relative; display: inline-flex; align-items: center; min-height: 2.75rem;
   padding: .2rem .12rem; color: var(--muted); font-size: .95rem; cursor: pointer;
@@ -47,7 +54,7 @@
 #view-levels:focus-visible ~ .chart-switch [for="view-levels"] { outline: 2px solid var(--blue); outline-offset: -2px; }
 
 .distribution-panel {
-  --plot-height: clamp(13.75rem, 33cqi, 18rem);
+  --plot-height: clamp(13.75rem, 35cqi, 18rem);
   --reading-height: 3.7rem;
   display: none;
   grid-template-columns: minmax(0, 1.26fr) minmax(0, 1fr);
@@ -73,7 +80,7 @@
   font-variant-numeric: lining-nums tabular-nums; letter-spacing: .016em;
 }
 .distribution-reading span {
-  max-width: 17ch; padding-inline-start: .85rem; border-inline-start: 1px solid var(--line);
+  max-width: 17ch; padding-inline-start: .85rem; border-inline-start: 1px solid var(--instrument-line);
   color: var(--muted); font-size: .89rem; line-height: 1.3; text-wrap: balance;
 }
 .distribution-register {
@@ -86,7 +93,7 @@
 .distribution-keys {
   min-block-size: 0; padding: .18rem 0; margin: 0; overflow-y: auto;
   list-style: none;
-  scrollbar-width: thin; scrollbar-color: var(--line) transparent; scrollbar-gutter: stable;
+  scrollbar-width: thin; scrollbar-color: var(--instrument-line) transparent; scrollbar-gutter: stable;
 }
 .distribution-keys[data-above], .distribution-keys[data-below] {
   mask-image: linear-gradient(to bottom, var(--top-mask, black), black .65rem, black calc(100% - .65rem), var(--bottom-mask, black));
@@ -96,7 +103,7 @@
 @supports selector(::-webkit-scrollbar) {
   .distribution-keys { scrollbar-width: auto; scrollbar-color: auto; }
   .distribution-keys::-webkit-scrollbar { width: 4px; }
-  .distribution-keys::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+  .distribution-keys::-webkit-scrollbar-thumb { background: var(--instrument-line); border-radius: 2px; }
 }
 .distribution-keys li { padding: 0; }
 .distribution-key {
