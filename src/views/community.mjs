@@ -4,6 +4,7 @@ import {packageFiles, packageTree} from '../data/package-example.mjs';
 import {escape as escapeHtml, levelLabels} from './layout.mjs';
 
 const guideUrl = 'https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f';
+const formatUrl = 'https://docs.harborframework.com/tasks/overview';
 const submitUrl = 'https://discovery-home.intern-ai.org.cn/home/event/rex/index.html';
 const communityUrl = 'https://github.com/PrismaX-Team/AgentFrontierExam-Tasks#-contributor-community';
 
@@ -89,7 +90,10 @@ export function contribute(lang = 'en') {
       </div>
       <figure class="cc-folio" aria-labelledby="folio-caption">
         <figcaption id="folio-caption">${c.levels}</figcaption><ol class="cc-sheets">${sheets}</ol>
-        <div class="cc-folder"><span>${c.package}</span><span>${c.platform}</span></div>
+        <div class="cc-folder">
+          <div><span class="cc-folder-title">${c.package}</span><a class="cc-folder-format" href="${formatUrl}">${c.format}</a></div>
+          <span class="cc-folder-destination">${c.platform}</span>
+        </div>
       </figure>
     </header>
     <section class="cc-section cc-goal-section" aria-labelledby="cc-goal">
@@ -106,7 +110,6 @@ export function contribute(lang = 'en') {
     <section class="cc-section cc-section-split cc-participation" id="participation" aria-labelledby="cc-participate">
       <div>
         <h2 id="cc-participate">${c.participationTitle}</h2><p>${c.participationIntro}</p>
-        <div class="cc-links"><a href="/authorship/">${c.creditLink}</a></div>
       </div>
       <div class="cc-participation-roles">
         <section><h3><a href="/authorship/#participants">${c.participants}</a></h3><p>${c.participantRole}</p></section>
