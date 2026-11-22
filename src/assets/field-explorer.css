@@ -26,9 +26,11 @@
   color: var(--ink);
 }
 .distribution-head, .distribution-panel { grid-template-columns: var(--diagram-columns); column-gap: var(--diagram-gap); }
-.distribution-head { display: grid; align-items: baseline; border-bottom: 1px solid var(--instrument-line); }
-.chart-tools { display: flex; align-items: baseline; min-inline-size: 0; }
-.chart-tools::after { content: ''; flex: 0 1 var(--model-inset, 9%); }
+.distribution-head { display: grid; align-items: baseline; min-block-size: 2rem; border-bottom: 1px solid var(--instrument-line); }
+.chart-tools {
+  display: grid; grid-template-columns: max-content minmax(0, 1fr); align-items: baseline;
+  min-inline-size: 0; padding-inline-end: var(--model-inset, 9%);
+}
 .chart-switch { display: flex; align-items: baseline; gap: clamp(.65rem, 2.6cqi, 1.5rem); }
 .chart-short { display: none; }
 .chart-switch label {
@@ -50,9 +52,17 @@
 #view-types:focus-visible ~ .distribution-head [for="view-types"],
 #view-levels:focus-visible ~ .distribution-head [for="view-levels"] { outline: 2px solid var(--blue); outline-offset: -2px; }
 .distribution-total {
-  display: flex; align-items: baseline; flex: none; gap: .32rem;
-  margin-inline-start: auto; padding-inline-start: .62rem; white-space: nowrap;
+  container: reading / inline-size; display: flex; align-items: baseline; justify-content: flex-end; gap: .32rem;
+  min-inline-size: 0; padding-inline-start: .44rem;
   color: var(--muted); font-size: .85rem; line-height: 1.2;
+}
+.distribution-total-label { white-space: nowrap; }
+.distribution-selection { min-inline-size: 0; line-height: 1.05; text-wrap: balance; overflow-wrap: anywhere; }
+.distribution-selection [data-short] { display: none; }
+@container reading (max-width: 15rem) {
+  .distribution-selection { font-size: .8rem; }
+  .distribution-selection [data-full] { display: none; }
+  .distribution-selection [data-short] { display: inline; }
 }
 .distribution-total strong {
   color: var(--ink); font: 400 clamp(1.13rem, 2.5cqi, 1.32rem)/1 var(--serif);
@@ -84,18 +94,6 @@
   min-block-size: 0; min-inline-size: 0;
 }
 .distribution-stage [data-art-index] { cursor: pointer; }
-.distribution-reading {
-  position: absolute; inset: auto .2rem -.28rem; pointer-events: none;
-  display: flex; justify-content: center; align-items: center; gap: .42rem; margin: 0;
-}
-.distribution-reading strong {
-  color: var(--ink); font: 400 1.15rem/1 var(--serif);
-  font-variant-numeric: lining-nums tabular-nums; letter-spacing: .016em;
-}
-.distribution-reading span {
-  max-width: 29ch;
-  color: var(--muted); font-size: .85rem; line-height: 1.3; text-wrap: balance;
-}
 .distribution-register {
   display: grid; grid-template-rows: minmax(0, 1fr) auto;
   min-inline-size: 0; min-block-size: 0; padding-block: .12rem .2rem;
@@ -162,7 +160,7 @@
 }
 @container distribution (max-width: 29rem) {
   .distribution-head { grid-template-columns: minmax(0,1fr) auto; column-gap: clamp(.45rem, 2.7cqi, 1rem); }
-  .chart-tools::after { content: none; }
+  .chart-tools { padding-inline-end: 0; }
   .chart-switch { gap: clamp(.3rem, 1.7cqi, .65rem); }
   .chart-switch label { font-size: .86rem; padding-inline: .08rem; }
   .distribution-total { padding-inline-start: .38rem; }

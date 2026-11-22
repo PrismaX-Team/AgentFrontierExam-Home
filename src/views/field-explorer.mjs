@@ -1,5 +1,5 @@
 import {escape, levelLabels} from './layout.mjs';
-import {axisLabel} from '../data/taxonomy.mjs';
+import {activityAliases, axisLabel} from '../data/taxonomy.mjs';
 import {distributionArt} from './distribution-art.mjs';
 
 export function intersectionHref(domain, workflow, id) {
@@ -29,12 +29,18 @@ function compactText(full, short) {
     `<span class="chart-full">${escape(full)}</span><span class="chart-short">${escape(short)}</span>`;
 }
 
+const shortTypes = new Map(Object.entries(activityAliases).map(([short, full]) => [full, short]));
+shortTypes.set('Binding pose prediction', 'Binding pose');
+shortTypes.set('Candidate screening and ranking', 'Screening');
+shortTypes.set('Scientific design and optimization', 'Design');
+
 function distributionPanel(view, entries, total, lang) {
   const zh = lang === 'zh';
   const rows = entries.map(({key, label, count, color}, index) => {
     const code = view === 'levels' ? `<span class="distribution-code">L${key}</span> ` : '';
+    const short = view === 'levels' ? 'L' + key : view === 'types' && !zh ? shortTypes.get(key) : '';
     const spoken = (code ? `L${key} · ` : '') + label + (zh ? `，${count} 道任务` : `, ${count} ${count === 1 ? 'task' : 'tasks'}`);
-    return `<li><button type="button" class="distribution-key" data-entry="${index}" aria-label="${escape(spoken)}" disabled style="--swatch:${color}">
+    return `<li><button type="button" class="distribution-key" data-entry="${index}"${short ? ` data-short="${escape(short)}"` : ''} aria-label="${escape(spoken)}" disabled style="--swatch:${color}">
       <span class="distribution-name">${code}${escape(label)}</span><b class="distribution-count">${count}</b></button></li>`;
   }).join('');
   const capacity = view === 'levels' ? total : Math.max(0,...entries.map(entry => entry.count));
@@ -43,7 +49,6 @@ function distributionPanel(view, entries, total, lang) {
   return `<div class="distribution-panel" id="chart-${view}" data-view="${view}" role="group" aria-labelledby="label-${view}">
     <figure class="distribution-instrument" aria-hidden="true">
       <div class="distribution-stage ruled-ground">${distributionArt(view,entries)}</div>
-      <figcaption class="distribution-reading" hidden><strong></strong><span></span></figcaption>
     </figure>
     <div class="distribution-register">
       <ul class="distribution-keys" role="list" aria-labelledby="count-${view}">${rows}</ul>
@@ -88,7 +93,9 @@ export function catalogueHero(tasks, counts, lang = 'en') {
       <div class="distribution-head">
         <div class="chart-tools">
           <div class="chart-switch">${labels}</div>
-          <p class="distribution-total"><strong>${tasks.length}</strong> ${compactText(zh ? '任务总数' : 'Total tasks', zh ? '题' : 'total')}</p>
+          <p class="distribution-total"><strong>${tasks.length}</strong>
+            <span class="distribution-total-label">${compactText(zh ? '任务总数' : 'Total tasks', zh ? '题' : 'total')}</span>
+            <span class="distribution-selection" hidden><span data-full></span><span data-short></span></span></p>
         </div>
         <div class="register-heading">${headings}<span>${zh ? '题数' : 'Tasks'}</span></div>
       </div>
