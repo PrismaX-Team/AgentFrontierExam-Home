@@ -10,7 +10,6 @@ const labels = new Map([
   ['Neuroscience', '神经科学'],
   ['Medicine', '医学'],
   ['Mathematics', '数学'],
-  ['GDPX', 'GDPX'],
   ['Literature review and synthesis', '文献调研与综述'],
   ['Quantitative evidence synthesis', '跨研究定量综合'],
   ['Data preparation and visualization', '数据制备与可视化'],

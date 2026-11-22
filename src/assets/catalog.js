@@ -15,7 +15,7 @@
   const heading = root.querySelector('#directory-heading');
   const filters = ['q','domain','workflow','level'];
   const aliases = JSON.parse(root.dataset.typeAliases);
-  const levelNames = {...JSON.parse(root.dataset.levelNames), research: zh ? 'L2 和 L3' : 'L2 and L3'};
+  const levelNames = JSON.parse(root.dataset.levelNames);
   const cells = [...matrix.querySelectorAll('.matrix-cell')].map(link => ({
     link, group: link.hash.slice(1), zero: link.nextElementSibling,
   }));
@@ -205,11 +205,8 @@
     clear.hidden = !(words.length || domain.value || workflow.value || level.value);
     empty.hidden = n > 0;
     if (!n) {
-      const levelOnly = levelNames[level.value] && !words.length && !domain.value && !workflow.value;
-      empty.querySelector('h2').textContent = levelOnly ? levelNames[level.value] : zh ? '未找到匹配的任务' : 'No matching tasks';
-      empty.querySelector('p').textContent = levelOnly
-        ? (zh ? '本版尚无已定为该层级的任务，可以按领域或任务类型继续浏览。' : 'This collection has no tasks assigned to this level. Browse by field or task type to explore the briefs.')
-        : (zh ? '可以更换搜索词或清除筛选条件。' : 'Try another search term or clear the filters to explore the collection.');
+      empty.querySelector('h2').textContent = zh ? '未找到匹配的任务' : 'No matching tasks';
+      empty.querySelector('p').textContent = zh ? '可以更换搜索词或清除筛选条件。' : 'Try another search term or clear the filters to explore the collection.';
     }
   }
 

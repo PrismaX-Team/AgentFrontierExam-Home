@@ -15,9 +15,10 @@ const tsv = await readFile(path.join(archiveRoot, '逐题分类.tsv'), 'utf8');
 const [heading, ...lines] = tsv.trimEnd().split(/\r?\n/);
 const columns = heading.split('\t');
 const seen = new Set();
+let excluded = 0;
 const expandedFields = {
   生命: '生命科学', 材料: '材料科学', 地球: '地球科学', 物理: '物理学',
-  天文: '天文学', 信息: '信息科学', GDPX待归类: 'GDPX',
+  天文: '天文学', 信息: '信息科学',
 };
 function fullField(shortName) {
   return expandedFields[shortName] ?? shortName;
@@ -29,11 +30,16 @@ for (const line of lines) {
   const key = row['题包'];
   assert.ok(key && !seen.has(key), `Duplicate or missing inventory key: ${key}`);
   seen.add(key);
+  if (row['主领域'] === 'GDPX待归类') {
+    assert.ok(!catalogue.has(key), `GDPX package included in the public catalogue: ${key}`);
+    excluded++;
+    continue;
+  }
   const task = catalogue.get(key);
   assert.ok(task, `Missing public brief for ${key}`);
   assert.equal(axisLabel(task.domain, 'zh'), fullField(row['主领域']), key);
   assert.equal(axisLabel(task.workflow, 'zh'), row['主要科学流程'], key);
-  assert.equal(task.suggestedDomain ? axisLabel(task.suggestedDomain, 'zh') : '', fullField(row['待归类题的建议学科']), key);
+  assert.equal(task.level, 1, `The published v1 scientific workflow must be L1: ${key}`);
 
   const original = await realpath(path.join(archiveRoot, row['归档相对路径']));
   assert.ok((await stat(original)).isDirectory(), key);
@@ -42,5 +48,5 @@ for (const line of lines) {
   const activityCopy = path.join(archiveRoot, 'by_scientific_workflow', row['主要科学流程'], key);
   assert.deepEqual(await Promise.all([realpath(domainCopy), realpath(activityCopy)]), [original, original], key);
 }
-assert.equal(seen.size, catalogue.size, 'Catalogue contains packages absent from the archive');
-console.log(`Matched ${seen.size} unique briefs to their packages, fields and primary activities.`);
+assert.equal(seen.size - excluded, catalogue.size, 'Catalogue contains packages absent from the public selection');
+console.log(`Matched ${catalogue.size} public L1 briefs to their packages, fields and activities; excluded ${excluded} GDPX packages.`);

@@ -22,7 +22,7 @@ function validate(tasks) {
     for (const key of ['title','summary','input','deliverable','evidence','significance']) {
       if (task[key] && !task.zh?.[key]?.trim()) throw new Error(`Missing Chinese ${key} on ${task.id}`);
     }
-    if (![null,1,2,3].includes(task.level)) throw new Error(`Unknown scientific level on ${task.id}`);
+    if (![1,2,3].includes(task.level)) throw new Error(`Unknown scientific level on ${task.id}`);
     if (task.showcase!==undefined) {
       if (!Number.isInteger(task.showcase)||task.showcase<1||positions.has(task.showcase)) throw new Error('Invalid showcase order');
       positions.add(task.showcase);
@@ -38,7 +38,7 @@ function sitePages(archive, lang) {
   });
   return [
     {route:'/', title:'Agent Frontier Exam', description:zh ? '评测 AI 智能体开展科研的能力，从复杂的科研流程到可独立验证的科学突破。' : 'A benchmark for AI agents in science, from demanding research workflows to verifiable breakthroughs.', home:true, body:homePage(tasks,lang)},
-    {route:'/tasks/', title:zh ? '科研任务' : 'Tasks', description:zh ? '按科学领域、科研活动与目标层级浏览任务。' : 'Browse scientific task briefs by field, research activity and scientific level.', catalog:true, body:catalogue(tasks,lang)},
+    {route:'/tasks/', title:zh ? '科研任务' : 'Tasks', description:zh ? '按研究领域和科研活动浏览任务简报。' : 'Browse task briefs by scientific field and research activity.', catalog:true, body:catalogue(tasks,lang)},
     ...tasks.map(t => ({route:`/tasks/${t.id}/`, title:t.title, description:t.summary, body:taskPage(t,tasks,lang)})),
     {route:'/contribute/', title:zh ? '共建科研任务' : 'Contribute a scientific task', description:zh ? '通过端砚 ReX 提交科研流程题或科学突破题。' : 'Contribute a research workflow or a breakthrough question through Duanyan ReX.', community:true, body:contribute(lang)},
     {route:'/contribute/task-package/', title:zh ? '任务包指南' : 'Task package guide', description:zh ? '通过带注释的 Harbor 示例了解科研任务包的结构和准备方法。' : 'Read an annotated Harbor example and prepare a scientific task package.', community:true, body:packageGuide(lang)},
