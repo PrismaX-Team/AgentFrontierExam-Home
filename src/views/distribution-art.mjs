@@ -200,7 +200,11 @@ function levelPyramid(entries) {
 }
 
 export function distributionArt(view,entries) {
-  const draw={fields:fieldsDish,types:typePlate,levels:levelPyramid}[view];
-  return `<svg class="distribution-art da-${view}" viewBox="0 0 360 260" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  const {draw, frame} = {
+    fields: {draw: fieldsDish, frame: '14 1 326 234'},
+    types: {draw: typePlate, frame: '6 8 344 249'},
+    levels: {draw: levelPyramid, frame: '32 9 292 248'},
+  }[view];
+  return `<svg class="distribution-art da-${view}" viewBox="${frame}" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
     ${glassPaint(view,entries)}<g filter="url(#da-${view}-satin)">${draw(entries)}</g></svg>`;
 }

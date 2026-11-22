@@ -39,7 +39,7 @@ function distributionPanel(view, entries, total, lang) {
   const scale = zh ? `${vessel[view]}为 ${capacity} 道题` : `${vessel[view]} · ${capacity} ${capacity === 1 ? 'task' : 'tasks'}`;
   return `<div class="distribution-panel" id="chart-${view}" data-view="${view}" role="group" aria-labelledby="label-${view}">
     <figure class="distribution-instrument" aria-hidden="true">
-      <div class="distribution-stage">${distributionArt(view,entries)}</div>
+      <div class="distribution-stage ruled-ground">${distributionArt(view,entries)}</div>
       <figcaption class="distribution-reading"><strong>${total}</strong><span>${zh ? '任务总数' : 'Total tasks'}</span></figcaption>
     </figure>
     <div class="distribution-register">

@@ -165,7 +165,7 @@ export function pyramid(tasks, lang = 'en') {
           </button>
           <ol>${legend}</ol>
         </div>
-        <div class="model-stage">
+        <div class="model-stage ruled-ground">
           <canvas aria-label="${zh ? '科学任务分为三个层级。选择一个层级，即可查看其中的任务类型。' : 'Three levels of scientific work. Select a layer to explore its pieces.'}">${zh ? '使用各层级的按钮，可通过键盘浏览模型。' : 'The level buttons provide keyboard access to this diagram.'}</canvas>
           <div class="facet-keys" role="group" aria-label="${zh ? '所选层级中的积木' : 'Pieces in the selected layer'}" hidden></div>
         </div>

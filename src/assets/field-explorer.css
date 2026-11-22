@@ -23,14 +23,7 @@
   --field-11: light-dark(#ac8973, #b59580);
   --instrument-line: light-dark(rgb(60 85 68 / .24), rgb(174 185 182 / .23));
   container: distribution / inline-size;
-  min-inline-size: 0; margin: 0; border: 0;
-  padding: .3rem clamp(.75rem, 1.75vw, 1.65rem) clamp(.7rem, 1.25vw, 1.15rem);
-  border-radius: clamp(.75rem, 1.2vw, 1.1rem);
-  background-color: #dce5d7;
-  background-color: light-dark(#dce5d7, #292f33);
-  background-image: radial-gradient(ellipse at 27% 43%, rgb(108 140 119 / .12), transparent 68%), var(--paper-grain, none);
-  background-size: 100% 100%, 256px 256px;
-  background-blend-mode: normal, multiply;
+  min-inline-size: 0; margin: 0; padding: 0; border: 0;
   color: var(--ink);
 }
 .chart-switch { display: flex; gap: clamp(1.35rem, 5.8cqi, 3.25rem); border-bottom: 1px solid var(--instrument-line); }
@@ -54,13 +47,13 @@
 #view-levels:focus-visible ~ .chart-switch [for="view-levels"] { outline: 2px solid var(--blue); outline-offset: -2px; }
 
 .distribution-panel {
-  --plot-height: clamp(13.75rem, 35cqi, 18rem);
-  --reading-height: 3.7rem;
+  --plot-height: clamp(15rem, 40cqi, 21.25rem);
+  --reading-height: 2.8rem;
   display: none;
-  grid-template-columns: minmax(0, 1.26fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.68fr) minmax(0, 1fr);
   grid-template-rows: calc(var(--plot-height) + var(--reading-height));
-  column-gap: clamp(1.25rem, 4.5cqi, 2.65rem);
-  padding-block: clamp(.9rem, 2.5cqi, 1.5rem) .45rem;
+  column-gap: clamp(1rem, 3.8cqi, 2.25rem);
+  padding-block: clamp(.7rem, 1.8cqi, 1.1rem) 0;
 }
 #view-fields:checked ~ #chart-fields,
 #view-types:checked ~ #chart-types,
@@ -69,22 +62,27 @@
   display: grid; grid-template-rows: var(--plot-height) var(--reading-height);
   min-inline-size: 0; align-self: center;
 }
-.distribution-stage { min-block-size: 0; min-inline-size: 0; }
+.distribution-stage {
+  --floor-inset: 36% -1% -2%;
+  --floor-spacing: clamp(17px, 3.8cqi, 30px);
+  min-block-size: 0; min-inline-size: 0;
+}
 .distribution-stage [data-art-index] { cursor: pointer; }
 .distribution-reading {
-  display: flex; justify-content: center; align-items: center; gap: .85rem;
+  display: flex; justify-content: center; align-items: center; gap: .55rem;
   margin: 0; padding-inline: .35rem;
 }
 .distribution-reading strong {
-  color: var(--ink); font: 400 clamp(2.25rem, 6.6cqi, 3.1rem)/.95 var(--serif);
+  color: var(--ink); font: 400 clamp(1.35rem, 3cqi, 1.55rem)/1 var(--serif);
   font-variant-numeric: lining-nums tabular-nums; letter-spacing: .016em;
 }
 .distribution-reading span {
-  max-width: 17ch; padding-inline-start: .85rem; border-inline-start: 1px solid var(--instrument-line);
-  color: var(--muted); font-size: .89rem; line-height: 1.3; text-wrap: balance;
+  max-width: 29ch;
+  color: var(--muted); font-size: .85rem; line-height: 1.3; text-wrap: balance;
 }
 .distribution-register {
-  align-self: stretch; display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  align-self: center; display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  block-size: 100%; max-block-size: 20.4rem;
   min-inline-size: 0; min-block-size: 0; padding-block: .12rem .2rem;
 }
 .register-heading { display: flex; align-items: baseline; justify-content: space-between; padding: 0 .65rem .5rem .45rem; border-bottom: 1px solid var(--instrument-line); }
@@ -108,7 +106,7 @@
 .distribution-keys li { padding: 0; }
 .distribution-key {
   display: grid; grid-template-columns: .5rem minmax(0, 1fr) auto; align-items: baseline; gap: .6rem;
-  width: 100%; min-height: 1.63rem; padding: .24rem .45rem;
+  width: 100%; min-height: 1.55rem; padding: .2rem .45rem;
   border: 0; border-radius: 2px; background: transparent; color: var(--ink); text-align: start;
   font: 400 .88rem/1.3 var(--sans); cursor: pointer;
 }
@@ -127,7 +125,7 @@
 .distribution-scale { align-self: end; padding: .48rem .45rem 0; border-top: 1px solid var(--instrument-line); }
 #chart-fields .distribution-key { min-height: 1.5rem; padding-block: .16rem; }
 #chart-levels .distribution-keys { display: grid; align-content: safe center; gap: .28rem; }
-#chart-levels .distribution-key { min-height: 2.45rem; padding-block: .6rem; }
+#chart-levels .distribution-key { min-height: 2.2rem; padding-block: .45rem; }
 
 @media (max-width: 56rem) {
   .tasks-hero { grid-template-columns: 1fr; gap: 1.4rem; }
@@ -142,14 +140,12 @@
   .chart-switch { justify-content: space-between; gap: .45rem; }
   .chart-switch label { min-height: 2.75rem; padding-inline: .25rem; }
   .distribution-panel {
-    --plot-height: clamp(10.6rem, 51cqi, 13.4rem);
-    --reading-height: 3.2rem;
+    --plot-height: clamp(11.25rem, 68cqi, 15.5rem);
+    --reading-height: 2.6rem;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: calc(var(--plot-height) + var(--reading-height)) 10.2rem;
+    grid-template-rows: calc(var(--plot-height) + var(--reading-height)) 10rem;
     gap: .8rem; padding-block: .65rem .25rem;
   }
-  .distribution-reading strong { font-size: 2.25rem; }
-  .distribution-reading span { max-width: 24ch; }
   .distribution-register { padding: 0; }
   .distribution-key { min-height: 1.85rem; }
   #chart-fields .distribution-keys { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-content: start; gap: 0 .55rem; }

@@ -142,14 +142,15 @@
 #taskonomy .pyramid-alternative dt { margin-top: 1rem; font-weight: 600; }
 #taskonomy .pyramid-alternative dd { margin-inline: 0; color: var(--muted); }
 #taskonomy .plate { display: grid; position: relative; min-width: 0; width: 100%; container: scene / inline-size; }
-#taskonomy .model-stage { position: relative; isolation: isolate; overflow: clip; }
-#taskonomy .model-stage::before {
-  --ruling: clamp(23px, 6cqi, 40px);
+.ruled-ground { position: relative; isolation: isolate; }
+#taskonomy .model-stage { overflow: clip; }
+.ruled-ground::before {
+  --ruling: var(--floor-spacing, clamp(23px, 6cqi, 40px));
   --pencil: light-dark(rgb(71 94 91 / .22), rgb(145 173 185 / .21));
   content: "";
   position: absolute;
   z-index: -1;
-  inset: 36% -1% 0;
+  inset: var(--floor-inset, 36% -1% 0);
   pointer-events: none;
   background-image:
     repeating-linear-gradient(23deg, transparent 0 calc(var(--ruling) - 1.2px), var(--pencil) calc(var(--ruling) - .6px), transparent var(--ruling)),
