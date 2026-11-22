@@ -1,6 +1,7 @@
-import {cp, mkdir, mkdtemp, readFile, rename, rm, writeFile} from 'node:fs/promises';
+import {cp, mkdir, mkdtemp, readFile, readdir, rename, rm, writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {crc32} from 'node:zlib';
 import {localizedPath, page} from '../src/views/layout.mjs';
 import {homePage} from '../src/views/home.mjs';
 import {catalogue, taskPage} from '../src/views/catalog.mjs';
@@ -54,11 +55,21 @@ export async function build() {
   const previous=path.join(stage,'previous');
   const ready=path.join(stage,'ready');
   try {
-    await cp(path.join(project,'src/assets'),path.join(ready,'assets'),{recursive:true});
+    const assets = path.join(ready,'assets');
+    await cp(path.join(project,'src/assets'),assets,{recursive:true});
+    // Pages caches styles and scripts across deployments. New markup must
+    // request fresh bytes when its corresponding style or behaviour changes.
+    const assetUrls = new Map();
+    for (const name of await readdir(assets)) {
+      if (!/\.(css|js)$/.test(name)) continue;
+      const url = '/assets/' + name;
+      const version = crc32(await readFile(path.join(assets,name))).toString(36);
+      assetUrls.set(url, url + '?v=' + version);
+    }
     for(const route of routes) {
       const dir=path.join(ready,localizedPath(route.route,route.lang));
       await mkdir(dir,{recursive:true});
-      await writeFile(path.join(dir,'index.html'),page(route));
+      await writeFile(path.join(dir,'index.html'),page(route,assetUrls));
     }
     // Existing review bookmarks converge on the chosen contribution guide.
     const retired = path.join(ready,'contribute2');

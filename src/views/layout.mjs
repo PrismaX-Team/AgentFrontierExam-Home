@@ -30,9 +30,9 @@ function relativePath(from, to) {
   return relative + (pathname.endsWith('/') ? '/' : '') + suffix;
 }
 
-function relativeUrls(html, from, lang) {
+function relativeUrls(html, from, lang, assetUrls) {
   return html.replace(/\b(href|src|action)="(\/(?!\/)[^"]*)"/g, (_, attr, target) => {
-    const url = target.startsWith('/assets/') ? target : localizedPath(target, lang);
+    const url = target.startsWith('/assets/') ? (assetUrls.get(target) ?? target) : localizedPath(target, lang);
     return `${attr}="${relativePath(from, url)}"`;
   });
 }
@@ -48,7 +48,7 @@ const sun = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h
 const moon = '<path d="M19.9 14.2A8.4 8.4 0 0 1 9.8 4.1a8.5 8.5 0 1 0 10.1 10.1Z"/>';
 const icon = (name, drawing) => `<svg class="icon-${name}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${drawing}</svg>`;
 
-export function page({route, lang = 'en', title, description, body, home = false, catalog = false, community = false}) {
+export function page({route, lang = 'en', title, description, body, home = false, catalog = false, community = false}, assetUrls = new Map()) {
   const zh = lang === 'zh';
   const source = localizedPath(route, lang);
   const otherLang = zh ? 'en' : 'zh';
@@ -80,5 +80,5 @@ ${js}</head>
 <button class="theme-choice" type="button" data-theme-toggle hidden aria-label="${zh ? '切换外观' : 'Switch colour theme'}">${icon('moon',moon)}${icon('sun',sun)}</button></div></div></div></header>
 <main id="main-content">${body}</main>
 ${footer(lang)}
-</body></html>\n`, source, lang);
+</body></html>\n`, source, lang, assetUrls);
 }
