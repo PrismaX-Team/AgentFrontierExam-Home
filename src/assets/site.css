@@ -190,7 +190,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
   position:relative;
   overflow-x:auto;scroll-padding-inline-start:var(--matrix-stub);max-width:100%;
   border-block:1px solid var(--line);
-  scrollbar-color:var(--blue-edge) var(--wash);
+  scrollbar-color:var(--green-edge) var(--wash);
 }
 .matrix-viewport:focus-visible {outline-offset:2px}
 .matrix-viewport[data-large] {max-block-size:min(62vh,35rem);overflow:auto;scroll-padding-block-start:4rem}
@@ -201,15 +201,13 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .task-matrix tr>:last-child {border-inline-end:0}
 .task-matrix tbody tr:last-child>* {border-bottom:0}
 .task-matrix th {font-family:var(--sans);font-weight:500;overflow-wrap:anywhere}
-.task-matrix thead th {padding:.6rem .25rem;background:var(--blue-wash);color:var(--ink);text-align:center;vertical-align:middle;font-size:.84rem;line-height:1.18}
+.task-matrix thead th {padding:.6rem .25rem;background:var(--green-wash);color:var(--green);border-block-end-color:var(--green-edge);text-align:center;vertical-align:middle;font-size:.84rem;line-height:1.18}
 .task-matrix .matrix-stub,.task-matrix th[scope=row] {
   position:sticky;inset-inline-start:0;z-index:1;width:var(--matrix-stub);
-  padding-inline:.68rem;background:var(--surface);color:var(--ink);
+  padding-inline:.68rem;
 }
-.task-matrix .matrix-stub {background:var(--wash)}
-.task-matrix th[scope=row] {text-align:left;font-size:.9rem;line-height:1.2}
-.task-matrix [data-selected] {background:var(--blue-wash);color:var(--ink)}
-.task-matrix th[scope=row][data-selected] {background:var(--blue-wash)}
+.task-matrix th[scope=row] {background:var(--paper);color:var(--ink);text-align:left;font-size:.9rem;line-height:1.2}
+.task-matrix th[data-selected] {background:color-mix(in srgb,var(--green-edge) 38%,var(--green-wash));color:var(--ink)}
 .matrix-cell,.matrix-zero {display:grid;place-items:center;min-height:2rem;line-height:1.2;text-align:center}
 .matrix-cell {background:var(--blue-wash);color:var(--blue);font-weight:600;text-decoration:underline;text-decoration-color:var(--blue-edge);text-underline-offset:.18em}
 .matrix-cell:is(:hover,:focus-visible),.matrix-cell[aria-current] {background:var(--blue);color:var(--paper);text-decoration-color:currentColor}

@@ -160,19 +160,17 @@
 /* The full cross-tabulation is a reference. The searchable reading list follows it. */
 #catalogue {--directory-columns:minmax(0,1fr) minmax(10rem,23%) minmax(3.3rem,6%);--directory-gutter:clamp(.9rem,3vw,2.8rem)}
 #catalogue .matrix-section {margin-top:clamp(1.2rem,2.35vw,2.25rem)}
-.catalog-matrix {border-block:1px solid var(--line)}
+.catalog-matrix {border-block:1px solid var(--line);border-block-start-color:var(--green-edge)}
 .catalog-matrix summary {display:flex;gap:1rem;align-items:center;justify-content:space-between;min-height:3.75rem;padding-block:.6rem;list-style:none;cursor:pointer}
 .catalog-matrix summary::-webkit-details-marker {display:none}
 .catalog-matrix summary::after {content:"";width:.55rem;height:.55rem;flex:none;margin-inline-end:.32rem;border-right:1.5px solid var(--link);border-bottom:1.5px solid var(--link);transform:rotate(45deg) translate(-.1rem,-.1rem)}
 .catalog-matrix[open] summary::after {transform:rotate(225deg) translate(-.1rem,-.1rem)}
 .catalog-matrix summary h2 {display:flex;align-items:baseline;flex-wrap:wrap;gap:.25rem 1.15rem;font-size:clamp(1.6rem,2.4vw,2.15rem);letter-spacing:var(--title-spacing);transform:none}
+.catalog-matrix summary h2>span:first-child {color:var(--green)}
 .catalog-matrix summary:hover h2>span:first-child {text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.13em}
 .catalog-matrix .matrix-count {font:400 .88rem/1.25 var(--sans);color:var(--muted);letter-spacing:normal}
-.catalog-matrix .matrix-viewport {--matrix-stub:clamp(9rem,15vw,15rem);border-color:var(--line);border-bottom:none;scrollbar-color:var(--line) var(--wash)}
-.task-matrix :is(th,td) {border-color:var(--line)}
-.task-matrix thead th,.task-matrix .matrix-stub,.task-matrix .matrix-sum,.task-matrix tfoot th[scope=row] {background:var(--blue-wash);color:var(--ink)}
-.task-matrix th[scope=row] {background:var(--paper);color:var(--ink)}
-.task-matrix [data-selected],.task-matrix th[scope=row][data-selected] {background:color-mix(in srgb,var(--blue) 18%,var(--paper));color:var(--ink)}
+.catalog-matrix .matrix-viewport {--matrix-stub:clamp(9rem,15vw,15rem);border-bottom:none}
+.task-matrix .matrix-sum,.task-matrix tfoot th[scope=row] {background:color-mix(in srgb,var(--green-wash) 68%,var(--paper));color:var(--ink)}
 .task-matrix .matrix-sum {font-weight:600;text-align:center;padding:.3rem .2rem}
 .task-matrix tfoot>* {border-top:1px solid var(--line)}
 .task-matrix .matrix-cell {color:var(--blue);background:color-mix(in srgb,var(--blue) 9%,var(--paper));text-decoration-color:color-mix(in srgb,var(--blue) 48%,transparent)}
