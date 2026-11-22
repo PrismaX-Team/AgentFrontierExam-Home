@@ -1,190 +1,1924 @@
 [
   {
     "id": "m13-surface-brightness",
+    "archiveKey": "ds9-m13-profile",
     "title": "Measure the light profile of M13",
     "domain": "Astronomy",
-    "workflow": "Data analysis",
+    "workflow": "Measurement and statistical analysis",
     "level": null,
     "summary": "Find the centre of a crowded star cluster and measure how its light fades with distance from the core.",
     "input": "A calibrated optical image of the globular cluster M13, with a known angular scale.",
     "deliverable": "An estimate of the cluster centre and a radial profile of surface brightness and uncertainty, exported from SAOImage DS9.",
     "evidence": "The centre, radial coverage and brightness profile are checked against the original pixels. Counting uncertainties must agree with the light measured in each annulus.",
     "packageVersion": "0.1.0",
-    "showcase": 1
+    "showcase": 1,
+    "zh": {
+      "title": "测量 M13 星团的径向面亮度",
+      "summary": "定位密集恒星组成的星团中心，测量其亮度如何随距核心的距离增加而减弱。",
+      "input": "一幅经过校准的 M13 球状星团光学图像，像素对应的角尺度已知。",
+      "deliverable": "从 SAOImage DS9 导出的星团中心估计、径向面亮度剖面及其不确定性。",
+      "evidence": "根据原始像素核查中心位置、径向覆盖范围和亮度剖面。各同心环的计数误差应与该环内测得的光量一致。"
+    }
   },
   {
     "id": "brain-connectivity-modules",
+    "archiveKey": "legare_2025__Fig_3A",
     "title": "Reconstruct a map of brain networks",
     "domain": "Neuroscience",
-    "workflow": "Figure reproduction",
+    "workflow": "Figure and analysis reproduction",
     "level": null,
     "summary": "Recreate a published figure showing which brain regions repeatedly fall into the same network.",
     "input": "The study’s region-to-region structural connectivity matrix and its prescribed set of anatomical exclusions.",
     "deliverable": "A matrix showing how often each pair of regions is grouped together, a clustering tree and a figure marking four network modules. Submit the plotting code and conclusions with the figure.",
     "evidence": "The code and study data must account for the matrix, its ordering and the four groups displayed in the reconstructed panel.",
-    "showcase": 2
+    "showcase": 2,
+    "zh": {
+      "title": "重建脑网络的模块分布图",
+      "summary": "复现一幅已发表的图，展示哪些脑区在多次划分中反复归入同一个网络。",
+      "input": "原研究的脑区间结构连接矩阵，以及分析中指定排除的解剖区域。",
+      "deliverable": "脑区两两同属一个模块的频率矩阵、聚类树、标记四个网络模块的图，以及绘图代码和结论。",
+      "evidence": "提交的代码和研究数据应能重现矩阵数值、排序及图中的四个模块。"
+    }
   },
   {
     "id": "quantum-circuit-experiment-design",
+    "archiveKey": "computing_math-qcompile-dynamic-circuit-experiment-design-02",
     "title": "Design five quantum-circuit experiments",
-    "domain": "Physics",
-    "workflow": "Experimental design",
+    "domain": "GDPX",
+    "suggestedDomain": "Physics",
+    "workflow": "Experimental and study design",
     "level": null,
     "summary": "Choose five experiments and allocate enough repetitions to distinguish possible control failures on a superconducting processor.",
     "input": "A fixed device calibration, candidate circuit layouts, and limits on both repetitions and run time.",
     "deliverable": "Compiled circuits, an independent simulation of their behaviour and a ranked experimental plan with a repetition count for each chosen circuit.",
     "evidence": "The plan must satisfy the hardware and resource constraints. Its ability to distinguish failure mechanisms is compared with the other feasible allocations.",
-    "showcase": 3
+    "showcase": 3,
+    "zh": {
+      "title": "设计五项量子线路实验",
+      "summary": "为超导处理器选择五项实验并分配测量次数，以区分可能的控制失效机制。",
+      "input": "固定的设备校准参数、候选线路布局，以及测量次数和运行时间的限制。",
+      "deliverable": "编译后的线路、对其行为的独立仿真，以及列明优先顺序和测量次数的实验计划。",
+      "evidence": "检验方案是否满足硬件和资源约束，并与其他可行分配比较，评估其区分失效机制的能力。"
+    }
   },
   {
     "id": "crystal-stability",
+    "archiveKey": "crystal_stability",
     "title": "Predict which crystals are stable",
     "domain": "Materials science",
-    "workflow": "Property prediction",
+    "workflow": "Property and outcome prediction",
     "level": null,
     "summary": "Use the initial arrangement of atoms to predict which crystals will be thermodynamically stable after relaxation.",
     "input": "Periodic crystal structures, separate composition and formation-energy training records, elemental energy references and a permitted pretrained model.",
     "deliverable": "A predicted formation energy per atom for each test structure.",
     "evidence": "A reference energy hull converts the predictions into stable or unstable labels. F1 measures how well those labels agree with reference calculations on a fixed set of distinct structural prototypes.",
     "packageVersion": "0.2.2-afe",
-    "showcase": 4
+    "showcase": 4,
+    "zh": {
+      "title": "预测哪些晶体能够保持稳定",
+      "summary": "根据原子的初始排列，预测哪些晶体在结构弛豫后具有热力学稳定性。",
+      "input": "周期晶体结构、单独提供的组成与形成能训练记录、元素参考能，以及允许使用的预训练模型。",
+      "deliverable": "每个测试结构的逐原子形成能预测。",
+      "evidence": "按参考能量凸包将预测换算为稳定或不稳定标签。在固定且结构原型不同的样本集上，以 F1 衡量与参考计算的一致程度。"
+    }
   },
   {
     "id": "review-efficient-fine-tuning",
+    "archiveKey": "lr_peft_llm_002",
     "title": "Compare efficient ways to adapt language models",
     "domain": "Information science",
-    "workflow": "Literature review",
+    "workflow": "Literature review and synthesis",
     "level": null,
     "summary": "Compare how parameter-efficient fine-tuning methods adapt large models and which trade-offs published evaluations support.",
     "input": "Peer-reviewed research published from 2019 to 2025 and five review questions covering mechanisms, applications and evaluation.",
     "deliverable": "An English review with traceable references and a comparison table connecting each method to its base model and task.",
     "evidence": "The report is assessed for coverage of the research questions, reasoning about the evidence and synthesis across methods. A comparison should identify which results support each claimed trade-off.",
-    "packageVersion": "1.0.0"
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "比较高效适配大语言模型的方法",
+      "summary": "比较参数高效微调如何使大模型适应新任务，以及已发表的评测对各类方法的取舍提供了哪些证据。",
+      "input": "2019 至 2025 年发表的同行评议研究，以及涉及机理、应用和评测的五个综述问题。",
+      "deliverable": "一份注明可追溯出处的英文综述，以及列明每种方法所用基座模型和任务的对照表。",
+      "evidence": "从问题覆盖、证据论证和跨方法综合三个方面评估报告。关于方法取舍的结论需要指出相应的研究结果。"
+    }
   },
   {
     "id": "western-cape-river-corridor",
+    "archiveKey": "qgis-river-buffer",
     "title": "Map a planning corridor around Western Cape rivers",
     "domain": "Earth science",
-    "workflow": "Data preparation",
+    "workflow": "Data preparation and visualization",
     "level": null,
     "summary": "Turn a river network into a portable map of the land within ten kilometres of its channels.",
     "input": "River geometries in geographic coordinates and an identifier for each source feature.",
     "deliverable": "Reprojected river lines, a single merged corridor polygon and a QGIS project that opens with both layers in place.",
     "evidence": "Checks cover the river identities and positions, corridor boundary and area, and whether the saved project can locate and display its layers after being moved.",
-    "packageVersion": "0.1.0"
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "绘制西开普省的河流规划廊道",
+      "summary": "将河流网络转化为一幅可迁移的地图，标出距河道十公里以内的陆地区域。",
+      "input": "以地理坐标表示的河流几何数据，以及各原始地物的标识符。",
+      "deliverable": "重投影的河流线图层、合并后的廊道多边形，以及能够同时打开两个图层的 QGIS 项目。",
+      "evidence": "核查河流的标识和位置、廊道边界与面积，并检验项目移动后能否正常找到并显示图层。"
+    }
   },
   {
     "id": "river-routing-models",
+    "archiveKey": "geospatial-hydro-flow-accumulation-inverse-inference-02",
     "title": "Test where terrain models place river channels",
-    "domain": "Earth science",
-    "workflow": "Model validation",
+    "domain": "GDPX",
+    "suggestedDomain": "Earth science",
+    "workflow": "Method development and evaluation",
     "level": null,
     "summary": "Compare drainage-routing methods in Colorado’s Front Range and Puerto Rico using mapped channel locations.",
     "input": "Two elevation grids, registered routing methods and labelled channel control points split into development and holdout sets.",
     "deliverable": "Flow-accumulation rasters, point-level predictions and a decision on which methods qualify in each region.",
-    "evidence": "Predictions must be reproducible from the rasters. Performance on independent control points determines whether each method meets the criteria for missed channels and false detections."
+    "evidence": "Predictions must be reproducible from the rasters. Performance on independent control points determines whether each method meets the criteria for missed channels and false detections.",
+    "zh": {
+      "title": "检验地形模型预测的河道位置",
+      "summary": "用实测河道位置，比较不同汇流方法在科罗拉多前山地带和波多黎各的表现。",
+      "input": "两幅高程格网、指定的汇流方法，以及分为开发集和留出集的河道控制点。",
+      "deliverable": "汇流累积量栅格图、控制点级别的预测，以及各地区有哪些方法达到要求的判断。",
+      "evidence": "点位预测须能由栅格结果复现。依据独立控制点上的漏检与误检表现，判断各方法是否达标。"
+    }
   },
   {
     "id": "rain-gauge-diagnostics",
+    "archiveKey": "earthcosci_4e1528ed76e20041",
     "title": "Tell a local downpour from a faulty gauge reading",
     "domain": "Earth science",
-    "workflow": "Data quality",
+    "workflow": "Data quality assessment",
     "level": null,
     "summary": "Use neighbouring gauges and weather radar to assess unusual rainfall observations across several time scales.",
     "input": "Hourly readings from a rain-gauge network, station coordinates and radar snapshots covering part of the record.",
     "deliverable": "A reproducible diagnostic, a report on its effect on estimated extremes, and code, figures and machine-readable results.",
-    "evidence": "The analysis must evaluate its own diagnostic, quantify uncertainty and show how its conclusions change with time scale and radar coverage."
+    "evidence": "The analysis must evaluate its own diagnostic, quantify uncertainty and show how its conclusions change with time scale and radar coverage.",
+    "zh": {
+      "title": "区分局地暴雨与异常雨量计读数",
+      "summary": "利用邻近测站和气象雷达，在多个时间尺度上评估异常降雨观测。",
+      "input": "雨量计网络的逐小时读数、测站坐标，以及覆盖部分观测时段的雷达图像。",
+      "deliverable": "可复现的诊断方法、对极端降雨估计影响的报告，以及代码、图表和机器可读结果。",
+      "evidence": "评估诊断方法自身的表现，量化不确定性，并说明结论如何受时间尺度与雷达覆盖的影响。"
+    }
   },
   {
     "id": "ecological-recovery-shortfall",
+    "archiveKey": "earthcosci_e1e0f2682bc3c4cf",
     "title": "Measure the ecological shortfall during recovery",
     "domain": "Earth science",
-    "workflow": "Evidence synthesis",
+    "workflow": "Quantitative evidence synthesis",
     "level": null,
     "summary": "Estimate how far recovering ecosystems remain below their reference condition and how that shortfall accumulates over time.",
     "input": "Observations from multiple studies, each with a starting value, an endpoint, a reference condition and the elapsed recovery time.",
     "deliverable": "An analysis comparing recovery across disturbance types and ecological measures, with code, figures and uncertainty estimates.",
-    "evidence": "The estimates must accommodate different measurement scales and dependence within studies. Alternative paths between observations test how much of the shortfall depends on interpolation."
+    "evidence": "The estimates must accommodate different measurement scales and dependence within studies. Alternative paths between observations test how much of the shortfall depends on interpolation.",
+    "zh": {
+      "title": "测量生态恢复过程中的累积缺口",
+      "summary": "估计正在恢复的生态系统与参照状态之间的差距，以及这一差距如何随时间累积。",
+      "input": "来自多项研究的观测，各自记录起始值、终点值、参照状态及所经历的恢复时间。",
+      "deliverable": "比较不同扰动类型与生态指标下的恢复过程，附代码、图表及不确定性估计。",
+      "evidence": "考虑指标尺度差异及同一研究内观测之间的相关性，并采用不同的观测间路径检验累积缺口对插值的敏感性。"
+    }
   },
   {
     "id": "cosmic-ray-propagation",
+    "archiveKey": "ams02-boron-carbon-propagation-models",
     "title": "Test two models of cosmic-ray propagation",
     "domain": "Physics",
-    "workflow": "Hypothesis testing",
+    "workflow": "Mechanisms and hypothesis testing",
     "level": null,
     "summary": "Use the measured ratio of cosmic-ray boron to carbon to test two predictions about how particles travel through the Galaxy.",
     "input": "AMS measurements of the boron-to-carbon ratio across rigidity bins, with the reported uncertainties.",
     "deliverable": "A power-law fit to the high-rigidity data, a comparison with both proposed slopes, a figure and a reproducible analysis.",
-    "evidence": "The fitted slope, uncertainties and residuals must be consistent with the measurements. The interpretation must explain the propagation assumptions and the limits of the available uncertainty information."
+    "evidence": "The fitted slope, uncertainties and residuals must be consistent with the measurements. The interpretation must explain the propagation assumptions and the limits of the available uncertainty information.",
+    "zh": {
+      "title": "检验两种宇宙线传播模型",
+      "summary": "利用实测的宇宙线硼碳比，检验关于粒子如何在银河系中传播的两种预测。",
+      "input": "AMS 在不同刚度区间测得的硼碳比及其报告的不确定性。",
+      "deliverable": "高刚度数据的幂律拟合、与两种候选斜率的比较、图表及可复现分析。",
+      "evidence": "拟合斜率、不确定性和残差应与测量一致。解释需说明传播假设及现有误差信息的局限。"
+    }
   },
   {
     "id": "seawater-carbonate-equilibrium",
+    "archiveKey": "earthcosci_dfb2f8ce0264f8fc",
     "title": "Trace how seawater carbonate chemistry responds",
     "domain": "Earth science",
-    "workflow": "Simulation",
+    "workflow": "Modelling and simulation",
     "level": null,
     "summary": "Separate changes caused by temperature, salinity and pressure from differences introduced by the choice of equilibrium constants.",
     "input": "Controlled seawater scenarios with specified alkalinity, dissolved inorganic carbon and environmental conditions.",
     "deliverable": "A reproducible set of equilibrium calculations, figures and a report explaining sensitivity across the scenarios.",
-    "evidence": "An independent calculation must check the results. The report must distinguish physical sensitivity, differences in pH conventions and extrapolation outside a model’s range."
+    "evidence": "An independent calculation must check the results. The report must distinguish physical sensitivity, differences in pH conventions and extrapolation outside a model’s range.",
+    "zh": {
+      "title": "分析海水碳酸盐平衡的响应",
+      "summary": "区分温度、盐度和压力引起的变化，以及选用不同平衡常数引入的差异。",
+      "input": "指定了碱度、溶解无机碳及环境条件的一组海水情景。",
+      "deliverable": "一套可复现的平衡计算、图表，以及说明各情景下敏感性的报告。",
+      "evidence": "用独立计算核对结果，并区分物理敏感性、pH 标度约定的差异，以及超出模型适用范围的外推。"
+    }
   },
   {
     "id": "solar-grid-voltage",
+    "archiveKey": "opendss-pv",
     "title": "Measure how solar generation changes feeder voltage",
     "domain": "Energy",
-    "workflow": "Simulation",
+    "workflow": "Modelling and simulation",
     "level": null,
     "summary": "Simulate a distribution feeder over a day to identify when solar generation raises voltage most.",
     "input": "A three-phase feeder model and hourly profiles for electricity demand and solar irradiance.",
     "deliverable": "Two hourly voltage series, a comparison plot and the magnitude and timing of the largest voltage increase.",
     "evidence": "The enabled and disabled solar scenarios are compared under the same load and clock settings. Results and plotted curves are checked against an independent OpenDSS calculation.",
-    "packageVersion": "0.1.0"
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "测量光伏发电对馈线电压的影响",
+      "summary": "模拟配电馈线全天的运行，找出光伏发电对电压抬升最明显的时段。",
+      "input": "三相馈线模型，以及逐小时的用电需求和太阳辐照度曲线。",
+      "deliverable": "两组逐小时电压序列、对照图，以及最大电压抬升的幅度和发生时间。",
+      "evidence": "在相同负载与时钟设置下比较启用和停用光伏的情景，并以独立的 OpenDSS 计算核对结果和曲线。"
+    }
   },
   {
     "id": "eeg-selective-decoding",
+    "archiveKey": "eeg_mi_selective_gating",
     "title": "Decide when to trust a brain-signal decoder",
     "domain": "Neuroscience",
-    "workflow": "Decision strategy",
+    "workflow": "Active search and decision strategies",
     "level": null,
     "summary": "Choose when a motor-imagery decoder should predict an imagined movement and when it should abstain on a later recording day.",
     "input": "First-session labels and classifier probabilities for each participant, followed by probabilities from a different session.",
     "deliverable": "A prediction or an abstention for each later trial, together with the code that made the decisions.",
     "evidence": "Coverage counts for a participant only if errors among accepted predictions stay within the specified limit. The score combines results across participants, datasets and classifiers.",
-    "packageVersion": "0.2.2-afe"
+    "packageVersion": "0.2.2-afe",
+    "zh": {
+      "title": "判断何时可以采信脑电解码结果",
+      "summary": "对于另一天记录的运动想象脑电，判断哪些试次适合预测想象的动作，哪些应暂缓判断。",
+      "input": "各参与者首次记录的标签和分类器概率，以及另一时段的分类器概率。",
+      "deliverable": "逐试次的预测或放弃判断，以及作出这些决策的代码。",
+      "evidence": "只有当已接受预测的错误率满足限制时，才计入该参与者的覆盖率。得分综合参与者、数据集和分类器的结果。"
+    }
   },
   {
     "id": "zinc-ester-cleavage",
+    "archiveKey": "chem_duration_04",
     "title": "Test why zinc changes ester cleavage rates",
     "domain": "Chemistry",
-    "workflow": "Hypothesis testing",
+    "workflow": "Mechanisms and hypothesis testing",
     "level": null,
     "summary": "Ask whether changes in the abundance of reactive chemical forms can explain the measured rates for two esters.",
     "input": "Reported acid–base equilibria, rate estimates and their uncertainties for two substrates and a zinc-associated reagent.",
     "deliverable": "A reproducible comparison of populations and reaction rates, supported by quantum-chemical calculations and a scientific report.",
-    "evidence": "The analysis must quantify uncertainty and test competing explanations. Any proposed mechanism must be consistent with the reported observations and the chemical models actually calculated."
+    "evidence": "The analysis must quantify uncertainty and test competing explanations. Any proposed mechanism must be consistent with the reported observations and the chemical models actually calculated.",
+    "zh": {
+      "title": "检验锌为何改变酯的裂解速率",
+      "summary": "研究活性化学物种丰度的变化，能否解释两种酯的实测速率。",
+      "input": "两种底物及含锌试剂的已报道酸碱平衡、速率估计及其不确定性。",
+      "deliverable": "可复现的物种占比与反应速率比较，附量子化学计算和科学报告。",
+      "evidence": "量化不确定性并检验竞争解释。所提机理应与已报道观测和实际计算的化学模型一致。"
+    }
   },
   {
     "id": "lung-cancer-trial-evidence",
+    "archiveKey": "ma_life_nsclc_neoadjuvant_ici_001",
     "title": "Pool two outcomes across lung cancer trials",
     "domain": "Medicine",
-    "workflow": "Evidence synthesis",
+    "workflow": "Quantitative evidence synthesis",
     "level": null,
     "summary": "Compare findings from eight randomized studies by analysing event-free survival and pathological complete response separately.",
     "input": "Eight reports of trials testing the addition of immune-checkpoint therapy to chemotherapy around surgery for resectable non-small cell lung cancer.",
     "deliverable": "An English report with a study-level extraction table, separate pooled estimates for the two outcomes and an assessment of weaknesses in the evidence.",
     "evidence": "The report must document the effects extracted from each trial, explain any approximations and examine heterogeneity and incomplete reporting when interpreting the pooled results.",
-    "packageVersion": "1.0.0"
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "分别合并肺癌试验的两类疗效终点",
+      "summary": "比较八项随机研究的结果，分别分析无事件生存期和病理完全缓解。",
+      "input": "八份临床试验报告，研究可切除非小细胞肺癌患者在围手术期化疗基础上加用免疫检查点治疗的效果。",
+      "deliverable": "英文报告、逐研究数据提取表、两个终点各自的合并估计，以及对证据局限的评估。",
+      "evidence": "记录每项试验提取的效应量，说明使用的近似，并在解读合并结果时评估异质性与报告不完整的影响。"
+    }
   },
   {
     "id": "identify-filter-circuits",
+    "archiveKey": "ngspice-identification",
     "title": "Infer the wiring of four passive filter boards",
     "domain": "Information science",
-    "workflow": "Parameter inference",
+    "workflow": "Parameter inference and calibration",
     "level": null,
     "summary": "Use noisy frequency-response measurements to distinguish two possible wirings and estimate component values for each board.",
     "input": "Complex gain measurements, candidate circuit layouts and component ranges for four resistor–capacitor filter boards.",
     "deliverable": "A model of each board, the readings diagnosed as interference and predictions after the electrical load changes.",
     "evidence": "Checks compare the inferred wiring and component values with the reference boards, then test the predicted gain in previously unseen conditions.",
-    "packageVersion": "0.2.0"
+    "packageVersion": "0.2.0",
+    "zh": {
+      "title": "推断四块无源滤波板的接线",
+      "summary": "利用带噪声的频率响应观测，区分两种可能的接线方案，并估计各块电路板的元件参数。",
+      "input": "四块阻容滤波板的复增益测量、候选线路布局和元件参数范围。",
+      "deliverable": "每块电路板的模型、判为干扰的读数，以及改变电负载后的响应预测。",
+      "evidence": "将推断的接线和元件参数与参考板比较，并在未见过的工况下检验增益预测。"
+    }
+  },
+  {
+    "id": "quantum-recorder-bit-mapping",
+    "archiveKey": "computing_math-qcompile-measurement-mapping-inverse-inference-04",
+    "title": "Recover bit mappings in a quantum recorder",
+    "domain": "GDPX",
+    "suggestedDomain": "Physics",
+    "workflow": "Parameter inference and calibration",
+    "level": null,
+    "summary": "A recorder changed its bit mapping between three capture sessions. Infer the mapping in each session from quantum-circuit readout histograms.",
+    "deliverable": "A mapping for each session and predictions for circuits held out of the fit.",
+    "zh": {
+      "title": "复原量子测量记录器的比特映射",
+      "summary": "三次采集使用了不同的比特映射。根据量子线路的读出直方图，反推出记录器在各时段采用的映射。",
+      "deliverable": "各时段的比特映射，以及对未参与拟合的线路所作的预测。"
+    }
+  },
+  {
+    "id": "powder-diffraction-phase-fractions",
+    "archiveKey": "materials-diffraction-01-certify",
+    "title": "Quantify crystal phases in powder diffraction patterns",
+    "domain": "GDPX",
+    "suggestedDomain": "Materials science",
+    "workflow": "Parameter inference and calibration",
+    "level": null,
+    "summary": "Several crystal phases may contribute to a powder pattern. Estimate their mass fractions and decide which samples support a defensible result.",
+    "deliverable": "A phase analysis of each sample supported by diagnostic peaks, composition and fit residuals.",
+    "zh": {
+      "title": "从粉末衍射谱估计晶相含量",
+      "summary": "同一张粉末衍射谱可能包含多种晶相。估计各相的质量分数，判断哪些样品的观测足以支持定量结论。",
+      "deliverable": "逐样品的晶相分析，以及特征峰、化学组成和拟合残差提供的依据。"
+    }
+  },
+  {
+    "id": "silicon-adsorbate-height",
+    "archiveKey": "materials-qe_defect-02-infer",
+    "title": "Infer the height of an atom on silicon",
+    "domain": "GDPX",
+    "suggestedDomain": "Materials science",
+    "workflow": "Parameter inference and calibration",
+    "level": null,
+    "summary": "Three heights are plausible for a silicon atom adsorbed on a slab. Combine electronic-structure calculations with an uncertain height measurement to distinguish them.",
+    "deliverable": "Calculated energies and the posterior support for each candidate height.",
+    "zh": {
+      "title": "推断硅表面吸附原子的高度",
+      "summary": "硅表面的吸附原子有三个可能的高度。结合电子结构计算和带误差的高度测量，判断哪个位置最符合证据。",
+      "deliverable": "各候选高度的计算能量与相应的后验概率。"
+    }
+  },
+  {
+    "id": "compact-binary-waveform-bank",
+    "archiveKey": "physical_sciences-gw-template-mismatch-bank-build-03",
+    "title": "Build a waveform bank for a gravitational-wave search",
+    "domain": "GDPX",
+    "suggestedDomain": "Astronomy",
+    "workflow": "Method development and evaluation",
+    "level": null,
+    "summary": "Improve a sparse set of compact-binary waveforms under a fixed template budget. Study how well the new bank covers possible signals in two observing segments.",
+    "deliverable": "Two template banks, coverage measurements on independent probes and comparisons with detector strain data.",
+    "zh": {
+      "title": "为引力波搜寻构建波形模板库",
+      "summary": "在固定的模板预算下，补全一组双致密星波形。检验新模板库对两段观测中可能出现的信号有多大覆盖能力。",
+      "deliverable": "两组模板库、独立测试点的覆盖结果，以及与探测器应变数据的对照。"
+    }
+  },
+  {
+    "id": "ground-station-contact-schedule",
+    "archiveKey": "physical_sciences-orbit_ground_station_schedule_inference",
+    "title": "Reconstruct a satellite ground-station schedule",
+    "domain": "GDPX",
+    "suggestedDomain": "Physics",
+    "workflow": "Experimental and study design",
+    "level": null,
+    "summary": "Damaged tracking records leave the station names and clock conventions uncertain. Reconcile the observations and find the best feasible schedule for a twelve-hour window.",
+    "deliverable": "A contact schedule backed by two independent calculations of satellite visibility.",
+    "zh": {
+      "title": "重建卫星与地面站的联络时刻表",
+      "summary": "受损的跟踪记录使测站名称和时钟约定难以辨认。厘清记录与观测的对应关系，找出十二小时窗口内可行的最优调度。",
+      "deliverable": "一份联络时刻表，附两种独立计算得到的卫星可见时段。"
+    }
+  },
+  {
+    "id": "servicing-rendezvous-windows",
+    "archiveKey": "physical_sciences-orbit_rendezvous_experiment_design",
+    "title": "Compare arrival windows for an orbital servicing mission",
+    "domain": "GDPX",
+    "suggestedDomain": "Physics",
+    "workflow": "Experimental and study design",
+    "level": null,
+    "summary": "A servicing spacecraft can reach its target in six possible arrival windows. Compare the options for feasibility, navigation quality and sensitivity to uncertainty.",
+    "deliverable": "A comparative assessment of the simulated windows and the evidence for the preferred plan.",
+    "zh": {
+      "title": "比较在轨服务任务的交会时间窗",
+      "summary": "在轨服务航天器有六个可选交会时间窗。比较各方案的可行性、导航信息质量和对不确定性的敏感程度。",
+      "deliverable": "对六个时间窗的仿真比较，以及选择首选方案的证据。"
+    }
+  },
+  {
+    "id": "satellite-tracking-clock-calibration",
+    "archiveKey": "physical_sciences-orbit_time_scale_parameter_calibration",
+    "title": "Calibrate clocks in satellite tracking records",
+    "domain": "GDPX",
+    "suggestedDomain": "Physics",
+    "workflow": "Parameter inference and calibration",
+    "level": null,
+    "summary": "Different tracking feeds use uncertain time scales. Use satellite range and range-rate measurements to separate clock errors from station measurement biases.",
+    "deliverable": "Calibration estimates and predictions for measurements held out during fitting.",
+    "zh": {
+      "title": "校准卫星跟踪记录中的时钟偏差",
+      "summary": "多路跟踪记录使用的时间尺度并不明确。利用卫星测距和距离变化率，区分时钟误差与测站的测量偏差。",
+      "deliverable": "校准参数，以及固定参数后对留出测量值所作的预测。"
+    }
+  },
+  {
+    "id": "cryptic-pocket-detection",
+    "archiveKey": "structbio-fpocket-cryptic-benchmark",
+    "title": "Test whether a method can recover a cryptic binding pocket",
+    "domain": "GDPX",
+    "suggestedDomain": "Life sciences",
+    "workflow": "Method development and evaluation",
+    "level": null,
+    "summary": "A binding site can be difficult to recognize when a receptor changes shape. Compare pocket detections across three structures of the A3 adenosine receptor.",
+    "deliverable": "An assessment of pocket recovery against the annotated binding site in each structure.",
+    "zh": {
+      "title": "验证算法能否找回隐蔽结合口袋",
+      "summary": "当受体构象改变时，同一结合位点可能变得不易辨认。比较算法在三种 A3 腺苷受体结构上的口袋识别结果。",
+      "deliverable": "各构象的识别结果及其与标注结合位点的空间重合程度。"
+    }
+  },
+  {
+    "id": "neural-activity-velocity-decoding",
+    "archiveKey": "atanas_2023__Fig_2D",
+    "title": "Reconstruct a neural decoder’s velocity curve",
+    "domain": "Neuroscience",
+    "workflow": "Figure and analysis reproduction",
+    "level": null,
+    "summary": "Do recordings of present neural activity contain information about earlier movement? Reproduce the published velocity-decoding curves over a range of time lags.",
+    "deliverable": "A reconstruction of Atanas et al., Fig. 2D, with the time-shuffled controls and variability across animals.",
+    "zh": {
+      "title": "复现神经活动对运动速度的解码曲线",
+      "summary": "当前的神经活动是否保留了先前运动的信息？复现论文中不同时间偏移下的速度解码曲线。",
+      "deliverable": "Atanas 等人图 2D 的复现结果，包含时间打乱的对照与动物间的变异。"
+    }
+  },
+  {
+    "id": "worm-neural-principal-components",
+    "archiveKey": "atanas_2023__Fig_3G",
+    "title": "Rebuild a map of neuronal tuning in a worm",
+    "domain": "Neuroscience",
+    "workflow": "Figure and analysis reproduction",
+    "level": null,
+    "summary": "Group neurons in a C. elegans recording by shared patterns of activity and compare the groups with how each neuron responds to movement and feeding.",
+    "deliverable": "A reconstruction of Atanas et al., Fig. 3G, aligning behavioural tuning with the first five principal-component loadings.",
+    "zh": {
+      "title": "重建线虫神经元的行为调谐图",
+      "summary": "在线虫记录中，按共同的活动模式对神经元聚类，再比较各神经元与运动和进食行为的关联。",
+      "deliverable": "Atanas 等人图 3G 的复现结果，将行为调谐与前五个主成分的载荷逐一对齐。"
+    }
+  },
+  {
+    "id": "fly-heading-encoding",
+    "archiveKey": "basnak_2025__Fig_3C",
+    "title": "Relate heading accuracy to neural activity in flies",
+    "domain": "Neuroscience",
+    "workflow": "Figure and analysis reproduction",
+    "level": null,
+    "summary": "Measure how accurately each fly’s neurons represent heading, then examine whether that accuracy varies with the width of the neural activity peak.",
+    "deliverable": "The across-fly scatter plot and correlation in Basnak et al., Fig. 3C.",
+    "zh": {
+      "title": "比较果蝇头向编码精度与神经活动峰宽",
+      "summary": "逐只测量果蝇神经元表征头部朝向的准确程度，检验这种准确程度是否与活动峰的宽度相关。",
+      "deliverable": "Basnak 等人图 3C 的跨个体散点图及相关性估计。"
+    }
+  },
+  {
+    "id": "mouse-choice-model-comparison",
+    "archiveKey": "findling_2025__Fig_4A",
+    "title": "Compare three models of choice in mice",
+    "domain": "Neuroscience",
+    "workflow": "Figure and analysis reproduction",
+    "level": null,
+    "summary": "Use behavioural sessions from mice to test three accounts of how prior experience shapes a choice. Reproduce the published comparison across animals.",
+    "deliverable": "A reconstruction of Findling et al., Fig. 4A, including cross-validated model frequencies and exceedance probabilities.",
+    "zh": {
+      "title": "比较三种解释小鼠选择行为的模型",
+      "summary": "利用小鼠多个实验时段的行为记录，比较三种关于既往经验如何影响选择的解释，复现跨个体的模型比较。",
+      "deliverable": "Findling 等人图 4A 的复现结果，报告交叉验证后的模型频率与超越概率。"
+    }
+  },
+  {
+    "id": "visual-cortex-expression-trajectories",
+    "archiveKey": "gao_2025__Fig_4B",
+    "title": "Trace gene expression as the mouse visual cortex develops",
+    "domain": "Neuroscience",
+    "workflow": "Figure and analysis reproduction",
+    "level": null,
+    "summary": "Separate developmental expression trajectories by cell subclass in single-cell recordings from the mouse visual cortex.",
+    "deliverable": "The marker-gene trajectories grouped by cell subclass in Gao et al., Fig. 4B.",
+    "zh": {
+      "title": "追踪小鼠视觉皮层发育中的基因表达",
+      "summary": "从小鼠视觉皮层的单细胞数据中提取发育轨迹，比较不同细胞亚类的标记基因表达。",
+      "deliverable": "Gao 等人图 4B 中按细胞亚类区分的标记基因表达轨迹。"
+    }
+  },
+  {
+    "id": "macaque-decision-neuron",
+    "archiveKey": "genkin_2025__Fig_3C",
+    "title": "Reconstruct a neuron’s activity during decisions",
+    "domain": "Neuroscience",
+    "workflow": "Figure and analysis reproduction",
+    "level": null,
+    "summary": "Examine how one neuron fires as a macaque makes choices of different difficulty. Recreate the alignment of individual trials and their averages.",
+    "deliverable": "The spike raster and firing-rate curves by choice and difficulty in Genkin et al., Fig. 3C.",
+    "zh": {
+      "title": "复现猕猴决策过程中单个神经元的活动",
+      "summary": "分析猕猴完成不同难度的选择时，一个神经元如何放电。重建逐次试验的时间对齐结果及其均值。",
+      "deliverable": "Genkin 等人图 3C 的放电栅格图和按选择、难度分组的平均放电率曲线。"
+    }
+  },
+  {
+    "id": "fish-brain-expression-maps",
+    "archiveKey": "marquez_legorreta_2026__Fig_4D",
+    "title": "Reconstruct cell maps across three fish brains",
+    "domain": "Neuroscience",
+    "workflow": "Figure and analysis reproduction",
+    "level": null,
+    "summary": "Map selected cell populations from their coordinates and RNA counts in three fish. Compare the dorsal and lateral views of each brain.",
+    "deliverable": "Anatomical projections reproducing the cell maps in Márquez-Legorreta et al., Fig. 4D.",
+    "zh": {
+      "title": "重建三条鱼的脑细胞空间分布图",
+      "summary": "依据细胞坐标和 RNA 计数绘制三条鱼脑中的特定细胞群，并比较背侧与侧面观。",
+      "deliverable": "复现 Márquez-Legorreta 等人图 4D 所示细胞分布的解剖投影图。"
+    }
+  },
+  {
+    "id": "zebrafish-visual-landmarks",
+    "archiveKey": "tanaka_2026__Fig_3E",
+    "title": "Measure how zebrafish heading follows a landmark",
+    "domain": "Neuroscience",
+    "workflow": "Figure and analysis reproduction",
+    "level": null,
+    "summary": "Compare neural heading signals with visual landmarks before, during and after learning. Measure how long each fish spends out of alignment.",
+    "deliverable": "A paired plot across the three stages as in Tanaka et al., Fig. 3E.",
+    "zh": {
+      "title": "测量斑马鱼头向表征与视觉地标的偏离",
+      "summary": "比较学习前、学习中和学习后三个阶段的头向神经信号与视觉地标，测量每条鱼处于偏离状态的时间比例。",
+      "deliverable": "Tanaka 等人图 3E 中同一个体跨三个阶段的配对图。"
+    }
+  },
+  {
+    "id": "odour-response-by-condition",
+    "archiveKey": "yu_2025__Fig_5C",
+    "title": "Rebuild the comparison of active and passive odour responses",
+    "domain": "Neuroscience",
+    "workflow": "Figure and analysis reproduction",
+    "level": null,
+    "summary": "Compare how often a granule cell is excited, suppressed or unresponsive to an odour during a behavioural task and during passive exposure.",
+    "deliverable": "The two distributions of cell–odour responses in Yu et al., Fig. 5C.",
+    "zh": {
+      "title": "复现主动任务与被动闻嗅中的气味反应比较",
+      "summary": "比较颗粒细胞在行为任务和被动接触气味两种条件下出现兴奋、抑制或无反应的比例。",
+      "deliverable": "Yu 等人图 5C 中两种条件下细胞与气味配对的反应分布。"
+    }
+  },
+  {
+    "id": "ester-exchange-kinetics",
+    "archiveKey": "chem_duration_01",
+    "title": "Distinguish explanations for ester-exchange kinetics",
+    "domain": "Chemistry",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Several kinetic models can describe a base-promoted ester exchange. Ask whether a change after water is added distinguishes nucleophile identity from depletion of the base.",
+    "deliverable": "Competing rate equations and a comparison of their predictions against the observations.",
+    "zh": {
+      "title": "区分酯交换动力学的竞争解释",
+      "summary": "多种动力学模型都可能解释碱促进的酯交换。检验加水后的变化能否区分亲核体不同与碱逐渐耗竭这两种解释。",
+      "deliverable": "竞争模型的速率方程，以及各自预测与观测结果的对照。"
+    }
+  },
+  {
+    "id": "carbonate-additive-effects",
+    "archiveKey": "chem_duration_02",
+    "title": "Explain additive effects in carbonate formation",
+    "domain": "Chemistry",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Compare how water and acetic acid affect molecular association in a pyridine-catalysed reaction. Determine which interpretations fit the reported changes in activity.",
+    "deliverable": "A comparison of association and species populations under the three reported conditions.",
+    "zh": {
+      "title": "解释碳酸酯生成中的添加剂效应",
+      "summary": "比较水和乙酸对吡啶催化反应中分子缔合的影响，判断哪些解释与已观测到的活性变化一致。",
+      "deliverable": "三种已报告条件下的分子缔合与物种分布比较。"
+    }
+  },
+  {
+    "id": "acetate-cleavage-selectivity",
+    "archiveKey": "chem_duration_03",
+    "title": "Test what governs selective acetate cleavage",
+    "domain": "Chemistry",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Two acetates respond differently to cleavage. Compare descriptors of bond breaking and proton transfer, and ask which differences survive the salt controls.",
+    "deliverable": "A comparison of candidate mechanisms against the ammonium- and sodium-salt observations.",
+    "zh": {
+      "title": "检验乙酸酯选择性裂解的解释",
+      "summary": "两种乙酸酯的裂解表现不同。比较断键与质子转移的描述量，结合盐对照判断哪些差异能够解释选择性。",
+      "deliverable": "竞争机理与铵盐、钠盐对照观测之间的对照分析。"
+    }
+  },
+  {
+    "id": "boron-substituent-exchange",
+    "archiveKey": "chem_duration_05",
+    "title": "Explain how a boron substituent changes an exchange reaction",
+    "domain": "Chemistry",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Replacing a substituent on boron changes the rate of exchange with an arylsilane. Test electronic, steric and solvent-based explanations against computational evidence.",
+    "deliverable": "A comparison of the corresponding reaction steps and the evidence for each explanation.",
+    "zh": {
+      "title": "解释硼上取代基如何改变交换反应",
+      "summary": "硼上取代基的替换改变了它与芳基硅烷的交换速率。比较电子、空间和溶剂效应能否解释这一现象。",
+      "deliverable": "取代前后相应反应步骤的比较，以及各类解释的证据。"
+    }
+  },
+  {
+    "id": "epoxide-opening-stereochemistry",
+    "archiveKey": "chem_duration_06",
+    "title": "Explain the stereochemistry of epoxide ring opening",
+    "domain": "Chemistry",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Two sites can open in a catalysed epoxide reaction. Compare proposed pathways with the stereochemistry of the products and the isotope-labelling observations.",
+    "deliverable": "A comparison of pathway calculations and the observations that distinguish them.",
+    "zh": {
+      "title": "解释环氧化物开环的立体化学结果",
+      "summary": "催化反应可在环氧化物的两个位点开环。结合产物的立体化学与同位素标记观测，评估各条候选路径。",
+      "deliverable": "各路径的计算结果，以及能够区分它们的实验观测。"
+    }
+  },
+  {
+    "id": "lactonization-site-selectivity",
+    "archiveKey": "chem_duration_07",
+    "title": "Explain site selectivity in a lactonization reaction",
+    "domain": "Chemistry",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Compare pathways through benzylic and aromatic sites in a palladium-catalysed transformation. A candidate explanation must account for both exchange and product location.",
+    "deliverable": "A mechanistic comparison tied to the isotope and site-selectivity observations.",
+    "zh": {
+      "title": "解释内酯化反应的位点选择性",
+      "summary": "比较钯催化反应经过苄位和芳环邻位的路径，检验候选解释能否同时说明同位素交换和产物的成键位置。",
+      "deliverable": "与同位素交换及位点选择性观测相对应的机理比较。"
+    }
+  },
+  {
+    "id": "palladium-annulation-additives",
+    "archiveKey": "chem_duration_08",
+    "title": "Test why additives change a palladium-catalysed ring closure",
+    "domain": "Chemistry",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Alternative reaction networks predict different responses to an additive in a ring-forming reaction. Compare them with the observed changes.",
+    "deliverable": "Competing networks assessed against calculated key-step energies and the measured additive effects.",
+    "zh": {
+      "title": "检验添加剂为何改变钯催化环化",
+      "summary": "不同候选反应网络对环化中添加剂的作用给出不同预期。比较这些预期与实验观测到的变化。",
+      "deliverable": "结合关键步骤的计算能量与实测添加剂效应，对竞争反应网络进行评估。"
+    }
+  },
+  {
+    "id": "hydrosilylation-selectivity-switch",
+    "archiveKey": "chem_duration_09",
+    "title": "Investigate a reversal in hydrosilylation selectivity",
+    "domain": "Chemistry",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Changing the diphosphine ligand reverses which position is favoured in a hydrosilylation. Investigate which pathways can account for the switch.",
+    "deliverable": "A pathway comparison for the two ligands tested against the deuterium-labelling evidence.",
+    "zh": {
+      "title": "分析氢硅化反应中的选择性反转",
+      "summary": "更换双膦配体会反转氢硅化反应偏好的位点。比较哪些候选路径能够解释这种反转。",
+      "deliverable": "两种配体下的路径比较，以及氘标记观测对解释的约束。"
+    }
+  },
+  {
+    "id": "imine-photochemical-divergence",
+    "archiveKey": "chem_duration_10",
+    "title": "Explain why two related imines react differently in light",
+    "domain": "Chemistry",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Closely related imines behave differently under the same photochemical conditions. Evaluate competing productive and unproductive pathways.",
+    "deliverable": "A mechanistic account and a further observation that could distinguish the remaining hypotheses.",
+    "zh": {
+      "title": "解释两种相近亚胺的光化学行为差异",
+      "summary": "两种结构相近的亚胺在相同光化学条件下表现不同。比较能生成产物的路径及与之竞争的路径。",
+      "deliverable": "对现有差异的机理解释，以及可区分剩余假设的新观测。"
+    }
+  },
+  {
+    "id": "mycorrhiza-plant-coexistence",
+    "archiveKey": "da_life_mycorrhiza_coexistence_001",
+    "title": "Measure how mycorrhizal partners affect plant coexistence",
+    "domain": "Earth science",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Two plant species compete in a greenhouse experiment. Use the growth records to examine whether their fungal partners change the balance of competition.",
+    "deliverable": "Estimates of growth, competition and coexistence grounded in the original experimental observations.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "测量菌根伙伴如何影响植物共存",
+      "summary": "两种植物在温室中竞争生长。根据实验生长记录，分析各自的菌根伙伴如何改变竞争格局。",
+      "deliverable": "以原始实验观测为依据，对生长、竞争与共存作出估计。"
+    }
+  },
+  {
+    "id": "single-cell-genetics-review",
+    "archiveKey": "life_lr_01_single_cell_genetics",
+    "title": "Review the evidence linking genetic variation to cell state",
+    "domain": "Life sciences",
+    "workflow": "Literature review and synthesis",
+    "level": null,
+    "summary": "Compare association studies in single-cell genetics. Examine how experimental design shapes the evidence connecting a variant to a cellular phenotype or disease mechanism.",
+    "deliverable": "A literature review separating supported associations from claims that need additional evidence.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "梳理遗传变异与细胞状态关联的证据",
+      "summary": "比较单细胞遗传学的关联研究，考察实验设计如何影响遗传变异、细胞表型与疾病机理之间的证据。",
+      "deliverable": "一份文献综述，区分已有证据支持的关联与仍需佐证的推断。"
+    }
+  },
+  {
+    "id": "human-cell-regulation-review",
+    "archiveKey": "lr_life_human_synthetic_biology_001",
+    "title": "Compare the evidence for regulation in human cells",
+    "domain": "Life sciences",
+    "workflow": "Literature review and synthesis",
+    "level": null,
+    "summary": "Survey published research in human-cell synthetic biology and compare the scope and evidential limits of approaches at different layers of regulation.",
+    "deliverable": "A literature review comparing the questions addressed, the evidence reported and its limits.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "比较人类细胞调控研究的证据",
+      "summary": "梳理人类细胞合成生物学的已发表研究，比较不同调控层级上的研究范围和证据局限。",
+      "deliverable": "一份文献综述，比较各项研究提出的问题、报告的证据及其局限。"
+    }
+  },
+  {
+    "id": "immune-setpoint-review",
+    "archiveKey": "lr_life_immune_setpoint_ai_001",
+    "title": "Review evidence for individual differences in immune set points",
+    "domain": "Life sciences",
+    "workflow": "Literature review and synthesis",
+    "level": null,
+    "summary": "Human immune measurements vary within and between individuals. Assess which sampling designs and models can distinguish time-dependent variation from persistent differences.",
+    "deliverable": "A synthesis of the conclusions about immune variation supported by the published sampling and modelling choices.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "梳理个体免疫稳态差异的证据",
+      "summary": "人体免疫测量既随时间变化，也存在个体差异。分析哪些采样设计和模型能够区分短期波动与持续存在的差异。",
+      "deliverable": "一份综合评述，说明已发表研究的采样和建模选择能够支持哪些关于免疫差异的结论。"
+    }
+  },
+  {
+    "id": "microbiome-epidemiology-review",
+    "archiveKey": "lr_life_microbiome_epidemiology_001",
+    "title": "Evaluate study designs in microbiome epidemiology",
+    "domain": "Medicine",
+    "workflow": "Literature review and synthesis",
+    "level": null,
+    "summary": "Review how population studies link microbial communities, exposures and health outcomes. Compare the ways each design handles confounding.",
+    "deliverable": "A literature review linking epidemiological conclusions to the design and limitations of the underlying studies.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "评估人群微生物组流行病学的研究设计",
+      "summary": "梳理人群研究如何关联微生物群落、暴露因素与健康结局，比较不同设计处理混杂因素的方式。",
+      "deliverable": "一份文献综述，将流行病学结论与原始研究的设计及局限对应起来。"
+    }
+  },
+  {
+    "id": "single-cell-perturbation-review",
+    "archiveKey": "lr_life_pooled_single_cell_crispr_009",
+    "title": "Compare evidence from single-cell genetic screens",
+    "domain": "Life sciences",
+    "workflow": "Literature review and synthesis",
+    "level": null,
+    "summary": "Survey functional-genomics studies that pair pooled perturbations with single-cell measurements. Compare what their readouts establish and where interpretation remains uncertain.",
+    "deliverable": "A literature comparison of readouts, applications and the quality of the reported evidence.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "比较单细胞遗传筛选的证据",
+      "summary": "梳理将混合筛选与单细胞测量结合的功能基因组学研究，比较其读出方法能支持哪些结论，以及解释上的不确定性。",
+      "deliverable": "一份比较读出方式、适用范围及证据质量的文献综述。"
+    }
+  },
+  {
+    "id": "spatial-omics-review",
+    "archiveKey": "lr_life_spatial_omics_008",
+    "title": "Match spatial omics evidence to tissue questions",
+    "domain": "Life sciences",
+    "workflow": "Literature review and synthesis",
+    "level": null,
+    "summary": "Spatial assays trade off measurement breadth and spatial resolution. Review how those trade-offs affect the tissue questions a study can address.",
+    "deliverable": "A comparison of spatial resolution, measurement coverage and validation across published approaches.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "按组织研究问题比较空间组学证据",
+      "summary": "空间组学技术在测量范围和空间分辨率之间存在取舍。结合文献，评估这些取舍对不同组织研究问题的影响。",
+      "deliverable": "对已发表方法的空间分辨率、测量范围和验证要求的比较。"
+    }
+  },
+  {
+    "id": "population-genetics-deep-learning",
+    "archiveKey": "lr_popgen_deep_learning_001",
+    "title": "Review deep learning for population-genetic inference",
+    "domain": "Life sciences",
+    "workflow": "Literature review and synthesis",
+    "level": null,
+    "summary": "Compare studies that infer population structure, demographic history and signals of selection from genetic data using deep learning.",
+    "deliverable": "A structured review of studies published between 2016 and September 2023, comparing their evidence and scope.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "综述深度学习在群体遗传推断中的应用",
+      "summary": "比较利用深度学习从遗传数据推断种群结构、种群历史和选择信号的研究。",
+      "deliverable": "一份涵盖 2016 年至 2023 年 9 月研究的结构化综述，比较各项工作的证据与适用范围。"
+    }
+  },
+  {
+    "id": "pxr-potency-efficacy",
+    "archiveKey": "d02_pxr_potency_efficacy_separation",
+    "title": "Distinguish potency from efficacy in PXR assays",
+    "domain": "Chemistry",
+    "workflow": "Candidate screening and ranking",
+    "level": null,
+    "summary": "Compounds can differ both in the concentration needed for a response and in the largest response they produce. Compare these two properties in a supplied PXR assay panel.",
+    "deliverable": "Compound-level response estimates and candidate groups distinguished by their potency and maximum effect.",
+    "zh": {
+      "title": "区分 PXR 测定中的效价与效能",
+      "summary": "不同化合物既可能在引起反应所需的浓度上不同，也可能在最大响应上不同。比较 PXR 测定面板中的这两类差异。",
+      "deliverable": "逐化合物的响应估计，以及按效价与最大效应区分的候选组。"
+    }
+  },
+  {
+    "id": "mass-spectrometry-carrier-transfer",
+    "archiveKey": "d06_echo_ms_cross_carrier_detection_transfer",
+    "title": "Predict which mass-spectrometry signals survive a carrier change",
+    "domain": "Chemistry",
+    "workflow": "Candidate screening and ranking",
+    "level": null,
+    "summary": "Compare mass-spectrometry detection under two carrier conditions. Identify compounds whose signals persist, disappear or reappear after the change.",
+    "deliverable": "Predicted signals and groups of compounds representing the distinct detection patterns.",
+    "zh": {
+      "title": "预测更换载液后的质谱检出变化",
+      "summary": "比较两种载液条件下的质谱检出结果，判断哪些化合物的信号持续可见、消失或重新出现。",
+      "deliverable": "预测信号与具有不同检出模式的化合物分组。"
+    }
+  },
+  {
+    "id": "cytochrome-inhibition-panel",
+    "archiveKey": "d16_four_cyp_direct_inhibition_liability",
+    "title": "Compare inhibition patterns across four CYP enzymes",
+    "domain": "Chemistry",
+    "workflow": "Candidate screening and ranking",
+    "level": null,
+    "summary": "Assess how the same compound panel behaves across four cytochrome P450 enzymes. Compare selective and shared response patterns in the assay measurements.",
+    "deliverable": "An estimate for each compound–enzyme assay and nominations grouped by their response profiles.",
+    "zh": {
+      "title": "比较四种 CYP 酶的体外抑制模式",
+      "summary": "评估同一组化合物在四种细胞色素 P450 酶测定中的表现，比较各酶之间共有或特有的响应模式。",
+      "deliverable": "各化合物与酶组合的估计读数，以及按响应特征挑选的候选物。"
+    }
+  },
+  {
+    "id": "sarcoma-cell-line-response",
+    "archiveKey": "d19_in_vitro_sarcoma_panel_tc32",
+    "title": "Compare responses across three sarcoma cell lines",
+    "domain": "Chemistry",
+    "workflow": "Candidate screening and ranking",
+    "level": null,
+    "summary": "Use an in vitro screening panel to identify compound responses shared across three sarcoma cell lines and responses limited to a subset.",
+    "deliverable": "Predicted assay responses and candidates exhibiting each of the two patterns.",
+    "zh": {
+      "title": "比较三种肉瘤细胞系的体外响应",
+      "summary": "利用体外筛选数据，区分三种肉瘤细胞系共同表现的化合物响应与仅出现在部分细胞系中的响应。",
+      "deliverable": "对测定响应的预测，以及具有两类不同模式的候选化合物。"
+    }
+  },
+  {
+    "id": "pxr-fragment-binding-poses",
+    "archiveKey": "d21_pxr_crystal_fragment_pose_panel",
+    "title": "Predict the bound positions of PXR fragments",
+    "domain": "Chemistry",
+    "workflow": "Binding pose prediction",
+    "level": null,
+    "summary": "Locate molecular fragments in supplied structures of the PXR receptor. Compare the predicted positions and nearby contacts with crystallographic observations.",
+    "deliverable": "Three-dimensional fragment poses assessed by atom displacement and agreement with pocket contacts.",
+    "zh": {
+      "title": "预测小分子片段在 PXR 中的结合位置",
+      "summary": "在给定的 PXR 受体结构中定位小分子片段，将预测的位置和邻近接触与晶体学观测进行比较。",
+      "deliverable": "片段的三维结合构象，按原子位置偏差和口袋接触的一致程度检验。"
+    }
+  },
+  {
+    "id": "pxr-ligand-binding-poses",
+    "archiveKey": "d22_pxr_crystal_ligand_pose_panel",
+    "title": "Predict ligand poses across PXR crystal structures",
+    "domain": "Chemistry",
+    "workflow": "Binding pose prediction",
+    "level": null,
+    "summary": "Determine how a panel of larger ligands sits within several PXR structures. Examine how well each predicted pose captures the observed geometry.",
+    "deliverable": "A pose for each ligand evaluated against both experimental atomic positions and receptor contacts.",
+    "zh": {
+      "title": "在多种 PXR 晶体结构中预测配体构象",
+      "summary": "判断一组较大配体在多种 PXR 结构中的结合方式，考察每个预测构象与观测几何结构的吻合程度。",
+      "deliverable": "逐配体的结合构象，与实验测得的原子位置和受体接触进行对照。"
+    }
+  },
+  {
+    "id": "lrrk2-solubility-aggregation",
+    "archiveKey": "d25_lrrk2_solubility_and_aggregation_liability",
+    "title": "Separate solubility and aggregation in a compound panel",
+    "domain": "Chemistry",
+    "workflow": "Candidate screening and ranking",
+    "level": null,
+    "summary": "Concentration changes can alter solubility measurements and light scattering in different ways. Compare the two readouts for a panel of LRRK2 compounds.",
+    "deliverable": "Predictions for both measurements and candidates that distinguish solubility from aggregation.",
+    "zh": {
+      "title": "区分化合物的溶解性与聚集现象",
+      "summary": "浓度变化对溶解性测量与光散射读数的影响可能不同。比较一组 LRRK2 相关化合物的这两项读数。",
+      "deliverable": "两种测量的预测结果，以及能够区分溶解性和聚集行为的候选化合物。"
+    }
+  },
+  {
+    "id": "ptp1b-temperature-transfer",
+    "archiveKey": "d33_ptp1b_temperature_dependent_binding_transfer",
+    "title": "Predict room-temperature binding from cold crystal structures",
+    "domain": "Chemistry",
+    "workflow": "Binding pose prediction",
+    "level": null,
+    "summary": "Use observations of PTP1B at low temperature to infer where ligands bind at room temperature and which contacts they retain.",
+    "deliverable": "Predicted atomic coordinates and contacts for comparison against room-temperature crystal structures.",
+    "zh": {
+      "title": "由低温晶体结构预测室温结合位置",
+      "summary": "依据低温下对 PTP1B 的观测，推断配体在室温下的结合位置，以及仍能保持的接触。",
+      "deliverable": "预测原子坐标和接触关系，并与室温晶体结构进行比较。"
+    }
+  },
+  {
+    "id": "ptp1b-ligand-reorientation",
+    "archiveKey": "d34_ptp1b_thermal_pose_reorientation",
+    "title": "Trace ligand reorientation with temperature",
+    "domain": "Chemistry",
+    "workflow": "Binding pose prediction",
+    "level": null,
+    "summary": "The PTP1B binding pocket is known. Investigate how a ligand turns within that pocket between a low-temperature observation and room temperature.",
+    "deliverable": "A room-temperature pose that can be checked against the atomic positions and interactions in the reference structure.",
+    "zh": {
+      "title": "追踪温度变化引起的配体取向变化",
+      "summary": "在 PTP1B 结合口袋位置已知的情况下，研究配体从低温到室温时如何改变其在口袋内的取向。",
+      "deliverable": "预测的室温构象，与参考结构中的原子位置及相互作用进行核对。"
+    }
+  },
+  {
+    "id": "ahr-dose-response-discordance",
+    "archiveKey": "d35_ahr_three_dose_assay_discordance",
+    "title": "Identify discordant responses in a three-dose assay",
+    "domain": "Chemistry",
+    "workflow": "Candidate screening and ranking",
+    "level": null,
+    "summary": "Use the two outer doses in an AHR assay to predict the middle-dose response and identify compounds whose measured behaviour may depart from that trend.",
+    "deliverable": "Middle-dose predictions and candidate groups with excess or diminished responses.",
+    "zh": {
+      "title": "识别三剂量测定中的异常响应",
+      "summary": "根据 AHR 测定中的高低两个剂量估计中间剂量的响应，识别可能偏离该趋势的化合物。",
+      "deliverable": "中间剂量的响应预测，以及响应异常升高或降低的候选组。"
+    }
+  },
+  {
+    "id": "greenland-ice-core-dust",
+    "archiveKey": "earthcosci_0373f23f8fcf1abc",
+    "title": "Trace changing dust sources in Greenland ice",
+    "domain": "Earth science",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Combine dust concentration, grain size and regional isotope evidence to assess changes in dust supply and origin across glacial and interglacial intervals.",
+    "deliverable": "Estimates of the timing and magnitude of change, with an interpretation of conditions near the ice margin.",
+    "zh": {
+      "title": "从格陵兰冰芯追踪尘源变化",
+      "summary": "综合粉尘浓度、粒径和区域同位素证据，判断冰期与间冰期之间尘埃供应和来源如何变化。",
+      "deliverable": "尘源变化的时间和幅度估计，以及对冰缘环境的解释。"
+    }
+  },
+  {
+    "id": "atlantic-sediment-core-timing",
+    "archiveKey": "earthcosci_0808f6d46726249d",
+    "title": "Compare the timing of changes in an Atlantic sediment core",
+    "domain": "Earth science",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Ocean-condition indicators and detrital carbonate are recorded in the same core. Determine whether their changes can be distinguished in time once dating uncertainty is considered.",
+    "deliverable": "A comparison on both depth and age scales that quantifies uncertainty in the inferred timing.",
+    "zh": {
+      "title": "比较大西洋沉积岩芯中不同变化的先后",
+      "summary": "同一根岩芯记录了海洋环境指标和碎屑碳酸盐沉积。纳入测年误差后，评估两类变化能否分出先后。",
+      "deliverable": "在深度和年龄两种尺度上的比较，并量化事件时序的不确定性。"
+    }
+  },
+  {
+    "id": "grassland-richness-biomass",
+    "archiveKey": "earthcosci_08ad2b8d9ac5aa31",
+    "title": "Compare grassland diversity and biomass across space and time",
+    "domain": "Earth science",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "A relationship between species richness and biomass across plots may differ from the relationship seen over time within one plot. Compare both using repeated grassland observations.",
+    "deliverable": "Separate estimates for between-plot and within-plot relationships, with an account of site and treatment history.",
+    "zh": {
+      "title": "比较草地多样性与生物量的时空关系",
+      "summary": "不同样地之间的物种丰富度与生物量关系，可能与同一样地逐年的变化不同。使用重复观测比较这两种关系。",
+      "deliverable": "样地间与样地内关系的独立估计，并分析地点和处理历史的影响。"
+    }
+  },
+  {
+    "id": "thawing-permafrost-nitrous-oxide",
+    "archiveKey": "earthcosci_631afea31ef42598",
+    "title": "Test explanations for nitrous oxide exchange after permafrost thaws",
+    "domain": "Earth science",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Compare differently thawed surfaces at two permafrost exposures. Examine whether moisture and nitrogen availability explain the observed differences in gas exchange.",
+    "deliverable": "An analysis weighing field fluxes, laboratory incubations and microbial observations against the proposed explanations.",
+    "zh": {
+      "title": "检验冻土解冻后一氧化二氮交换的解释",
+      "summary": "比较两处冻土剖面上不同解冻状态的地表，检验水分和氮供应能否解释观测到的气体交换差异。",
+      "deliverable": "结合野外通量、实验室培养和微生物观测，评估各解释的证据。"
+    }
+  },
+  {
+    "id": "cave-deposit-age-depth",
+    "archiveKey": "earthcosci_917270d2bd6b0cc4",
+    "title": "Estimate how dating uncertainty changes a cave isotope record",
+    "domain": "Earth science",
+    "workflow": "Parameter inference and calibration",
+    "level": null,
+    "summary": "Use uranium-series dates to infer how the age of a cave deposit changes with depth and examine what dating uncertainty does to its oxygen-isotope history.",
+    "deliverable": "An age–depth model and a comparison between isotope histories with fixed and uncertain ages.",
+    "zh": {
+      "title": "估计测年不确定性对洞穴同位素记录的影响",
+      "summary": "根据铀系测年推断洞穴沉积物的年龄与深度关系，研究测年误差如何改变对氧同位素历史的解读。",
+      "deliverable": "年龄–深度模型，以及固定年龄和考虑年龄不确定性时的同位素序列比较。"
+    }
+  },
+  {
+    "id": "rock-suite-origins",
+    "archiveKey": "earthcosci_b6f09f90fa568589",
+    "title": "Distinguish possible origins of a rock suite",
+    "domain": "Earth science",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Combine major elements, trace elements and zircon ages to assess whether groups of rocks require different sources or formation settings.",
+    "deliverable": "A comparison of geological interpretations that identifies which observations distinguish the alternatives.",
+    "zh": {
+      "title": "辨别岩组可能的来源与形成环境",
+      "summary": "综合主量元素、微量元素和锆石年龄，评估不同岩组是否需要用不同的源区或形成环境来解释。",
+      "deliverable": "对不同地质解释的比较，并指出哪些观测能够加以区分。"
+    }
+  },
+  {
+    "id": "volcanoes-tropical-pacific-winters",
+    "archiveKey": "earthcosci_dbee00e3ed8d67d2",
+    "title": "Test the tropical Pacific’s winter response to volcanic eruptions",
+    "domain": "Earth science",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Assess a climate proxy against observed sea temperatures, then examine whether tropical Pacific winters show a repeatable change after eruptions.",
+    "deliverable": "A proxy validation and a comparison of post-eruption changes across events.",
+    "zh": {
+      "title": "检验火山喷发后热带太平洋的冬季响应",
+      "summary": "先用实测海温评估气候代用指标，再考察火山喷发后热带太平洋的冬季变化能否在多次事件中重复出现。",
+      "deliverable": "代用指标的验证结果，以及多次喷发事件后的变化比较。"
+    }
+  },
+  {
+    "id": "gold-titanium-oxide-forces",
+    "archiveKey": "au-ti-o-force-prediction",
+    "title": "Predict atomic forces in gold–titanium–oxygen structures",
+    "domain": "Chemistry",
+    "workflow": "Property and outcome prediction",
+    "level": null,
+    "summary": "Use atomic coordinates to predict the energy of each configuration and the force on each atom in a reference collection of gold, titanium and oxygen structures.",
+    "deliverable": "Total energies and three-dimensional force vectors for held-out structures, with force prediction as the primary target.",
+    "packageVersion": "0.2.5-afe",
+    "zh": {
+      "title": "预测金–钛–氧结构中的原子受力",
+      "summary": "根据原子坐标，预测一组金、钛、氧结构中每个构型的能量及各原子的受力。",
+      "deliverable": "留出结构的总能量和各原子的三维力向量，其中受力预测是主要评价目标。"
+    }
+  },
+  {
+    "id": "clinical-trial-protocol-outcomes",
+    "archiveKey": "clinical_trial_failure_prediction",
+    "title": "Predict three trial outcomes from a clinical protocol",
+    "domain": "Medicine",
+    "workflow": "Property and outcome prediction",
+    "level": null,
+    "summary": "A protocol may encounter different problems in recruitment, safety or efficacy. Assess how well protocol information can predict each outcome separately.",
+    "deliverable": "Three probabilities per protocol, one for success on each outcome.",
+    "packageVersion": "0.2.2-afe",
+    "zh": {
+      "title": "从临床试验方案预测三类结局",
+      "summary": "一份试验方案可能在招募、安全性或疗效方面面临不同问题。评估能否仅凭方案信息分别预测这三类结局。",
+      "deliverable": "每份方案的三项成功概率，分别对应招募、安全性和疗效。"
+    }
+  },
+  {
+    "id": "evolutionary-search-allocation",
+    "archiveKey": "evo_search_budget_allocation",
+    "title": "Allocate a limited budget across evolutionary searches",
+    "domain": "Information science",
+    "workflow": "Active search and decision strategies",
+    "level": null,
+    "summary": "Several runs of program search improve at different rates. Decide which run should receive each new iteration to improve the strongest program found before the budget runs out.",
+    "deliverable": "An allocation policy evaluated on the quality of the best program reached within the iteration budget.",
+    "packageVersion": "0.2.2-afe",
+    "zh": {
+      "title": "在多条进化搜索轨迹间分配有限预算",
+      "summary": "多条程序搜索轨迹的改进速度不同。逐步决定把计算机会分给哪一条轨迹，以提高预算用尽时最优程序的表现。",
+      "deliverable": "一项预算分配策略，以规定迭代次数内找到的最佳程序表现检验效果。"
+    }
+  },
+  {
+    "id": "openfoam-turbulence-cases",
+    "archiveKey": "foambench-advanced",
+    "title": "Reproduce flow fields across varied OpenFOAM cases",
+    "domain": "Physics",
+    "workflow": "Modelling and simulation",
+    "level": null,
+    "summary": "Thirteen flow problems differ in geometry and turbulence assumptions. Produce simulations consistent with the individual case descriptions and compare the resulting fields.",
+    "deliverable": "A runnable OpenFOAM case for each specification and fields that can be compared with reference simulations.",
+    "packageVersion": "0.2.0-afe",
+    "zh": {
+      "title": "复现多种 OpenFOAM 算例的流场",
+      "summary": "十三个流动算例具有不同的几何形状与湍流设定。为各算例构建相应仿真，并比较所得的物理场。",
+      "deliverable": "与各题设相符的可运行 OpenFOAM 算例，以及可同参考仿真比较的物理场。"
+    }
+  },
+  {
+    "id": "counterflow-flame-simulation",
+    "archiveKey": "foambench-counterflowflame2d",
+    "title": "Compare simulated counterflow flame fields",
+    "domain": "Physics",
+    "workflow": "Modelling and simulation",
+    "level": null,
+    "summary": "Examine how a set of counterflow flame simulations changes across the inlet conditions supplied in the benchmark.",
+    "deliverable": "Simulated fields for comparison with the reference cases.",
+    "packageVersion": "0.2.1-afe-draft",
+    "zh": {
+      "title": "比较对向流火焰的仿真场",
+      "summary": "考察基准给定的不同入口工况下，一组对向流火焰仿真的物理场如何变化。",
+      "deliverable": "用于与参考算例比较的仿真物理场。"
+    }
+  },
+  {
+    "id": "dam-break-obstacle-flow",
+    "archiveKey": "foambench-dambreak",
+    "title": "Simulate water flowing around an obstacle after a dam break",
+    "domain": "Physics",
+    "workflow": "Modelling and simulation",
+    "level": null,
+    "summary": "Compare water movement in ten dam-break scenarios containing an obstacle. Reproduce the specified geometry, initial water distribution and evolution of the flow.",
+    "deliverable": "Runnable flow cases and simulation results that can be checked against reference fields.",
+    "packageVersion": "0.2.1-afe-draft",
+    "zh": {
+      "title": "模拟溃坝后绕过障碍物的水流",
+      "summary": "比较十个含障碍物的溃坝情景中的水体运动，复现题设中的几何形状、初始水体分布及流动演化。",
+      "deliverable": "可运行的流动算例，以及可与参考场对照的仿真结果。"
+    }
+  },
+  {
+    "id": "mof-adsorption-energy",
+    "archiveKey": "mof_adsorption",
+    "title": "Predict adsorption energies in porous frameworks",
+    "domain": "Materials science",
+    "workflow": "Property and outcome prediction",
+    "level": null,
+    "summary": "Use the initial arrangement of a metal–organic framework and its guest molecules to predict the relaxed system’s adsorption energy. Assess transfer to large frameworks.",
+    "deliverable": "An adsorption-energy prediction for each held-out system, compared with reference calculations using mean absolute error.",
+    "packageVersion": "0.2.5-afe",
+    "zh": {
+      "title": "预测多孔框架中的吸附能",
+      "summary": "根据金属有机框架与客体分子的初始排列预测弛豫后的吸附能，并考察在大型框架上的表现。",
+      "deliverable": "留出体系的吸附能预测，并以相对参考计算的平均绝对误差评价。"
+    }
+  },
+  {
+    "id": "ligand-screening-for-pockets",
+    "archiveKey": "pocket-conditioned-synthesizable-ligand-design",
+    "title": "Rank feasible ligands for three binding pockets",
+    "domain": "Chemistry",
+    "workflow": "Candidate screening and ranking",
+    "level": null,
+    "summary": "A fixed set of molecular building blocks limits the candidates available for three protein pockets. Compare candidates on fit and the feasibility of the proposed molecules.",
+    "deliverable": "A ranked set of candidates for each pocket, with structural and feasibility evidence.",
+    "packageVersion": "0.2.2-afe",
+    "zh": {
+      "title": "为三个结合口袋排序可行配体",
+      "summary": "三个蛋白质口袋的候选配体受给定构件集合限制。比较各候选物与口袋的匹配程度及其可行性。",
+      "deliverable": "各口袋的候选物排序，以及相应的结构与可行性证据。"
+    }
+  },
+  {
+    "id": "reaction-barrier-prediction",
+    "archiveKey": "reaction_barrier",
+    "title": "Predict electronic barriers from reaction endpoints",
+    "domain": "Chemistry",
+    "workflow": "Property and outcome prediction",
+    "level": null,
+    "summary": "Predict a reaction’s forward energy barrier using the geometries of its reactants and products. Test the predictions on reactions excluded from training.",
+    "deliverable": "A barrier estimate for every test reaction, assessed against reference transition-state calculations.",
+    "packageVersion": "0.2.2-afe",
+    "zh": {
+      "title": "根据反应起点和终点预测电子能垒",
+      "summary": "利用反应物和产物的几何结构预测正向反应能垒，再用训练以外的反应进行检验。",
+      "deliverable": "各测试反应的能垒估计，并与参考过渡态计算进行对照。"
+    }
+  },
+  {
+    "id": "feasible-molecule-optimization",
+    "archiveKey": "synthesis-constrained-molecular-optimization",
+    "title": "Optimize a lead molecule under feasibility constraints",
+    "domain": "Chemistry",
+    "workflow": "Scientific design and optimization",
+    "level": null,
+    "summary": "Evaluate candidate modifications to a lead molecule under a fixed allowance for evaluation and feasibility checks. Balance the requested properties against the synthesis requirements of the task.",
+    "deliverable": "A set of proposed molecules with evidence for the required properties and feasibility.",
+    "packageVersion": "0.2.4-afe",
+    "zh": {
+      "title": "在可行性约束下优化先导分子",
+      "summary": "在评估次数与可行性检验预算受限的情况下比较先导分子的候选改造，权衡目标性质与题目中的合成要求。",
+      "deliverable": "一组候选分子，以及支持目标性质和可行性的证据。"
+    }
+  },
+  {
+    "id": "erk2-scaffold-comparison",
+    "archiveKey": "synthesizable-scaffold-hopping",
+    "title": "Compare alternative molecular scaffolds for ERK2",
+    "domain": "Chemistry",
+    "workflow": "Scientific design and optimization",
+    "level": null,
+    "summary": "Assess whether alternative scaffolds can replace the core of an ERK2 ligand while preserving relevant pocket interactions and meeting feasibility requirements.",
+    "deliverable": "Candidate structures evaluated for core replacement, pocket interactions and feasibility.",
+    "packageVersion": "0.2.3-afe",
+    "zh": {
+      "title": "比较 ERK2 配体的替代分子骨架",
+      "summary": "考察替代骨架能否取代 ERK2 配体的核心，同时保留相关的口袋相互作用并满足可行性要求。",
+      "deliverable": "候选结构，以及其在核心替换、口袋相互作用和可行性方面的评估。"
+    }
+  },
+  {
+    "id": "binary-crystal-heat-transport",
+    "archiveKey": "thermal_conductivity",
+    "title": "Predict heat transport in binary crystals",
+    "domain": "Materials science",
+    "workflow": "Property and outcome prediction",
+    "level": null,
+    "summary": "Estimate the room-temperature lattice thermal conductivity of binary crystals from their structures across three crystal families.",
+    "deliverable": "Predictions of lattice thermal conductivity at 300 K for all supplied structures, compared with reference calculations.",
+    "packageVersion": "0.2.5-afe",
+    "zh": {
+      "title": "预测二元晶体中的热输运",
+      "summary": "根据三类二元晶体的结构，估计其在室温下的晶格热导率。",
+      "deliverable": "给定结构在 300 K 下的晶格热导率预测，以及与参考计算的对照。"
+    }
+  },
+  {
+    "id": "budgeted-spin-state-search",
+    "archiveKey": "tm-budgeted-spin-discovery",
+    "title": "Search for nearly degenerate spin states on a budget",
+    "domain": "Chemistry",
+    "workflow": "Active search and decision strategies",
+    "level": null,
+    "summary": "Each query reveals information about a single transition-metal complex. Choose which complexes to query next to find more candidates with nearly degenerate spin states.",
+    "deliverable": "A sequential search policy assessed by the number of qualifying candidates confirmed within budget.",
+    "packageVersion": "0.2.2-afe",
+    "zh": {
+      "title": "在有限预算内搜寻近简并自旋态",
+      "summary": "每次查询只获得一个过渡金属配合物的信息。逐次选择查询对象，以在有限预算内找到更多具有近简并自旋态的候选物。",
+      "deliverable": "一项序贯搜索策略，以预算内得到确认的合格候选物数量检验效果。"
+    }
+  },
+  {
+    "id": "vertical-spin-gap-prediction",
+    "archiveKey": "tm-spin-gap-surrogate",
+    "title": "Predict vertical spin gaps in metal complexes",
+    "domain": "Chemistry",
+    "workflow": "Property and outcome prediction",
+    "level": null,
+    "summary": "Use geometry, charge and spin multiplicity to predict the energy difference between spin states in transition-metal complexes at a fixed geometry.",
+    "deliverable": "Vertical spin-gap estimates on held-out structures, compared with their reference energies.",
+    "packageVersion": "0.2.0-afe",
+    "zh": {
+      "title": "预测金属配合物的垂直自旋能隙",
+      "summary": "利用几何结构、电荷和自旋多重度，预测过渡金属配合物在固定几何结构下不同自旋态之间的能量差。",
+      "deliverable": "留出结构的垂直自旋能隙估计，并与参考能量比较。"
+    }
+  },
+  {
+    "id": "density-functional-selection",
+    "archiveKey": "tm-system-specific-dfa",
+    "title": "Select a density functional for each complex",
+    "domain": "Chemistry",
+    "workflow": "Method development and evaluation",
+    "level": null,
+    "summary": "The best approximation for a spin gap may vary by system. Use electron-density features to choose among candidate computational methods for each metal complex.",
+    "deliverable": "A method selection for each system, assessed by the resulting spin-gap errors.",
+    "packageVersion": "0.2.0-afe",
+    "zh": {
+      "title": "逐个为配合物选择密度泛函近似",
+      "summary": "适合计算自旋能隙的近似方法可能随体系而异。利用电子密度特征，为各金属配合物选择一种候选计算方法。",
+      "deliverable": "逐体系的方法选择，并按所选方法对应的自旋能隙误差检验效果。"
+    }
+  },
+  {
+    "id": "unseen-ligand-spin-gaps",
+    "archiveKey": "tm-unseen-ligand-gap",
+    "title": "Test spin-gap predictions on unfamiliar ligands",
+    "domain": "Chemistry",
+    "workflow": "Property and outcome prediction",
+    "level": null,
+    "summary": "Predict adiabatic spin gaps from molecular structure and examine whether the predictions generalize to complexes containing ligands absent from training.",
+    "deliverable": "Spin-gap predictions evaluated specifically on the held-out ligand set.",
+    "packageVersion": "0.2.0-afe",
+    "zh": {
+      "title": "在未见过的配体上检验自旋能隙预测",
+      "summary": "从分子结构预测绝热自旋能隙，并考察模型能否推广到含训练中未见配体的配合物。",
+      "deliverable": "留出配体集合的自旋能隙预测及其误差。"
+    }
+  },
+  {
+    "id": "bdnf-chromatin-signal",
+    "archiveKey": "deeptools-bdnf",
+    "title": "Compare chromatin signals before and after BDNF treatment",
+    "domain": "Neuroscience",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Examine recorded chromatin signals from two experimental conditions. Locate regions of enrichment and compare the signal profiles around different groups of peaks.",
+    "deliverable": "A differential signal track and a comparison of the original profiles around selected regions.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "比较 BDNF 处理前后的染色质信号",
+      "summary": "分析两种实验条件下记录的染色质信号，定位富集区域，并比较不同峰组周围的信号分布。",
+      "deliverable": "差异信号轨迹，以及不同区域周围原始信号分布的比较。"
+    }
+  },
+  {
+    "id": "ocean-temperature-profiles",
+    "archiveKey": "ferret-ocean-profile",
+    "title": "Measure temperature patterns in a gridded ocean field",
+    "domain": "Earth science",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Extract surface and depth-dependent patterns from an ocean temperature field and examine how spatial weighting affects the deep-water average.",
+    "deliverable": "Surface profiles, zonal means, vertical gradients and an area-weighted deep-ocean temperature.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "测量海洋格点温度场中的空间变化",
+      "summary": "从海洋温度场提取表层与随深度变化的特征，并考察空间加权对深海平均温度的影响。",
+      "deliverable": "海表剖面、纬向均值、垂向梯度，以及面积加权的深海温度。"
+    }
+  },
+  {
+    "id": "digital-filter-response",
+    "archiveKey": "octave-iir",
+    "title": "Characterize a digital filter from its coefficients",
+    "domain": "Information science",
+    "workflow": "Modelling and simulation",
+    "level": null,
+    "summary": "A set of coefficients defines an infinite impulse response filter. Work out its behaviour in time and frequency and assess its stability.",
+    "deliverable": "Response curves, pole and zero locations, and numerical results supporting the stability assessment.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "根据系数刻画数字滤波器的响应",
+      "summary": "给定一组无限冲激响应滤波器系数，计算其时域与频域行为，并判断稳定性。",
+      "deliverable": "响应曲线、零极点位置，以及支持稳定性判断的数值结果。"
+    }
+  },
+  {
+    "id": "prepare-ligand-library",
+    "archiveKey": "openbabel-ligands",
+    "title": "Prepare a molecular structure library for screening",
+    "domain": "Chemistry",
+    "workflow": "Data preparation and visualization",
+    "level": null,
+    "summary": "Prepare a consistent three-dimensional representation of an input ligand library. Keep track of the molecules retained under the specified screening conditions.",
+    "deliverable": "A filtered and standardized library of three-dimensional molecular structures.",
+    "packageVersion": "0.2.0",
+    "zh": {
+      "title": "为筛选整理分子结构库",
+      "summary": "将给定配体库整理成一致的三维结构集合，并记录在规定筛选条件下保留的分子。",
+      "deliverable": "经过筛选和标准化的三维分子结构库。"
+    }
+  },
+  {
+    "id": "ampa-receptor-density",
+    "archiveKey": "pymol-ampa",
+    "title": "Measure density around an AMPA receptor segment",
+    "domain": "Neuroscience",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Locate a specified segment in an AMPA receptor and examine the extent of its cryo-electron microscopy density in two neighbourhoods.",
+    "deliverable": "Measurements of the density isosurface geometry around the selected segment.",
+    "packageVersion": "0.2.0",
+    "zh": {
+      "title": "测量 AMPA 受体片段周围的冷冻电镜密度",
+      "summary": "在 AMPA 受体中定位指定片段，分析两种邻域内对应冷冻电镜密度的空间范围。",
+      "deliverable": "所选片段周围密度等值面几何范围的测量结果。"
+    }
+  },
+  {
+    "id": "higgs-mass-plane",
+    "archiveKey": "root-higgs",
+    "title": "Measure yields in the Higgs candidate mass plane",
+    "domain": "Physics",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Separate candidate events into predefined regions of a two-dimensional mass plane and measure their weighted yields.",
+    "deliverable": "Region-by-region weighted counts and a density map of the mass plane.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "测量希格斯候选事例质量平面上的产额",
+      "summary": "在二维质量平面中将候选事例划入预定义区域，计算各区域的加权事例产额。",
+      "deliverable": "逐区域的加权事例数，以及质量平面的密度图。"
+    }
+  },
+  {
+    "id": "symbolic-calculus-algebra",
+    "archiveKey": "sage-symbolic",
+    "title": "Connect symbolic calculations with numerical checks",
+    "domain": "Mathematics",
+    "workflow": "Modelling and simulation",
+    "level": null,
+    "summary": "Use given functions, matrices and sample data to solve a set of calculus, algebra and statistical questions in a single mathematical workspace.",
+    "deliverable": "Symbolic and numerical results together with the requested geometric plots.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "用数值与图形核对符号计算",
+      "summary": "针对给定函数、矩阵与样本数据，在同一数学环境中完成微积分、代数和统计问题。",
+      "deliverable": "可供核对的符号与数值结果，以及相应的几何图形。"
+    }
+  },
+  {
+    "id": "coma-star-field-catalogue",
+    "archiveKey": "sextractor-catalog",
+    "title": "Build a source catalogue for the Coma star field",
+    "domain": "Astronomy",
+    "workflow": "Candidate screening and ranking",
+    "level": null,
+    "summary": "Estimate the sky background and find sources in an astronomical image. Use measured morphology to select candidate stars and galaxies.",
+    "deliverable": "A source catalogue, a background image and two morphology-selected samples.",
+    "packageVersion": "0.2.0",
+    "zh": {
+      "title": "从后发座星场建立天体源表",
+      "summary": "由天文图像估计天空背景并探测天体源，根据测得的形态特征筛选恒星与星系候选。",
+      "deliverable": "天体源表、背景图，以及按形态筛出的两组样本。"
+    }
+  },
+  {
+    "id": "cyclohexane-chair-geometry",
+    "archiveKey": "avogadro-cyclohexane",
+    "title": "Test the geometry of a cyclohexane chair",
+    "domain": "Chemistry",
+    "workflow": "Modelling and simulation",
+    "level": null,
+    "summary": "Build and relax a cyclohexane molecule with explicit hydrogen atoms. Use the ring geometry to assess whether it has reached a chair conformation.",
+    "deliverable": "An optimized structure supported by measurements of bond lengths, angles and ring puckering.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "检验环己烷椅式构象的几何特征",
+      "summary": "建立显式包含氢原子的环己烷分子并进行几何优化，根据环的几何形状判断其是否达到椅式构象。",
+      "deliverable": "优化后的结构，以及键长、键角和环起伏的测量结果。"
+    }
+  },
+  {
+    "id": "relay-network-connectivity",
+    "archiveKey": "cytoscape-relay",
+    "title": "Measure how relay loss changes network reachability",
+    "domain": "Information science",
+    "workflow": "Modelling and simulation",
+    "level": null,
+    "summary": "In a directed transmission network, compare which endpoints can receive a signal before and after the loss of a designated relay.",
+    "deliverable": "Reachability results for both conditions and a list of affected endpoints.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "测量中继失效对网络可达性的影响",
+      "summary": "在有向传输网络中，比较指定中继失效前后信号能够到达哪些终端。",
+      "deliverable": "两种条件下的可达性结果，以及受影响终端的清单。"
+    }
+  },
+  {
+    "id": "collaboration-network-communities",
+    "archiveKey": "gephi-collaboration",
+    "title": "Find communities and brokers in a collaboration network",
+    "domain": "Information science",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Several batches of co-authorship records describe the same network. Combine repeated collaborations and study which authors connect communities.",
+    "deliverable": "A weighted collaboration graph, estimates of betweenness and a partition into communities.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "识别科研合作网络中的社群与桥梁作者",
+      "summary": "多批合著记录描述同一个合作网络。整合同一批作者之间重复出现的合作，研究哪些作者连接着不同社群。",
+      "deliverable": "加权合作网络、作者的介数中心性估计，以及社群划分结果。"
+    }
+  },
+  {
+    "id": "neuronal-genomic-signals",
+    "archiveKey": "igv-neuronal-tracks",
+    "title": "Compare neuronal signal tracks at three genomic regions",
+    "domain": "Neuroscience",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Compare recorded signals in wild-type and knockout neuronal samples at three specified loci. Examine how the tracks differ within each interval.",
+    "deliverable": "An inspectable genome-browser view and quantitative comparisons for the three regions.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "比较三个基因组区域的神经元信号轨迹",
+      "summary": "比较野生型和敲除组神经元样本在三个指定位点的信号，考察各区间内两条轨迹的差异。",
+      "deliverable": "可检查的基因组浏览器视图，以及三个区域各自的定量比较。"
+    }
+  },
+  {
+    "id": "spinal-cord-somata",
+    "archiveKey": "imagej-soma",
+    "title": "Count and measure stained somata in spinal-cord tissue",
+    "domain": "Neuroscience",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Distinguish eligible cell bodies from the surrounding tissue in a multichannel image. Measure the dimensions of individual cell bodies.",
+    "deliverable": "A segmentation mask, measurements for individual cell bodies and a multichannel overview.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "计数并测量脊髓组织切片中的染色胞体",
+      "summary": "在多通道脊髓图像中识别符合条件的胞体，并对每个对象分别进行测量。",
+      "deliverable": "分割掩膜、逐个胞体的测量表和多通道概览图。"
+    }
+  },
+  {
+    "id": "perovskite-atomic-coordination",
+    "archiveKey": "ovito-perovskite",
+    "title": "Measure coordination after a substitution in perovskite",
+    "domain": "Materials science",
+    "workflow": "Modelling and simulation",
+    "level": null,
+    "summary": "Replace one calcium site by strontium in a model perovskite supercell. Examine how the chosen distance cutoff affects coordination counts.",
+    "deliverable": "The structures before and after substitution and coordination measurements at both cutoffs.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "测量钙钛矿中取代掺杂后的原子配位",
+      "summary": "在钙钛矿超胞模型的一个钙位点用锶取代，比较选用不同截断距离时测得的配位数。",
+      "deliverable": "取代前后的结构，以及两种截断距离下的配位数测量。"
+    }
+  },
+  {
+    "id": "silicon-vacancy-coordination",
+    "archiveKey": "ovito-silicon-vacancy",
+    "title": "Identify the local signature of a silicon vacancy",
+    "domain": "Materials science",
+    "workflow": "Modelling and simulation",
+    "level": null,
+    "summary": "Compare a periodic silicon crystal with a matching structure containing one vacancy. Determine which atoms lose a neighbour near the defect.",
+    "deliverable": "An atom-by-atom coordination comparison and the locations of the affected neighbours.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "识别硅晶体单空位的局部配位特征",
+      "summary": "比较完整周期硅晶体与含单空位的对应结构，判断缺陷周围有哪些原子失去近邻。",
+      "deliverable": "逐原子的配位数对照，以及受影响近邻原子的位置。"
+    }
+  },
+  {
+    "id": "hoil1l-structure-overlap",
+    "archiveKey": "pymol-ibr-alignment",
+    "title": "Compare the overlap between two HOIL-1L structures",
+    "domain": "Life sciences",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Two independently measured structures contain the same short protein segment. Align corresponding residues and quantify the differences that remain.",
+    "deliverable": "A rigid structural alignment and measurements of the displacement in the shared segment.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "比较两种 HOIL-1L 结构的重叠片段",
+      "summary": "两种独立测定的蛋白质结构包含同一个短片段。按对应残基叠合，量化对齐后仍然存在的结构差异。",
+      "deliverable": "刚体叠合的结构，以及重叠片段的位移测量结果。"
+    }
+  },
+  {
+    "id": "wuhan-urban-expansion",
+    "archiveKey": "qgis-wuhan-expansion",
+    "title": "Map urban expansion in paired Wuhan satellite images",
+    "domain": "Earth science",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Compare spectral indices in aligned satellite images from 2019 and 2025. Identify newly built-up areas that meet the stated change and area criteria.",
+    "deliverable": "Change measurements and mapped areas of urban expansion in the supplied image window.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "从两期武汉卫星影像绘制城市扩展图",
+      "summary": "比较 2019 年和 2025 年两期配准卫星影像的光谱指数，识别符合变化幅度和面积条件的新增建设区域。",
+      "deliverable": "给定影像窗口内的变化量，以及新增建设区域的分布图。"
+    }
+  },
+  {
+    "id": "cepheids-galactic-disk",
+    "archiveKey": "topcat-cepheid-warp",
+    "title": "Map the outer Milky Way with Cepheid stars",
+    "domain": "Astronomy",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Match optical observations of Cepheids with an infrared catalogue. Use periods and magnitudes to estimate distances and examine the shape of the outer Galactic disk.",
+    "deliverable": "A matched stellar sample with distance estimates and views of its three-dimensional Galactic distribution.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "用造父变星描绘银河系外盘",
+      "summary": "将造父变星的光学观测与红外星表配对，根据周期和星等估算距离，考察银河系外盘的形状。",
+      "deliverable": "配对星表、距离估计，以及恒星在银河系中三维分布的视图。"
+    }
+  },
+  {
+    "id": "optical-infrared-quasar-selection",
+    "archiveKey": "topcat-quasar-colors",
+    "title": "Identify quasar candidates from optical and infrared colours",
+    "domain": "Astronomy",
+    "workflow": "Candidate screening and ranking",
+    "level": null,
+    "summary": "Match two sky catalogues by position and use morphology, measurement quality and colour to identify compact quasar-like sources.",
+    "deliverable": "A cross-matched catalogue and a candidate sample that can be checked against the colour selection.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "根据光学与红外颜色识别类星体候选",
+      "summary": "按天球位置匹配两份星表，综合形态、测光质量和颜色识别紧致的类星体候选源。",
+      "deliverable": "交叉匹配的星表，以及可按颜色筛选条件核对的候选样本。"
+    }
+  },
+  {
+    "id": "rutile-coordination-views",
+    "archiveKey": "vesta-rutile",
+    "title": "Visualize the coordination of titanium in rutile",
+    "domain": "Materials science",
+    "workflow": "Data preparation and visualization",
+    "level": null,
+    "summary": "Prepare views of a rutile crystal that make the titanium environment and a specified lattice plane visible and inspectable.",
+    "deliverable": "A crystal view containing the six nearest oxygen neighbours of titanium and the requested plane.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "绘制金红石中钛原子的配位结构",
+      "summary": "从金红石晶体结构制作可检查的视图，显示钛原子周围的局部环境与指定晶面。",
+      "deliverable": "展示钛周围六个最近邻氧原子及指定晶面的晶体视图。"
+    }
+  },
+  {
+    "id": "zinc-oxide-oxygen-vacancy",
+    "archiveKey": "vesta-zno-vacancy",
+    "title": "Build and verify an oxygen vacancy in zinc oxide",
+    "domain": "Materials science",
+    "workflow": "Modelling and simulation",
+    "level": null,
+    "summary": "Start from a zinc oxide crystal model and construct a supercell with one missing oxygen. Verify site occupancy and the orientation of the specified crystal planes.",
+    "deliverable": "A saved defect structure with inspectable occupancies and plane orientations.",
+    "packageVersion": "0.1.0",
+    "zh": {
+      "title": "构建并核对氧化锌中的氧空位",
+      "summary": "以给定氧化锌结构为起点构建含一个氧空位的超胞，核对实际占位情况和指定晶面的方向。",
+      "deliverable": "可检查实际占位与晶面方向的缺陷结构文件。"
+    }
+  },
+  {
+    "id": "cosmic-deuteron-composition",
+    "archiveKey": "ams02-deuteron-origin-helium-isotopes",
+    "title": "Estimate the components of the cosmic-ray deuteron spectrum",
+    "domain": "Physics",
+    "workflow": "Parameter inference and calibration",
+    "level": null,
+    "summary": "Use helium-isotope fluxes as templates to examine the origin of the measured deuteron spectrum. Estimate how much of each component the data support.",
+    "deliverable": "Component coefficients and fractions with uncertainty estimates.",
+    "zh": {
+      "title": "估计宇宙线氘核能谱的成分",
+      "summary": "以氦同位素通量为模板研究观测氘核能谱的来源，估计数据对各成分占比的支持程度。",
+      "deliverable": "各成分的系数与占比，以及相应的不确定性估计。"
+    }
+  },
+  {
+    "id": "electron-positron-spectral-shapes",
+    "archiveKey": "ams02-electron-positron-spectral-differences",
+    "title": "Compare electron and positron spectral shapes",
+    "domain": "Physics",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Fit single and broken power laws to electron and positron spectra. Investigate whether apparent differences remain after accounting for measurement and systematic uncertainties.",
+    "deliverable": "A comparison of the spectral fits and the evidence for differences between the particle species.",
+    "zh": {
+      "title": "比较宇宙线电子与正电子的能谱形状",
+      "summary": "对电子与正电子能谱分别拟合单幂律和折断幂律，考察纳入测量和系统不确定性后谱形差异是否仍然存在。",
+      "deliverable": "能谱拟合的比较，以及支持两类粒子谱形存在差异的证据。"
+    }
+  },
+  {
+    "id": "proton-flux-periodicity",
+    "archiveKey": "ams02-proton-2016-period-strength",
+    "title": "Measure periodicity in a year of proton fluxes",
+    "domain": "Physics",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Compare the strength of three periodic signals in the first and second halves of the year. Locate the rigidity where each is strongest and estimate its uncertainty.",
+    "deliverable": "Wavelet-based comparisons of period strength and peak rigidity for both halves of the year.",
+    "zh": {
+      "title": "测量全年质子通量中的周期信号",
+      "summary": "比较一年中前后两个半年里三个周期信号的强度，确定各自最强的刚度区间并估计不确定性。",
+      "deliverable": "基于小波分析的两段时期的周期强度与峰值刚度比较。"
+    }
+  },
+  {
+    "id": "proton-spectrum-from-figure",
+    "archiveKey": "ams02-proton-image-digitization-slope",
+    "title": "Recover a proton spectral slope from a published plot",
+    "domain": "Physics",
+    "workflow": "Measurement and statistical analysis",
+    "level": null,
+    "summary": "Digitize proton flux measurements from a raster plot and ask how precisely the figure alone constrains hardening at high rigidity.",
+    "deliverable": "Calibrated data points and local spectral slopes with uncertainty propagated from pixel positions.",
+    "zh": {
+      "title": "从已发表的图中恢复质子能谱斜率",
+      "summary": "从栅格图中数字化提取质子通量，估计仅靠该图能以多高的精度测出高刚度处的谱硬化。",
+      "deliverable": "经过坐标校准的数据点，以及传播像素位置误差后得到的局部谱斜率。"
+    }
+  },
+  {
+    "id": "forward-folded-electron-spectrum",
+    "archiveKey": "forward-folded-spectral-change-in-a-simulated-all-electron-count-experiment",
+    "title": "Test a spectral break in simulated electron counts",
+    "domain": "Physics",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Two electron spectra can produce similar observed counts after the detector response is applied. Test whether the simulated counts distinguish a break in the spectrum.",
+    "deliverable": "A comparison of the two spectral hypotheses in count space using the supplied detector response.",
+    "zh": {
+      "title": "用模拟电子计数检验能谱折断",
+      "summary": "探测器响应可能使两种不同能谱产生相近的计数。检验模拟电子计数能否分辨出能谱中的折断。",
+      "deliverable": "利用给定探测器响应，在计数空间比较两种能谱假设。"
+    }
+  },
+  {
+    "id": "joint-antiproton-spectra",
+    "archiveKey": "joint-spectral-analysis-of-simulated-antiproton-to-proton-ratios",
+    "title": "Look for a feature shared by two antiproton measurements",
+    "domain": "Physics",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Fit two simulated measurements of the antiproton-to-proton ratio. Assess whether a local spectral feature is supported after each detector’s calibration uncertainty is considered.",
+    "deliverable": "A joint analysis and tests of how well one simulated detector predicts the other.",
+    "zh": {
+      "title": "寻找两套反质子测量共同支持的谱特征",
+      "summary": "联合拟合两套反质子与质子比值的模拟测量，考察纳入各自的校准不确定性后是否仍需引入局部谱特征。",
+      "deliverable": "联合分析，以及两套模拟探测器数据之间的相互预测检验。"
+    }
+  },
+  {
+    "id": "cosmic-ray-grammage-yields",
+    "archiveKey": "separating-galactic-grammage-from-rigidity-dependent-li-be-b-yields",
+    "title": "Distinguish cosmic-ray propagation from production yields",
+    "domain": "Physics",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Simulated lithium, beryllium and boron ratios carry information about both propagation and production. Compare constant and rigidity-dependent yield models.",
+    "deliverable": "Tests of a common traversed matter column using independently held-out cosmic-ray ratios.",
+    "zh": {
+      "title": "区分宇宙线传播效应与核素产额变化",
+      "summary": "模拟的锂、铍和硼核素比值同时受到传播和产生过程的影响。比较固定产额与随刚度变化的产额模型。",
+      "deliverable": "利用留作独立检验的核素比值，评估能否用共同的穿越物质量解释观测。"
+    }
+  },
+  {
+    "id": "cosmic-ray-source-diffusion-breaks",
+    "archiveKey": "spectral-breaks-in-controlled-cosmic-ray-nuclei-spectra",
+    "title": "Distinguish source and diffusion breaks in cosmic rays",
+    "domain": "Physics",
+    "workflow": "Mechanisms and hypothesis testing",
+    "level": null,
+    "summary": "Both source spectra and diffusion can shape the hardening of primary and secondary cosmic-ray nuclei. Compare their predictions using separate simulated observations.",
+    "deliverable": "Fits for the two hypotheses and an independent test of their ability to explain the observed hardening.",
+    "zh": {
+      "title": "区分宇宙线能谱中的源谱折断与扩散折断",
+      "summary": "源谱与扩散过程都可能改变初级和次级宇宙线核的能谱硬化。利用独立的模拟观测比较两种解释。",
+      "deliverable": "两种假设的拟合结果，以及对其解释谱硬化能力的独立检验。"
+    }
+  },
+  {
+    "id": "cosmic-ray-transient-response",
+    "archiveKey": "transient-response-timescales-in-simulated-cosmic-ray-flux-channels",
+    "title": "Measure response times across eight cosmic-ray channels",
+    "domain": "Physics",
+    "workflow": "Parameter inference and calibration",
+    "level": null,
+    "summary": "A disturbance appears differently in eight simulated cosmic-ray channels. Infer a response time for each and examine whether it predicts later observations.",
+    "deliverable": "Channel-specific time-scale estimates and predictions for an observation period held out of calibration.",
+    "zh": {
+      "title": "测量八个宇宙线通道的瞬态响应时间",
+      "summary": "一次扰动在八个模拟宇宙线通道中的表现不同。估计各通道的响应时间，并检验其对后续观测的预测能力。",
+      "deliverable": "各通道的时间尺度估计，以及对未参与校准的时段所作的预测。"
+    }
+  },
+  {
+    "id": "allene-reaction-record-audit",
+    "archiveKey": "ata_audit",
+    "title": "Audit measurements in allene reaction records",
+    "domain": "Chemistry",
+    "workflow": "Data quality assessment",
+    "level": null,
+    "summary": "Use comparative literature and the stated experimental conditions to identify altered measurements in a set of reaction records.",
+    "deliverable": "The affected entries in each group and proposed corrections for the recorded measures.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "核查联烯化反应的实验记录",
+      "summary": "结合相关文献和给定实验条件，在一组反应记录中识别被改写的测量值。",
+      "deliverable": "各组受影响的记录条目及对相应指标的更正。"
+    }
+  },
+  {
+    "id": "allene-reaction-condition-ranking",
+    "archiveKey": "ata_decision",
+    "title": "Compare recorded conditions for allene formation",
+    "domain": "Chemistry",
+    "workflow": "Candidate screening and ranking",
+    "level": null,
+    "summary": "Use published evidence and the supplied conditions to judge whether a product would be detectable and to rank the recorded cases by performance.",
+    "deliverable": "Detectability judgments and a ranking of the supplied cases.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "比较联烯生成的实验条件",
+      "summary": "结合已发表证据和给定实验条件，判断产物能否检出，并按表现比较多组反应记录。",
+      "deliverable": "各组条件下的可检出性判断及排序。"
+    }
+  },
+  {
+    "id": "allene-outcome-estimation",
+    "archiveKey": "ata_estimation",
+    "title": "Estimate outcomes in allene reaction records",
+    "domain": "Chemistry",
+    "workflow": "Property and outcome prediction",
+    "level": null,
+    "summary": "Estimate yield or enantiomeric excess for supplied examples. Assess the same observations as numerical values, intervals and threshold decisions.",
+    "deliverable": "Predictions for the requested measurements supported by the experimental context and literature.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "估计联烯化反应的产率与选择性",
+      "summary": "对给定实例估计产率或对映体过量值，并分别以数值、区间和阈值判断表达结果。",
+      "deliverable": "对指定测量指标的预测，以及依据实验背景和文献作出的判断。"
+    }
+  },
+  {
+    "id": "oxygen-evolution-record-audit",
+    "archiveKey": "oer_audit",
+    "title": "Audit overpotentials in oxygen-evolution records",
+    "domain": "Materials science",
+    "workflow": "Data quality assessment",
+    "level": null,
+    "summary": "Compare multimetal catalyst compositions and comparable literature to identify modified overpotential measurements in experimental records.",
+    "deliverable": "Identification and correction of the altered overpotential values.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "核查析氧实验记录中的过电位",
+      "summary": "比较多金属催化剂的配方与相关文献，识别实验记录中被改写的析氧过电位。",
+      "deliverable": "被改写的过电位条目及其更正值。"
+    }
+  },
+  {
+    "id": "oxygen-evolution-catalyst-ranking",
+    "archiveKey": "oer_decision",
+    "title": "Rank catalysts by oxygen-evolution overpotential",
+    "domain": "Materials science",
+    "workflow": "Candidate screening and ranking",
+    "level": null,
+    "summary": "Compare a given set of multimetal catalyst formulations using composition and the relevant literature. Determine which are expected to have a lower overpotential.",
+    "deliverable": "A ranking of the supplied formulations and a selection of the better-performing candidates.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "按析氧过电位排序催化材料",
+      "summary": "结合配方和相关文献比较一组多金属催化材料，判断哪些材料有望表现出较低的析氧过电位。",
+      "deliverable": "给定配方的表现排序及据此筛选出的候选材料。"
+    }
+  },
+  {
+    "id": "oxygen-evolution-overpotential",
+    "archiveKey": "oer_estimation",
+    "title": "Estimate oxygen-evolution overpotentials from composition",
+    "domain": "Materials science",
+    "workflow": "Property and outcome prediction",
+    "level": null,
+    "summary": "Predict the overpotential of multimetal electrocatalysts from their formulations and examine agreement with experimental measurements.",
+    "deliverable": "Overpotential estimates for comparison with reserved experimental values.",
+    "packageVersion": "1.0.0",
+    "zh": {
+      "title": "根据组成估计析氧过电位",
+      "summary": "根据多金属电催化材料的配方预测析氧过电位，并检验预测结果与实验测量的一致程度。",
+      "deliverable": "用于与留存实验测量值比较的过电位预测。"
+    }
   }
 ]
