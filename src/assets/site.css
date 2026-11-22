@@ -293,15 +293,5 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 }
 @media(prefers-reduced-motion:reduce){.card-plate img{transition:none}}
 
-/* Chinese names need full-height strokes and more leading than the Latin display face. */
-html:lang(zh) {--sans:"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;--serif:AFEInstrument,"Songti SC","Noto Serif CJK SC","Source Han Serif SC","SimSun",serif}
-html:lang(zh) :is(h1,h2,h3,.cc-expert a) {line-height:1.24;transform:none}
-html:lang(zh) #taskonomy h1 {line-height:.93;transform:scaleY(var(--display-height))}
-html:lang(zh) #taskonomy :is(h2,h3) {font-family:var(--serif);line-height:1.24}
-html:lang(zh) :is(.cc-page,.cc-expertise) {--cc-serif:var(--serif)}
-html:lang(zh) :is(.eyeline,.cc-meta,.catalog-copy p) {letter-spacing:.015em}
-html:lang(zh) :is(.brief-lede,.brief-section p,.card-summary,.cc-page p) {line-height:1.7}
-html:lang(zh) .brief-heading h1 {max-width:19em}
-html:lang(zh) .footer-citation {min-inline-size:4.4rem}
 :root[data-theme="dark"] .footer-partners img {filter:brightness(0) saturate(0) invert(.85)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .footer-partners img {filter:brightness(0) saturate(0) invert(.85)}}

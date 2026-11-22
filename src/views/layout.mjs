@@ -58,7 +58,7 @@ export function page({route, lang = 'en', title, description, body, home = false
     <span class="brand-mark" aria-hidden="true">AFE</span>
     <span class="brand-signature" aria-hidden="true"><span class="brand-name">Agent Frontier Exam</span><span class="brand-edition">Taskonomy</span></span>
   </a>`;
-  const css = ['pyramid', 'site', ...(community || home ? ['community'] : []), ...(route.startsWith('/tasks/') ? ['field-explorer'] : [])]
+  const css = ['pyramid', 'site', ...(community || home ? ['community'] : []), ...(route.startsWith('/tasks/') ? ['field-explorer'] : []), ...(zh ? ['typography'] : [])]
     .map(name => `<link rel="stylesheet" href="/assets/${name}.css">`).join('\n');
   const js = ['site', ...(home ? ['pyramid'] : []), ...(catalog ? ['catalog'] : [])]
     .map(name => `<script src="/assets/${name}.js" defer></script>`).join('\n');

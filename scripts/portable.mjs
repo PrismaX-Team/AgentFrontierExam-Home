@@ -7,7 +7,7 @@ const destination=path.resolve(process.argv[2] || path.join(project,'dist-offlin
 const routes=await build();
 const pages={},images={},css={},js={};
 const resources=new Map();
-const mime={'.png':'image/png','.jpg':'image/jpeg','.svg':'image/svg+xml','.webp':'image/webp','.woff':'font/woff'};
+const mime={'.png':'image/png','.jpg':'image/jpeg','.svg':'image/svg+xml','.webp':'image/webp','.woff':'font/woff','.woff2':'font/woff2'};
 async function inlineAsset(url) {
   if(!resources.has(url)) {
     const binary=await readFile(path.join(output,url));
@@ -36,11 +36,12 @@ for(const route of routes){
   }
 }
 const runtime=await readFile(fileURLToPath(new URL('./portable-viewer.js',import.meta.url)),'utf8');
-const fontLicense=await readFile(path.join(output,'assets','Instrument-Serif-LICENSE.txt'),'utf8');
+const licenseFiles=['Instrument-Serif-LICENSE.txt','Noto-Serif-SC-LICENSE.txt'];
+const fontLicenses=await Promise.all(licenseFiles.map(file=>readFile(path.join(output,'assets',file),'utf8')));
 const favicon=images['/assets/afe-mark.svg'];
 const archive=JSON.stringify({pages,images,css,js}).replaceAll('<','\\u003c');
 const fragment=`<div id="afe-v01-site-preview"><iframe title="Agent Frontier Exam" width="100%" height="730" style="display:block;border:0;width:100%;background:#f6f4ed" referrerpolicy="no-referrer"></iframe><script type="application/json" data-archive>${archive}</script>
-<script type="text/plain" data-font-license>${fontLicense}</script></div>
+<script type="text/plain" data-font-license>${fontLicenses.join('\n\n')}</script></div>
 <script>${runtime}</script>`;
 const document=`<!doctype html><html lang="en" data-afe-file><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Agent Frontier Exam</title><link rel="icon" type="image/svg+xml" href="${favicon}"><style>html,body,#afe-v01-site-preview,#afe-v01-site-preview iframe{width:100%;height:100%;margin:0}body{background:#f6f4ed}</style><noscript><style>#afe-v01-site-preview{display:none}body{box-sizing:border-box;padding:2rem;font:1rem/1.6 system-ui}</style></noscript></head><body><noscript><h1>Agent Frontier Exam</h1><p>For script-free reading, download the static ZIP from the <a href="https://github.com/PrismaX-Team/AgentFrontierExam-Home/releases/tag/v0.1.0">v0.1 release</a>, extract it and open index.html.</p></noscript>${fragment}</body></html>`;
 await mkdir(path.dirname(destination),{recursive:true});await writeFile(destination,document);
