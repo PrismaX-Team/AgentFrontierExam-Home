@@ -141,11 +141,14 @@
 #chart-levels .distribution-key { min-height: 2.2rem; padding-block: .45rem; }
 
 @media (width > 56rem) {
-  .catalog-overview { padding-block-start: clamp(1rem, 2vw, 1.75rem); }
+  .catalog-overview { padding-block-start: var(--hero-ink-inset); }
+  .distribution-head, .chart-tools, .distribution-total, .register-heading { align-items: start; }
+  .distribution-total strong, .distribution-total > span, .register-heading > span { text-box: trim-start cap alphabetic; }
+  .chart-switch label { padding-block: 0 .75rem; text-box: trim-start cap alphabetic; }
 }
 @media (max-width: 56rem) {
   .tasks-hero { grid-template-columns: 1fr; gap: 1.1rem; }
-  .catalog-overview { align-self: center; }
+  .catalog-overview { align-self: start; }
   .tasks-hero-copy p { max-width: 46ch; }
 }
 @media (min-width: 37rem) and (max-width: 56rem) {

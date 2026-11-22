@@ -22,6 +22,12 @@
   --serif: AFEInstrument, Baskerville, Georgia, serif;
   --display-height: .81;
   --title-spacing: .012em;
+  --page-title-size: clamp(3rem,5.6vw,5.65rem);
+  --section-heading-size: clamp(2.15rem,3.5vw,3.65rem);
+  --entry-heading-size: clamp(1.72rem,2.4vw,2.45rem);
+  --page-leading: .98;
+  --section-leading: 1.04;
+  --entry-leading: 1.08;
   --sans: "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, "SFMono-Regular", Consolas, monospace;
   color-scheme: light dark;
@@ -60,23 +66,24 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 /* The title edge belongs to the section, independently of its illustration. */
 .site-frame.section-landing {container:landing / inline-size;padding-block-start:clamp(2.25rem,4.6vw,4.9rem)}
 .section-landing .section-title {
-  margin:0;font-size:clamp(3rem,5.6vw,5.65rem);line-height:.98;
+  margin:0;font-size:var(--page-title-size);line-height:var(--page-leading);
   transform-origin:left top;
 }
 .section-hero {
+  --hero-ink-inset:calc(var(--page-title-size) * .062);
   display:grid;align-items:start;min-block-size:clamp(22rem,32vw,27.75rem);
   padding-block-end:clamp(1.25rem,2.1vw,2.1rem);border-block-end:1px solid var(--line);
 }
 @media(max-width:56rem) {
-  .section-hero {min-block-size:31.5rem;grid-template-rows:auto 1fr}
+  .section-hero {min-block-size:31.5rem;grid-template-rows:minmax(var(--intro-track,11rem),max-content) 1fr;row-gap:1.1rem}
 }
 @media(max-width:34rem) {
+  :root {--page-title-size:clamp(2.55rem,9.9vw,3.25rem)}
   .site-frame.section-landing {padding-block-start:1.55rem}
-  .section-landing .section-title {font-size:clamp(2.55rem,9.9vw,3.25rem)}
 }
 /* At this measure the catalogue legend sits below the drawing on its own row. */
 @container landing (max-width:29rem) {
-  .section-hero {min-block-size:clamp(39rem,calc(27.5rem + 68cqi),42rem)}
+  .section-hero {--intro-track:12.8rem;min-block-size:clamp(39rem,calc(27.5rem + 68cqi),42rem)}
 }
 @media(max-width:22.5rem) {
   .site-frame.section-landing {padding-inline:max(.85rem,4.25%)}
@@ -216,7 +223,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .catalog-intro p {max-width:57ch;margin-top:.7rem;color:var(--muted);font-size:clamp(1.05rem,1.4vw,1.28rem);line-height:1.45}
 .matrix-section {margin-top:clamp(1.7rem,3.3vw,3.3rem)}
 .matrix-heading {margin-bottom:.7rem;flex-wrap:wrap}
-.matrix-heading h2,.directory-heading h2 {font-size:clamp(2rem,3.15vw,3.05rem)}
+.matrix-heading h2,.directory-heading h2 {font-size:var(--section-heading-size);line-height:var(--section-leading)}
 .matrix-heading p {font-size:.85rem;color:var(--muted)}
 .matrix-heading p span[aria-hidden] {padding-inline:.2rem;color:var(--muted)}
 .matrix-viewport {
@@ -264,7 +271,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .catalog-status p {font-size:.88rem;font-variant-numeric:tabular-nums}
 .catalog-list {padding:0;list-style:none}
 .catalog-title {display:grid;align-items:center;column-gap:clamp(1.1rem,2.5vw,2.5rem);padding-block:clamp(.95rem,1.6vw,1.4rem);color:var(--ink);text-decoration:none}
-.catalog-copy h3 {max-width:48ch;font-size:clamp(1.65rem,2.25vw,2.2rem);letter-spacing:var(--title-spacing);line-height:1.1;text-wrap:balance;transform:scaleY(var(--display-height));transform-origin:left center}
+.catalog-copy h3 {max-width:48ch;font-size:var(--entry-heading-size);letter-spacing:var(--title-spacing);line-height:var(--entry-leading);text-wrap:balance;transform:scaleY(var(--display-height));transform-origin:left center}
 .catalog-copy p {max-width:77ch;margin-top:.36rem;color:var(--muted);font-size:1rem;line-height:1.43}
 .catalog-title:is(:hover,:focus-visible) h3 {text-decoration:underline;text-underline-offset:.15em;text-decoration-thickness:1px}
 .catalog-meta {display:grid;gap:.16rem;padding-left:1rem;border-left:1px solid var(--line);font-size:.86rem;line-height:1.34;color:var(--muted)}
@@ -285,8 +292,8 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .brief-heading .eyeline,.brief-facts a {color:var(--blue)}
 .brief-heading {margin-bottom:clamp(2.8rem,5.8vw,5.7rem)}
 .brief-heading.with-figure {display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr);align-items:center;gap:clamp(2rem,6vw,6rem)}
-.brief-heading header {container:brief-title / inline-size;min-width:0}
-.brief-heading h1 {font-size:min(clamp(2.1rem,5.45vw,5.55rem),10.5cqi);line-height:.99;max-width:max(19ch,10em);text-wrap:balance;margin-block:.55rem 1.05rem}
+.brief-heading header {min-width:0}
+.brief-heading h1 {font-size:var(--page-title-size);line-height:var(--page-leading);max-width:13em;text-wrap:balance;overflow-wrap:anywhere;margin-block:.55rem 1.05rem;transform-origin:left top}
 .brief-lede {max-width:57ch}
 .brief-figure img {width:100%;height:auto;aspect-ratio:1.6;object-fit:cover;border-radius:var(--panel-radius)}
 .brief-figure figcaption {margin-top:.5rem;font-size:.81rem;line-height:1.42;color:var(--muted)}
@@ -297,7 +304,7 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 .brief-section+.brief-section {margin-top:2.2rem}
 .brief-reading #assessment {padding:clamp(1.1rem,2.1vw,1.85rem);background-color:var(--gold-wash);border-radius:var(--panel-radius)}
 .brief-reading #assessment h2 {color:var(--gold)}
-.brief-section h2,.related-section h2 {font-size:clamp(2rem,3.05vw,3.05rem)}
+.brief-section h2,.related-section h2 {font-size:var(--section-heading-size);line-height:var(--section-leading)}
 .brief-section p {font-size:1.08rem;line-height:1.58;max-width:65ch;color:var(--muted);margin-top:.65rem}
 .related-section {margin-top:clamp(3rem,6vw,6rem)}
 .related-section .section-heading {margin-bottom:.5rem}
