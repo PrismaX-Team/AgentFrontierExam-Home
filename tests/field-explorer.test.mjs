@@ -25,6 +25,8 @@ test('all three registers publish every translated name and count, including emp
   };
   for (const [lang,[fields,types,levels]] of Object.entries(names)) {
     const html = catalogueHero(tasks,counts,lang);
+    const totals = [...html.matchAll(/class="distribution-total"><strong>(\d+)<\/strong>/g)];
+    assert.deepEqual(totals.map(match => Number(match[1])), [tasks.length]);
     assert.match(html,/id="view-fields" value="fields" aria-controls="chart-fields" checked/);
     assert.match(html,/id="view-types" value="types" aria-controls="chart-types"/);
     assert.match(html,/id="view-levels" value="levels" aria-controls="chart-levels"/);

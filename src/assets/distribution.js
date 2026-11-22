@@ -7,8 +7,9 @@ for (const panel of document.querySelectorAll('.distribution-panel')) {
   const reading = panel.querySelector('.distribution-reading');
   const number = reading.querySelector('strong');
   const name = reading.querySelector('span');
-  const total = number.textContent;
-  const totalLabel = name.textContent;
+  const stage = panel.querySelector('.distribution-stage');
+  const rim = stage.querySelector('.da-dish-face, .da-tray, .da-levels [data-art-index="0"]');
+  const overview = panel.closest('.catalog-overview');
   let pinned = null;
   let active = null;
   let focused = null;
@@ -25,6 +26,11 @@ for (const panel of document.querySelectorAll('.distribution-panel')) {
   }
   new ResizeObserver(scrollEdges).observe(list);
   list.addEventListener('scroll',scrollEdges,{passive:true});
+  // Each model leaves a different margin inside its SVG, including on resize.
+  new ResizeObserver(() => {
+    const box = stage.getBoundingClientRect();
+    if (box.width) overview.style.setProperty('--model-inset', Math.max(0, box.right - rim.getBoundingClientRect().right) + 'px');
+  }).observe(stage);
 
   function entryAt(node) {
     const item = node?.closest?.('[data-entry],[data-art-index]');
@@ -48,8 +54,11 @@ for (const panel of document.querySelectorAll('.distribution-panel')) {
       const key = keys[index];
       key?.setAttribute('data-active','');
       shapes.get(index)?.setAttribute('data-active','');
-      number.textContent = key ? key.querySelector('.distribution-count').textContent : total;
-      name.textContent = key ? key.querySelector('.distribution-name').textContent : totalLabel;
+      reading.hidden = !key;
+      if (key) {
+        number.textContent = key.querySelector('.distribution-count').textContent;
+        name.textContent = key.querySelector('.distribution-name').textContent;
+      }
     }
     if (follow && keys[index]) reveal(keys[index]);
   }

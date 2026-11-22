@@ -24,6 +24,11 @@ function rankedEntries(counts, lang, sharedColor) {
     .map(([key,count], index) => ({key, count, label: axisLabel(key,lang), color: sharedColor ?? `var(--field-${index % 11 + 1})`}));
 }
 
+function compactText(full, short) {
+  return full === short ? escape(full) :
+    `<span class="chart-full">${escape(full)}</span><span class="chart-short">${escape(short)}</span>`;
+}
+
 function distributionPanel(view, entries, total, lang) {
   const zh = lang === 'zh';
   const rows = entries.map(({key, label, count, color}, index) => {
@@ -32,19 +37,16 @@ function distributionPanel(view, entries, total, lang) {
     return `<li><button type="button" class="distribution-key" data-entry="${index}" aria-label="${escape(spoken)}" disabled style="--swatch:${color}">
       <span class="distribution-name">${code}${escape(label)}</span><b class="distribution-count">${count}</b></button></li>`;
   }).join('');
-  const groups = zh ? {fields:'个领域',types:'种任务类型',levels:'个层级'}
-    : {fields: entries.length === 1 ? 'field' : 'fields', types: entries.length === 1 ? 'task type' : 'task types', levels:'levels'};
   const capacity = view === 'levels' ? total : Math.max(0,...entries.map(entry => entry.count));
   const vessel = zh ? {fields:'满仓', types:'满格', levels:'满层'} : {fields:'Full sector', types:'Full well', levels:'Full tier'};
   const scale = zh ? `${vessel[view]}为 ${capacity} 道题` : `${vessel[view]} · ${capacity} ${capacity === 1 ? 'task' : 'tasks'}`;
   return `<div class="distribution-panel" id="chart-${view}" data-view="${view}" role="group" aria-labelledby="label-${view}">
     <figure class="distribution-instrument" aria-hidden="true">
       <div class="distribution-stage ruled-ground">${distributionArt(view,entries)}</div>
-      <figcaption class="distribution-reading"><strong>${total}</strong><span>${zh ? '任务总数' : 'Total tasks'}</span></figcaption>
+      <figcaption class="distribution-reading" hidden><strong></strong><span></span></figcaption>
     </figure>
     <div class="distribution-register">
-      <div class="register-heading"><span>${entries.length} ${groups[view]}</span><span>${zh ? '题数' : 'Tasks'}</span></div>
-      <ul class="distribution-keys" role="list">${rows}</ul>
+      <ul class="distribution-keys" role="list" aria-labelledby="count-${view}">${rows}</ul>
       <p class="distribution-scale">${scale}</p>
     </div>
   </div>`;
@@ -52,23 +54,44 @@ function distributionPanel(view, entries, total, lang) {
 
 export function catalogueHero(tasks, counts, lang = 'en') {
   const zh = lang === 'zh';
+  const fieldUnit = counts.fields.size === 1 ? 'field' : 'fields';
+  const typeUnit = counts.types.size === 1 ? 'type' : 'types';
   const views = [
-    {key:'fields', label: zh ? '科学领域' : 'Fields', entries:rankedEntries(counts.fields,lang)},
-    {key:'types', label: zh ? '任务类型' : 'Task types', entries:rankedEntries(counts.types,lang,'var(--field-2)')},
-    {key:'levels', label: zh ? '科学层级' : 'Levels', entries:Object.entries(levelLabels(lang)).map(([key,label]) => ({
-      key, label, count:counts.levels.get(Number(key)) ?? 0, color:`var(--field-${key})`,
-    }))},
+    {
+      key:'fields', label: zh ? '科学领域' : 'Fields', short: zh ? '领域' : 'Fields',
+      unit: zh ? '个领域' : fieldUnit, entries: rankedEntries(counts.fields,lang),
+    },
+    {
+      key:'types', label: zh ? '任务类型' : 'Task types', short: zh ? '类型' : 'Types',
+      unit: zh ? '种任务类型' : 'task ' + typeUnit, shortUnit: zh ? '种类型' : typeUnit,
+      entries: rankedEntries(counts.types,lang,'var(--field-2)'),
+    },
+    {
+      key:'levels', label: zh ? '科学层级' : 'Levels', short: zh ? '层级' : 'Levels', unit: zh ? '个层级' : 'levels',
+      entries: Object.entries(levelLabels(lang)).map(([key,label]) => ({
+        key, label, count:counts.levels.get(Number(key)) ?? 0, color:`var(--field-${key})`,
+      })),
+    },
   ];
-  const radios = views.map(({key}, index) => `<input class="visually-hidden" type="radio" name="distribution"
-    id="view-${key}" value="${key}" aria-controls="chart-${key}"${index === 0 ? ' checked' : ''}>`).join('');
-  const labels = views.map(({key,label}) => `<label id="label-${key}" for="view-${key}">${label}</label>`).join('');
+  const radios = views.map(({key,label}, index) => `<input class="visually-hidden" type="radio" name="distribution"
+    id="view-${key}" value="${key}" aria-controls="chart-${key}"${index === 0 ? ' checked' : ''} aria-label="${label}">`).join('');
+  const labels = views.map(({key,label,short}) => `<label id="label-${key}" for="view-${key}">${compactText(label,short)}</label>`).join('');
+  const headings = views.map(({key,entries,unit,shortUnit=unit}) =>
+    `<span class="register-count" id="count-${key}">${entries.length} ${compactText(unit,shortUnit)}</span>`).join('');
   return `<header class="tasks-hero">
     <div class="tasks-hero-copy"><h1>${zh ? '任务目录' : 'Tasks'}</h1>
       <p>${zh ? '按研究领域或科研活动查找任务，了解每道题的科学问题与验收依据。' : 'Explore scientific tasks by field or activity, and see what evidence each one requires.'}</p>
       <a class="solid-link" href="#task-directory">${zh ? '浏览任务' : 'Browse task briefs'}</a>
     </div>
     <fieldset class="catalog-overview"><legend class="visually-hidden">${zh ? `任务分布，共 ${tasks.length} 道题` : `Distribution of ${tasks.length} ${tasks.length === 1 ? 'task' : 'tasks'}`}</legend>
-      ${radios}<div class="chart-switch">${labels}</div>
+      ${radios}
+      <div class="distribution-head">
+        <div class="chart-tools">
+          <div class="chart-switch">${labels}</div>
+          <p class="distribution-total"><strong>${tasks.length}</strong> ${compactText(zh ? '任务总数' : 'Total tasks', zh ? '题' : 'total')}</p>
+        </div>
+        <div class="register-heading">${headings}<span>${zh ? '题数' : 'Tasks'}</span></div>
+      </div>
       ${views.map(({key,entries}) => distributionPanel(key,entries,tasks.length,lang)).join('')}
     </fieldset>
   </header>`;
