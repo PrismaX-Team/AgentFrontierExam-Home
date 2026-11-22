@@ -95,10 +95,10 @@ export function contribute(lang = 'en') {
     </section>`
   ).join('');
 
-  return `<article class="site-frame cc-page cc-contribute">
-    <header class="cc-contribute-hero">
+  return `<article class="site-frame section-landing cc-page cc-contribute">
+    <header class="section-hero cc-contribute-hero">
       <div class="cc-contribute-intro">
-        <h1>${c.title}</h1><p>${c.intro}</p>
+        <h1 class="section-title">${c.title}</h1><p>${c.intro}</p>
         <div class="cc-links"><a class="cc-action" href="#submit">${c.prepare}</a>
           <a href="/contribute/task-package/">${c.guide}</a><a href="/authorship/">${c.authorship}</a></div>
       </div>

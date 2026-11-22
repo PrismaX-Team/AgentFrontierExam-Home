@@ -78,8 +78,8 @@ export function catalogueHero(tasks, counts, lang = 'en') {
   const labels = views.map(({key,label,short}) => `<label id="label-${key}" for="view-${key}">${compactText(label,short)}</label>`).join('');
   const headings = views.map(({key,entries,unit,shortUnit=unit}) =>
     `<span class="register-count" id="count-${key}">${entries.length} ${compactText(unit,shortUnit)}</span>`).join('');
-  return `<header class="tasks-hero">
-    <div class="tasks-hero-copy"><h1>${zh ? '任务目录' : 'Tasks'}</h1>
+  return `<header class="section-hero tasks-hero">
+    <div class="tasks-hero-copy"><h1 class="section-title">${zh ? '任务目录' : 'Tasks'}</h1>
       <p>${zh ? '按研究领域或科研活动查找任务，了解每道题的科学问题与验收依据。' : 'Explore scientific tasks by field or activity, and see what evidence each one requires.'}</p>
       <a class="solid-link" href="#task-directory">${zh ? '浏览任务' : 'Browse task briefs'}</a>
     </div>

@@ -124,7 +124,7 @@ export function catalogue(tasks, lang = 'en') {
       <ul class="catalog-list" aria-label="${groupLabel}">${entries.map(task=>row(task,positions.get(task),lang)).join('\n')}</ul>
     </div>`;
   }).join('\n');
-  return `<div class="page-frame site-frame" id="catalogue" data-lang="${lang}" data-level-names="${escape(JSON.stringify(levelLabels(lang)))}" data-type-aliases="${escape(JSON.stringify(activityAliases))}">
+  return `<div class="page-frame site-frame section-landing" id="catalogue" data-lang="${lang}" data-level-names="${escape(JSON.stringify(levelLabels(lang)))}" data-type-aliases="${escape(JSON.stringify(activityAliases))}">
     ${catalogueHero(tasks,counts,lang)}
     ${taskMatrix(domains,workflows,groups,counts,tasks,lang)}
     <section class="catalog-directory" id="task-directory" aria-labelledby="directory-heading">

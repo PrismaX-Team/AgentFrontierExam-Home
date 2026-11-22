@@ -63,14 +63,12 @@
 .cc-page .cc-action:hover { background: var(--action-hover); color: var(--on-action); }
 .cc-package, .cc-authorship { padding-top: clamp(2.1rem, 3.8vw, 3.3rem); }
 .cc-page .breadcrumbs { margin-bottom: clamp(1.4rem, 2.5vw, 2.75rem); }
-.cc-contribute { padding-top: clamp(2.25rem, 4.6vw, 4.9rem); }
 .cc-contribute-hero {
   --cc-accent: light-dark(var(--link), #b9c5b7);
-  display: grid; grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr);
-  align-items: center; gap: clamp(1.75rem, 4.5vw, 4.7rem);
-  padding-bottom: clamp(2.3rem, 4.5vw, 4.9rem);
+  grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr);
+  gap: clamp(1.75rem, 4.5vw, 4.7rem);
 }
-.cc-contribute-intro h1 { max-width: 13ch; font-size: clamp(3rem, 5.6vw, 5.65rem); line-height: .98; }
+.cc-contribute-intro h1 { max-width: 13ch; }
 .cc-contribute-intro > p { max-width: 43ch; margin-top: 1.2rem; font-size: clamp(1.07rem, 1.45vw, 1.3rem); line-height: 1.47; }
 .cc-contribute-intro .cc-links { gap: .75rem 1.15rem; }
 .cc-level-1 { --cc-level-paper: var(--green-wash); --cc-level-line: var(--green-edge); --cc-level-ink: var(--green); }
@@ -82,7 +80,7 @@
   --folder-face: light-dark(color-mix(in srgb, var(--green-wash) 87%, var(--green-edge)), #45433b);
   --folder-ink: light-dark(var(--green), #e4e0d4);
   --folder-note: light-dark(var(--cc-muted), #c8c5b9);
-  justify-self: center; width: min(100%, 31rem); margin: 0;
+  place-self: center; width: min(100%, 31rem); margin: 0;
   font-size: clamp(.9rem, 1.2vw, 1.05rem);
 }
 .cc-folio figcaption {
@@ -137,7 +135,7 @@
 .cc-folder .cc-folder-format { display: inline-block; padding-block: .2rem; font-size: .82rem; line-height: 1.45; color: var(--folder-note); text-decoration-color: color-mix(in srgb, currentColor 65%, transparent); }
 .cc-folder .cc-folder-format:is(:hover, :focus-visible) { color: var(--folder-ink); text-decoration-color: currentColor; }
 .cc-folder-destination { color: light-dark(var(--green), var(--folder-note)); font-size: .83rem; font-weight: 550; text-align: end; line-height: 1.28; }
-.cc-section { border-top: 1px solid var(--cc-rule); padding-block: clamp(2.4rem, 4.4vw, 4.6rem); }
+.cc-section { padding-block: clamp(2.4rem, 4.4vw, 4.6rem); }
 .cc-section:last-child { padding-bottom: 0; }
 .cc-choices {
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -322,10 +320,12 @@
   .cc-expertise-inner > header h2 { grid-column: 1 / -1; }
   .cc-expertise header p { max-width: 48ch; }
 }
-@media (max-width: 52rem) {
+@media (max-width: 56rem) {
   .cc-contribute-hero { grid-template-columns: 1fr; gap: 1.8rem; }
   .cc-contribute-intro h1 { max-width: 100%; }
   .cc-folio { justify-self: start; width: min(100%, 29rem); }
+}
+@media (max-width: 52rem) {
   .cc-participation-roles { grid-template-columns: 1fr; gap: 1.1rem; }
   .cc-participation-roles section { padding: 0; border: 0; }
   .cc-participation-roles section:first-child { padding: 0; }
@@ -346,10 +346,8 @@
   .cc-expertise-inner > header { gap: .55rem .65rem; }
   .cc-expert-controls { gap: 0; }
   .cc-expert-controls button { width: 1.9rem; height: 2.1rem; }
-  .cc-contribute { padding-top: 1.55rem; }
-  .cc-contribute-hero { gap: 1rem; padding-bottom: 1.45rem; }
+  .cc-contribute-hero { gap: 1rem; }
   .cc-contribute-hero + .cc-section { padding-top: 1.75rem; }
-  .cc-contribute-intro h1 { font-size: clamp(2.55rem, 9.9vw, 3.25rem); }
   .cc-contribute-intro > p { margin-top: .7rem; font-size: 1rem; line-height: 1.43; }
   .cc-contribute-intro .cc-links { margin-top: 1.05rem; gap: .6rem 1rem; }
   .cc-folio { margin-block: .5rem .15rem; }
