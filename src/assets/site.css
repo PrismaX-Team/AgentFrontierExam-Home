@@ -71,22 +71,38 @@ h3 {font-size:clamp(1.65rem,2.15vw,2.15rem);letter-spacing:.006em}
 }
 .section-hero {
   --hero-ink-inset:calc(var(--page-title-size) * .062);
+  --plot-height:clamp(15rem,40cqi,21.25rem);
+  --stacked-plot:clamp(11.25rem,68cqi,15.5rem);
+  --legend-height:9.1rem;
   display:grid;align-items:start;min-block-size:clamp(22rem,32vw,27.75rem);
   padding-block-end:clamp(1.25rem,2.1vw,2.1rem);border-block-end:1px solid var(--line);
 }
 @media(max-width:56rem) {
-  .section-hero {min-block-size:31.5rem;grid-template-rows:minmax(var(--intro-track,11rem),max-content) 1fr;row-gap:1.1rem}
+  .section-hero {
+    --graphic-space:calc(2.25rem + var(--plot-height) + .36rem);
+    min-block-size:31.5rem;row-gap:1.1rem;
+    grid-template-rows:minmax(var(--intro-track,12.25rem),max-content) minmax(var(--graphic-space),1fr);
+  }
+}
+@media(max-width:37rem) {
+  .section-hero {--intro-track:14rem}
 }
 @media(max-width:34rem) {
   :root {--page-title-size:clamp(2.55rem,9.9vw,3.25rem)}
+  :lang(en):is(.section-landing,.task-page,.cc-page) {
+    --page-title-size:clamp(1.8rem,8.72vw,3.25rem);
+    --section-heading-size:min(2.15rem,calc(var(--page-title-size) * .84));
+    --entry-heading-size:min(1.72rem,calc(var(--page-title-size) * .71));
+  }
   .site-frame.section-landing {padding-block-start:1.55rem}
 }
 /* At this measure the catalogue legend sits below the drawing on its own row. */
 @container landing (max-width:29rem) {
-  .section-hero {--intro-track:12.8rem;min-block-size:clamp(39rem,calc(27.5rem + 68cqi),42rem)}
+  .section-hero {--graphic-space:calc(2.25rem + var(--stacked-plot) + var(--legend-height) + 1.45rem)}
 }
 @media(max-width:22.5rem) {
-  .site-frame.section-landing {padding-inline:max(.85rem,4.25%)}
+  .section-hero {--intro-track:14.25rem}
+  .site-frame:is(.section-landing,.task-page,.cc-page) {padding-inline:max(.85rem,4.25%)}
 }
 .visually-hidden {position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 .skip-link {position:absolute;top:0;left:1rem;z-index:10;padding:.55rem 1rem;background:var(--paper);transform:translateY(-130%)}

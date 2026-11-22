@@ -344,7 +344,10 @@
 @media (max-width: 56rem) {
   .cc-contribute-hero { grid-template-columns: 1fr; row-gap: 1.1rem; }
   .cc-contribute-intro h1 { max-width: 100%; }
+  .cc-contribute-intro > p { max-width: 48ch; margin-top: .65rem; line-height: 1.43; }
+  .cc-contribute-intro .cc-links { margin-top: .85rem; gap: .38rem 1rem; }
   .cc-folio { justify-self: start; width: min(100%, 29rem); }
+  .cc-folio figcaption { padding-block-start: .42rem; text-box: trim-start cap alphabetic; }
 }
 @media (max-width: 43.99rem) {
   .cc-participation-roles { grid-template-columns: 1fr; gap: 1.1rem; }
@@ -378,8 +381,7 @@
   .cc-expert-controls { gap: 0; }
 }
 @media (max-width: 34rem) {
-  .cc-contribute-intro > p { margin-top: .7rem; font-size: 1rem; line-height: 1.43; }
-  .cc-contribute-intro .cc-links { margin-top: 1.05rem; gap: .6rem 1rem; }
+  .cc-contribute-intro > p { font-size: 1rem; }
   .cc-folio { margin-block: 0 .15rem; }
   .cc-sheet { gap: .55em; padding-inline: .8em; }
   .cc-folder { gap: .5rem; }

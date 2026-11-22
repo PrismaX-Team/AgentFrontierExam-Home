@@ -33,6 +33,7 @@ const shortTypes = new Map(Object.entries(activityAliases).map(([short, full]) =
 shortTypes.set('Binding pose prediction', 'Binding pose');
 shortTypes.set('Candidate screening and ranking', 'Screening');
 shortTypes.set('Scientific design and optimization', 'Design');
+shortTypes.set('Figure and analysis reproduction', 'Reproduction');
 
 function distributionPanel(view, entries, total, lang) {
   const zh = lang === 'zh';
@@ -97,7 +98,7 @@ export function catalogueHero(tasks, counts, lang = 'en') {
             <span class="distribution-total-label">${compactText(zh ? '任务总数' : 'Total tasks', zh ? '题' : 'total')}</span>
             <span class="distribution-selection" hidden><span data-full></span><span data-short></span></span></p>
         </div>
-        <div class="register-heading">${headings}<span>${zh ? '题数' : 'Tasks'}</span></div>
+        <div class="register-heading">${headings}<span class="register-unit"><span>${zh ? '题数' : 'Tasks'}</span><span aria-hidden="true">#</span></span></div>
       </div>
       ${views.map(({key,entries}) => distributionPanel(key,entries,tasks.length,lang)).join('')}
     </fieldset>

@@ -74,12 +74,12 @@
 }
 .register-count { grid-area: 1 / 1; visibility: hidden; font-weight: 550; color: var(--ink); }
 .register-heading > :last-child { grid-area: 1 / 2; }
+.register-unit > [aria-hidden] { display: none; }
 #view-fields:checked ~ .distribution-head #count-fields,
 #view-types:checked ~ .distribution-head #count-types,
 #view-levels:checked ~ .distribution-head #count-levels { visibility: visible; }
 
 .distribution-panel {
-  --plot-height: clamp(15rem, 40cqi, 21.25rem);
   display: none;
   grid-template-rows: var(--plot-height);
   padding-block-start: .36rem;
@@ -148,6 +148,10 @@
   .tasks-hero { grid-template-columns: 1fr; gap: 1.1rem; }
   .catalog-overview { align-self: start; }
   .tasks-hero-copy p { max-width: 46ch; }
+  .distribution-head { min-block-size: 2.25rem; align-items: start; }
+  .chart-tools, .distribution-total { align-items: start; }
+  .chart-switch label { padding-block-start: .42rem; text-box: trim-start cap alphabetic; }
+  .distribution-total, .register-heading { padding-block-start: .42rem; }
 }
 @media (min-width: 37rem) and (max-width: 56rem) {
   .tasks-hero-copy { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: .6rem 1.5rem; }
@@ -168,9 +172,8 @@
   .register-heading .chart-full { display: none; }
   .register-heading .chart-short { display: inline; }
   .distribution-panel {
-    --plot-height: clamp(11.25rem, 68cqi, 15.5rem);
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: var(--plot-height) 9.1rem;
+    grid-template-rows: var(--stacked-plot) var(--legend-height);
     gap: .9rem; padding-block: .3rem .25rem;
   }
   .distribution-register { padding: 0; }
@@ -183,6 +186,8 @@
 @container distribution (max-width: 22rem) {
   .distribution-total:lang(en) .chart-full { display: none; }
   .distribution-total:lang(en) .chart-short { display: inline; }
+  .register-unit > :first-child { position: absolute; inline-size: 1px; block-size: 1px; clip-path: inset(50%); overflow: hidden; }
+  .register-unit > [aria-hidden] { display: inline; }
 }
 @container distribution (max-width: 19.25rem) {
   .distribution-total .chart-full { display: none; }
