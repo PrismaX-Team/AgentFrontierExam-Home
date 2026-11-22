@@ -1,12 +1,16 @@
 # Task card provenance
 
-The v0.1 directory contains 16 editorial task cards drawn from eight collections. Its four showcases illustrate different scientific activities and different forms of evidence. The directory data is in [tasks.json](../src/data/tasks.json).
+The directory covers all 119 distinct packages in the first Taskonomy archive. Every task has an English and Chinese title, scientific brief and deliverable. The original 16 cards retain their public URLs and longer descriptions of materials and assessment. Four of those are featured on the homepage. [Catalogue data](../src/data/tasks.json)
 
 ## Selection and sources
 
 `AFE_Taskonomy_v1/分类说明.md` counts 119 unique packages across ten collections and describes 16 primary workflows. `AFE_Taskonomy_v1/逐题分类.tsv` records the canonical archive path, domain, workflow and rationale for each one. The domain and workflow directories link to the same packages. Use the archive path when tracing a card.
 
-Paths in the table are relative to `AFE_Taskonomy_v1/original_archive/`. For each entry, the English title, starting material, requested output and evidence are paraphrased from its `instruction.md`. The workflow tag summarizes the task’s primary activity in the TSV. The two ALE entries have a suggested discipline in the TSV and await an official domain assignment. Their cards use those subject labels for browsing.
+Each record has a stable website `id` and an `archiveKey` matching its package in the inventory. The archive assigns 109 packages to 11 scientific fields. Its 10 GDPX packages have suggested disciplines and are counted separately. All 119 use one of 16 primary activities. Both languages use the same field and activity keys. [Taxonomy labels](../src/data/taxonomy.mjs)
+
+With the archive mounted, run `node scripts/check-archive.mjs <AFE_Taskonomy_v1 directory>` to match every record to the inventory, its original package and both classification views. The public site builds from the checked-in descriptions.
+
+The table traces the original 16 editorial briefs. Paths are relative to `AFE_Taskonomy_v1/original_archive/`. Starting materials, requested outputs and assessment are paraphrased from package instructions.
 
 | Card ID | Source directory | Basis for the card |
 | --- | --- | --- |
@@ -33,10 +37,10 @@ Decision D44 of 19 November 2026 and `AFE_Control_Board/docs/38_afe_v1_scope_and
 
 The website uses **Foundational discoveries** as the English title for L3. The submission should identify what would be established for the first time, how others could verify it, and which new predictions or lines of inquiry it would open for the field. The cards retain their recorded scientific levels.
 
-The current records consulted do not provide a post-D44 level assignment for these 16 packages. Their `level` fields are null. This includes the older L1 metadata on the crystal, EEG, literature-review and clinical synthesis packages. The verified Earth Co-Scientist collection explicitly leaves formal levels pending in `AFE_Control_Board/AFE_1_0_verified/earth_cql/README.md`. Numerical difficulty and the ligand identifier L2 in the zinc task have separate meanings.
+The current records consulted do not provide a post-D44 level assignment for the 119 packages. Their `level` fields are null. This includes the older L1 metadata on the crystal, EEG, literature-review and clinical synthesis packages. The verified Earth Co-Scientist collection explicitly leaves formal levels pending in `AFE_Control_Board/AFE_1_0_verified/earth_cql/README.md`. Numerical difficulty and the ligand identifier L2 in the zinc task have separate meanings.
 
 The guide illustrates L1 with faint-star recovery. The matching task brief in `AFE_Control_Board/cli_harbor_v0_2/tasks/sextractor-recovery/` evaluates faint sources and close pairs across exposures. The first archive’s `gui_cli/cli/sextractor-catalog/` instead requires a catalogue, a background image and two morphology-selected samples in a single field. The M13 card describes a third scientific activity. An L1 assignment for the illustration cannot be attached to either archive task on the strength of their shared subject or software.
 
 ## Package metadata
 
-Eight cards carry an exact `packageVersion` from the `version` field under `[task]` in the corresponding `task.toml`. The top-level Harbor schema version describes the specification and is omitted from the cards. Source packages, grading code, research data, personal details and review records stay outside the website. The table records the source paths that editors can use to trace these public task summaries. The original archive and the AFE Control Board are internal resources.
+Fifty-nine cards carry an exact `packageVersion` from the `version` field under `[task]` in the corresponding `task.toml`. The top-level Harbor schema version describes the specification and is omitted from the cards. Source packages, grading code, research data, personal details and review records stay outside the website. The table records the source paths that editors can use to trace these public task summaries. The original archive and the AFE Control Board are internal resources.
