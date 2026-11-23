@@ -197,7 +197,9 @@ html:lang(en) .coverage-detail-title h3 {letter-spacing:var(--title-spacing);tra
 #catalogue:not([data-filtering]) .task-atlas:not(:has(.research-level:target)) .atlas-level-link[data-tier="1"],
 #catalogue:not([data-filtering]) .task-atlas:has(#level-2:target) .atlas-level-link[data-tier="2"],
 #catalogue:not([data-filtering]) .task-atlas:has(#level-3:target) .atlas-level-link[data-tier="3"] {--level-fill:var(--tinted);--selection:var(--accent)}
-.atlas-level-link:is(:hover,:focus-visible) {--level-fill:var(--tinted)}
+a.atlas-level-link:is(:hover,:focus-visible) {--level-fill:var(--tinted)}
+.atlas-level-link:disabled {appearance:none;margin:0;border:0;cursor:default;opacity:1;text-align:start}
+.atlas-level-link:disabled .atlas-level-name {color:var(--muted)}
 .atlas-level-link:focus-visible,.research-criteria:focus-visible {outline-offset:-3px}
 .atlas-mark {grid-area:mark;width:1.23rem;height:auto;display:block;overflow:visible}
 .atlas-mark path {stroke:var(--mark-edge);stroke-width:1;fill:none}

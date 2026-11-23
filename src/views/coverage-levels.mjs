@@ -25,8 +25,11 @@ export function levelNavigation(byLevel, lang) {
     const status = pending ? (zh ? '建设中' : 'In progress') : count;
     const named = zh ? escape(name) : `<span class="tier-full">${escape(name)}</span><span class="tier-short">${shortNames[Number(level)-1]}</span>`;
     const label = [`L${level}`, name, status, ...(pending ? [count] : [])].join(' · ');
-    return `<a class="atlas-level-link" data-tier="${level}" data-count="${n}" href="?level=${level}#level-${level}" aria-controls="level-${level}" aria-label="${escape(label)}">
-      ${levelMark(Number(level))}<span class="atlas-code">L${level}</span><span class="atlas-level-name">${named}</span><span class="atlas-count">${status}</span></a>`;
+    const attributes = `class="atlas-level-link" data-tier="${level}" data-count="${n}" aria-controls="level-${level}" aria-label="${escape(label)}"`;
+    const content = `${levelMark(Number(level))}<span class="atlas-code">L${level}</span><span class="atlas-level-name">${named}</span><span class="atlas-count">${status}</span>`;
+    return pending
+      ? `<button ${attributes} type="button" disabled>${content}</button>`
+      : `<a ${attributes} href="?level=${level}#level-${level}">${content}</a>`;
   }).join('');
   return `<nav class="atlas-levels" aria-label="${zh ? '科学任务层级' : 'Scientific task levels'}">${links}</nav>`;
 }

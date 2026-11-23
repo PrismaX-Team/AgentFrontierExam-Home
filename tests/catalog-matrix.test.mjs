@@ -1,6 +1,23 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {catalogue, taskPage} from '../src/views/catalog.mjs';
+import {levelNavigation} from '../src/views/coverage-levels.mjs';
+
+test('in-progress research tiers are native disabled controls until that tier has a task', () => {
+  for (const lang of ['en','zh']) {
+    const byLevel = new Map([[1,[{}]]]);
+    for (const level of [2,3]) {
+      const pending = levelNavigation(byLevel,lang);
+      const opening = pending.match(new RegExp(`<button\\b[^>]*data-tier="${level}"[^>]*>`))?.[0];
+      assert.ok(opening);
+      assert.match(opening,/\sdisabled[\s>]/);
+      assert.doesNotMatch(opening,/\shref=/);
+      byLevel.set(level,[{}]);
+      const collected = levelNavigation(byLevel,lang);
+      assert.match(collected,new RegExp(`<a\\b[^>]*data-tier="${level}"[^>]*href="\\?level=${level}#level-${level}"`));
+    }
+  }
+});
 
 test('a field and activity pair links to all its briefs, including without scripts', () => {
   const tasks = [

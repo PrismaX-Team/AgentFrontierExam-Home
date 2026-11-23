@@ -16,6 +16,7 @@
   const section = root.querySelector('.matrix-section');
   const atlas = section.querySelector('.task-atlas');
   const tiers = [...atlas.querySelectorAll('.atlas-level-link')];
+  const tierLinks = tiers.filter(tier => tier.matches('a[href]'));
   const researchLists = [...atlas.querySelectorAll('.research-questions')];
   const coverage = section.querySelector('.coverage-body');
   const matrix = coverage.querySelector('.task-matrix');
@@ -72,6 +73,10 @@
     return start < 0 ? '' : location.hash.slice(start);
   }
 
+  function levelAtAnchor(anchor) {
+    return tiers.find(tier => '#' + tier.getAttribute('aria-controls') === anchor)?.dataset.tier;
+  }
+
   function readQuery() {
     const query = params();
     const view = views.find(input => input.value === query.get('view')) ?? views[0];
@@ -82,8 +87,8 @@
       if (key === 'workflow' && !typeLabels.has(value) && Object.hasOwn(aliases,value)) value = aliases[value];
       control.value = control.options && ![...control.options].some(option => option.value === value) ? '' : value;
     }
-    const requested = tiers.find(link => link.hash === currentAnchor());
-    if (requested) form.elements.level.value = requested.dataset.tier;
+    const requested = levelAtAnchor(currentAnchor());
+    if (requested) form.elements.level.value = requested;
     const number = query.get('page');
     currentPage = /^\d+$/.test(number) ? Math.max(1,Number(number)) : 1;
   }
@@ -242,7 +247,7 @@
     for (const element of matches.slice(start,end)) element.hidden = false;
     const query = queryFromForm();
     if (query.toString() !== params().toString()) storeQuery(query,false);
-    for (const link of tiers) {
+    for (const link of tierLinks) {
       const target = new URLSearchParams(query);
       target.delete('page');
       if (level.value !== link.dataset.tier) {target.delete('domain'); target.delete('workflow');}
@@ -313,7 +318,7 @@
   function syncCoverageView() {
     const anchor = currentAnchor();
     const field = fields.find(panel => '#' + panel.id === anchor);
-    const explicit = tiers.find(link => link.hash === anchor)?.dataset.tier;
+    const explicit = levelAtAnchor(anchor);
     const workflowView = field || anchor === '#coverage-map';
     const selected = explicit || (!workflowView && ['2','3'].includes(form.elements.level.value) ? form.elements.level.value : '1');
     atlas.dataset.level = selected;
@@ -351,7 +356,7 @@
   matrix.addEventListener('focusout',event => {keyboardCell = event.relatedTarget?.closest('.matrix-cell'); refreshReading();});
 
   section.addEventListener('click',event => {
-    const tier = event.target.closest('.atlas-level-link');
+    const tier = event.target.closest('a.atlas-level-link[href]');
     if (tier && !modified(event)) {
       event.preventDefault();
       if (form.elements.level.value !== tier.dataset.tier) {
