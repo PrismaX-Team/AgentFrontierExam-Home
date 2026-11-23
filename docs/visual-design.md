@@ -13,7 +13,7 @@
 | 层次 | 字号变量 | 对照位置 |
 | --- | --- | --- |
 | 页面主标题 | `--page-title-size` | Tasks、Contribute、任务详情、任务包指南和署名页，在同一视口与语言下使用同一字号 |
-| 章节标题 | `--section-heading-size` | Field × task type matrix、Task briefs 和 What would count as success? |
+| 章节标题 | `--section-heading-size` | Scientific Taskonomy、Task briefs 和 What would count as success? |
 | 条目标题 | `--entry-heading-size` | 任务列表的题名与共建页的 Scientific workflows 等科研目标 |
 
 各级同时共用行高和字形比例。窄屏英文让三级字号一起随版心收放，保留主次和长科学词组所需的空间。中文沿用宋体的独立尺度。评审时在页面实际加载字库后，比较可见字形的上下边缘。行框、衬线字的纵向变换和 SVG 按钮的点击范围都可能带来光学偏差。

@@ -5,7 +5,7 @@ import {catalogueHero, collectionCounts, intersectionHref} from './field-explore
 
 const labels = {
   en: {
-    catalogue: 'Tasks', matrix: 'Field × task type matrix', matrixLabel: 'Number of tasks by field and task type',
+    catalogue: 'Tasks', matrix: 'Scientific Taskonomy', matrixLabel: 'Number of tasks by field and task type',
     type: 'Task type', field: 'Field', level: 'Scientific level',
     total: 'Total', briefs: 'Task briefs', clearSelection: 'Clear selection', filter: 'Filter tasks',
     search: 'Search', query: 'Title, field or task type', fields: 'All fields', types: 'All task types',
@@ -18,7 +18,7 @@ const labels = {
     picture: 'Image source', related: 'Related tasks', browse: 'Browse all tasks',
   },
   zh: {
-    catalogue: '任务目录', matrix: '领域与任务类型矩阵', matrixLabel: '按领域和类型统计的任务数量',
+    catalogue: '任务目录', matrix: '科学任务分类体系', matrixLabel: '按领域和类型统计的任务数量',
     type: '任务类型', field: '领域', level: '科学层级',
     total: '合计', briefs: '任务列表', clearSelection: '清除选择', filter: '筛选任务',
     search: '搜索', query: '题目、领域或任务类型', fields: '全部领域', types: '全部类型',

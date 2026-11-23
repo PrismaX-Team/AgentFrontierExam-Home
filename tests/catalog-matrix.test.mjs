@@ -9,6 +9,7 @@ test('a field and activity pair links to all its briefs, including without scrip
     {id:'c', title:'C', domain:'Earth science', workflow:'Simulation', summary:'A third brief.',level:1},
   ];
   const html = catalogue(tasks);
+  assert.match(html, /<h2 id="matrix-heading">Scientific Taskonomy<\/h2>/);
   const links = [...html.matchAll(/<a class="matrix-cell" href="([^"]+)"[^>]*>(\d+)<\/a>/g)];
   assert.deepEqual(links.map(link => Number(link[2])).sort(), [1,2]);
   const [, href] = links.find(link => link[2] === '2');
@@ -49,7 +50,7 @@ test('bilingual task types, totals, native links and level filters retain their 
   assert.match(html, /data-workflow-total="Modelling and simulation">2<\/td>/);
   assert.match(html, /data-domain-total="Physics">1<\/td>/);
   assert.match(html, /data-grid-total>2<\/td>/);
-  assert.match(html, /<h2 id="matrix-heading">领域与任务类型矩阵<\/h2><\/div>\s*<details class="catalog-matrix" open><summary aria-labelledby="matrix-heading" aria-controls="matrix-grid"><\/summary>/);
+  assert.match(html, /<h2 id="matrix-heading">科学任务分类体系<\/h2><\/div>\s*<details class="catalog-matrix" open><summary aria-labelledby="matrix-heading" aria-controls="matrix-grid"><\/summary>/);
   assert.doesNotMatch(html, /<img/);
   const brief = taskPage(tasks[1],tasks,'zh');
   assert.match(brief, /<dt>领域<\/dt><dd><a [^>]+>物理学<\/a>/);
