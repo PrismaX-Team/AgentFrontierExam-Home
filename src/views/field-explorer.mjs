@@ -2,14 +2,17 @@ import {escape, levelLabels} from './layout.mjs';
 import {activityAliases, axisLabel} from '../data/taxonomy.mjs';
 import {distributionArt} from './distribution-art.mjs';
 
-export function intersectionHref(domain, workflow, id) {
-  return '?' + new URLSearchParams({domain, workflow}) + '#' + id;
+export function intersectionHref(domain, workflow, id, level) {
+  const query = new URLSearchParams({domain, workflow});
+  if (level) query.set('level',String(level));
+  return '?' + query + '#' + id;
 }
 
 function tally(tasks, key) {
   const counts = new Map();
   for (const task of tasks) {
     const value = task[key];
+    if (value == null || value === '') continue;
     counts.set(value, (counts.get(value) ?? 0) + 1);
   }
   return counts;

@@ -10,7 +10,7 @@ test('a field and activity pair links to all its briefs, including without scrip
   ];
   const html = catalogue(tasks);
   assert.match(html, /<h2 id="matrix-heading">Scientific Taskonomy<\/h2>/);
-  const links = [...html.matchAll(/<a class="matrix-cell" href="([^"]+)"[^>]*><span class="circle-count">(\d+)<\/span>/g)];
+  const links = [...html.matchAll(/<a class="matrix-cell" href="([^"]+)"[^>]*><span class="matrix-mark"><span class="circle-count">(\d+)<\/span>/g)];
   assert.deepEqual(links.map(link => Number(link[2])).sort(), [1,2]);
   assert.deepEqual([...html.matchAll(/<a class="coverage-pair" href="([^"]+)"/g)].map(link => link[1]).sort(),links.map(link => link[1]).sort());
   assert.match(html, /id="field-earth-science" aria-labelledby="field-earth-science-name"/);
@@ -20,12 +20,24 @@ test('a field and activity pair links to all its briefs, including without scrip
   const {searchParams, hash} = new URL(href.replaceAll('&amp;','&'), 'https://example.invalid/tasks/');
   assert.equal(searchParams.get('domain'), 'Earth science');
   assert.equal(searchParams.get('workflow'), 'Simulation');
+  assert.equal(searchParams.get('level'), '1');
   const group = html.split(`class="catalog-group" id="${hash.slice(1)}"`)[1].split('</ul>')[0];
   assert.match(group, /href="\/tasks\/a\/"/);
   assert.match(group, /href="\/tasks\/c\/"/);
   assert.doesNotMatch(group, /href="\/tasks\/b\/"/);
   assert.match(group, />Clear selection<\/a>/);
   assert.match(html, /class="catalog-level-filter" hidden/);
+  assert.equal([...html.matchAll(/class="atlas-count">In progress<\/span>/g)].length,2);
+  assert.doesNotMatch(html,/Tasks per circle|matrix-scale/);
+  assert.match(html,/<th scope="col" class="matrix-tally">Tasks<\/th>/);
+  for (const level of [2,3]) {
+    const panel = html.split(`id="level-${level}"`)[1].split('</section>')[0];
+    assert.ok(panel.includes(`role="img" aria-labelledby="evidence-${level}-caption"`));
+    assert.ok(panel.includes(`<figcaption id="evidence-${level}-caption"><span>Schematic</span>`));
+    assert.doesNotMatch(panel,/research-questions/);
+  }
+  const mapGroups = links.map(link => link[1].split('#')[1]).sort();
+  assert.deepEqual([...html.matchAll(/data-coverage-group="([^"]+)"/g)].map(link => link[1]).sort(),mapGroups);
 });
 
 test('briefs in separate native groups retain a single alphabetical order for paging', () => {
@@ -51,9 +63,12 @@ test('bilingual task types, totals, native links and level filters retain their 
   assert.match(html, /<option value="1">L1 · 科研流程 \(1\)<\/option>/);
   assert.match(html, /<option value="2">L2 · 科学突破 \(1\)<\/option>/);
   assert.match(html, /<option value="3" hidden>/);
-  assert.match(html, /data-workflow-total="Modelling and simulation">2<\/span>/);
-  assert.match(html, /data-domain-total="Physics">1<\/span>/);
-  assert.match(html, /data-field-reading="Physics">1 道任务<\/span>/);
+  assert.match(html, /data-workflow-total="Modelling and simulation">1<\/span>/);
+  assert.doesNotMatch(html, /data-axis-domain="Physics"/);
+  assert.match(html, /class="research-questions"[\s\S]*?<h4>物理学<\/h4>[\s\S]*?<a href="\/tasks\/second\/">任务乙<\/a>/);
+  assert.equal([...html.matchAll(/class="atlas-count">建设中<\/span>/g)].length,1);
+  assert.equal([...html.matchAll(/class="evidence-figure"/g)].length,2);
+  assert.doesNotMatch(html,/圆点大小对应题数|matrix-scale/);
   assert.match(html, /<h2 id="matrix-heading">科学任务分类体系<\/h2>/);
   assert.match(html, /<details class="catalog-matrix" open><summary aria-labelledby="matrix-heading" aria-controls="matrix-grid"><\/summary>/);
   assert.doesNotMatch(html, /<img/);
@@ -63,4 +78,23 @@ test('bilingual task types, totals, native links and level filters retain their 
   assert.match(brief, /class="brief-body metadata-only"/);
   assert.doesNotMatch(brief, /class="brief-section"/);
   assert.match(taskPage(tasks[0],tasks,'zh'), /href="\/tasks\/\?level=1#task-directory">L1 · 科研流程/);
+});
+
+test('shared activities stay scoped to L1 and research questions can have no workflow subtype', () => {
+  const common = {domain:'Physics', workflow:'Simulation', summary:'A scientific brief.'};
+  const tasks = [{...common,id:'workflow',title:'A workflow',level:1},
+    {...common,id:'question',title:'An open question',level:2},
+    {id:'discovery',title:'A new phenomenon',summary:common.summary,domain:'Astronomy',level:3}];
+  const html = catalogue(tasks);
+  assert.doesNotMatch(html,/In progress/);
+  assert.deepEqual([...html.matchAll(/class="circle-count">(\d+)/g)].map(m => Number(m[1])),[1]);
+  assert.deepEqual([...html.matchAll(/class="atlas-level-link" data-tier="(\d)" data-count="(\d+)"/g)].map(m => m.slice(1)),[['1','1'],['2','1'],['3','1']]);
+  const nativeGroup = html.split('id="tasks-physics--simulation" data-directory-level="1"')[1].split('</ul>')[0];
+  assert.match(nativeGroup,/href="\/tasks\/workflow\/"/);
+  assert.doesNotMatch(nativeGroup,/href="\/tasks\/question\/"/);
+  assert.match(html, /id="level-3"[\s\S]*?<h4>Astronomy<\/h4>[\s\S]*?href="\/tasks\/discovery\/"/);
+  const researchOnly = catalogue(tasks.slice(1));
+  assert.doesNotMatch(researchOnly,/class="matrix-cell"|>undefined<|NaN/);
+  assert.match(researchOnly,/data-tier="1" data-count="0"/);
+  assert.doesNotMatch(taskPage(tasks[2],tasks),/undefined|workflow=/);
 });

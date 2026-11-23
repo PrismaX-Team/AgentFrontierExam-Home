@@ -1,4 +1,5 @@
 import path from 'node:path';
+import {axisLabel} from '../data/taxonomy.mjs';
 import {footer} from './footer.mjs';
 
 export function escape(value) {
@@ -23,6 +24,10 @@ export function filteredHref(key, value) {
 export const levelNames = {1:'Scientific workflows', 2:'Scientific breakthroughs', 3:'Foundational discoveries'};
 const chineseLevels = {1:'科研流程', 2:'科学突破', 3:'奠基性发现'};
 export const levelLabels = lang => lang === 'zh' ? chineseLevels : levelNames;
+
+export function taskTypeLabel(task, lang) {
+  return task.workflow ? axisLabel(task.workflow,lang) : levelLabels(lang)[task.level];
+}
 
 export function localizedPath(route, lang) {
   return lang === 'zh' ? `/zh${route}` : route;

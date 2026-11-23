@@ -1,4 +1,4 @@
-import {escape, keepEnding, taskHref, filteredHref, levelLabels} from './layout.mjs';
+import {escape, keepEnding, taskHref, filteredHref, levelLabels, taskTypeLabel} from './layout.mjs';
 import {plateFor} from '../data/plates.mjs';
 import {axisLabel, activityAliases} from '../data/taxonomy.mjs';
 import {catalogueHero, collectionCounts} from './field-explorer.mjs';
@@ -42,11 +42,11 @@ function row(task, position, lang) {
   const level = 'L' + task.level;
   const other = lang === 'zh' ? 'en' : 'zh';
   const translation = [task.translatedSearch, axisLabel(task.domain,other), axisLabel(task.workflow,other), levelLabels(other)[task.level]].filter(Boolean).join(' ');
-  return `<li class="catalog-row" data-order="${position}" data-translation="${escape(translation)}" data-domain="${escape(task.domain)}" data-workflow="${escape(task.workflow)}" data-level="${task.level}">
+  return `<li class="catalog-row" data-order="${position}" data-translation="${escape(translation)}" data-domain="${escape(task.domain)}" data-workflow="${escape(task.workflow || '')}" data-level="${task.level}">
     <a class="catalog-title" href="${taskHref(task)}" aria-labelledby="brief-${escape(task.id)}">
       <div class="catalog-copy"><h3 id="brief-${escape(task.id)}">${keepEnding(escape(task.title), lang)}</h3><p>${keepEnding(escape(task.summary), lang)}</p></div>
       <div class="catalog-meta"><span><span class="visually-hidden">${t.field} · </span>${escape(axisLabel(task.domain,lang))}</span>
-        <span><span class="visually-hidden">${t.type} · </span>${keepEnding(escape(axisLabel(task.workflow,lang)), lang)}</span></div>
+        <span><span class="visually-hidden">${task.workflow ? t.type : t.level} · </span>${keepEnding(escape(taskTypeLabel(task,lang)), lang)}</span></div>
       <span class="catalog-row-level" title="${escape(levelLabels(lang)[task.level])}"><span class="entry-level-key">${t.rowLevel} </span>${level}</span>
     </a>
   </li>`;
@@ -75,26 +75,28 @@ export function catalogue(tasks, lang = 'en') {
   const ordered = [...tasks].sort((a,b)=>order.compare(a.title,b.title) || a.id.localeCompare(b.id,'en'));
   const positions = new Map(ordered.map((task,index) => [task,index]));
   const counts = collectionCounts(tasks);
+  const nativeLevels = Object.keys(levelLabels(lang)).map(level =>
+    `<p class="native-level-result" data-native-count="${level}">L${level} · ${taskCount(counts.levels.get(Number(level)) || 0, lang)} <a class="text-link" href="?#task-directory">${t.explore}</a></p>`).join('');
   const sortAxis = (a,b) => order.compare(axisLabel(a,lang),axisLabel(b,lang));
   const domains = [...counts.fields.keys()].sort(sortAxis);
   const workflows = [...counts.types.keys()].sort(sortAxis);
-  const groups = Map.groupBy(ordered, task => groupId(task.domain,task.workflow));
+  const groups = Map.groupBy(ordered, task => groupId(task.domain,task.workflow,task.level));
   const taskGroups = [...groups].map(([id,entries]) => {
-    const {domain,workflow} = entries[0];
-    const groupLabel = escape(axisLabel(domain,lang) + ' · ' + axisLabel(workflow,lang));
-    return `<div class="catalog-group" id="${id}">
+    const {domain,workflow,level} = entries[0];
+    const groupLabel = escape(axisLabel(domain,lang) + ' · ' + (level === 1 ? axisLabel(workflow,lang) : levelLabels(lang)[level]));
+    return `<div class="catalog-group" id="${id}" data-directory-level="${level}">
       <div class="matrix-native-result"><p><strong>${groupLabel}</strong><br>${taskCount(entries.length,lang)}</p><a class="text-link" href="?#activity-matrix">${t.clearSelection}</a></div>
       <ul class="catalog-list" aria-label="${groupLabel}">${entries.map(task=>row(task,positions.get(task),lang)).join('\n')}</ul>
     </div>`;
   }).join('\n');
   return `<div class="page-frame site-frame section-landing" id="catalogue" data-lang="${lang}" data-level-names="${escape(JSON.stringify(levelLabels(lang)))}" data-type-aliases="${escape(JSON.stringify(activityAliases))}">
     ${catalogueHero(tasks,counts,lang)}
-    ${taskCoverage(groups,counts,lang)}
+    ${taskCoverage(ordered,groups,lang)}
     <section class="catalog-directory" id="task-directory" aria-labelledby="directory-heading">
       <div class="directory-heading"><h2 id="directory-heading" tabindex="-1">${t.briefs}</h2></div>
       ${filters(domains,workflows,tasks,lang)}
       <div class="catalog-register">
-        <div class="catalog-status"><div><p aria-live="polite" aria-atomic="true" data-results>${taskCount(tasks.length,lang)}</p>
+        <div class="catalog-status"><div><p aria-live="polite" aria-atomic="true" data-results>${taskCount(tasks.length,lang)}</p>${nativeLevels}
           <a class="text-link" data-clear href="/tasks/" hidden>${t.clear}</a></div>
           <span class="catalog-column-label" aria-hidden="true">${t.rowClass}</span><span class="catalog-column-label" aria-hidden="true">${t.rowLevel}</span></div>
         ${taskGroups}
@@ -126,16 +128,17 @@ function taskFigure(art, lang) {
 export function taskPage(task, tasks, lang = 'en') {
   const t = labels[lang], levels = levelLabels(lang);
   const order = new Intl.Collator(lang, {sensitivity:'base'});
-  const related = tasks.filter(other=>other.id!==task.id && (other.domain === task.domain || other.workflow === task.workflow))
-    .sort((a,b)=>Number(b.workflow===task.workflow)-Number(a.workflow===task.workflow) || order.compare(a.title,b.title)).slice(0,3);
+  const sharedType = other => task.workflow ? other.workflow === task.workflow : other.level === task.level;
+  const related = tasks.filter(other=>other.id!==task.id && (other.domain === task.domain || sharedType(other)))
+    .sort((a,b)=>Number(sharedType(b))-Number(sharedType(a)) || order.compare(a.title,b.title)).slice(0,3);
   const art = plateFor(task.id,lang);
   const field = escape(axisLabel(task.domain,lang));
-  const type = escape(axisLabel(task.workflow,lang));
+  const type = escape(taskTypeLabel(task,lang));
   const fieldLink = `<a href="${filteredHref('domain',task.domain)}#task-directory">${field}</a>`;
   const level = `<a href="${filteredHref('level',task.level)}#task-directory">L${task.level} · ${escape(levels[task.level])}</a>`;
   const facts = [
     fact(t.field,fieldLink),
-    fact(t.type,`<a href="${filteredHref('workflow',task.workflow)}#task-directory">${type}</a>`),
+    task.workflow ? fact(t.type,`<a href="${filteredHref('workflow',task.workflow)}#task-directory">${type}</a>`) : '',
     fact(t.level,level),
     task.packageVersion ? fact(t.version,escape(task.packageVersion)) : '',
     task.sourceLabel ? fact(t.source,task.sourceUrl ? `<a href="${escape(task.sourceUrl)}">${escape(task.sourceLabel)}</a>` : escape(task.sourceLabel)) : '',
@@ -149,6 +152,6 @@ export function taskPage(task, tasks, lang = 'en') {
     <div class="brief-body${sections ? '' : ' metadata-only'}"><dl class="brief-facts">${facts}</dl>
       ${sections ? `<div class="brief-reading">${sections}</div>` : ''}</div>
     <section class="related-section"><div class="section-heading"><h2>${related.length ? t.related : t.explore}</h2>
-      <a class="text-link" href="/tasks/">${t.browse}</a></div>${related.length ? `<ul>${related.map(other=>`<li><a href="${taskHref(other)}">${keepEnding(escape(other.title), lang)}</a><span>${escape(axisLabel(other.workflow,lang))}</span></li>`).join('')}</ul>` : ''}</section>
+      <a class="text-link" href="/tasks/">${t.browse}</a></div>${related.length ? `<ul>${related.map(other=>`<li><a href="${taskHref(other)}">${keepEnding(escape(other.title), lang)}</a><span>${escape(taskTypeLabel(other,lang))}</span></li>`).join('')}</ul>` : ''}</section>
   </article>`;
 }

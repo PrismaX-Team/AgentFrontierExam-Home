@@ -1,14 +1,13 @@
-import {escape, taskHref} from './layout.mjs';
+import {escape, taskHref, taskTypeLabel} from './layout.mjs';
 import {pyramid} from './pyramid.mjs';
 import {expertise} from './community.mjs';
 import {plateFor} from '../data/plates.mjs';
-import {axisLabel} from '../data/taxonomy.mjs';
 
 function showcaseCard(task, lang) {
   const art = plateFor(task.id, lang);
   return `<article class="showcase-card"><a href="${taskHref(task)}">
     ${art ? `<div class="card-plate"><img src="/assets/plates/${art.file}" alt="${escape(art.alt)}" width="720" height="450" loading="lazy" decoding="async"></div>` : ''}
-    <div class="card-content"><p class="eyeline">${escape(axisLabel(task.workflow, lang))}</p><h3>${escape(task.title)}</h3>
+    <div class="card-content"><p class="eyeline">${escape(taskTypeLabel(task,lang))}</p><h3>${escape(task.title)}</h3>
       <p class="card-summary">${escape(task.summary)}</p></div></a></article>`;
 }
 

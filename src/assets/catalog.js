@@ -8,11 +8,15 @@
   const form = root.querySelector('.catalog-controls');
   const counter = root.querySelector('[data-results]');
   const clear = root.querySelector('.catalog-status [data-clear]');
+  const clearLabel = clear.textContent;
   const empty = root.querySelector('.catalog-empty');
   const pageList = root.querySelector('[data-page-list]');
   const pager = root.querySelector('.catalog-pager');
   const pageSize = 10;
   const section = root.querySelector('.matrix-section');
+  const atlas = section.querySelector('.task-atlas');
+  const tiers = [...atlas.querySelectorAll('.atlas-level-link')];
+  const researchLists = [...atlas.querySelectorAll('.research-questions')];
   const coverage = section.querySelector('.coverage-body');
   const matrix = coverage.querySelector('.task-matrix');
   const fields = [...coverage.querySelectorAll('.coverage-detail')];
@@ -22,8 +26,10 @@
   const aliases = JSON.parse(root.dataset.typeAliases);
   const levelNames = JSON.parse(root.dataset.levelNames);
   const breakdown = new Map([...coverage.querySelectorAll('.coverage-pair')].map(link => [link.hash.slice(1),link]));
+  const strips = new Map([...coverage.querySelectorAll('[data-coverage-group]')].map(mark => [mark.dataset.coverageGroup,mark]));
   const cells = [...matrix.querySelectorAll('.matrix-cell')].map(link => ({
     link, group:link.hash.slice(1), detail:breakdown.get(link.hash.slice(1)), zero:link.nextElementSibling,
+    numeral:link.querySelector('.circle-count'), strip:strips.get(link.hash.slice(1)),
   }));
   const fieldLabels = new Map([...form.elements.domain.options].map(option => [option.value, option.text]));
   const typeLabels = new Map([...form.elements.workflow.options].map(option => [option.value, option.text]));
@@ -76,6 +82,8 @@
       if (key === 'workflow' && !typeLabels.has(value) && Object.hasOwn(aliases,value)) value = aliases[value];
       control.value = control.options && ![...control.options].some(option => option.value === value) ? '' : value;
     }
+    const requested = tiers.find(link => link.hash === currentAnchor());
+    if (requested) form.elements.level.value = requested.dataset.tier;
     const number = query.get('page');
     currentPage = /^\d+$/.test(number) ? Math.max(1,Number(number)) : 1;
   }
@@ -168,18 +176,21 @@
     const {domain,workflow} = form.elements;
     const address = new URLSearchParams(query);
     address.delete('page');
+    address.set('level','1');
     const breadth = new Map();
-    for (const {link,group,detail,zero} of cells) {
+    for (const {link,group,detail,zero,numeral,strip} of cells) {
       const size = counts.groups.get(group) || 0;
       const field = link.dataset.domain, type = link.dataset.workflow;
+      const mark = Math.sqrt(size / peak);
+      strip.style.setProperty('--mark',mark);
       link.hidden = !size;
       zero.hidden = Boolean(size);
       detail.parentElement.hidden = !size;
       if (!size) continue;
       increment(breadth,field);
-      link.style.setProperty('--mark',Math.sqrt(size / peak));
+      link.style.setProperty('--mark',mark);
       detail.style.setProperty('--share',size / counts.fields.get(field));
-      link.firstElementChild.textContent = size;
+      numeral.textContent = size;
       detail.querySelector('.pair-count').textContent = size;
       address.set('domain',field);
       address.set('workflow',type);
@@ -192,17 +203,14 @@
     }
     for (const header of matrix.querySelectorAll('[data-axis-domain]')) {
       header.toggleAttribute('data-selected',header.dataset.axisDomain === domain.value);
+      header.style.setProperty('--field-share',(counts.fields.get(header.dataset.axisDomain) || 0) / Number(coverage.dataset.fieldPeak));
     }
     for (const header of matrix.querySelectorAll('[data-axis-workflow]')) {
       header.toggleAttribute('data-selected',header.dataset.axisWorkflow === workflow.value);
     }
     for (const total of coverage.querySelectorAll('[data-domain-total]')) total.textContent = counts.fields.get(total.dataset.domainTotal) || 0;
     for (const total of matrix.querySelectorAll('[data-workflow-total]')) total.textContent = counts.types.get(total.dataset.workflowTotal) || 0;
-    for (const total of coverage.querySelectorAll('[data-field-types]')) {
-      const n = breadth.get(total.dataset.fieldTypes) || 0;
-      total.textContent = n;
-      total.parentElement.style.setProperty('--share',n / Number(coverage.dataset.typeCount));
-    }
+    for (const total of coverage.querySelectorAll('[data-field-types]')) total.textContent = breadth.get(total.dataset.fieldTypes) || 0;
     for (const panel of fields) {
       const total = panel.querySelector('[data-field-reading]');
       const n = counts.fields.get(total.dataset.fieldReading) || 0;
@@ -221,9 +229,11 @@
       row.element.hidden = true;
       const inLevel = !level.value || (level.value === 'research' ? ['2','3'].includes(row.level) : row.level === level.value);
       if (!inLevel || !words.every(word => row.text.includes(word))) continue;
-      increment(counts.groups,row.group);
-      increment(counts.fields,row.domain);
-      increment(counts.types,row.workflow);
+      if (row.level === '1') {
+        increment(counts.groups,row.group);
+        increment(counts.fields,row.domain);
+        increment(counts.types,row.workflow);
+      }
       if ((!domain.value || row.domain === domain.value) && (!workflow.value || row.workflow === workflow.value)) matches.push(row.element);
     }
     const n = matches.length, last = Math.max(1,Math.ceil(n/pageSize));
@@ -232,15 +242,36 @@
     for (const element of matches.slice(start,end)) element.hidden = false;
     const query = queryFromForm();
     if (query.toString() !== params().toString()) storeQuery(query,false);
+    for (const link of tiers) {
+      const target = new URLSearchParams(query);
+      target.delete('page');
+      if (level.value !== link.dataset.tier) {target.delete('domain'); target.delete('workflow');}
+      target.set('level',link.dataset.tier);
+      link.setAttribute('href','?' + target + '#level-' + link.dataset.tier);
+    }
+    if (researchLists.length) {
+      const matched = new Set(matches.map(item => item.querySelector('.catalog-title').getAttribute('href')));
+      for (const block of researchLists) {
+        for (const link of block.querySelectorAll('li a')) link.parentElement.hidden = !matched.has(link.getAttribute('href'));
+        for (const list of block.querySelectorAll('ul')) list.parentElement.hidden = !list.querySelector('li:not([hidden])');
+        block.hidden = !block.querySelector('li:not([hidden])');
+      }
+    }
     displayPager(last,query);
-    // The full matrix keeps alternative intersections available. Search and
-    // level apply to its counts; choosing a field or type moves the list.
+    // Only L1 activities belong on the workflow map. Its two axes stay available
+    // when a particular field and activity are selected in the directory.
     updateMatrix(query,counts);
-    counter.textContent = last <= 1 ? taskCount(n)
+    const tier = tiers.find(link => link.dataset.tier === level.value);
+    const uncollected = tier?.dataset.count === '0';
+    root.toggleAttribute('data-empty-tier',uncollected);
+    form.hidden = uncollected;
+    counter.textContent = uncollected ? (zh ? '本版共 0 道 L' + level.value + ' 任务' : '0 published L' + level.value + ' tasks')
+      : last <= 1 ? taskCount(n)
       : zh ? '第 ' + (start+1) + '–' + end + ' 条，共 ' + taskCount(n) : (start+1) + '–' + end + ' of ' + taskCount(n);
     clear.hidden = !(words.length || domain.value || workflow.value || level.value);
-    empty.hidden = n > 0;
-    if (!n) {
+    clear.textContent = uncollected ? (zh ? '浏览全部任务' : 'Browse all tasks') : clearLabel;
+    empty.hidden = n > 0 || uncollected;
+    if (!empty.hidden) {
       empty.querySelector('h2').textContent = zh ? '未找到匹配的任务' : 'No matching tasks';
       empty.querySelector('p').textContent = zh ? '可以更换搜索词或清除筛选条件。' : 'Try another search term or clear the filters to explore the collection.';
     }
@@ -282,6 +313,14 @@
   function syncCoverageView() {
     const anchor = currentAnchor();
     const field = fields.find(panel => '#' + panel.id === anchor);
+    const explicit = tiers.find(link => link.hash === anchor)?.dataset.tier;
+    const workflowView = field || anchor === '#coverage-map';
+    const selected = explicit || (!workflowView && ['2','3'].includes(form.elements.level.value) ? form.elements.level.value : '1');
+    atlas.dataset.level = selected;
+    for (const link of tiers) {
+      if (link.dataset.tier === selected) link.setAttribute('aria-current','location');
+      else link.removeAttribute('aria-current');
+    }
     for (const panel of fields) panel.toggleAttribute('data-open',panel === field);
     coverage.toggleAttribute('data-field',Boolean(field));
     coverage.toggleAttribute('data-map',anchor === '#coverage-map');
@@ -312,6 +351,18 @@
   matrix.addEventListener('focusout',event => {keyboardCell = event.relatedTarget?.closest('.matrix-cell'); refreshReading();});
 
   section.addEventListener('click',event => {
+    const tier = event.target.closest('.atlas-level-link');
+    if (tier && !modified(event)) {
+      event.preventDefault();
+      if (form.elements.level.value !== tier.dataset.tier) {
+        form.elements.domain.value = '';
+        form.elements.workflow.value = '';
+      }
+      form.elements.level.value = tier.dataset.tier;
+      writeQuery(true,tier.hash);
+      tier.focus({preventScroll:true});
+      return;
+    }
     const view = event.target.closest('.coverage-field-link,.coverage-back,.coverage-view');
     if (view && !modified(event)) {
       event.preventDefault();
@@ -330,6 +381,7 @@
     event.preventDefault();
     form.elements.domain.value = link.dataset.domain;
     form.elements.workflow.value = link.dataset.workflow;
+    form.elements.level.value = '1';
     writeQuery(true,link.hash);
     focusDirectory();
   });

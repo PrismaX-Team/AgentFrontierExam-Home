@@ -17,7 +17,9 @@ function validate(tasks) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(task.id) || seen.has(task.id))
       throw new Error(`Invalid or duplicate task ID ${task.id}`);
     seen.add(task.id);
-    for(const key of ['title','domain','workflow','summary']) {
+    const required = ['title','domain','summary'];
+    if (task.level === 1 || (task.workflow != null && task.workflow !== '')) required.push('workflow');
+    for(const key of required) {
       if(typeof task[key]!=='string' || !task[key].trim()) throw new Error(`Missing ${key} on ${task.id}`);
     }
     for (const key of ['title','summary','input','deliverable','evidence','significance']) {

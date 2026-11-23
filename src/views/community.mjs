@@ -89,7 +89,7 @@ export function contribute(lang = 'en') {
   const levels = levelLabels(lang);
   const sheets = c.goals.map(({level}) => `<li class="cc-sheet cc-level-${level}"><span class="cc-sheet-code">L${level}</span><span>${escapeHtml(levels[level])}</span></li>`).join('');
   const goals = c.goals.map(({level, goal, evidence}) =>
-    `<section class="cc-level-${level}">
+    `<section class="cc-level-${level}" id="goal-l${level}">
       <header><p class="cc-meta">L${level}</p><h3>${escapeHtml(levels[level])}</h3></header>
       <p>${keepEnding(goal, lang)}</p><dl class="cc-goal-evidence"><dt>${c.evidenceLabel}</dt><dd>${keepEnding(evidence, lang)}</dd></dl>
     </section>`
