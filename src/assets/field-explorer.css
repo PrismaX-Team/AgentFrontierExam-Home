@@ -213,13 +213,6 @@
 .catalog-matrix summary::after {content:"";width:.63rem;height:.63rem;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-.1rem,-.1rem)}
 .catalog-matrix[open] summary::after {transform:rotate(225deg) translate(-.1rem,-.1rem)}
 .catalog-matrix summary:is(:hover,:focus-visible) {background:var(--green-wash)}
-.catalog-matrix .matrix-viewport {--matrix-stub:clamp(9rem,15vw,15rem);border:1px solid var(--line);border-radius:var(--panel-radius)}
-.task-matrix .matrix-sum,.task-matrix tfoot th[scope=row] {background:light-dark(color-mix(in srgb,var(--green-wash) 68%,var(--paper)),#27342a);color:var(--ink)}
-.task-matrix .matrix-sum {font-weight:600;text-align:center;padding:.3rem .2rem}
-.task-matrix tfoot>* {border-top:1px solid var(--line)}
-.task-matrix .matrix-cell {color:var(--blue);background:light-dark(color-mix(in srgb,var(--blue) 9%,var(--paper)),var(--blue-wash));text-decoration-color:light-dark(color-mix(in srgb,var(--blue) 48%,transparent),var(--blue-edge))}
-.task-matrix .matrix-cell:is(:hover,:focus-visible),.task-matrix .matrix-cell[aria-current] {background:light-dark(var(--blue),#374954);color:light-dark(var(--paper),#e0e3df);text-decoration-color:currentColor}
-.task-matrix .matrix-zero {color:var(--muted)}
 #catalogue .catalog-directory {margin-top:clamp(2.5rem,4.5vw,4.5rem)}
 .catalog-directory .directory-heading {margin-bottom:.85rem}
 .catalog-directory .catalog-controls {display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,.9fr) minmax(0,1.18fr) minmax(0,.97fr);gap:.7rem clamp(.6rem,1.15vw,1.15rem);align-items:end}

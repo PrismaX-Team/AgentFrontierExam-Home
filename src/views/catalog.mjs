@@ -1,13 +1,14 @@
 import {escape, keepEnding, taskHref, filteredHref, levelLabels} from './layout.mjs';
 import {plateFor} from '../data/plates.mjs';
 import {axisLabel, activityAliases} from '../data/taxonomy.mjs';
-import {catalogueHero, collectionCounts, intersectionHref} from './field-explorer.mjs';
+import {catalogueHero, collectionCounts} from './field-explorer.mjs';
+import {groupId, taskCount, taskCoverage} from './coverage.mjs';
 
 const labels = {
   en: {
-    catalogue: 'Tasks', matrix: 'Scientific Taskonomy', matrixLabel: 'Number of tasks by field and task type',
+    catalogue: 'Tasks',
     type: 'Task type', field: 'Field', level: 'Scientific level',
-    total: 'Total', briefs: 'Task briefs', clearSelection: 'Clear selection', filter: 'Filter tasks',
+    briefs: 'Task briefs', clearSelection: 'Clear selection', filter: 'Filter tasks',
     search: 'Search', query: 'Title, field or task type', fields: 'All fields', types: 'All task types',
     levels: 'All levels', research: 'L2 and L3', apply: 'Apply filters',
     clear: 'Clear filters', rowClass: 'Field / task type', rowLevel: 'Level',
@@ -18,9 +19,9 @@ const labels = {
     picture: 'Image source', related: 'Related tasks', browse: 'Browse all tasks',
   },
   zh: {
-    catalogue: '任务目录', matrix: '科学任务分类体系', matrixLabel: '按领域和类型统计的任务数量',
+    catalogue: '任务目录',
     type: '任务类型', field: '领域', level: '科学层级',
-    total: '合计', briefs: '任务列表', clearSelection: '清除选择', filter: '筛选任务',
+    briefs: '任务列表', clearSelection: '清除选择', filter: '筛选任务',
     search: '搜索', query: '题目、领域或任务类型', fields: '全部领域', types: '全部类型',
     levels: '全部层级', research: 'L2 和 L3', apply: '应用筛选',
     clear: '清除筛选', rowClass: '领域 / 任务类型', rowLevel: '层级',
@@ -32,47 +33,8 @@ const labels = {
   },
 };
 
-function taskCount(count, lang) {
-  return lang === 'zh' ? `${count} 道任务` : `${count} ${count === 1 ? 'task' : 'tasks'}`;
-}
-
-function groupId(field, activity) {
-  const slug = value => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  return `tasks-${slug(field)}--${slug(activity)}`;
-}
-
 function choices(values, label) {
   return values.map(value => `<option value="${escape(value)}">${escape(label(value))}</option>`).join('');
-}
-
-function taskMatrix(domains, workflows, groups, counts, tasks, lang) {
-  const t = labels[lang];
-  const empty = `<span aria-hidden="true">·</span><span class="visually-hidden">${taskCount(0,lang)}</span>`;
-  const rows = workflows.map(workflow => {
-    const type = axisLabel(workflow,lang);
-    const cells = domains.map(domain => {
-      const id = groupId(domain, workflow);
-      const count = groups.get(id)?.length ?? 0;
-      if (!count) return `<td><span class="matrix-zero">${empty}</span></td>`;
-      const axis = axisLabel(domain,lang) + ' · ' + type;
-      return `<td><a class="matrix-cell" href="${escape(intersectionHref(domain,workflow,id))}" data-domain="${escape(domain)}" data-workflow="${escape(workflow)}" data-axis-label="${escape(axis)}" aria-label="${escape(taskCount(count,lang) + ' · ' + axis)}">${count}</a><span class="matrix-zero" hidden>${empty}</span></td>`;
-    }).join('');
-    return `<tr><th scope="row" data-axis-workflow="${escape(workflow)}">${escape(type)}</th>${cells}<td class="matrix-sum" data-workflow-total="${escape(workflow)}">${counts.types.get(workflow)}</td></tr>`;
-  }).join('\n');
-  const fieldHeaders = domains.map(domain => `<th scope="col" data-axis-domain="${escape(domain)}">${escape(axisLabel(domain,lang))}</th>`).join('');
-  const fieldTotals = domains.map(domain => `<td class="matrix-sum" data-domain-total="${escape(domain)}">${counts.fields.get(domain)}</td>`).join('');
-  const large = domains.length >= 15 || workflows.length >= 15;
-  return `<section class="matrix-section" id="activity-matrix" aria-labelledby="matrix-heading">
-    <div class="matrix-heading"><h2 id="matrix-heading">${t.matrix}</h2></div>
-    <details class="catalog-matrix" open><summary aria-labelledby="matrix-heading" aria-controls="matrix-grid"></summary>
-      <div class="matrix-viewport" id="matrix-grid"${large ? ' data-large' : ''} role="region" aria-label="${t.matrixLabel}" tabindex="0">
-        <table class="task-matrix" style="--matrix-value-columns:${domains.length+1}" aria-label="${t.matrixLabel}">
-          <thead><tr><th scope="col" class="matrix-stub">${t.type}</th>${fieldHeaders}<th scope="col">${t.total}</th></tr></thead>
-          <tbody>${rows}</tbody><tfoot><tr><th scope="row">${t.total}</th>${fieldTotals}<td class="matrix-sum" data-grid-total>${tasks.length}</td></tr></tfoot>
-        </table>
-      </div>
-    </details>
-  </section>`;
 }
 
 function row(task, position, lang) {
@@ -127,7 +89,7 @@ export function catalogue(tasks, lang = 'en') {
   }).join('\n');
   return `<div class="page-frame site-frame section-landing" id="catalogue" data-lang="${lang}" data-level-names="${escape(JSON.stringify(levelLabels(lang)))}" data-type-aliases="${escape(JSON.stringify(activityAliases))}">
     ${catalogueHero(tasks,counts,lang)}
-    ${taskMatrix(domains,workflows,groups,counts,tasks,lang)}
+    ${taskCoverage(groups,counts,lang)}
     <section class="catalog-directory" id="task-directory" aria-labelledby="directory-heading">
       <div class="directory-heading"><h2 id="directory-heading" tabindex="-1">${t.briefs}</h2></div>
       ${filters(domains,workflows,tasks,lang)}

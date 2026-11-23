@@ -12,13 +12,18 @@
   const pageList = root.querySelector('[data-page-list]');
   const pager = root.querySelector('.catalog-pager');
   const pageSize = 10;
-  const matrix = root.querySelector('.task-matrix');
+  const section = root.querySelector('.matrix-section');
+  const coverage = section.querySelector('.coverage-body');
+  const matrix = coverage.querySelector('.task-matrix');
+  const fields = [...coverage.querySelectorAll('.coverage-detail')];
+  const peak = Number(coverage.dataset.peak);
   const heading = root.querySelector('#directory-heading');
   const filters = ['q','domain','workflow','level'];
   const aliases = JSON.parse(root.dataset.typeAliases);
   const levelNames = JSON.parse(root.dataset.levelNames);
+  const breakdown = new Map([...coverage.querySelectorAll('.coverage-pair')].map(link => [link.hash.slice(1),link]));
   const cells = [...matrix.querySelectorAll('.matrix-cell')].map(link => ({
-    link, group: link.hash.slice(1), zero: link.nextElementSibling,
+    link, group:link.hash.slice(1), detail:breakdown.get(link.hash.slice(1)), zero:link.nextElementSibling,
   }));
   const fieldLabels = new Map([...form.elements.domain.options].map(option => [option.value, option.text]));
   const typeLabels = new Map([...form.elements.workflow.options].map(option => [option.value, option.text]));
@@ -51,7 +56,14 @@
 
   function params() {
     const fileQuery = location.protocol === 'file:' && location.hash.startsWith('#?');
-    return new URLSearchParams(window.afePreviewAddress?.search ?? (fileQuery ? location.hash.slice(2) : location.search));
+    return new URLSearchParams(window.afePreviewAddress?.search ?? (fileQuery ? location.hash.slice(2).split('#')[0] : location.search));
+  }
+
+  function currentAnchor() {
+    if (window.afePreviewAddress) return window.afePreviewAddress.hash;
+    if (location.protocol !== 'file:' || !location.hash.startsWith('#?')) return location.hash;
+    const start = location.hash.indexOf('#',2);
+    return start < 0 ? '' : location.hash.slice(start);
   }
 
   function readQuery() {
@@ -93,7 +105,10 @@
       window.afePreviewAddress.setSearch(search,push,anchor);
     } else {
       const url = new URL(location.href);
-      if (url.protocol === 'file:') url.hash = '?' + query;
+      if (url.protocol === 'file:') {
+        const fragment = anchor ?? currentAnchor();
+        url.hash = search + (fragment ? '#' + fragment.replace(/^#/,'') : '');
+      }
       else {
         url.search = search;
         if (anchor !== undefined) url.hash = anchor;
@@ -149,23 +164,31 @@
     counts.set(key,(counts.get(key) || 0) + 1);
   }
 
-  function updateMatrix(query, counts, eligible) {
+  function updateMatrix(query, counts) {
     const {domain,workflow} = form.elements;
     const address = new URLSearchParams(query);
     address.delete('page');
-    for (const {link,group,zero} of cells) {
+    const breadth = new Map();
+    for (const {link,group,detail,zero} of cells) {
       const size = counts.groups.get(group) || 0;
       const field = link.dataset.domain, type = link.dataset.workflow;
       link.hidden = !size;
       zero.hidden = Boolean(size);
-      if (field === domain.value && type === workflow.value && size) link.setAttribute('aria-current','true');
-      else link.removeAttribute('aria-current');
+      detail.parentElement.hidden = !size;
       if (!size) continue;
-      link.textContent = size;
-      link.setAttribute('aria-label',taskCount(size) + ' · ' + link.dataset.axisLabel);
+      increment(breadth,field);
+      link.style.setProperty('--mark',Math.sqrt(size / peak));
+      detail.style.setProperty('--share',size / counts.fields.get(field));
+      link.firstElementChild.textContent = size;
+      detail.querySelector('.pair-count').textContent = size;
       address.set('domain',field);
       address.set('workflow',type);
-      link.setAttribute('href','?' + address + '#' + group);
+      for (const target of [link,detail]) {
+        if (field === domain.value && type === workflow.value) target.setAttribute('aria-current','true');
+        else target.removeAttribute('aria-current');
+        target.setAttribute('aria-label',link.dataset.axisLabel + ' · ' + taskCount(size));
+        target.setAttribute('href','?' + address + '#' + group);
+      }
     }
     for (const header of matrix.querySelectorAll('[data-axis-domain]')) {
       header.toggleAttribute('data-selected',header.dataset.axisDomain === domain.value);
@@ -173,9 +196,20 @@
     for (const header of matrix.querySelectorAll('[data-axis-workflow]')) {
       header.toggleAttribute('data-selected',header.dataset.axisWorkflow === workflow.value);
     }
-    for (const total of matrix.querySelectorAll('[data-domain-total]')) total.textContent = counts.fields.get(total.dataset.domainTotal) || 0;
+    for (const total of coverage.querySelectorAll('[data-domain-total]')) total.textContent = counts.fields.get(total.dataset.domainTotal) || 0;
     for (const total of matrix.querySelectorAll('[data-workflow-total]')) total.textContent = counts.types.get(total.dataset.workflowTotal) || 0;
-    matrix.querySelector('[data-grid-total]').textContent = eligible;
+    for (const total of coverage.querySelectorAll('[data-field-types]')) {
+      const n = breadth.get(total.dataset.fieldTypes) || 0;
+      total.textContent = n;
+      total.parentElement.style.setProperty('--share',n / Number(coverage.dataset.typeCount));
+    }
+    for (const panel of fields) {
+      const total = panel.querySelector('[data-field-reading]');
+      const n = counts.fields.get(total.dataset.fieldReading) || 0;
+      total.textContent = taskCount(n);
+      panel.querySelector('.coverage-detail-labels').hidden = !n;
+      panel.querySelector('.coverage-empty').hidden = n > 0;
+    }
   }
 
   function apply() {
@@ -183,7 +217,6 @@
     const {domain,workflow,level} = form.elements;
     const counts = {groups:new Map(),fields:new Map(),types:new Map()};
     const matches = [];
-    let eligible = 0;
     for (const row of rows) {
       row.element.hidden = true;
       const inLevel = !level.value || (level.value === 'research' ? ['2','3'].includes(row.level) : row.level === level.value);
@@ -191,7 +224,6 @@
       increment(counts.groups,row.group);
       increment(counts.fields,row.domain);
       increment(counts.types,row.workflow);
-      eligible++;
       if ((!domain.value || row.domain === domain.value) && (!workflow.value || row.workflow === workflow.value)) matches.push(row.element);
     }
     const n = matches.length, last = Math.max(1,Math.ceil(n/pageSize));
@@ -203,7 +235,7 @@
     displayPager(last,query);
     // The full matrix keeps alternative intersections available. Search and
     // level apply to its counts; choosing a field or type moves the list.
-    updateMatrix(query,counts,eligible);
+    updateMatrix(query,counts);
     counter.textContent = last <= 1 ? taskCount(n)
       : zh ? '第 ' + (start+1) + '–' + end + ' 条，共 ' + taskCount(n) : (start+1) + '–' + end + ' of ' + taskCount(n);
     clear.hidden = !(words.length || domain.value || workflow.value || level.value);
@@ -247,8 +279,53 @@
     writeQuery(true,'task-directory',Number(link.dataset.page));
     focusDirectory();
   });
-  matrix.addEventListener('click',event => {
-    const link = event.target.closest('.matrix-cell');
+  function syncCoverageView() {
+    const anchor = currentAnchor();
+    const field = fields.find(panel => '#' + panel.id === anchor);
+    for (const panel of fields) panel.toggleAttribute('data-open',panel === field);
+    coverage.toggleAttribute('data-field',Boolean(field));
+    coverage.toggleAttribute('data-map',anchor === '#coverage-map');
+  }
+
+  let pointerCell, keyboardCell, reading;
+  function trace(link, on) {
+    if (!link) return;
+    link.toggleAttribute('data-reading',on);
+    const cell = link.parentElement;
+    cell.parentElement.toggleAttribute('data-reading',on);
+    for (const row of matrix.rows) row.cells[cell.cellIndex].toggleAttribute('data-reading',on);
+  }
+  function refreshReading() {
+    const next = pointerCell || keyboardCell;
+    if (next === reading) return;
+    trace(reading,false);
+    reading = next;
+    trace(reading,true);
+  }
+  matrix.addEventListener('pointerover',event => {
+    if (event.pointerType === 'touch') return;
+    pointerCell = event.target.closest('.matrix-cell');
+    refreshReading();
+  });
+  matrix.addEventListener('pointerleave',() => {pointerCell = null; refreshReading();});
+  matrix.addEventListener('focusin',event => {pointerCell = null; keyboardCell = event.target.closest('.matrix-cell'); refreshReading();});
+  matrix.addEventListener('focusout',event => {keyboardCell = event.relatedTarget?.closest('.matrix-cell'); refreshReading();});
+
+  section.addEventListener('click',event => {
+    const view = event.target.closest('.coverage-field-link,.coverage-back,.coverage-view');
+    if (view && !modified(event)) {
+      event.preventDefault();
+      const previous = fields.find(panel => panel.hasAttribute('data-open'));
+      storeQuery(params(),true,view.hash);
+      const panel = fields.find(item => item.hasAttribute('data-open'));
+      const returnLink = previous && [...section.querySelectorAll('.coverage-field-link')].find(link => link.hash === '#' + previous.id && link.getClientRects().length);
+      const target = panel?.querySelector('h3') || returnLink || (view.hash === '#coverage-map' ? matrix.parentElement : section.querySelector('.coverage-show-map'));
+      target.focus({preventScroll:true});
+      const top = section.getBoundingClientRect().top;
+      if (top < 0 || top > innerHeight / 2) section.scrollIntoView({block:'start'});
+      return;
+    }
+    const link = event.target.closest('.matrix-cell,.coverage-pair');
     if (!link || modified(event)) return;
     event.preventDefault();
     form.elements.domain.value = link.dataset.domain;
@@ -263,13 +340,16 @@
     writeQuery(true);
     form.elements.q.focus();
   });
-  window.addEventListener('popstate',() => {readQuery(); apply();});
+  window.addEventListener('afe:addresschange',syncCoverageView);
+  window.addEventListener('hashchange',syncCoverageView);
+  window.addEventListener('popstate',() => {readQuery(); apply(); syncCoverageView();});
   const initial = params();
-  const anchor = window.afePreviewAddress?.hash ?? location.hash;
+  const anchor = currentAnchor();
   root.dataset.filtering = '';
   form.hidden = false;
   readQuery();
   apply();
+  syncCoverageView();
   const directoryQuery = filters.some(key => initial.has(key)) || initial.has('page');
   if (directoryQuery && (!anchor || anchor === '#task-directory' || anchor.startsWith('#tasks-') || anchor.startsWith('#?'))) {
     heading.scrollIntoView({block:'start'});
