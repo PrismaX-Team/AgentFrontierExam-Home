@@ -1,10 +1,8 @@
 import {contributorGroups} from '../data/contributors.mjs';
-import {escape, keepEnding} from './layout.mjs';
+import {escape} from './layout.mjs';
 
 export function contributors(lang = 'en') {
   const zh = lang === 'zh';
-  const intro = zh ? '他们共同规划基准的研究方向、审核科学问题，并把各自领域的工作写成任务。'
-    : 'Meet the researchers who set the benchmark’s direction, review scientific questions and write its tasks.';
   const correspondenceLabel = zh ? '学术通讯' : 'For scientific correspondence';
   const sections = contributorGroups.map(({id, title, members}) => {
     const entries = members.map(member => {
@@ -23,7 +21,7 @@ export function contributors(lang = 'en') {
     </section>`;
   }).join('');
   return `<article class="site-frame section-landing cc-page roster">
-    <header class="cc-hero roster-intro"><h1 class="section-title">${zh ? '贡献者' : 'Contributors'}</h1><p>${keepEnding(intro, lang)}</p></header>
+    <header class="cc-hero roster-intro"><h1 class="section-title">${zh ? '贡献者' : 'Contributors'}</h1></header>
     ${sections}
   </article>`;
 }
