@@ -53,20 +53,19 @@ for (const lang of ['en','zh']) {
   const home = pages.get(homeRoute).html;
   const directory = pages.get(localizedPath('/tasks/',lang)).html;
   const roster = pages.get(localizedPath('/contributors/',lang)).html;
+  assert.doesNotMatch(roster, /roster-note|学术通讯|scientific correspondence/i);
   for (const group of contributorGroups) {
     const section = roster.split(`id="${group.id}"`)[1].split('</section>')[0];
     const entries = [...section.matchAll(/<li class="roster-entry">([\s\S]*?)<\/li>/g)].map(match => match[1]);
     assert.equal(entries.length,group.members.length, `Missing members of ${group.id}`);
-    const correspondenceLabel = lang === 'zh' ? '学术通讯' : 'For scientific correspondence';
-    assert.equal(section.includes(`*</span> ${correspondenceLabel}</p>`), group.members.some(member => member.handlesCorrespondence));
     entries.forEach((entry, index) => {
       const member = group.members[index];
       assert.ok(entry.includes(`lang="en">${escape(member.name)}</span>`));
       assert.deepEqual([...entry.matchAll(/<span>([^<]+)<\/span>/g)].map(match => match[1]),
         member.affiliations.map(institution => escape(institution[lang])));
-      assert.equal(entry.includes('<sup'), Boolean(member.handlesCorrespondence));
-      assert.equal(entry.includes(`(${correspondenceLabel})`), Boolean(member.handlesCorrespondence));
-      assert.doesNotMatch(entry, /<a\b|undefined|null/);
+      const field = group.id === 'area-committee' ? member.field?.[lang] : undefined;
+      assert.equal(entry.match(/<span class="roster-field">([^<]+)<\/span>/)?.[1], field && escape(field));
+      assert.doesNotMatch(entry, /<a\b|<sup\b|\*|undefined|null/);
     });
   }
   for (const route of ['/', '/authorship/']) {
@@ -76,6 +75,7 @@ for (const lang of ['en','zh']) {
     cards.forEach((card, index) => {
       const member = areaCommittee[index];
       assert.ok(card.includes(`>${escape(lang === 'zh' && member.nameZh ? member.nameZh : member.name)}</span>`));
+      if (member.field) assert.ok(card.includes(`<span class="cc-expert-field">${escape(member.field[lang])}</span>`));
       const affiliation = card.match(/<span class="cc-expert-affiliation">([^<]*)<\/span>/)?.[1] ?? '';
       assert.equal(affiliation, member.affiliations.map(institution => escape(institution[lang])).join(' · '));
       assert.equal(card.includes('href='), Boolean(member.profile));

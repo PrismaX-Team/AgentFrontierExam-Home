@@ -23,9 +23,10 @@ const leadership = [
   junchengXiao,
   shengyuanXu,
   {name: 'Yixin Chen', affiliations: [lab]},
-  {...kunLi, handlesCorrespondence: true},
-  {name: 'Bo Zhang', affiliations: [lab], handlesCorrespondence: true},
-  {name: 'Wenlong Zhang', affiliations: [lab], handlesCorrespondence: true},
+  qinglongCao,
+  kunLi,
+  {name: 'Bo Zhang', affiliations: [lab]},
+  {name: 'Wenlong Zhang', affiliations: [lab]},
 ];
 
 export const areaCommittee = [
@@ -41,12 +42,12 @@ export const areaCommittee = [
   },
   {
     name: 'Mianxin Liu', nameZh: '刘绵莘', affiliations: [lab],
-    field: {en: 'Medical imaging', zh: '医学影像'}, portrait: 'mianxin-liu.webp',
+    field: {en: 'Neuroscience', zh: '神经科学'}, portrait: 'mianxin-liu.webp',
     profile: 'https://openreview.net/profile?id=~Mianxin_Liu1',
   },
   {
     name: 'Zhen Zhao', nameZh: '赵振', affiliations: [lab],
-    field: {en: 'Scientific agents', zh: '科学智能体'}, portrait: 'zhen-zhao.webp',
+    field: {en: 'Energy science', zh: '能源科学'}, portrait: 'zhen-zhao.webp',
     profile: 'https://scholar.google.com/citations?user=7mpuhO8AAAAJ&hl=en',
   },
   {
@@ -64,8 +65,6 @@ export const areaCommittee = [
     field: {en: 'Neuroscience', zh: '神经科学'}, portrait: 'chunfeng-song.webp',
     profile: 'https://cf-song.github.io/',
   },
-  qinglongCao,
-  kunLi,
   {
     name: 'Yuhao Zhou', nameZh: '周宇浩',
     affiliations: [{en: 'Sichuan University', zh: '四川大学'}, lab],

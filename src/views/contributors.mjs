@@ -3,20 +3,18 @@ import {escape} from './layout.mjs';
 
 export function contributors(lang = 'en') {
   const zh = lang === 'zh';
-  const correspondenceLabel = zh ? '学术通讯' : 'For scientific correspondence';
   const sections = contributorGroups.map(({id, title, members}) => {
     const entries = members.map(member => {
-      const mark = member.handlesCorrespondence ? `<sup aria-hidden="true">*</sup><span class="visually-hidden"> (${correspondenceLabel})</span>` : '';
+      const field = id === 'area-committee' ? member.field?.[lang] : undefined;
       const affiliations = member.affiliations.map(institution => `<span>${escape(institution[lang])}</span>`).join('');
       return `<li class="roster-entry">
-        <span class="roster-name"><span lang="en">${escape(member.name)}</span>${mark}</span>
+        <span class="roster-name" lang="en">${escape(member.name)}</span>
         ${affiliations ? `<span class="roster-affiliations">${affiliations}</span>` : ''}
+        ${field ? `<span class="roster-field">${escape(field)}</span>` : ''}
       </li>`;
     }).join('');
-    const note = members.some(member => member.handlesCorrespondence)
-      ? `<p class="roster-note"><span aria-hidden="true">*</span> ${correspondenceLabel}</p>` : '';
     return `<section class="roster-section" id="${id}" aria-labelledby="${id}-heading">
-      <header><h2 id="${id}-heading">${title[lang]}</h2>${note}</header>
+      <h2 id="${id}-heading">${title[lang]}</h2>
       <ul class="roster-grid" role="list">${entries}</ul>
     </section>`;
   }).join('');
