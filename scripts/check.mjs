@@ -57,15 +57,15 @@ for (const lang of ['en','zh']) {
     const section = roster.split(`id="${group.id}"`)[1].split('</section>')[0];
     const entries = [...section.matchAll(/<li class="roster-entry">([\s\S]*?)<\/li>/g)].map(match => match[1]);
     assert.equal(entries.length,group.members.length, `Missing members of ${group.id}`);
-    const contactLegend = lang === 'zh' ? '项目联系人' : 'Project contacts';
-    assert.equal(section.includes(`*</span> ${contactLegend}</p>`), group.members.some(member => member.projectContact));
+    const correspondenceLabel = lang === 'zh' ? '学术通讯' : 'For scientific correspondence';
+    assert.equal(section.includes(`*</span> ${correspondenceLabel}</p>`), group.members.some(member => member.handlesCorrespondence));
     entries.forEach((entry, index) => {
       const member = group.members[index];
       assert.ok(entry.includes(`lang="en">${escape(member.name)}</span>`));
       assert.deepEqual([...entry.matchAll(/<span>([^<]+)<\/span>/g)].map(match => match[1]),
         member.affiliations.map(institution => escape(institution[lang])));
-      assert.equal(entry.includes('<sup'), Boolean(member.projectContact));
-      assert.equal(entry.includes(`(${lang === 'zh' ? '项目联系人' : 'project contact'})`), Boolean(member.projectContact));
+      assert.equal(entry.includes('<sup'), Boolean(member.handlesCorrespondence));
+      assert.equal(entry.includes(`(${correspondenceLabel})`), Boolean(member.handlesCorrespondence));
       assert.doesNotMatch(entry, /<a\b|undefined|null/);
     });
   }

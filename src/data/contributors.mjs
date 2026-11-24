@@ -20,9 +20,9 @@ const leadership = [
   junchengXiao,
   shengyuanXu,
   {name: 'Yixin Chen', affiliations: [lab]},
-  {...kunLi, projectContact: true},
-  {name: 'Wenlong Zhang', affiliations: [lab], projectContact: true},
-  {name: 'Bo Zhang', affiliations: [lab], projectContact: true},
+  {...kunLi, handlesCorrespondence: true},
+  {name: 'Wenlong Zhang', affiliations: [lab], handlesCorrespondence: true},
+  {name: 'Bo Zhang', affiliations: [lab], handlesCorrespondence: true},
 ];
 
 export const areaCommittee = [
