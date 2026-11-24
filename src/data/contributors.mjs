@@ -1,10 +1,8 @@
 const lab = {en: 'Shanghai Artificial Intelligence Laboratory', zh: '上海人工智能实验室'};
 const nanjing = {en: 'Nanjing University', zh: '南京大学'};
-const wuhan = {en: 'Wuhan University', zh: '武汉大学'};
 const junchengXiao = {
   name: 'Juncheng Xiao',
   affiliations: [
-    {en: 'University of Science and Technology of China', zh: '中国科学技术大学'},
     {en: 'Institute of Physics, Chinese Academy of Sciences', zh: '中国科学院物理研究所'},
     lab,
   ],
@@ -13,7 +11,7 @@ const shengyuanXu = {
   name: 'Shengyuan Xu',
   affiliations: [{en: 'Shanghai Jiao Tong University', zh: '上海交通大学'}, lab],
 };
-const kunLi = {name: 'Kun Li', nameZh: '李坤', affiliations: [wuhan, lab]};
+const kunLi = {name: 'Kun Li', nameZh: '李坤', affiliations: [lab]};
 const qinglongCao = {name: 'Qinglong Cao', nameZh: '曹清龙', affiliations: [lab]};
 
 // Each group follows its own order and affiliation credits in the Committee sheet.
@@ -22,9 +20,9 @@ const leadership = [
   junchengXiao,
   shengyuanXu,
   {name: 'Yixin Chen', affiliations: [lab]},
-  {...kunLi, corresponding: true},
-  {name: 'Wenlong Zhang', affiliations: [lab], corresponding: true},
-  {name: 'Bo Zhang', affiliations: [lab], corresponding: true},
+  {...kunLi, projectContact: true},
+  {name: 'Wenlong Zhang', affiliations: [lab], projectContact: true},
+  {name: 'Bo Zhang', affiliations: [lab], projectContact: true},
 ];
 
 export const areaCommittee = [
@@ -81,7 +79,7 @@ const taskContributors = [
   {name: 'Wenjie Yu', affiliations: [nanjing]},
   {name: 'Haowen Xu', affiliations: [nanjing]},
   junchengXiao,
-  {...kunLi, affiliations: [lab]},
+  kunLi,
   {...shengyuanXu, affiliations: [lab]},
   qinglongCao,
   {name: 'Ruizhe Chen', affiliations: [lab]},
