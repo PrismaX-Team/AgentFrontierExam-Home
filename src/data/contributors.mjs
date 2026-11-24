@@ -12,7 +12,10 @@ const shengyuanXu = {
   affiliations: [{en: 'Shanghai Jiao Tong University', zh: '上海交通大学'}, lab],
 };
 const kunLi = {name: 'Kun Li', nameZh: '李坤', affiliations: [lab]};
-const qinglongCao = {name: 'Qinglong Cao', nameZh: '曹清龙', affiliations: [lab]};
+const qinglongCao = {
+  name: 'Qinglong Cao', nameZh: '曹清龙', affiliations: [lab],
+  portrait: 'qinglong-cao.webp', profile: 'https://qinglongcao.xyz/',
+};
 
 // Each group follows its own order and affiliation credits in the Committee sheet.
 const leadership = [
@@ -21,8 +24,8 @@ const leadership = [
   shengyuanXu,
   {name: 'Yixin Chen', affiliations: [lab]},
   {...kunLi, handlesCorrespondence: true},
-  {name: 'Wenlong Zhang', affiliations: [lab], handlesCorrespondence: true},
   {name: 'Bo Zhang', affiliations: [lab], handlesCorrespondence: true},
+  {name: 'Wenlong Zhang', affiliations: [lab], handlesCorrespondence: true},
 ];
 
 export const areaCommittee = [
@@ -66,8 +69,16 @@ export const areaCommittee = [
   {
     name: 'Yuhao Zhou', nameZh: '周宇浩',
     affiliations: [{en: 'Sichuan University', zh: '四川大学'}, lab],
+    portrait: 'yuhao-zhou.webp', profile: 'https://scholar.google.com/citations?user=bGKF2tUAAAAJ&hl=en',
   },
-  {name: 'Jiajun Yu', affiliations: []},
+  {
+    name: 'Jiajun Yu', nameZh: '余家骏',
+    affiliations: [
+      {en: 'Zhejiang University', zh: '浙江大学'},
+      {en: 'Shanghai Innovation Institute', zh: '上海创智学院'},
+    ],
+    portrait: 'jiajun-yu.webp',
+  },
 ];
 
 const taskContributors = [

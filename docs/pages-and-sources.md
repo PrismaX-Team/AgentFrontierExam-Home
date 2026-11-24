@@ -44,6 +44,8 @@ M13 采用已署名的哈勃照片，脑连接和晶体任务使用各自的示�
 
 首页和署名页的横幅直接读取同一份 Area Committee 名单。照片从本地资源加载，已有主页的委员可点击，缺照片时显示本人姓名的首字母。未登记的机构留空。宋纯锋的肖像来自本人主页，刘绵莘的肖像来自南京信息工程大学的讲者名录。[宋纯锋](https://cf-song.github.io/) · [刘绵莘讲者资料](https://imic.nuist.edu.cn/MICS/MICS2023/tyjz.htm) · [刘绵莘学术主页](https://openreview.net/profile?id=~Mianxin_Liu1)
 
+曹清龙和余家骏的肖像由项目团队提供。周宇浩的肖像取自四川大学研究中心，中心名录里登记的 Google Scholar 主页与项目团队提供的链接一致。[曹清龙个人主页](https://qinglongcao.xyz/) · [四川大学研究中心成员名录](https://center.dicalab.cn/1020/) · [周宇浩 Google Scholar](https://scholar.google.com/citations?user=bGKF2tUAAAAJ&hl=en)
+
 以下为早期项目积累的肖像来源。当前委员身份按 Committee 表更新。[旧站顾问委员会](https://prismax-team.github.io/AgentFrontierExam-Tasks/en/#academic-committee) · [ReX 项目名册](https://github.com/PrismaX-Team/Rex-Analysis/blob/main/content/committee.json)
 
 | 姓名 | 旧站公开原图 |
