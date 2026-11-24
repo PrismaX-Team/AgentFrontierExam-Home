@@ -12,6 +12,11 @@ const shengyuanXu = {
   affiliations: [{en: 'Shanghai Jiao Tong University', zh: '上海交通大学'}, lab],
 };
 const kunLi = {name: 'Kun Li', nameZh: '李坤', affiliations: [lab]};
+const tianfanFu = {
+  name: 'Tianfan Fu', nameZh: '符天凡', affiliations: [nanjing],
+  field: {en: 'Chemistry and materials', zh: '化学与材料'}, portrait: 'tianfan-fu.webp',
+  profile: 'https://scholar.google.com.hk/citations?user=KPQ49w4AAAAJ&hl=zh-CN&oi=ao',
+};
 const qinglongCao = {
   name: 'Qinglong Cao', nameZh: '曹清龙', affiliations: [lab],
   portrait: 'qinglong-cao.webp', profile: 'https://qinglongcao.xyz/',
@@ -23,6 +28,7 @@ const leadership = [
   junchengXiao,
   shengyuanXu,
   {name: 'Yixin Chen', affiliations: [lab]},
+  tianfanFu,
   qinglongCao,
   kunLi,
   {name: 'Bo Zhang', affiliations: [lab]},
@@ -30,11 +36,7 @@ const leadership = [
 ];
 
 export const areaCommittee = [
-  {
-    name: 'Tianfan Fu', nameZh: '符天凡', affiliations: [nanjing],
-    field: {en: 'Chemistry and materials', zh: '化学与材料'}, portrait: 'tianfan-fu.webp',
-    profile: 'https://scholar.google.com.hk/citations?user=KPQ49w4AAAAJ&hl=zh-CN&oi=ao',
-  },
+  tianfanFu,
   {
     name: 'Ming Hu', nameZh: '胡铭', affiliations: [{en: 'Monash University', zh: '莫纳什大学'}, lab],
     field: {en: 'Medicine', zh: '医学'}, portrait: 'ming-hu.webp',
