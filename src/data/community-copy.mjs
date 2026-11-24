@@ -1,4 +1,9 @@
 // Inline code and field labels here are authored text from the task package guide.
+export const contributorGuideUrls = {
+  en: 'https://aicarrier.feishu.cn/wiki/R9h7wUWkdig6N6kFVDicX8PWnqh',
+  zh: 'https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f',
+};
+
 export function contributionCopy(lang = 'en') {
   const t = (en, zh) => lang === 'zh' ? zh : en;
   return {
@@ -33,7 +38,7 @@ export function contributionCopy(lang = 'en') {
     submitTitle: t('Prepare your submission', '准备提交材料'),
     submitIntro: t('Submit one ZIP per task in English or Chinese. On Duanyan ReX, open <span lang="zh-Hans">提交科学问题</span> (Submit a scientific question).', '每道题单独打包为一个 ZIP，中文、英文均可。在端砚 ReX 选择「提交科学问题」即可提交。'),
     submit: t('Submit a task via Duanyan ReX', '前往端砚 ReX 提交'),
-    template: t('Contributor guide and template (Chinese)', '共建文档与任务包模板'),
+    template: t('Contributor guide and task template', '共建文档与任务包模板'),
     details: [
       [
         t('Team and collaboration', '团队与合作信息'),
@@ -66,7 +71,7 @@ export function guideCopy(lang) {
   return {
     title: t('Task package guide', '任务包指南'),
     intro: t('A task package gives an agent a scientific question, an environment to work in and a way to tell whether the result holds up. Follow a North Sea storm-surge forecasting example through the files of a Harbor package.', '一个任务包包括科学问题、智能体的工作环境和检验结果的方法。下面以北海风暴增水预报为例，逐个说明 Harbor 任务包中的文件及其作用。'),
-    template: t('Contributor guide and template (Chinese)', '共建文档与任务包模板'),
+    template: t('Contributor guide and task template', '共建文档与任务包模板'),
     submit: t('Submission instructions', '提交说明'),
     files: t('Package files', '任务包文件'),
     layout: t('Archive layout', '压缩包结构'),
@@ -122,7 +127,7 @@ export function authorshipCopy(lang) {
     changes: t('When discussing a revision or checking an acceptance record, give the task name, version, submitting team and a short account of what changed.', '沟通修改或核对收录记录时，请提供题名、版本、提交团队，以及修改内容的简要说明。'),
     paperIntro: t('Engineers at Shanghai AI Laboratory and on the AFE team maintain and update the benchmark. The team plans to submit a paper describing the work to a leading AI conference or to <em>Nature</em>.', '上海人工智能实验室及 AFE 团队的工程师共同维护和更新基准。团队计划将介绍这一工作的论文投稿至人工智能领域的主要会议或《自然》（<em>Nature</em>）。'),
     order: t('The contributor guide records the participant co-authorship threshold and the duties of Area Committee members. Discuss author order, shared task credit and credit for committee work directly with the coordinating team.', '共建文档说明了参与者取得共同作者资格的门槛和领域委员的职责。关于作者排序、共同出题和委员会工作的贡献认定，请直接与协调团队沟通。'),
-    guide: t('Read the contributor guide (Chinese)', '阅读共建文档'),
+    guide: t('Read the contributor guide', '阅读共建文档'),
     questions: [
       {
         question: t('Can I contribute one task at a time?', '可以一次只提交一道题吗？'),

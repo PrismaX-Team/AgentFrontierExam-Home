@@ -32,7 +32,7 @@ M13 采用已署名的哈勃照片，脑连接和晶体任务使用各自的示�
 
 ## 共建与署名依据
 
-2026-11-20 核读的飞书指南为修订 1098。征题同时覆盖有挑战的科学流程和突破类科研问题。流程按 L1 申报，突破按目标选择 L2 或 L3，也可以选择暂不确定。端砚表单的合作来源选学术合作。中英文共建页将这些选项与科学目标放在一起讲清楚。[AFE 共建指南](https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f) · [端砚 ReX](https://discovery-home.intern-ai.org.cn/home/event/rex/index.html)
+2026-11-24 发布的英文共建指南译自中文版修订 1135。本轮重点征集 L1 科研流程，也接受突破类科研问题。流程按 L1 申报，突破按目标选择 L2 或 L3，也可以选择暂不确定。端砚表单的合作来源选学术合作。官网的共建、任务包和署名页按页面语言打开对应指南。英文版附研究目标与评价填写参考的英译本，两个 ZIP 沿用原指南的版本，示例保留校验器所需的中文枚举值和目录名。[英文共建指南](https://aicarrier.feishu.cn/wiki/R9h7wUWkdig6N6kFVDicX8PWnqh) · [中文共建指南](https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f) · [端砚 ReX](https://discovery-home.intern-ai.org.cn/home/event/rex/index.html)
 
 任务包说明按当前指南的 Harbor 0.25.0 和模板 1.0.1 整理。用一个海岸预报教学例串联五组文件，把对应注解贴在题面片段旁。网站只将提交引向端砚，端砚接收每题一个含 `task_package/` 的 ZIP。共建页档案夹上的 Harbor 链接打开官方格式说明。[Harbor 任务结构](https://docs.harborframework.com/tasks/overview)
 

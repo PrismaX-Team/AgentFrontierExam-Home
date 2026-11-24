@@ -5,6 +5,7 @@ import {build,output,project} from './build.mjs';
 import {escape, localizedPath} from '../src/views/layout.mjs';
 import {plates} from '../src/data/plates.mjs';
 import {areaCommittee, contributorGroups} from '../src/data/contributors.mjs';
+import {contributorGuideUrls} from '../src/data/community-copy.mjs';
 
 const routes = await build();
 const fake = 'https://example.invalid';
@@ -48,7 +49,15 @@ for (const asset of referencedAssets) assert.ok((await stat(path.join(output,ass
 const retired = await readFile(path.join(output,'contribute2/index.html'),'utf8');
 assert.match(retired, /http-equiv="refresh" content="0;url=\.\.\/contribute\/"/);
 
+assert.notEqual(contributorGuideUrls.en, contributorGuideUrls.zh);
 for (const lang of ['en','zh']) {
+  for (const route of ['/contribute/', '/contribute/task-package/', '/authorship/']) {
+    const guidePage = localizedPath(route, lang);
+    const links = [...pages.get(guidePage).html.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)]
+      .map(match => match[1]);
+    assert.deepEqual(links.filter(url => Object.values(contributorGuideUrls).includes(url)), [contributorGuideUrls[lang]],
+      `Incorrect contributor guide on ${guidePage}`);
+  }
   const homeRoute = localizedPath('/',lang);
   const home = pages.get(homeRoute).html;
   const directory = pages.get(localizedPath('/tasks/',lang)).html;

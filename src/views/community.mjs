@@ -1,9 +1,8 @@
 import {areaCommittee} from '../data/contributors.mjs';
-import {contributionCopy, guideCopy, authorshipCopy} from '../data/community-copy.mjs';
+import {contributionCopy, guideCopy, authorshipCopy, contributorGuideUrls} from '../data/community-copy.mjs';
 import {packageFiles, packageTree} from '../data/package-example.mjs';
 import {escape as escapeHtml, keepEnding, levelLabels} from './layout.mjs';
 
-const guideUrl = 'https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f';
 const formatUrl = 'https://docs.harborframework.com/tasks/overview';
 const submitUrl = 'https://discovery-home.intern-ai.org.cn/home/event/rex/index.html';
 const communityUrl = 'https://github.com/PrismaX-Team/AgentFrontierExam-Tasks#-contributor-community';
@@ -122,7 +121,7 @@ export function contribute(lang = 'en') {
       <div>
         <h2 id="cc-submit">${c.submitTitle}</h2><p>${keepEnding(c.submitIntro, lang)}</p>
         <div class="cc-links"><a class="cc-action" href="${submitUrl}">${c.submit}</a></div>
-        <p class="cc-submission-source"><a href="${guideUrl}">${c.template}</a></p>
+        <p class="cc-submission-source"><a href="${contributorGuideUrls[lang]}">${c.template}</a></p>
       </div>
       <dl class="cc-definitions">${definitions(c.details, lang)}</dl>
     </section>
@@ -145,7 +144,7 @@ export function packageGuide(lang = 'en') {
     ${contributeBreadcrumb(c.title, lang)}
     <header class="cc-hero">
       <h1>${c.title}</h1><p>${keepEnding(c.intro, lang)}</p>
-      <div class="cc-links"><a class="cc-action" href="${guideUrl}">${c.template}</a><a href="/contribute/#submit">${c.submit}</a></div>
+      <div class="cc-links"><a class="cc-action" href="${contributorGuideUrls[lang]}">${c.template}</a><a href="/contribute/#submit">${c.submit}</a></div>
     </header>
     <div class="cc-article-layout">
       <aside class="cc-index" aria-labelledby="cc-files-index">
@@ -207,7 +206,7 @@ export function authorship(lang = 'en') {
         </section>
         <section class="cc-prose" id="paper">
           <h2>${c.paper}</h2><p>${keepEnding(c.paperIntro, lang)}</p><p>${keepEnding(c.order, lang)}</p>
-          <p class="cc-text-link"><a href="${guideUrl}">${c.guide}</a></p>
+          <p class="cc-text-link"><a href="${contributorGuideUrls[lang]}">${c.guide}</a></p>
         </section>
         <section class="cc-prose cc-faq" id="faq"><h2>${c.faq}</h2>${questions}</section>
       </div>
