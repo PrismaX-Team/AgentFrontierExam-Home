@@ -4,12 +4,13 @@
 
 | 页面 | 读者可以做什么 |
 | --- | --- |
-| Home · `/` | 用可选的金字塔探索科学目标与科研活动，或浏览四张不同学科与不同交付物的题卡。页末有共建入口与可横向浏览的顾问委员会名录。 |
+| Home · `/` | 用可选的金字塔探索科学目标与科研活动，或浏览四张不同学科与不同交付物的题卡。页末有共建入口与可横向浏览的领域委员会名录。 |
 | Tasks · `/tasks/` | 首屏可查看领域、任务类型和层级分布。L1 点阵按领域与科研活动查题，手机可从领域索引表头切到点阵。L2、L3 在首题收录前显示为禁用的「建设中」标签，原有直达链接可查看各层的示意图与共建标准。收录后可按领域浏览研究问题。各层共用下方每页十题的任务目录。 |
 | Task · `/tasks/<id>/` | 阅读问题目标、交付物与分类。已有详细简报的题目还列出起始材料与验收证据。有记录时显示题包版本。学科与活动链接都可继续查找相关题。 |
 | Contribute · `/contribute/` | 三张分层图页标出 L1、L2、L3 可申报的目标，汇入同一种任务包。随后按层级比较验收证据，准备 ZIP 并交给端砚 ReX。 |
 | Task package guide · `/contribute/task-package/` | 按五种题包组成阅读 Harbor 示例。示例与十三处旁注并排，手机顺序排布。页面内可直达每个文件、归档布局和交付要求。 |
-| Authorship · `/authorship/` | 属于 Contribute 栏目。阅读参与者署名、Area Chair 招募、入库计数、论文与 FAQ，或从页内导航查看顾问委员会。 |
+| Authorship · `/authorship/` | 属于 Contribute 栏目。阅读参与者署名、领域委员会招募、入库计数、论文与 FAQ，或从页内导航查看委员。 |
+| Contributors · `/contributors/` | 按项目领导团队、领域委员会和任务贡献者翻阅姓名与所属机构。项目领导团队姓名旁的星号标记通讯作者。 |
 
 Results 的编辑标准是可比较的实验、任务版本、分母与运行条件，可参阅[出版计划](publication-plan.md)。首页任务展示和目录均从同一份数据生成。逐题的归档位置、领域标签和科学层级依据记录在[题卡溯源](task-selection.md)。
 
@@ -37,9 +38,13 @@ M13 采用已署名的哈勃照片，脑连接和晶体任务使用各自的示�
 
 同一指南规定成功入库三道题可获得论文共同作者资格。AC 招募至少五位参与者，同时参与科学领域和流程分类及阶段评审。参与者与 AC 各自的贡献、共同供题与计数问题在独立署名页说明。[署名依据](https://aicarrier.feishu.cn/wiki/L7dCwf0R0iGaWfkPCpWca5nCn9f)
 
-## 顾问委员会肖像
+## 贡献者与委员肖像
 
-首页和署名页共用 [专家名录](../src/data/experts.json)。横幅上的七位顾问依五个领域编排，每位的卡片都标出领域，提供中英文姓名、机构与已公示的个人主页。六张照片裁为 4∶5，在页面上降低饱和度，随站点和离线版一同提供。物理组 Shufei Zhang 的原名册照片栏为空，该条目保留姓名、机构及 OpenReview 主页。[旧站顾问委员会](https://prismax-team.github.io/AgentFrontierExam-Tasks/en/#academic-committee) · [ReX 项目名册](https://github.com/PrismaX-Team/Rex-Analysis/blob/main/content/committee.json)
+飞书 Committee 表是三组成员、顺序、机构和通讯作者标记的依据。更新时将各组的署名同步到站内数据。成员可兼任多个角色，展示其在相应角色下登记的机构。中英文名录使用表内同一英文姓名或拼音，机构随页面语言显示。名录按角色分组的排版参考 Terminal-Bench-Science。[站内名录数据](../src/data/contributors.mjs) · [排版参考](https://www.terminal-bench-science.ai/contributors)
+
+首页和署名页的横幅直接读取同一份 Area Committee 名单。照片从本地资源加载，已有主页的委员可点击，缺照片时显示本人姓名的首字母。未登记的机构留空。宋纯锋的肖像来自本人主页，刘绵莘的肖像来自南京信息工程大学的讲者名录。[宋纯锋](https://cf-song.github.io/) · [刘绵莘讲者资料](https://imic.nuist.edu.cn/MICS/MICS2023/tyjz.htm) · [刘绵莘学术主页](https://openreview.net/profile?id=~Mianxin_Liu1)
+
+以下为早期项目积累的肖像来源。当前委员身份按 Committee 表更新。[旧站顾问委员会](https://prismax-team.github.io/AgentFrontierExam-Tasks/en/#academic-committee) · [ReX 项目名册](https://github.com/PrismaX-Team/Rex-Analysis/blob/main/content/committee.json)
 
 | 姓名 | 旧站公开原图 |
 | --- | --- |

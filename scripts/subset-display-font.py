@@ -26,7 +26,6 @@ def display_characters():
     copy_files = [
         *sorted((SRC / "views").glob("*.mjs")),
         *sorted((SRC / "data").glob("*.mjs")),
-        SRC / "data" / "experts.json",
         SRC / "assets" / "catalog.js",
     ]
     text.extend(path.read_text(encoding="utf-8") for path in copy_files)

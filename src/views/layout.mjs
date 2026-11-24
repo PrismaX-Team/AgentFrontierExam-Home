@@ -87,7 +87,7 @@ ${js}</head>
 <body id="top">
 <a class="skip-link" href="#main-content">${zh ? '跳至正文' : 'Skip to content'}</a>
 <header class="site-header"><div class="site-frame header-inner">${brand}
-<div class="header-actions"><nav aria-label="${zh ? '主导航' : 'Main navigation'}">${navLink(route, '/tasks/', zh ? '任务' : 'Tasks')}${navLink(route, '/contribute/', zh ? '参与共建' : 'Contribute', ['/authorship/'])}</nav>
+<div class="header-actions"><nav aria-label="${zh ? '主导航' : 'Main navigation'}">${navLink(route, '/tasks/', zh ? '任务' : 'Tasks')}${navLink(route, '/contribute/', zh ? '参与共建' : 'Contribute', ['/authorship/'])}${navLink(route, '/contributors/', zh ? '贡献者' : 'Contributors')}</nav>
 <div class="site-preferences"><a class="language-choice" data-language="${otherLang}" href="${otherHref}" lang="${zh ? 'en' : 'zh-CN'}" hreflang="${zh ? 'en' : 'zh-Hans'}" aria-label="${languageLabel}" title="${languageLabel}">${zh ? 'EN' : '中文'}</a>
 <button class="theme-choice" type="button" data-theme-toggle hidden aria-label="${zh ? '切换外观' : 'Switch colour theme'}">${icon('moon',moon)}${icon('sun',sun)}</button></div></div></div></header>
 <main id="main-content">${body}</main>

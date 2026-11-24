@@ -1,4 +1,4 @@
-import experts from '../data/experts.json' with { type: 'json' };
+import {areaCommittee} from '../data/contributors.mjs';
 import {contributionCopy, guideCopy, authorshipCopy} from '../data/community-copy.mjs';
 import {packageFiles, packageTree} from '../data/package-example.mjs';
 import {escape as escapeHtml, keepEnding, levelLabels} from './layout.mjs';
@@ -36,28 +36,33 @@ function contributeBreadcrumb(label, lang) {
   return `<nav class="breadcrumbs" aria-label="${zh ? '面包屑导航' : 'Breadcrumb'}"><a href="/contribute/">${zh ? '共建' : 'Contribute'}</a><span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(label)}</span></nav>`;
 }
 
-function expertProfile(member, field, lang) {
+function expertProfile(member, lang) {
   const zh = lang === 'zh';
-  const name = zh ? member.nameZh : member.name;
-  const initials = zh ? name[0] : name.split(' ').map(word => word[0]).join('');
+  const name = zh && member.nameZh ? member.nameZh : member.name;
+  const initials = member.name.split(' ').map(word => word[0]).join('');
+  const field = member.field?.[lang] ?? (zh ? '领域委员会' : 'Area Committee');
+  const affiliation = member.affiliations.map(institution => institution[lang]).join(' · ');
   const portrait = member.portrait
     ? `<img src="/assets/committee/${escapeHtml(member.portrait)}" alt="" width="200" height="250" loading="lazy" decoding="async">`
     : `<span class="cc-expert-initial" aria-hidden="true">${escapeHtml(initials)}</span>`;
-  return `<li class="cc-expert"><a href="${escapeHtml(member.profile)}">${portrait}
+  const content = `${portrait}
     <span class="cc-expert-copy">
       <span class="cc-expert-field">${escapeHtml(field)}</span>
-      <span class="cc-expert-name">${escapeHtml(name)}</span>
-      <span class="cc-expert-affiliation">${escapeHtml(zh ? member.affiliationZh : member.affiliation)}</span>
-    </span></a></li>`;
+      <span class="cc-expert-name" lang="${name === member.name ? 'en' : 'zh-CN'}">${escapeHtml(name)}</span>
+      ${affiliation ? `<span class="cc-expert-affiliation">${escapeHtml(affiliation)}</span>` : ''}
+    </span>`;
+  const card = member.profile
+    ? `<a class="cc-expert-card" href="${escapeHtml(member.profile)}">${content}</a>`
+    : `<div class="cc-expert-card">${content}</div>`;
+  return `<li class="cc-expert">${card}</li>`;
 }
 
 export function expertise(lang = 'en') {
   const zh = lang === 'zh';
-  const members = experts.flatMap(({field, fieldZh, members}) =>
-    members.map(member => expertProfile(member, zh ? fieldZh : field, lang))).join('');
-  const profiles = zh ? '顾问名录' : 'Advisor profiles';
-  const previous = zh ? '上一位顾问' : 'Previous advisor';
-  const next = zh ? '下一位顾问' : 'Next advisor';
+  const members = areaCommittee.map(member => expertProfile(member, lang)).join('');
+  const profiles = zh ? '领域委员会名录' : 'Area Committee members';
+  const previous = zh ? '上一位委员' : 'Previous committee member';
+  const next = zh ? '下一位委员' : 'Next committee member';
   const pause = zh ? '暂停名录滚动' : 'Pause scrolling';
   const play = zh ? '继续滚动名录' : 'Resume scrolling';
   const icon = (drawing) => `<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${drawing}</svg>`;
@@ -65,8 +70,8 @@ export function expertise(lang = 'en') {
   return `<section class="cc-expertise" id="scientific-expertise" aria-labelledby="expertise-heading">
     <div class="site-frame cc-expertise-inner">
       <header>
-        <h2 id="expertise-heading">${zh ? '科学顾问委员会' : 'Scientific expertise behind the benchmark'}</h2>
-        <p>${zh ? '顾问委员会参与任务遴选和<span class="text-phrase">科学审核，</span>确保评测依据充分、结果可信。' : 'The Advisory Committee supports task selection, scientific review and <span class="text-phrase">evaluation integrity.</span>'}</p>
+        <h2 id="expertise-heading">${zh ? '科学领域委员会' : 'Scientific expertise behind the benchmark'}</h2>
+        <p>${zh ? '领域委员会参与任务遴选和<span class="text-phrase">科学审核，</span>确保评测依据充分、结果可信。' : 'The Area Committee supports task selection, scientific review and <span class="text-phrase">evaluation integrity.</span>'}</p>
         <div class="cc-expert-controls" role="group" aria-label="${profiles}" hidden>
           <button type="button" data-expert-motion data-pause="${pause}" data-play="${play}" aria-controls="advisor-profiles" aria-label="${pause}" title="${pause}">${icon('<path class="cc-pause" d="M7.25 5v10m5.5-10v10"/><path class="cc-play" d="m7 4.5 8 5.5-8 5.5z"/>')}</button>
           <button type="button" data-expert-prev aria-controls="advisor-profiles" aria-label="${previous}" title="${previous}">${icon('<path d="m12 5-5 5 5 5"/>')}</button>
@@ -127,7 +132,7 @@ export function contribute(lang = 'en') {
       </div>
       <div class="cc-participation-roles">
         <section><h3><a href="/authorship/#participants">${c.participants}</a></h3><p>${keepEnding(c.participantRole, lang)}</p></section>
-        <section><h3><a href="/authorship/#area-chairs">${c.chairs}</a></h3><p>${keepEnding(c.chairRole, lang)}</p></section>
+        <section><h3><a href="/authorship/#area-committee">${c.committee}</a></h3><p>${keepEnding(c.committeeRole, lang)}</p></section>
       </div>
     </section>
   </article>`;
@@ -168,7 +173,7 @@ export function packageGuide(lang = 'en') {
 export function authorship(lang = 'en') {
   const c = authorshipCopy(lang);
   const contents = [
-    ['participants', c.participants], ['area-chairs', c.chairs], ['acceptance', c.accepted],
+    ['participants', c.participants], ['area-committee', c.recruitment], ['acceptance', c.accepted],
     ['paper', c.paper], ['faq', c.faq], ['scientific-expertise', c.committee],
   ];
   const questions = c.questions.map(({question, answer, link, communityLink}) => {
@@ -179,7 +184,7 @@ export function authorship(lang = 'en') {
     ${contributeBreadcrumb(c.breadcrumb, lang)}
     <header class="cc-hero">
       <h1>${c.title}</h1><p>${keepEnding(c.intro, lang)}</p>
-      <div class="cc-links"><a class="cc-action" href="/contribute/">${c.contribute}</a><a href="#area-chairs">${c.join}</a></div>
+      <div class="cc-links"><a class="cc-action" href="/contribute/">${c.contribute}</a><a href="#area-committee">${c.join}</a></div>
     </header>
     <div class="cc-article-layout">
       <aside class="cc-index" aria-labelledby="cc-authorship-index">
@@ -192,8 +197,8 @@ export function authorship(lang = 'en') {
           <p class="cc-lead"><strong>${keepEnding(c.threshold, lang)}</strong></p><p>${keepEnding(c.firstTask, lang)}</p><p>${keepEnding(c.record, lang)}</p>
           <p class="cc-text-link"><a href="/contribute/task-package/#configuration">${c.recordLink}</a></p>
         </section>
-        <section class="cc-prose" id="area-chairs">
-          <h2>${keepEnding(c.chairs, lang)}</h2><p>${keepEnding(c.chairIntro, lang)}</p>
+        <section class="cc-prose" id="area-committee">
+          <h2 id="area-chairs">${keepEnding(c.recruitment, lang)}</h2><p>${keepEnding(c.committeeIntro, lang)}</p>
           <dl class="cc-definitions cc-role-list">${definitions(c.responsibilities, lang)}</dl><p>${keepEnding(c.joinIntro, lang)}</p>
           <p class="cc-text-link"><a href="${communityUrl}">${c.joinLink}</a></p>
         </section>

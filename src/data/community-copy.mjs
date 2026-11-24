@@ -56,8 +56,8 @@ export function contributionCopy(lang = 'en') {
     participationIntro: t('The <a href="/authorship/">authorship guide</a> explains how the project credits task design and scientific review.', '项目依据<a href="/authorship/">署名规则</a>记录科学出题和同行评审两类贡献。'),
     participants: t('Participants', '共建参与者'),
     participantRole: t('Participants develop scientific tasks. Three tasks accepted into the benchmark qualify a participant for co-authorship of the AFE paper.', '参与者负责设计科学任务。本人贡献的三道题通过审核并被基准收录后，即具备 AFE 论文的共同作者资格。'),
-    chairs: t('Area chairs', '领域主席'),
-    chairRole: t('Area chairs recruit at least five participants, help define fields and workflows, and review tasks at project milestones.', '领域主席招募至少五位参与者，协助划分领域与科研流程，并在项目关键阶段审核题目。'),
+    committee: t('Area Committee', '领域委员会'),
+    committeeRole: t('Area Committee members recruit at least five participants, help define fields and workflows, and review tasks at project milestones.', '领域委员会委员招募至少五位参与者，协助划分领域与科研流程，并在项目关键阶段审核题目。'),
   };
 }
 
@@ -85,21 +85,21 @@ export function authorshipCopy(lang) {
   return {
     breadcrumb: t('Authorship', '署名规则'),
     title: t('Authorship and participation', '参与方式与论文署名'),
-    intro: t('Researchers contribute the questions that define Agent Frontier Exam. Participants turn scientific work into tasks. Area chairs bring colleagues together and help review what each task measures.', 'Agent Frontier Exam 的题目由研究者共同提出。参与者把真实科研工作写成可评测的任务，领域主席召集同行，审核每道题实际检验的科学能力。'),
+    intro: t('Researchers contribute the questions that define Agent Frontier Exam. Participants turn scientific work into tasks. Area Committee members bring colleagues together and help review what each task measures.', 'Agent Frontier Exam 的题目由研究者共同提出。参与者把真实科研工作写成可评测的任务，领域委员会委员召集同行，审核每道题实际检验的科学能力。'),
     contribute: t('Contribute a task', '参与任务共建'),
-    join: t('Become an area chair', '成为领域主席'),
+    join: t('Join the Area Committee', '加入领域委员会'),
     contents: t('On this page', '本页内容'),
     participants: t('Participant credit', '共建者的署名资格'),
-    chairs: t('Area chair recruitment', '领域主席招募'),
+    recruitment: t('Area Committee recruitment', '领域委员会招募'),
     accepted: t('Task acceptance', '题目收录'),
     paper: t('The AFE paper', 'AFE 论文'),
     faq: t('Frequently asked questions', '常见问题'),
-    committee: t('Advisory Committee', '顾问委员会'),
+    committee: t('Committee members', '委员名录'),
     threshold: t('A participant becomes a co-author of the AFE paper when three of their tasks have passed review and entered the benchmark.', '本人贡献的三道题通过审核并被基准收录后，即可成为 AFE 论文的共同作者。'),
     firstTask: t('You can start with one question. For a scientific workflow, identify a decision that requires expertise and the evidence that would distinguish good work. For a breakthrough question, identify the gap in current research and the conditions under which another researcher could verify an advance.', '你可以从一道题开始。科研流程题应明确哪一步需要专业判断，以及哪些证据可用于评价结果。突破题应指出已有研究留下的空白，并说明同行可以在什么条件下验证新进展。'),
     record: t('Each task has its own author record. List the people who developed the task under <code>[task].authors</code> in <code>task.toml</code>. For a joint submission, confirm individual credit with the coordinating team.', '每道题都单独记录作者。请在 <code>task.toml</code> 的 <code>[task].authors</code> 中列出参与开发该题的人员。多人共同提交时，请与协调团队确认每位参与者的贡献记录。'),
     recordLink: t('See where to record task authors', '查看任务作者的填写位置'),
-    chairIntro: t('Area chairs (ACs) connect the project with research communities they know well. The role has three responsibilities.', '领域主席（Area Chair，AC）联系自己熟悉的科研社群，承担以下三项职责。'),
+    committeeIntro: t('The Area Committee (AC) connects the project with research communities. Each member has three responsibilities.', '领域委员会（Area Committee，AC）联系各学科的科研社群。每位委员承担以下三项职责。'),
     responsibilities: [
       [
         t('Recruit at least five participants', '招募至少五位参与者'),
@@ -114,14 +114,14 @@ export function authorshipCopy(lang) {
         t('Assess the scientific goal, the evidence available and whether the proposed evaluation supports the claim. Bring field-specific concerns to the authors while they can still revise the package.', '审核科学目标、可用证据，以及验收方式能否支持所得结论。及时向作者反馈本领域的专业意见，便于修改任务包。'),
       ],
     ],
-    joinIntro: t('To discuss an area chair role, introduce your field and the kinds of tasks you can review in the contributor WeChat group. The coordinating team can confirm the scope of the role and how your contributions will be credited.', '有意担任领域主席的研究者，可以在共建者微信群介绍自己的学科背景和能够审核的题型。协调团队会与你确认职责范围和贡献记录方式。'),
+    joinIntro: t('To join the Area Committee, introduce your field and the kinds of tasks you can review in the contributor WeChat group. The coordinating team can confirm the scope of the role and how your contributions will be credited.', '有意加入领域委员会的研究者，可以在共建者微信群介绍自己的学科背景和能够审核的题型。协调团队会与你确认职责范围和贡献记录方式。'),
     joinLink: t('Find the contributor WeChat group', '查看共建者微信群'),
     counts: t('When a task counts', '何时计入已收录任务'),
     review: t('After submission, reviewers consider the scientific value of the question, the level, the resources and the evidence required for evaluation. They may ask the authors for a revised verifier, further observations or a more precise success condition.', '提交之后，审核者会评估问题的科学价值、任务层级、所需资源与验收依据。审核意见可能包括调整验证程序、补充观测数据或进一步明确成功条件。'),
     example: t('If two tasks have been accepted and a third is awaiting validation data, the participant has two accepted tasks. Once the team confirms inclusion of the third, the participant meets the co-authorship requirement.', '例如，某位参与者的两道题已收录，第三道仍在等待验证数据，此时已收录数量为两道。团队确认收录第三道后，该参与者即达到共同作者门槛。'),
     changes: t('When discussing a revision or checking an acceptance record, give the task name, version, submitting team and a short account of what changed.', '沟通修改或核对收录记录时，请提供题名、版本、提交团队，以及修改内容的简要说明。'),
     paperIntro: t('Engineers at Shanghai AI Laboratory and on the AFE team maintain and update the benchmark. The team plans to submit a paper describing the work to a leading AI conference or to <em>Nature</em>.', '上海人工智能实验室及 AFE 团队的工程师共同维护和更新基准。团队计划将介绍这一工作的论文投稿至人工智能领域的主要会议或《自然》（<em>Nature</em>）。'),
-    order: t('The contributor guide records the participant co-authorship threshold and the duties of an area chair. Discuss author order, shared task credit and credit for chairing directly with the coordinating team.', '共建文档说明了参与者取得共同作者资格的门槛和领域主席的职责。关于作者排序、共同出题和领域主席工作的贡献认定，请直接与协调团队沟通。'),
+    order: t('The contributor guide records the participant co-authorship threshold and the duties of Area Committee members. Discuss author order, shared task credit and credit for committee work directly with the coordinating team.', '共建文档说明了参与者取得共同作者资格的门槛和领域委员的职责。关于作者排序、共同出题和委员会工作的贡献认定，请直接与协调团队沟通。'),
     guide: t('Read the contributor guide (Chinese)', '阅读共建文档'),
     questions: [
       {

@@ -6,6 +6,7 @@ import {localizedPath, page} from '../src/views/layout.mjs';
 import {homePage} from '../src/views/home.mjs';
 import {catalogue, taskPage} from '../src/views/catalog.mjs';
 import {contribute, packageGuide, authorship} from '../src/views/community.mjs';
+import {contributors} from '../src/views/contributors.mjs';
 
 export const project = fileURLToPath(new URL('../',import.meta.url));
 export const output = path.join(project,'dist');
@@ -45,7 +46,8 @@ function sitePages(archive, lang) {
     ...tasks.map(t => ({route:`/tasks/${t.id}/`, title:t.title, description:t.summary, body:taskPage(t,tasks,lang)})),
     {route:'/contribute/', title:zh ? '共建科研任务' : 'Contribute a scientific task', description:zh ? '通过端砚 ReX 提交科研流程题或科学突破题。' : 'Contribute a research workflow or a breakthrough question through Duanyan ReX.', community:true, body:contribute(lang)},
     {route:'/contribute/task-package/', title:zh ? '任务包指南' : 'Task package guide', description:zh ? '通过带注释的 Harbor 示例了解科研任务包的结构和准备方法。' : 'Read an annotated Harbor example and prepare a scientific task package.', community:true, body:packageGuide(lang)},
-    {route:'/authorship/', title:zh ? '参与与署名' : 'Authorship', description:zh ? '了解 Agent Frontier Exam 的共建署名、领域主席职责与参与方式。' : 'Contributor credit, the role of area chairs, and how to join Agent Frontier Exam.', community:true, body:authorship(lang)},
+    {route:'/authorship/', title:zh ? '参与与署名' : 'Authorship', description:zh ? '了解 Agent Frontier Exam 的共建署名、领域委员会职责与参与方式。' : 'Contributor credit, the role of the Area Committee, and how to join Agent Frontier Exam.', community:true, body:authorship(lang)},
+    {route:'/contributors/', title:zh ? '贡献者' : 'Contributors', description:zh ? 'Agent Frontier Exam 项目领导团队、领域委员会和任务贡献者名录。' : 'The project leadership, Area Committee and task contributors behind Agent Frontier Exam.', community:true, body:contributors(lang)},
   ].map(route => ({...route, lang}));
 }
 

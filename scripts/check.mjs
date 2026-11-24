@@ -4,6 +4,7 @@ import {readFile,stat,readdir} from 'node:fs/promises';
 import {build,output,project} from './build.mjs';
 import {escape, localizedPath} from '../src/views/layout.mjs';
 import {plates} from '../src/data/plates.mjs';
+import {areaCommittee, contributorGroups} from '../src/data/contributors.mjs';
 
 const routes = await build();
 const fake = 'https://example.invalid';
@@ -21,6 +22,12 @@ for (const route of routes) {
   const other = zh ? route.slice(3) : '/zh' + route;
   const switcher = html.match(/data-language="(?:en|zh)" href="([^"]+)"/);
   assert.equal(new URL(switcher[1],fake+route).pathname, other, `Wrong language switch on ${route}`);
+  const contributorsPath = localizedPath('/contributors/',zh ? 'zh' : 'en');
+  const mainNav = html.match(/<div class="header-actions"><nav[^>]*>(.*?)<\/nav>/s)[1];
+  const peopleLink = [...mainNav.matchAll(/<a href="([^"]+)"([^>]*)>/g)].find(([,href]) =>
+    new URL(href,fake+route).pathname === contributorsPath);
+  assert.ok(peopleLink, `Missing Contributors navigation on ${route}`);
+  assert.equal(peopleLink[2].includes('aria-current="page"'), route === contributorsPath);
   pages.set(route,{html, ids:new Set(ids), other});
 }
 for (const [route,{html,other}] of pages) {
@@ -45,6 +52,32 @@ for (const lang of ['en','zh']) {
   const homeRoute = localizedPath('/',lang);
   const home = pages.get(homeRoute).html;
   const directory = pages.get(localizedPath('/tasks/',lang)).html;
+  const roster = pages.get(localizedPath('/contributors/',lang)).html;
+  for (const group of contributorGroups) {
+    const section = roster.split(`id="${group.id}"`)[1].split('</section>')[0];
+    const entries = [...section.matchAll(/<li class="roster-entry">([\s\S]*?)<\/li>/g)].map(match => match[1]);
+    assert.equal(entries.length,group.members.length, `Missing members of ${group.id}`);
+    entries.forEach((entry, index) => {
+      const member = group.members[index];
+      assert.ok(entry.includes(`lang="en">${escape(member.name)}</span>`));
+      assert.deepEqual([...entry.matchAll(/<span>([^<]+)<\/span>/g)].map(match => match[1]),
+        member.affiliations.map(institution => escape(institution[lang])));
+      assert.equal(entry.includes('<sup'), Boolean(member.corresponding));
+      assert.doesNotMatch(entry, /<a\b|undefined|null/);
+    });
+  }
+  for (const route of ['/', '/authorship/']) {
+    const html = pages.get(localizedPath(route,lang)).html;
+    const cards = [...html.matchAll(/<li class="cc-expert">(.*?)<\/li>/gs)].map(match => match[1]);
+    assert.equal(cards.length, areaCommittee.length);
+    cards.forEach((card, index) => {
+      const member = areaCommittee[index];
+      assert.ok(card.includes(`>${escape(lang === 'zh' && member.nameZh ? member.nameZh : member.name)}</span>`));
+      assert.equal(card.includes('href='), Boolean(member.profile));
+      assert.equal(card.includes('cc-expert-initial'), !member.portrait);
+      assert.doesNotMatch(card, /undefined|null/);
+    });
+  }
   const config = JSON.parse(home.match(/<script type="application\/json" data-pyramid-content>([\s\S]*?)<\/script>/)[1]);
   const pieceLevels = [1,1,1,1,1,1,1,2,2,2,2,3];
   assert.equal(config.pieces.length,pieceLevels.length);
